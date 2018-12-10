@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/markcheno/go-vue-starter/auth"
-	"github.com/markcheno/go-vue-starter/models"
+	"github.com/valasek/time-sheet/auth"
+	"github.com/valasek/time-sheet/models"
 )
 
 // UserJSON - json data expected for login/signup

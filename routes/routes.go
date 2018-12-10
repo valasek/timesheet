@@ -2,10 +2,14 @@ package routes
 
 import (
 	"net/http"
+	"fmt"
+	"os"
+	"reflect"
+	"runtime"
 
 	"github.com/gorilla/mux"
-	"github.com/markcheno/go-vue-starter/api"
-	"github.com/markcheno/go-vue-starter/auth"
+	"github.com/valasek/time-sheet/api"
+	"github.com/valasek/time-sheet/auth"
 	"github.com/urfave/negroni"
 )
 
@@ -16,7 +20,8 @@ func NewRoutes(api *api.API) *mux.Router {
 
 	// client static files
 	mux.Handle("/", http.FileServer(http.Dir("./client/dist/"))).Methods("GET")
-	mux.PathPrefix("/static/js").Handler(http.StripPrefix("/static/js/", http.FileServer(http.Dir("./client/dist/static/js/"))))
+	mux.PathPrefix("/js").Handler(http.StripPrefix("/js/", http.FileServer(http.Dir("./client/dist/js/"))))
+	mux.PathPrefix("/css").Handler(http.StripPrefix("/css/", http.FileServer(http.Dir("./client/dist/css/"))))
 
 	// api
 	a := mux.PathPrefix("/api").Subrouter()
@@ -30,6 +35,10 @@ func NewRoutes(api *api.API) *mux.Router {
 		negroni.Wrap(http.HandlerFunc(api.UserInfo)),
 	))
 
+	// consultants
+	c := a.PathPrefix("/consultants").Subrouter()
+	c.HandleFunc("/list", api.ConsultantList).Methods("GET")
+
 	// quotes
 	q := a.PathPrefix("/quote").Subrouter()
 	q.HandleFunc("/random", api.Quote).Methods("GET")
@@ -39,4 +48,31 @@ func NewRoutes(api *api.API) *mux.Router {
 	))
 
 	return mux
+}
+
+// PrintRoutes prints all set routes
+func PrintRoutes (routes *mux.Router) {
+	fmt.Println("Available routes")
+	fmt.Println("[URI] [Methods] [Handler]")
+	err := routes.Walk(gorillaWalkFn)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+}
+
+func gorillaWalkFn(route *mux.Route, router *mux.Router, ancestors []*mux.Route) error {
+	path, err := route.GetPathTemplate()
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+	methods, _ := route.GetMethods()
+	reflectValue := reflect.ValueOf(route.GetHandler())
+	handler := "sub-router"
+	if reflectValue.IsValid() {
+		handler = runtime.FuncForPC(reflectValue.Pointer()).Name()
+	}
+	fmt.Println(path, methods, handler)
+    return nil
 }

@@ -6,7 +6,7 @@ import (
 
 	jwtmiddleware "github.com/auth0/go-jwt-middleware"
 	jwt "github.com/dgrijalva/jwt-go"
-	"github.com/markcheno/go-vue-starter/models"
+	"github.com/valasek/time-sheet/models"
 )
 
 // signingKey set up a global string for our secret

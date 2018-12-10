@@ -1,73 +1,45 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+import 'babel-polyfill'
 import Vue from 'vue'
-import App from './App'
-import Home from '@/components/Home'
-import Login from '@/components/Login'
-import Signup from '@/components/Signup'
-import SecretQuote from '@/components/SecretQuote'
-import UserInfo from '@/components/UserInfo'
-
-import VueResource from 'vue-resource'
-Vue.use(VueResource)
-
+import App from './components/App.vue'
+import store from './store'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
 import VueRouter from 'vue-router'
+import './plugins/vuetify'
+
+import ReportTable from './components/ReportTable'
+import ShowReportedTime from './components/ShowReportedTime'
+import Help from './components/Help'
+
 Vue.use(VueRouter)
+Vue.use(VueAxios, axios)
 
-Vue.config.productionTip = true
+Vue.config.productionTip = false
 
-import auth from './auth'
-
-function requireAuth (to, from, next) {
-  if (!auth.isAuthenticated()) {
-    this.$router.replace('/login')
-  } else {
-    next()
-  }
-}
-
-const router = new VueRouter({
-  mode: 'history',
-  // base: __dirname,
+let router = new VueRouter({
   routes: [
     {
       path: '/',
-      component: Home
+      name: 'report',
+      component: ReportTable,
     },
     {
-      path: '/home',
-      name: 'home',
-      component: Home
+      path: '/reported',
+      name: 'reported',
+      component: ShowReportedTime,
     },
     {
-      path: '/login',
-      name: 'login',
-      component: Login
+      path: '/help',
+      name: 'help',
+      component: Help,
     },
-    {
-      path: '/signup',
-      name: 'signup',
-      component: Signup
-    },
-    {
-      path: '/secretquote',
-      name: 'secretquote',
-      component: SecretQuote,
-      beforeEnter: requireAuth
-    },
-    {
-      path: '/userinfo',
-      name: 'userinfo',
-      component: UserInfo,
-      beforeEnter: requireAuth
-    }
+    { path: '*', redirect: '/' }
   ]
 })
 
-/* eslint-disable no-new */
 new Vue({
   el: '#app',
+  store,
   router,
-  template: '<App/>',
-  components: { App }
+  render: h => h(App)
 })

@@ -1,10 +1,13 @@
 # go-vue-starter
 
-Copyright 2017 Mark Chenoweth
+## Todo
+- add environment configuration - for cors on backend and frontend
+- read https://medium.com/statuscode/how-i-write-go-http-services-after-seven-years-37c208122831
+- refactor routes as on https://www.codementor.io/codehakase/building-a-restful-api-with-golang-a6yivzqdo
+- add seed db command
+- connect Vue with go - https://juliensalinas.com/en/golang-API-backend-vuejs-SPA-frontend-docker-modern-application/
 
-## Golang Starter project with Vue.js single page client
-
-### Work in progress...
+/* eslint-disable-line no-console */
 
 ### Features:
 - Middleware: [Negroni](https://github.com/urfave/negroni)
@@ -32,8 +35,8 @@ Copyright 2017 Mark Chenoweth
 
 ``` bash
 # clone repository
-go get github.com/markcheno/go-vue-starter
-cd $GOPATH/src/github.com/markcheno/go-vue-starter
+go get github.com/valasek/time-sheet
+cd $GOPATH/src/github.com/valasek/time-sheet
 
 # install Go dependencies (and make sure ports 3000/8080 are open)
 go get -u ./... 
