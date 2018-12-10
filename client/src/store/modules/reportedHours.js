@@ -10,13 +10,13 @@ const getters = {}
 const actions = {
     getReportedHours ({ commit }) {
         timesheet.getReportedHours(reportedHours => {
-            commit('setReportedHours', reportedHours)
+            commit('SET_REPORTED_HOURS', reportedHours)
         })
     }
 }
 
 const mutations = {
-    setReportedHours ( state, reportedHours ) {
+    SET_REPORTED_HOURS ( state, reportedHours ) {
         state.all = reportedHours
     }
 }

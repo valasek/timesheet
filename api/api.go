@@ -9,6 +9,7 @@ type API struct {
 	users  *models.UserManager
 	quotes *models.QuoteManager
 	consultants *models.ConsultantManager
+	reportedRecords *models.ReportedRecordManager
 }
 
 // NewAPI -
@@ -17,10 +18,12 @@ func NewAPI(db *models.DB) *API {
 	usermgr, _ := models.NewUserManager(db)
 	quotemgr, _ := models.NewQuoteManager(db)
 	consultantmgr, _ := models.NewConsultantManager(db)
+	reportedrecordsmgr, _ := models.NewReportedRecordManager(db)
 
 	return &API{
 		users:  usermgr,
 		quotes: quotemgr,
 		consultants: consultantmgr,
+		reportedRecords: reportedrecordsmgr,
 	}
 }
