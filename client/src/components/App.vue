@@ -10,91 +10,96 @@
           </v-list-tile>
         </v-list>
       </v-toolbar>
-      
-      <v-divider></v-divider>
+
+      <v-divider />
 
       <v-list dense class="pt-0">
-      <v-list-tile v-for="item in items" :key="item.title" :to="item.route">
-        <v-list-tile-action>
-          <v-icon>{{ item.icon }}</v-icon>
-        </v-list-tile-action>
+        <v-list-tile v-for="item in items" :key="item.title" :to="item.route">
+          <v-list-tile-action>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-tile-action>
 
-        <v-list-tile-content>
-          <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
-    </v-list>
+          <v-list-tile-content>
+            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
 
-    <v-divider></v-divider>
+      <v-divider />
 
-    <v-list>
-      <v-list-tile>
-        <div class="header ">Change consultant</div>  
-      </v-list-tile>
-      <v-list-tile>
-        <v-select :items="consultants" item-text="name" item-value="_id" @change="changeConsultant"></v-select>
-      </v-list-tile>
-    </v-list>
-  </v-navigation-drawer>
-  <v-toolbar app>
-    <v-toolbar-title class="headline">
-      <span>{{page}}</span>
+      <v-list>
+        <v-list-tile>
+          <div class="header ">
+            Change consultant
+          </div>
+        </v-list-tile>
+        <v-list-tile>
+          <v-select :items="consultants" item-text="name" item-value="_id" @change="changeConsultant" />
+        </v-list-tile>
+      </v-list>
+    </v-navigation-drawer>
+    <v-toolbar app>
+      <v-toolbar-title class="headline">
+        <span>{{ page }}</span>
       <!-- <span class="font-weight-light">  management</span> -->
-    </v-toolbar-title>
-    <v-spacer></v-spacer>
-    <v-btn flat to="help">
-      <span class="mr-2">Help</span>
-    </v-btn>
-  </v-toolbar>
-  <v-content>
-    <v-container fluid>
-      <router-view>
-        <ReportTable/>
-      </router-view>
-    </v-container>  
-  </v-content>
-  <v-footer app>
-    <v-flex text-xs-center>2018 &copy; <strong>DataArch</strong></v-flex>
-  </v-footer>
-
+      </v-toolbar-title>
+      <v-spacer />
+      <v-btn flat to="help">
+        <span class="mr-2">
+          Help
+        </span>
+      </v-btn>
+    </v-toolbar>
+    <v-content>
+      <v-container fluid>
+        <router-view>
+          <report-table />
+        </router-view>
+      </v-container>
+    </v-content>
+    <v-footer app>
+      <v-flex text-xs-center>
+        2018 &copy; <strong>DataArch</strong>
+      </v-flex>
+    </v-footer>
   </v-app>
 </template>
 
 <script>
-import ReportTable from './ReportTable'
-import { mapState } from 'vuex'
+  import ReportTable from './ReportTable'
+  import { mapState } from 'vuex'
 
-export default {
-  name: 'App',
-  components: {
-    ReportTable
-  },
-
-  data () {
-    return {
-      items: [
-        { title: 'Report my work', icon: 'dashboard', route: 'report' },
-        { title: 'Show reported work', icon: 'question_answer', route: 'reported' }
-      ],
-      right: null
-    }
-  },
-  
-  computed: {
-    ...mapState({
-      consultants: state => state.consultants.all,
-      page: state => state.context.page
-    }),
-  },
-
-  created () {
-    this.$store.dispatch('consultants/getConsultants')
-  },
-
-  methods: {
-    changeConsultant ( id ) {
-      console.log("changeConsultant " + id) /* eslint-disable-line no-console */
+  export default {
+    name: 'App',
+    components: {
+      ReportTable
     },
+
+    data () {
+      return {
+        items: [
+          { title: 'Report my work', icon: 'dashboard', route: 'report' },
+          { title: 'Show reported work', icon: 'question_answer', route: 'reported' }
+        ],
+        right: null
+      }
+    },
+
+    computed: {
+      ...mapState({
+        consultants: state => state.consultants.all,
+        page: state => state.context.page
+      })
+    },
+
+    created () {
+      this.$store.dispatch('consultants/getConsultants')
+    },
+
+    methods: {
+      changeConsultant (id) {
+        console.log('changeConsultant ' + id) /* eslint-disable-line no-console */
+      }
+    }
   }
-}
 </script>

@@ -35,10 +35,19 @@
       "node": true
     },
     "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
+      "plugin:vue/recommended",
+      "eslint:recommended",
+      "vuetify"
     ],
-    "rules": {},
+    "rules": {
+      "vue/max-attributes-per-line": ["error", {
+        "singleline": 10,
+        "multiline": {
+          "max": 5,
+          "allowFirstLine": true
+        }
+      }]
+    },
     "parserOptions": {
       "parser": "babel-eslint"
     }

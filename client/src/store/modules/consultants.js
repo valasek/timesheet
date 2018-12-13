@@ -16,7 +16,7 @@ const actions = {
 }
 
 const mutations = {
-    SET_CONSULTANTS ( state, consultants ) {
+    SET_CONSULTANTS (state, consultants) {
         state.all = consultants
     }
 }

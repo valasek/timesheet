@@ -16,7 +16,7 @@ const actions = {
 }
 
 const mutations = {
-    SET_REPORTED_HOURS ( state, reportedHours ) {
+    SET_REPORTED_HOURS (state, reportedHours) {
         state.all = reportedHours
     }
 }

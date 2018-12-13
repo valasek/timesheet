@@ -21,23 +21,23 @@ let router = new VueRouter({
     {
       path: '/',
       name: 'report',
-      component: ReportTable,
+      component: ReportTable
     },
     {
       path: '/reported',
       name: 'reported',
-      component: ShowReportedTime,
+      component: ShowReportedTime
     },
     {
       path: '/help',
       name: 'help',
-      component: Help,
+      component: Help
     },
     { path: '*', redirect: '/' }
   ]
 })
 
-new Vue({
+new Vue({ // eslint-disable-line no-new
   el: '#app',
   store,
   router,

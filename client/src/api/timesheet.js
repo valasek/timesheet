@@ -1,11 +1,11 @@
-// const _consultants = [    
+// const _consultants = [
 //     {
 //         _id: 1,
 //         name: 'First last'
 //     }
 // ]
 
-// const _reportedHours = [    
+// const _reportedHours = [
 //     {
 //         _id: 1,
 //         date: '2018-12-04',
@@ -20,8 +20,8 @@
 import axios from 'axios'
 
 export default {
-    getReportedHours ( rh ) {
-        axios.get(`http://localhost:3000/api/reported/all`, {crossDomain: true})
+    getReportedHours (rh) {
+        axios.get(`http://localhost:3000/api/reported/all`, { crossDomain: true })
             .then(response => {
                 rh(response.data)
             })
@@ -29,8 +29,8 @@ export default {
                 console.log(e) /* eslint-disable-line no-console */
             })
     },
-    getConsultants ( cs ) {
-        axios.get(`http://localhost:3000/api/consultants/list`, {crossDomain: true})
+    getConsultants (cs) {
+        axios.get(`http://localhost:3000/api/consultants/list`, { crossDomain: true })
             .then(response => {
                 cs(response.data)
             })

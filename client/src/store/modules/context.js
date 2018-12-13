@@ -2,7 +2,7 @@
 const state = {
     page: 'Time Sheet',
     monday: getMonday(new Date()),
-    sunday: getSunday(new Date()),
+    sunday: getSunday(new Date())
 }
 
 const getters = {}
@@ -15,20 +15,20 @@ const actions = {
 
 const mutations = {
 
-    setPage ( state, page ) {
+    setPage (state, page) {
         state.page = page
     },
 
-    setWeek ( state, direction ) {
+    setWeek (state, direction) {
         var currentMonday = new Date(state.monday)
         var targetMonday = currentMonday
         switch (direction) {
             case 'previous':
                 targetMonday.setDate(currentMonday.getDate() - 7)
-                break;
+                break
             case 'next':
                 targetMonday.setDate(currentMonday.getDate() + 7)
-                break;
+                break
             default:
                 return
         }
@@ -39,17 +39,15 @@ const mutations = {
     }
 }
 
-function getMonday ( date ) {
+function getMonday (date) {
     var day = date.getDay() || 7
-    if( day !== 1 ) 
-        date.setHours(-24 * (day - 1))
+    if (day !== 1) { date.setHours(-24 * (day - 1)) }
     return date
 }
 
-function getSunday ( date ) {
+function getSunday (date) {
     var day = date.getDay() || 7
-    if( day !== 7 ) 
-        date.setHours(-24 * (day - 1))
+    if (day !== 7) { date.setHours(-24 * (day - 1)) }
     return date
 }
 
