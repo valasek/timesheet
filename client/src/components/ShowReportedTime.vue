@@ -235,7 +235,7 @@
     },
 
     created () {
-      this.$store.commit('context/setPage', 'Reported work')
+      this.$store.commit('context/SET_PAGE', 'Reported work')
     }
   }
 </script>

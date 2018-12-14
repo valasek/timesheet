@@ -11,7 +11,7 @@
     },
 
     created () {
-      this.$store.commit('context/setPage', 'Help')
+      this.$store.commit('context/SET_PAGE', 'Help')
     }
   }
 </script>

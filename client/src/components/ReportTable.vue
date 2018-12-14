@@ -138,9 +138,9 @@
         return this.editedIndex === -1 ? 'New Record' : 'Edit Record'
       },
       ...mapState({
-        reportedHours: state => state.reportedHours.all,
-        monday: state => state.context.monday,
-        sunday: state => state.context.sunday
+        monday: state => state.reportedHours.monday,
+        sunday: state => state.reportedHours.sunday,
+        reportedHours: state => state.reportedHours.weeklyHours
       })
     },
 
@@ -152,7 +152,7 @@
 
     created () {
       this.$store.dispatch('reportedHours/getReportedHours')
-      this.$store.commit('context/setPage', 'Report your work')
+      this.$store.commit('context/SET_PAGE', 'Report your work')
     },
 
     methods: {
@@ -161,11 +161,13 @@
       },
 
       previousWeek () {
-        this.$store.commit('context/setWeek', 'previous')
+        this.$store.dispatch('reportedHours/changeWeek', 'previous')
+        // commit('reportedHours/SET_WEEK', 'previous')
       },
 
       nextWeek () {
-        this.$store.commit('context/setWeek', 'next')
+        this.$store.dispatch('reportedHours/changeWeek', 'next')
+        // this.$store.commit('reportedHours/SET_WEEK', 'next')
       },
 
       editItem (item) {

@@ -10,6 +10,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
+    "date-fns": "^1.30.1",
     "vue": "^2.5.17",
     "vue-axios": "^2.1.4",
     "vue-router": "^3.0.2",
@@ -22,6 +23,7 @@
     "@vue/cli-service": "^3.2.0",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.8.0",
+    "eslint-config-vuetify": "0.0.3",
     "eslint-plugin-vue": "^5.0.0-0",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",
@@ -40,13 +42,16 @@
       "vuetify"
     ],
     "rules": {
-      "vue/max-attributes-per-line": ["error", {
-        "singleline": 10,
-        "multiline": {
-          "max": 5,
-          "allowFirstLine": true
+      "vue/max-attributes-per-line": [
+        "error",
+        {
+          "singleline": 10,
+          "multiline": {
+            "max": 5,
+            "allowFirstLine": true
+          }
         }
-      }]
+      ]
     },
     "parserOptions": {
       "parser": "babel-eslint"
