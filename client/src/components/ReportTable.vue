@@ -4,7 +4,7 @@
       <v-toolbar-title>
         <v-icon @click="previousWeek">
           skip_previous
-        </v-icon> {{ monday.toLocaleDateString("en-US") }} - {{ sunday.toLocaleDateString("en-US") }} <v-icon @click="nextWeek">
+        </v-icon> {{ dateFrom.toLocaleDateString("en-US") }} - {{ dateTo.toLocaleDateString("en-US") }} <v-icon @click="nextWeek">
           skip_next
         </v-icon>
       </v-toolbar-title>
@@ -57,7 +57,7 @@
         </v-card>
       </v-dialog>
     </v-toolbar>
-    <v-data-table :headers="headers" :items="reportedHours" class="elevation-1">
+    <v-data-table :headers="headers" :items="selectedReportedHours" class="elevation-1">
       <template slot="items" slot-scope="props">
         <td>{{ props.item.date }}</td>
         <td class="text-xs-left">
@@ -137,10 +137,16 @@
       formTitle () {
         return this.editedIndex === -1 ? 'New Record' : 'Edit Record'
       },
+      selectedReportedHours () {
+        return this.reportedHours.filter(report => {
+          let d = new Date(report.date)
+          return (d >= this.dateFrom && d <= this.dateTo)
+        })
+      },
       ...mapState({
-        monday: state => state.reportedHours.monday,
-        sunday: state => state.reportedHours.sunday,
-        reportedHours: state => state.reportedHours.weeklyHours
+        reportedHours: state => state.reportedHours.all,
+        dateFrom: state => state.reportedHours.dateFrom,
+        dateTo: state => state.reportedHours.dateTo
       })
     },
 
@@ -151,8 +157,7 @@
     },
 
     created () {
-      this.$store.dispatch('reportedHours/getReportedHours')
-      this.$store.commit('context/SET_PAGE', 'Report your work')
+      this.$store.commit('context/SET_PAGE', 'Good job, let them know about it')
     },
 
     methods: {
@@ -162,12 +167,10 @@
 
       previousWeek () {
         this.$store.dispatch('reportedHours/changeWeek', 'previous')
-        // commit('reportedHours/SET_WEEK', 'previous')
       },
 
       nextWeek () {
         this.$store.dispatch('reportedHours/changeWeek', 'next')
-        // this.$store.commit('reportedHours/SET_WEEK', 'next')
       },
 
       editItem (item) {

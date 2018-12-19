@@ -1,6 +1,8 @@
 package models
 
 import (
+	"time"
+	
 	"github.com/jinzhu/gorm"
 	// postgress db driver
 	_ "github.com/jinzhu/gorm/dialects/postgres"
@@ -10,7 +12,7 @@ import (
 type ReportedRecord struct {
 	gorm.Model  `json:"-"`
 	ID          int64  `gorm:"column:Fid; primary_key:yes" json:"_id" `
-	Date        string `gorm:"not null" json:"date"`
+	Date        time.Time `gorm:"not null" json:"date"`
 	Hours       float32  `gorm:"not null" json:"hours"`
 	Project     string `gorm:"not null" json:"project"`
 	Description string `gorm:"not null" json:"description"`
@@ -35,10 +37,20 @@ func NewReportedRecordManager(db *DB) (*ReportedRecordManager, error) {
 	return &reportedRecordsMgr, nil
 }
 
-// ReportedRecordGet - return all records of ReportedRecords
-func (db *ReportedRecordManager) ReportedRecordGet() []ReportedRecord {
+// ReportedRecordsGetAll - return all records of ReportedRecords
+func (db *ReportedRecordManager) ReportedRecordsGetAll() []ReportedRecord {
 	reportedRecords := []ReportedRecord{}
+	// Limit(100)
 	if err := db.db.Find(&reportedRecords); err != nil {
+		return reportedRecords
+	}
+	return nil
+}
+
+// ReportedRecordsInMonth - return all records of ReportedRecords
+func (db *ReportedRecordManager) ReportedRecordsInMonth(month string) []ReportedRecord {
+	reportedRecords := []ReportedRecord{}
+	if err := db.db.Where("extract(MONTH from date) = ?", month).Find(&reportedRecords); err != nil {
 		return reportedRecords
 	}
 	return nil

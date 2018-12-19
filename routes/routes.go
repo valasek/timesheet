@@ -41,7 +41,8 @@ func NewRoutes(api *api.API) *mux.Router {
 
 	// reported records
 	r := a.PathPrefix("/reported").Subrouter()
-	r.HandleFunc("/all", api.ReportedRecordsGet).Methods("GET")
+	r.HandleFunc("/all", api.ReportedRecordsGetAll).Methods("GET")
+	r.HandleFunc("/month", api.ReportedRecordsInMonth).Methods("GET")
 
 	// quotes
 	q := a.PathPrefix("/quote").Subrouter()

@@ -20,8 +20,9 @@
 import axios from 'axios'
 
 export default {
-    getReportedHours (rh) {
-        axios.get(`http://localhost:3000/api/reported/all`, { crossDomain: true })
+    getReportedHours (rh, month) {
+        console.log('month in api: ' + month) /* eslint-disable-line no-console */
+        axios.get(`http://localhost:3000/api/reported/month`, { params: { month: '12' }, crossDomain: true })
             .then(response => {
                 rh(response.data)
             })
