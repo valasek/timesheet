@@ -15,7 +15,8 @@ func main() {
 	routes.PrintRoutes(r)
 	n := negroni.Classic()
 	c := cors.New(cors.Options{
-		AllowedOrigins: []string{"*"},
+		AllowedOrigins: []string{"http://localhost*"},
+		AllowedMethods: []string{"GET", "POST", "DELETE"},
 	})
 	n.Use(c)
 	n.UseHandler(r)

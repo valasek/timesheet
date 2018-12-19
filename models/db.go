@@ -23,7 +23,7 @@ func NewPostgresDB(dataSourceName string) *DB {
 		panic(err)
 	}
 
-	db.LogMode(true)
+	// db.LogMode(true)
 
 	return &DB{db}
 }

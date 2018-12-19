@@ -60,7 +60,7 @@
     </v-toolbar>
     <v-data-table :headers="headers" :items="selectedReportedHours" class="elevation-1">
       <template slot="items" slot-scope="props">
-        <td>{{ props.item.date }}</td>
+        <td>{{ formatDate(props.item.date) }}</td>
         <td class="text-xs-left">
           {{ props.item.hours }}
         </td>
@@ -121,11 +121,11 @@
         rate: ''
       },
       defaultItem: {
-        date: 'date',
+        date: (new Date()).toString(),
         hours: 8,
-        project: 'project',
-        description: 'description',
-        rate: 'Off-site'
+        project: '',
+        description: '',
+        rate: ''
       }
     }),
 
@@ -171,18 +171,26 @@
         this.$store.dispatch('reportedHours/changeWeek', 'next')
       },
 
+      formatDate (date) {
+        if (!date) return null
+
+        const [year, month, day] = date.slice(0, 10).split('-')
+        return `${month}/${day}/${year}`
+      },
+
       editItem (item) {
-        this.editedIndex = this.reported.indexOf(item)
+        console.log('edit') /* eslint-disable-line no-console */
+        this.editedIndex = this.selectedReportedHours.indexOf(item)
         this.editedItem = Object.assign({}, item)
         this.dialog = true
       },
 
       deleteItem (item) {
-        const index = this.reported.indexOf(item)
-        confirm('Are you sure you want to delete the record?') && this.reported.splice(index, 1)
+        confirm('Are you sure you want to delete the record?') && this.$store.dispatch('reportedHours/removeRecord', item._id)
       },
 
       close () {
+        console.log('close') /* eslint-disable-line no-console */
         this.dialog = false
         setTimeout(() => {
           this.editedItem = Object.assign({}, this.defaultItem)
@@ -191,10 +199,11 @@
       },
 
       save () {
+        console.log('save, editIndex: ' + this.editedIndex) /* eslint-disable-line no-console */
         if (this.editedIndex > -1) {
-          Object.assign(this.reported[this.editedIndex], this.editedItem)
+          Object.assign(this.selectedReportedHours[this.editedIndex], this.editedItem)
         } else {
-          this.reported.push(this.editedItem)
+          this.selectedReportedHours.push(this.editedItem)
         }
         this.close()
       }

@@ -6,11 +6,11 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
-// Project struct
+// Rate struct
 type Rate struct {
-	gorm.Model  `json:"-"`
-	ID          int64  `gorm:"column:Fid; primary_key:yes" json:"_id" `
-	Name     string `gorm:"not null" json:"name"`
+	gorm.Model `json:"-"`
+	ID         int64  `gorm:"column:Fid; primary_key:yes" json:"_id" `
+	Name       string `gorm:"not null" json:"name"`
 	// add reference to a client
 }
 

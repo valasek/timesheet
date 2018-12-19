@@ -40,7 +40,6 @@ func NewReportedRecordManager(db *DB) (*ReportedRecordManager, error) {
 // ReportedRecordsGetAll - return all records of ReportedRecords
 func (db *ReportedRecordManager) ReportedRecordsGetAll() []ReportedRecord {
 	reportedRecords := []ReportedRecord{}
-	// Limit(100)
 	if err := db.db.Find(&reportedRecords); err != nil {
 		return reportedRecords
 	}
@@ -51,6 +50,15 @@ func (db *ReportedRecordManager) ReportedRecordsGetAll() []ReportedRecord {
 func (db *ReportedRecordManager) ReportedRecordsInMonth(month string) []ReportedRecord {
 	reportedRecords := []ReportedRecord{}
 	if err := db.db.Where("extract(MONTH from date) = ?", month).Find(&reportedRecords); err != nil {
+		return reportedRecords
+	}
+	return nil
+}
+
+// ReportedRecordsDelete - return all records of ReportedRecords
+func (db *ReportedRecordManager) ReportedRecordsDelete(id string) []ReportedRecord {
+	reportedRecords := []ReportedRecord{}
+	if err := db.db.Where("id = ?", id).Delete(&reportedRecords); err != nil {
 		return reportedRecords
 	}
 	return nil

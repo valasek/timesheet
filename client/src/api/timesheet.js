@@ -20,16 +20,26 @@
 import axios from 'axios'
 
 export default {
-    getReportedHours (rh, month) {
-        console.log('month in api: ' + month) /* eslint-disable-line no-console */
-        axios.get(`http://localhost:3000/api/reported/month`, { params: { month: '12' }, crossDomain: true })
-            .then(response => {
-                rh(response.data)
-            })
-            .catch(e => {
-                console.log(e) /* eslint-disable-line no-console */
-            })
-    },
+    // getReportedHours (rh, month) {
+    //     console.log('month in api: ' + month) /* eslint-disable-line no-console */
+    //     axios.get(`http://localhost:3000/api/reported/month`, { params: { month: '12' }, crossDomain: true })
+    //         .then(response => {
+    //             rh(response.data)
+    //         })
+    //         .catch(e => {
+    //             console.log(e) /* eslint-disable-line no-console */
+    //         })
+    // },
+    // removeReportedHours (rh) {
+    //     console.log('id in api: ' + rh) /* eslint-disable-line no-console */
+    //     axios.delete(`http://localhost:3000/api/reported/delete`, { params: { id: rh }, crossDomain: true })
+    //         .then(response => {
+    //             rh(response.data)
+    //         })
+    //         .catch(e => {
+    //             console.log(e) /* eslint-disable-line no-console */
+    //         })
+    // },
     getConsultants (cs) {
         axios.get(`http://localhost:3000/api/consultants/list`, { crossDomain: true })
             .then(response => {

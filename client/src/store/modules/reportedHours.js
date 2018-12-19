@@ -1,5 +1,5 @@
-import timesheet from '../../api/timesheet'
 import { addDays, subDays } from 'date-fns'
+import axios from 'axios'
 
 // initial state
 const state = {
@@ -13,21 +13,35 @@ const getters = {
 
 const actions = {
     getReportedHours ({ commit }, month) {
-        console.log('month ' + month) /* eslint-disable-line no-console */
-        timesheet.getReportedHours(reportedHours => {
-            commit('SET_REPORTED_HOURS', reportedHours)
-            // commit('SET_WEEKLY_HOURS', state.all)
-        })
+        axios.get('http://localhost:3000/api/reported/month/' + month, { crossDomain: true })
+            .then(response => {
+                commit('SET_REPORTED_HOURS', response.data)
+            })
+            .catch(e => {
+                console.log(e) /* eslint-disable-line no-console */
+            })
+    },
+    removeRecord ({ commit }, id) {
+        const index = state.all.findIndex(records => records._id === id)
+        axios.delete('http://localhost:3000/api/reported/' + id, { crossDomain: true })
+            .then(response => {
+                commit('REMOVE_RECORD', index)
+            })
+            .catch(e => {
+                console.log(e) /* eslint-disable-line no-console */
+            })
     },
     changeWeek ({ commit }, direction) {
         commit('SET_WEEK', direction)
-        // commit('SET_WEEKLY_HOURS', state.all)
     }
 }
 
 const mutations = {
     SET_REPORTED_HOURS (state, reportedHours) {
         state.all = reportedHours
+    },
+    REMOVE_RECORD (state, index) {
+        state.all.splice(index, 1)
     },
     SET_WEEK (state, direction) {
         let targetMonday = {}
