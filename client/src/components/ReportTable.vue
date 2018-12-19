@@ -83,9 +83,7 @@
         </td>
       </template>
       <template slot="no-data">
-        <v-btn color="primary" @click="initialize">
-          Get records
-        </v-btn>
+        Not reported yet ...
       </template>
     </v-data-table>
   </div>
@@ -136,7 +134,7 @@
       selectedReportedHours () {
         return this.reportedHours.filter(report => {
           let d = new Date(report.date)
-          return (d >= this.dateFrom && d <= this.dateTo)
+          return (d >= this.dateFrom && d <= this.dateTo && report.consultant === this.selectedConsultants)
         })
       },
       ...mapState({
@@ -144,7 +142,8 @@
         dateFrom: state => state.reportedHours.dateFrom,
         dateTo: state => state.reportedHours.dateTo,
         assignedProjects: state => state.projects.all,
-        rates: state => state.rates.all
+        rates: state => state.rates.all,
+        selectedConsultants: state => state.consultants.selected
       })
     },
 

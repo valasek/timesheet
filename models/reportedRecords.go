@@ -63,3 +63,19 @@ func (db *ReportedRecordManager) ReportedRecordsDelete(id string) []ReportedReco
 	}
 	return nil
 }
+
+// ReportedRecordUpdate - 
+func (db *ReportedRecordManager) ReportedRecordUpdate(r ReportedRecord) ReportedRecord {
+	reportedRecord := ReportedRecord{
+		Date: r.Date,
+		Hours: r.Hours,
+		Project: r.Project,
+		Description: r.Description,
+		Rate: r.Rate,
+		Consultant: r.Consultant,
+	}
+	if err := db.db.Update(reportedRecord); err != nil {
+		return reportedRecord
+	}
+	return ReportedRecord{}
+}

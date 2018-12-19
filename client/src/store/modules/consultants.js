@@ -1,11 +1,9 @@
 import timesheet from '../../api/timesheet'
 
-var allConsultants = { _id: 0, name: 'All' }
-
 // initial state
 const state = {
-    all: [ allConsultants ],
-    selected: [ allConsultants ]
+    all: [ ],
+    selected: ''
 }
 
 const getters = {}
@@ -14,7 +12,6 @@ const actions = {
 
     getConsultants ({ commit }) {
         timesheet.getConsultants(consultants => {
-            consultants.unshift(allConsultants)
             commit('SET_CONSULTANTS', consultants)
         })
     },

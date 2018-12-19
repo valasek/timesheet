@@ -34,7 +34,7 @@
           </div>
         </v-list-tile>
         <v-list-tile>
-          <v-select v-model="selectedConsultants" :items="consultants" item-text="name" item-value="_id" multiple @change="changeConsultant" />
+          <v-select :items="consultants" item-text="name" item-value="name" @change="changeConsultant" />
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
@@ -88,15 +88,15 @@
     computed: {
       ...mapState({
         consultants: state => state.consultants.all,
-        selectedConsultants: state => state.consultants.selected,
-        // selectedConsultants: {
-        //   set (newValue) {
-        //     this.$store.dispatch('consultants/setSelected', newValue)
-        //   },
-        //   get () {
-        //     return this.consultants.selected
-        //   }
-        // },
+        // selectedConsultants: state => state.consultants.selected,
+        selectedConsultants: {
+          set (newValue) {
+            this.$store.dispatch('consultants/setSelected', newValue)
+          },
+          get () {
+            return this.consultants.selected
+          }
+        },
         page: state => state.context.page
       })
     },
@@ -113,7 +113,6 @@
       changeConsultant (ids) {
         console.log('changeConsultant ' + ids) /* eslint-disable-line no-console */
         this.$store.dispatch('consultants/setSelected', ids)
-        // this.$store.commit('consultants/SET_SELECTED', ids)
       }
     }
   }

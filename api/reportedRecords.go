@@ -25,8 +25,8 @@ func (api *API) ReportedRecordsInMonth(w http.ResponseWriter, req *http.Request)
 	json.NewEncoder(w).Encode(reportedRecords)
 }
 
-// ReportedRecordsDelete deletes records with given id
-func (api *API) ReportedRecordsDelete(w http.ResponseWriter, req *http.Request) {
+// ReportedRecordDelete deletes records with given id
+func (api *API) ReportedRecordDelete(w http.ResponseWriter, req *http.Request) {
 	vars := mux.Vars(req)
 	ID := vars["id"]
 	if len(ID) < 1 {
@@ -35,4 +35,18 @@ func (api *API) ReportedRecordsDelete(w http.ResponseWriter, req *http.Request) 
 	}
 	reportedRecords := api.reportedRecords.ReportedRecordsDelete(ID)
 	json.NewEncoder(w).Encode(reportedRecords)
+}
+
+// ReportedRecordUpdate updates record
+func (api *API) ReportedRecordUpdate(w http.ResponseWriter, req *http.Request) {
+	vars := mux.Vars(req)
+	ID := vars["id"]
+	if len(ID) < 1 {
+		fmt.Println("ReportedRecordUpdate, param 'id' is missing")
+		return
+	}
+	// https://www.programming-books.io/essential/go/2f90f3ba9eab401699dbb119feab6665-handling-http-method-accessing-query-strings-request-body
+
+	//reportedRecord := api.reportedRecords.ReportedRecordUpdate( req.Body )
+	// json.NewEncoder(w).Encode(reportedRecord)
 }
