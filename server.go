@@ -19,5 +19,5 @@ func main() {
 	})
 	n.Use(c)
 	n.UseHandler(r)
-	n.Run(":3000")
+	n.Run("127.0.0.1:3000")
 }

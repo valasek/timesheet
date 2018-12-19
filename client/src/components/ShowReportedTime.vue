@@ -99,6 +99,8 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex'
+
   export default {
     name: 'ShowReportedTime',
 
@@ -108,6 +110,9 @@
     },
 
     computed: {
+      ...mapState({
+        reportedHours: state => state.reportedHours.all
+      }),
       vacations () {
         return [
           {
@@ -148,43 +153,43 @@
         return [
           {
             text: 'Working hours',
-            value: 40
+            value: 18 * 8
           },
           {
             text: 'Worked',
-            value: 39
+            value: this.getTotals(this.reportedHours, 'Off-site') + this.getTotals(this.reportedHours, 'On-site')
           },
           {
             text: 'Personal days',
-            value: 38
+            value: this.getTotals(this.reportedHours, 'Personal Day')
           },
           {
             text: 'Sick days',
-            value: 37
+            value: this.getTotals(this.reportedHours, 'Sick Day')
           },
           {
             text: 'Vacations',
-            value: 36
+            value: this.getTotals(this.reportedHours, 'Vacation')
           },
           {
             text: 'Unpaid leave',
-            value: 36
+            value: this.getTotals(this.reportedHours, 'Unpaid Leave')
           },
           {
             text: 'Sick',
-            value: 36
+            value: this.getTotals(this.reportedHours, 'Sick')
           },
           {
             text: 'Weekend',
-            value: 36
+            value: this.getTotals(this.reportedHours, 'Off-site Weekend')
           },
           {
             text: 'Holiday',
-            value: 36
+            value: this.getTotals(this.reportedHours, 'Public Holiday')
           },
           {
             text: 'Overtime',
-            value: 36
+            value: 999
           }
         ]
       },
@@ -236,6 +241,17 @@
 
     created () {
       this.$store.commit('context/SET_PAGE', 'Reported work')
+    },
+
+    methods: {
+      getTotals (hours, rate) {
+        return hours.reduce(
+          function (total, current) {
+            let h = 0
+            if (current.rate === rate) { h = current.hours }
+            return total + h
+          }, 0)
+      }
     }
   }
 </script>

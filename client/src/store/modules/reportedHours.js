@@ -3,7 +3,7 @@ import { addDays, subDays } from 'date-fns'
 
 // initial state
 const state = {
-    all: [],
+    all: [], // _id, date, urs, project, description, rate, consultant
     dateFrom: getMonday(new Date()),
     dateTo: getSunday(new Date())
 }
