@@ -33,13 +33,14 @@
                   <v-text-field v-model="editedItem.hours" label="Hours" />
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-select v-model="editedItem.project" :items="assignedProjects" label="Project" />
+                  <v-select v-model="editedItem.project" item-text="name" item-value="name" :items="assignedProjects" label="Project" />
                 </v-flex>
                 <v-flex xs12 sm6 md4>
                   <v-text-field v-model="editedItem.description" label="Description" />
                 </v-flex>
                 <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.rate" label="Rate" />
+                  <v-select v-model="editedItem.rate" item-text="name" item-value="name" :items="rates" label="Rate" />
+                  <!-- <v-text-field v-model="editedItem.rate" label="Rate" /> -->
                 </v-flex>
               </v-layout>
             </v-container>
@@ -96,11 +97,6 @@
   export default {
     data: () => ({
       repDate: '',
-      assignedProjects: [
-        'Servus',
-        'Voya',
-        '_Training'
-      ],
       dialog: false,
       headers: [
         {
@@ -146,7 +142,9 @@
       ...mapState({
         reportedHours: state => state.reportedHours.all,
         dateFrom: state => state.reportedHours.dateFrom,
-        dateTo: state => state.reportedHours.dateTo
+        dateTo: state => state.reportedHours.dateTo,
+        assignedProjects: state => state.projects.all,
+        rates: state => state.rates.all
       })
     },
 
@@ -181,7 +179,7 @@
 
       deleteItem (item) {
         const index = this.reported.indexOf(item)
-        confirm('Are you sure you want to delete this item?') && this.reported.splice(index, 1)
+        confirm('Are you sure you want to delete the record?') && this.reported.splice(index, 1)
       },
 
       close () {

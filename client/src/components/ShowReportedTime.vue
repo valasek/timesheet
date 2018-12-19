@@ -152,12 +152,16 @@
       monthlyOverview () {
         return [
           {
-            text: 'Working hours',
+            text: 'Available working hours',
             value: 18 * 8
           },
           {
-            text: 'Worked',
+            text: 'Reported working hours',
             value: this.getTotals(this.reportedHours, 'Off-site') + this.getTotals(this.reportedHours, 'On-site')
+          },
+          {
+            text: 'Reported working hours during holiday',
+            value: this.getTotals(this.reportedHours, 'Off-site Holiday')
           },
           {
             text: 'Personal days',

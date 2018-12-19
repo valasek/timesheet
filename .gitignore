@@ -12,3 +12,7 @@
 vendor
 node_modules
 tmp
+
+# private seed data
+timesheet-data.xlsx
+~$timesheet-data.xlsx

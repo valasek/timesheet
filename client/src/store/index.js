@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import reportedHours from './modules/reportedHours'
 import consultants from './modules/consultants'
+import projects from './modules/projects'
+import rates from './modules/rates'
 import context from './modules/context'
 import createLogger from './modules/logger'
 
@@ -13,7 +15,9 @@ export default new Vuex.Store({
     modules: {
         reportedHours,
         consultants,
-        context
+        context,
+        projects,
+        rates
     },
     strict: debug,
     plugins: debug ? [createLogger()] : []

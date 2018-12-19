@@ -38,5 +38,23 @@ export default {
             .catch(e => {
                 console.log(e) /* eslint-disable-line no-console */
             })
+    },
+    getProjects (cs) {
+        axios.get(`http://localhost:3000/api/projects/list`, { crossDomain: true })
+            .then(response => {
+                cs(response.data)
+            })
+            .catch(e => {
+                console.log(e) /* eslint-disable-line no-console */
+            })
+    },
+    getRates (cs) {
+        axios.get(`http://localhost:3000/api/rates/list`, { crossDomain: true })
+            .then(response => {
+                cs(response.data)
+            })
+            .catch(e => {
+                console.log(e) /* eslint-disable-line no-console */
+            })
     }
 }

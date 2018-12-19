@@ -103,6 +103,8 @@
 
     created () {
       this.$store.dispatch('consultants/getConsultants')
+      this.$store.dispatch('projects/getProjects')
+      this.$store.dispatch('rates/getRates')
       let month = (new Date().getMonth() + 1).toString()
       this.$store.dispatch('reportedHours/getReportedHours', month)
     },
