@@ -1,4 +1,3 @@
-import { addDays, subDays } from 'date-fns'
 import axios from 'axios'
 
 const apiClient = axios.create({
@@ -14,19 +13,20 @@ const apiClient = axios.create({
 
 // initial state
 const state = {
-    all: [], // _id, date, urs, project, description, rate, consultant
-    dateFrom: getMonday(new Date()),
-    dateTo: getSunday(new Date())
+    all: [] // _id, date, urs, project, description, rate, consultant
 }
 
-const getters = {
-}
+const getters = {}
 
 const actions = {
-    getReportedHours ({ commit }, month) {
-        apiClient.get('/api/reported/month/' + month)
+    getReportedHours ({ commit, dispatch }, month) {
+        let monthNumber = (new Date(month).getMonth() + 1).toString()
+        let options = { year: 'numeric', month: 'long' }
+        let monthText = new Intl.DateTimeFormat('en-US', options).format(new Date(month))
+        apiClient.get('/api/reported/month/' + monthNumber)
             .then(response => {
                 commit('SET_REPORTED_HOURS', response.data)
+                dispatch('context/setNotification', monthText + ' data retrieved', { root: true })
             })
             .catch(e => {
                 console.log(e) /* eslint-disable-line no-console */
@@ -51,9 +51,6 @@ const actions = {
             .catch(e => {
                 console.log(e) /* eslint-disable-line no-console */
             })
-    },
-    changeWeek ({ commit }, direction) {
-        commit('SET_WEEK', direction)
     }
 }
 
@@ -63,34 +60,7 @@ const mutations = {
     },
     REMOVE_RECORD (state, index) {
         state.all.splice(index, 1)
-    },
-    SET_WEEK (state, direction) {
-        let targetMonday = {}
-        switch (direction) {
-            case 'previous':
-                targetMonday = subDays(state.dateFrom, 7)
-                break
-            case 'next':
-                targetMonday = addDays(state.dateTo, 7)
-                break
-            default:
-                return
-        }
-        state.dateFrom = targetMonday
-        state.dateTo = addDays(targetMonday, 7)
     }
-}
-
-function getMonday (date) {
-    let day = date.getDay() || 7
-    if (day !== 1) { date.setHours(-24 * (day - 1)) }
-    return date
-}
-
-function getSunday (date) {
-    let day = date.getDay() || 7
-    if (day !== 7) { date.setHours(24 * (7 - day)) }
-    return date
 }
 
 export default {

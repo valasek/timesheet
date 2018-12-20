@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-toolbar flat>
-      <v-toolbar-title>Yearly overview</v-toolbar-title>
+      <v-toolbar-title>Year</v-toolbar-title>
     </v-toolbar>
     <v-container grid-list-md text-xs-center>
       <v-layout row wrap>
@@ -54,7 +54,7 @@
         <v-flex xs6>
           <v-card>
             <v-toolbar flat>
-              <v-toolbar-title>Monthly overview</v-toolbar-title>
+              <v-toolbar-title>Month</v-toolbar-title>
             </v-toolbar>
           </v-card>
           <v-container grid-list-md text-xs-center>
@@ -75,7 +75,7 @@
         <v-flex xs6>
           <v-card>
             <v-toolbar flat>
-              <v-toolbar-title>Weekly overview</v-toolbar-title>
+              <v-toolbar-title>Week</v-toolbar-title>
             </v-toolbar>
           </v-card>
           <v-container grid-list-md text-xs-center>
@@ -110,8 +110,22 @@
     },
 
     computed: {
+      selectedReportedHours () {
+        return this.reportedHours.filter(report => {
+          let d = new Date(report.date)
+          return (d >= this.dateFrom && d <= this.dateTo && report.consultant === this.selectedConsultants)
+        })
+      },
+      monthlyConsultantReportedHours () {
+        return this.reportedHours.filter(report => {
+          return (report.consultant === this.selectedConsultants)
+        })
+      },
       ...mapState({
-        reportedHours: state => state.reportedHours.all
+        reportedHours: state => state.reportedHours.all,
+        dateFrom: state => state.reportedHours.dateFrom,
+        dateTo: state => state.reportedHours.dateTo,
+        selectedConsultants: state => state.consultants.selected
       }),
       vacations () {
         return [
@@ -149,6 +163,54 @@
           }
         ]
       },
+      weeklyOverview () {
+        return [
+          {
+            text: 'Available working hours',
+            value: 18 * 8
+          },
+          {
+            text: 'Reported working hours',
+            value: this.getTotals(this.selectedReportedHours, 'Off-site') + this.getTotals(this.selectedReportedHours, 'On-site')
+          },
+          {
+            text: 'Reported working hours during holiday',
+            value: this.getTotals(this.selectedReportedHours, 'Off-site Holiday')
+          },
+          {
+            text: 'Personal days',
+            value: this.getTotals(this.selectedReportedHours, 'Personal Day')
+          },
+          {
+            text: 'Sick days',
+            value: this.getTotals(this.selectedReportedHours, 'Sick Day')
+          },
+          {
+            text: 'Vacations',
+            value: this.getTotals(this.selectedReportedHours, 'Vacation')
+          },
+          {
+            text: 'Unpaid leave',
+            value: this.getTotals(this.selectedReportedHours, 'Unpaid Leave')
+          },
+          {
+            text: 'Sick',
+            value: this.getTotals(this.selectedReportedHours, 'Sick')
+          },
+          {
+            text: 'Weekend',
+            value: this.getTotals(this.selectedReportedHours, 'Off-site Weekend')
+          },
+          {
+            text: 'Holiday',
+            value: this.getTotals(this.selectedReportedHours, 'Public Holiday')
+          },
+          {
+            text: 'Overtime',
+            value: 999
+          }
+        ]
+      },
       monthlyOverview () {
         return [
           {
@@ -157,104 +219,61 @@
           },
           {
             text: 'Reported working hours',
-            value: this.getTotals(this.reportedHours, 'Off-site') + this.getTotals(this.reportedHours, 'On-site')
+            value: this.getTotals(this.monthlyConsultantReportedHours, 'Off-site') + this.getTotals(this.monthlyConsultantReportedHours, 'On-site')
           },
           {
             text: 'Reported working hours during holiday',
-            value: this.getTotals(this.reportedHours, 'Off-site Holiday')
+            value: this.getTotals(this.monthlyConsultantReportedHours, 'Off-site Holiday')
           },
           {
             text: 'Personal days',
-            value: this.getTotals(this.reportedHours, 'Personal Day')
+            value: this.getTotals(this.monthlyConsultantReportedHours, 'Personal Day')
           },
           {
             text: 'Sick days',
-            value: this.getTotals(this.reportedHours, 'Sick Day')
+            value: this.getTotals(this.monthlyConsultantReportedHours, 'Sick Day')
           },
           {
             text: 'Vacations',
-            value: this.getTotals(this.reportedHours, 'Vacation')
+            value: this.getTotals(this.monthlyConsultantReportedHours, 'Vacation')
           },
           {
             text: 'Unpaid leave',
-            value: this.getTotals(this.reportedHours, 'Unpaid Leave')
+            value: this.getTotals(this.monthlyConsultantReportedHours, 'Unpaid Leave')
           },
           {
             text: 'Sick',
-            value: this.getTotals(this.reportedHours, 'Sick')
+            value: this.getTotals(this.monthlyConsultantReportedHours, 'Sick')
           },
           {
             text: 'Weekend',
-            value: this.getTotals(this.reportedHours, 'Off-site Weekend')
+            value: this.getTotals(this.monthlyConsultantReportedHours, 'Off-site Weekend')
           },
           {
             text: 'Holiday',
-            value: this.getTotals(this.reportedHours, 'Public Holiday')
+            value: this.getTotals(this.monthlyConsultantReportedHours, 'Public Holiday')
           },
           {
             text: 'Overtime',
             value: 999
           }
         ]
-      },
-      weeklyOverview () {
-        return [
-          {
-            text: 'Working hours',
-            value: 40
-          },
-          {
-            text: 'Worked',
-            value: 39
-          },
-          {
-            text: 'Personal days',
-            value: 38
-          },
-          {
-            text: 'Sick days',
-            value: 37
-          },
-          {
-            text: 'Vacations',
-            value: 36
-          },
-          {
-            text: 'Unpaid leave',
-            value: 36
-          },
-          {
-            text: 'Sick',
-            value: 36
-          },
-          {
-            text: 'Weekend',
-            value: 36
-          },
-          {
-            text: 'Holiday',
-            value: 36
-          },
-          {
-            text: 'Overtime',
-            value: 36
-          }
-        ]
       }
     },
 
     created () {
-      this.$store.commit('context/SET_PAGE', 'Reported work')
+      this.$store.commit('context/SET_PAGE', 'Overview of reported hours')
     },
 
     methods: {
       getTotals (hours, rate) {
-        return hours.reduce(
+        let h = hours.reduce(
           function (total, current) {
             let h = 0
             if (current.rate === rate) { h = current.hours }
             return total + h
           }, 0)
+        return h || ''
       }
     }
   }

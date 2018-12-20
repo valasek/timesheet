@@ -34,14 +34,46 @@
       <v-list>
         <v-list-tile>
           <div class="header ">
-            Change consultant
+            Consultant
           </div>
         </v-list-tile>
         <v-list-tile>
           <v-select :items="consultants" item-text="name" item-value="name" @change="changeConsultant" />
         </v-list-tile>
       </v-list>
+
+      <v-list>
+        <v-list-tile>
+          <div class="header ">
+            Week
+          </div>
+        </v-list-tile>
+        <v-list-tile>
+          <v-icon @click="previousWeek">
+            skip_previous
+          </v-icon>
+          {{ dateFrom.toLocaleDateString("en-US") }} - {{ dateTo.toLocaleDateString("en-US") }}
+          <v-icon @click="nextWeek">
+            skip_next
+          </v-icon>
+        </v-list-tile>
+      </v-list>
+
+      <v-list>
+        <v-list-tile>
+          <div class="header ">
+            Month
+          </div>
+        </v-list-tile>
+        <v-list-tile>
+          <v-menu v-model="monthMenu" :close-on-content-click="true" full-width max-width="290">
+            <v-text-field slot="activator" :value="dateMonth" readonly />
+            <v-date-picker v-model="dateMonth" :landscape="false" type="month" @change="monthMenu = false" />
+          </v-menu>
+        </v-list-tile>
+      </v-list>
     </v-navigation-drawer>
+
     <v-toolbar app>
       <v-toolbar-title class="headline">
         <span>{{ page }}</span>
@@ -81,6 +113,7 @@
 
     data () {
       return {
+        monthMenu: false,
         items: [
           { title: 'Report my work', icon: 'dashboard', route: 'report' },
           { title: 'Show reported work', icon: 'question_answer', route: 'reported' }
@@ -98,8 +131,19 @@
           this.$store.dispatch('context/resetNotification')
         }
       },
+      dateMonth: {
+        get () {
+          return this.$store.state.context.dateMonth
+        },
+        set (newValue) {
+          this.$store.dispatch('context/setMonth', newValue)
+          this.$store.dispatch('reportedHours/getReportedHours', newValue)
+        }
+      },
       ...mapState({
         notificationText: state => state.context.notificationText,
+        dateFrom: state => state.context.dateFrom,
+        dateTo: state => state.context.dateTo,
         consultants: state => state.consultants.all,
         selectedConsultants: {
           set (newValue) {
@@ -117,15 +161,26 @@
       this.$store.dispatch('consultants/getConsultants')
       this.$store.dispatch('projects/getProjects')
       this.$store.dispatch('rates/getRates')
-      let month = (new Date().getMonth() + 1).toString()
-      this.$store.dispatch('reportedHours/getReportedHours', month)
+      this.$store.dispatch('reportedHours/getReportedHours', this.dateMonth)
     },
 
     methods: {
       changeConsultant (ids) {
         console.log('changeConsultant ' + ids) /* eslint-disable-line no-console */
         this.$store.dispatch('consultants/setSelected', ids)
+      },
+
+      previousWeek () {
+        this.$store.dispatch('context/changeWeek', 'previous')
+      },
+
+      nextWeek () {
+        this.$store.dispatch('context/changeWeek', 'next')
       }
+
+      // computedDateFormattedDatefns () {
+      //   return this.dateMonth ? format(this.dateMonth, 'dddd, MMMM Do YYYY') : ''
+      // }
     }
   }
 </script>

@@ -2,7 +2,7 @@
   <div>
     <v-toolbar flat>
       <v-toolbar-title>
-        <v-container grid-list-md>
+        <!-- <v-container grid-list-md>
           <v-layout row justify-space-between>
             <v-flex md1>
               <v-icon @click="previousWeek">
@@ -20,7 +20,7 @@
               </v-icon>
             </v-flex>
           </v-layout>
-        </v-container>
+        </v-container> -->
         <!-- <v-icon @click="previousWeek">
           skip_previous
         </v-icon> {{ dateFrom.toLocaleDateString("en-US") }} - {{ dateTo.toLocaleDateString("en-US") }} <v-icon @click="nextWeek">
@@ -77,7 +77,7 @@
         </v-card>
       </v-dialog>
     </v-toolbar>
-    <v-data-table :headers="headers" :items="selectedReportedHours" class="elevation-1">
+    <v-data-table :headers="headers" :items="selectedReportedHours" class="elevation-1" :rows-per-page-items="rowsPerPage">
       <template slot="items" slot-scope="props">
         <td>{{ formatDate(props.item.date) }}</td>
         <td class="text-xs-left">
@@ -115,6 +115,7 @@
     data: () => ({
       repDate: '',
       dialog: false,
+      rowsPerPage: [ 30, 50, { 'text': '$vuetify.dataIterator.rowsPerPageAll', 'value': -1 } ],
       headers: [
         {
           text: 'Date',
@@ -158,8 +159,8 @@
       },
       ...mapState({
         reportedHours: state => state.reportedHours.all,
-        dateFrom: state => state.reportedHours.dateFrom,
-        dateTo: state => state.reportedHours.dateTo,
+        dateFrom: state => state.context.dateFrom,
+        dateTo: state => state.context.dateTo,
         assignedProjects: state => state.projects.all,
         rates: state => state.rates.all,
         selectedConsultants: state => state.consultants.selected
@@ -173,20 +174,12 @@
     },
 
     created () {
-      this.$store.commit('context/SET_PAGE', 'Good job, let them know about it')
+      this.$store.commit('context/SET_PAGE', 'Reported hours')
     },
 
     methods: {
       initialize () {
         console.log('Get data clicked') /* eslint-disable-line no-console */
-      },
-
-      previousWeek () {
-        this.$store.dispatch('reportedHours/changeWeek', 'previous')
-      },
-
-      nextWeek () {
-        this.$store.dispatch('reportedHours/changeWeek', 'next')
       },
 
       formatDate (date) {
