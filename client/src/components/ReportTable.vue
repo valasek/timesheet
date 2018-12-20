@@ -2,11 +2,30 @@
   <div>
     <v-toolbar flat>
       <v-toolbar-title>
-        <v-icon @click="previousWeek">
+        <v-container grid-list-md>
+          <v-layout row justify-space-between>
+            <v-flex md1>
+              <v-icon @click="previousWeek">
+                skip_previous
+              </v-icon>
+            </v-flex>
+            <v-flex md10>
+              <p class="text-md-center">
+                {{ dateFrom.toLocaleDateString("en-US") }} - {{ dateTo.toLocaleDateString("en-US") }}
+              </p>
+            </v-flex>
+            <v-flex md1>
+              <v-icon @click="nextWeek">
+                skip_next
+              </v-icon>
+            </v-flex>
+          </v-layout>
+        </v-container>
+        <!-- <v-icon @click="previousWeek">
           skip_previous
         </v-icon> {{ dateFrom.toLocaleDateString("en-US") }} - {{ dateTo.toLocaleDateString("en-US") }} <v-icon @click="nextWeek">
           skip_next
-        </v-icon>
+        </v-icon> -->
       </v-toolbar-title>
       <v-spacer />
       <v-dialog v-model="dialog" max-width="500px">
@@ -186,6 +205,7 @@
 
       deleteItem (item) {
         confirm('Are you sure you want to delete the record?') && this.$store.dispatch('reportedHours/removeRecord', item._id)
+        this.$store.dispatch('context/setNotification', this.formatDate(item.date) + ', ' + item.hours + ' hrs - record deleted')
       },
 
       close () {

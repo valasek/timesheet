@@ -1,6 +1,17 @@
 import { addDays, subDays } from 'date-fns'
 import axios from 'axios'
 
+const apiClient = axios.create({
+    baseURL: `http://localhost:3000`,
+    withCredentials: false, // This is the default
+    crossDomain: true,
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    timeout: 10000
+})
+
 // initial state
 const state = {
     all: [], // _id, date, urs, project, description, rate, consultant
@@ -13,7 +24,7 @@ const getters = {
 
 const actions = {
     getReportedHours ({ commit }, month) {
-        axios.get('http://localhost:3000/api/reported/month/' + month, { crossDomain: true })
+        apiClient.get('/api/reported/month/' + month)
             .then(response => {
                 commit('SET_REPORTED_HOURS', response.data)
             })
@@ -23,9 +34,19 @@ const actions = {
     },
     removeRecord ({ commit }, id) {
         const index = state.all.findIndex(records => records._id === id)
-        axios.delete('http://localhost:3000/api/reported/' + id, { crossDomain: true })
+        apiClient.delete('/api/reported/' + id)
             .then(response => {
                 commit('REMOVE_RECORD', index)
+            })
+            .catch(e => {
+                console.log(e) /* eslint-disable-line no-console */
+            })
+    },
+    // here should be payload not id and record
+    updateRecord ({ commit }, id, record) {
+        apiClient.put('/api/reported/' + id, record)
+            .then(response => {
+                commit('UPDATE_RECORD', record)
             })
             .catch(e => {
                 console.log(e) /* eslint-disable-line no-console */

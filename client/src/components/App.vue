@@ -1,5 +1,9 @@
 <template>
   <v-app>
+    <v-snackbar v-model="notification" color="info" :top="false" :right="true" :timeout="4000">
+      {{ notificationText }}
+    </v-snackbar>
+
     <v-navigation-drawer app>
       <v-toolbar flat>
         <v-list>
@@ -86,9 +90,17 @@
     },
 
     computed: {
+      notification: {
+        get () {
+          return this.$store.state.context.notification
+        },
+        set (newValue) {
+          this.$store.dispatch('context/resetNotification')
+        }
+      },
       ...mapState({
+        notificationText: state => state.context.notificationText,
         consultants: state => state.consultants.all,
-        // selectedConsultants: state => state.consultants.selected,
         selectedConsultants: {
           set (newValue) {
             this.$store.dispatch('consultants/setSelected', newValue)
