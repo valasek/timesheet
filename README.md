@@ -1,10 +1,29 @@
-# go-vue-starter
+# Simple working time evidence with export plugins
+Web application
+
+# Requirements
+PostgreSQL DB VERSION
 
 ## Todo
-- add environment configuration - for cors on backend and frontend
+- Edit item
+- update week when month is changed
+- lock last week
+- overview
+-- edit overtime and total working time per week, month
+-- compare weekly reported time against nominanl total time
+- Remember my settings (which month, week, consultant)
+- Export plugin to excel and csv
+
+## Improvements business
+- consistency checks
+- initial set up
+-- add environment configuration - for cors on backend and frontend)
+-- seed DB, all and per table
+- Add billing evidence and export plugin
+
+## Improvements technical
 - read https://medium.com/statuscode/how-i-write-go-http-services-after-seven-years-37c208122831
 - refactor routes as on https://www.codementor.io/codehakase/building-a-restful-api-with-golang-a6yivzqdo
-- add seed db command
 - connect Vue with go - https://juliensalinas.com/en/golang-API-backend-vuejs-SPA-frontend-docker-modern-application/
 
 /* eslint-disable-line no-console */

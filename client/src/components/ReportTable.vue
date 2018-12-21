@@ -102,7 +102,9 @@
         </td>
       </template>
       <template slot="no-data">
-        Not reported yet ...
+        <v-alert :value="true" color="info" icon="info">
+          Change month, select consultant or no reported hours this week :(
+        </v-alert>
       </template>
     </v-data-table>
   </div>

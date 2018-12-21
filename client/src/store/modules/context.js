@@ -10,16 +10,13 @@ const state = {
     dateTo: getSunday(new Date())
 }
 
-const getters = {
-    // dateMonth: new Date() // new Date().toISOString().substr(0, 7)
-}
+const getters = {}
 
 const actions = {
-    // getPage ({ commit, page }) {
-    //     commit('SET_PAGE', page)
-    // },
 
-    setMonth ({ commit }, month) {
+    setMonth ({ commit, dispatch }, month) {
+        let monday = getMonday(new Date(month))
+        dispatch('jumpToWeek', monday)
         commit('SET_MONTH', month)
     },
 
@@ -32,6 +29,9 @@ const actions = {
     },
     changeWeek ({ commit }, direction) {
         commit('SET_WEEK', direction)
+    },
+    jumpToWeek ({ commit }, monday) {
+        commit('JUMP_TO_WEEK', monday)
     }
 }
 
@@ -59,6 +59,11 @@ const mutations = {
         }
         state.dateFrom = targetMonday
         state.dateTo = addDays(targetMonday, 7)
+    },
+
+    JUMP_TO_WEEK (state, monday) {
+        state.dateFrom = monday
+        state.dateTo = addDays(monday, 7)
     },
 
     SET_NOTIFICATION (state, text) {
