@@ -1,12 +1,11 @@
-# Simple working time evidence with export plugins
-Web application
+# Work time management with export plugins
+Time sheet web application.
 
 # Requirements
-PostgreSQL DB VERSION
+Postgre SQL DB VERSION
 
 ## Todo
 - Edit item
-- update week when month is changed
 - lock last week
 - overview
 -- edit overtime and total working time per week, month
@@ -15,6 +14,7 @@ PostgreSQL DB VERSION
 - Export plugin to excel and csv
 
 ## Improvements business
+- - Paginate and sort server-side - using vuetify data table
 - consistency checks
 - initial set up
 -- add environment configuration - for cors on backend and frontend)
@@ -22,35 +22,31 @@ PostgreSQL DB VERSION
 - Add billing evidence and export plugin
 
 ## Improvements technical
-- read https://medium.com/statuscode/how-i-write-go-http-services-after-seven-years-37c208122831
+- config from file
+- email confirmation
+- logrus
+- letsencrypt tls
+- read 
+- administration of a DB - https://getqor.com/en
+https://medium.com/statuscode/how-i-write-go-http-services-after-seven-years-37c208122831
 - refactor routes as on https://www.codementor.io/codehakase/building-a-restful-api-with-golang-a6yivzqdo
 - connect Vue with go - https://juliensalinas.com/en/golang-API-backend-vuejs-SPA-frontend-docker-modern-application/
 
 /* eslint-disable-line no-console */
 
-### Features:
+# Built on a shoulders of a giants
+[Go](https://golang.org/), [Vue](https://vuejs.org/), [Vuetify](https://vuetifyjs.com/en/), [PostgreSQL](https://www.postgresql.org/)
+
+## Backend
 - Middleware: [Negroni](https://github.com/urfave/negroni)
-
 - Router: [Gorilla](https://github.com/gorilla/mux)
-
 - Orm: [Gorm](https://github.com/jinzhu/gorm) (sqlite or postgres)
-
 - Jwt authentication: [jwt-go](https://github.com/dgrijalva/jwt-go) and [go-jwt-middleware](https://github.com/auth0/go-jwt-middleware)
-
 - [Vue.js](https://vuejs.org/) spa client with webpack
-
 - User management
 
-### TODO:
-- config from file
 
-- email confirmation
-
-- logrus
-
-- letsencrypt tls
-
-### To get started:
+# To get started
 
 ``` bash
 # clone repository
@@ -74,6 +70,6 @@ npm run dev
 npm run build
 ```
 
-### License
+# License
 
-MIT License  - see LICENSE for more details
+TBD - MIT License  - see LICENSE for more details

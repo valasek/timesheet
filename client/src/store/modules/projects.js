@@ -2,7 +2,7 @@ import timesheet from '../../api/timesheet'
 
 // initial state
 const state = {
-    all: [ '' ]
+    all: [ '' ] // _id, name
 }
 
 const getters = {}

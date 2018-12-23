@@ -51,6 +51,10 @@ const actions = {
             .catch(e => {
                 console.log(e) /* eslint-disable-line no-console */
             })
+    },
+    updateProject ({ commit }, payload) {
+        console.log('updateProject', payload) /* eslint-disable-line no-console */
+        commit('UPDATE_PROJECT', payload)
     }
 }
 
@@ -60,6 +64,12 @@ const mutations = {
     },
     REMOVE_RECORD (state, index) {
         state.all.splice(index, 1)
+    },
+    UPDATE_PROJECT (state, payload) {
+        console.log(payload._id, payload.project) /* eslint-disable-line no-console */
+        let index = state.all.findIndex(obj => obj._id === payload._id)
+        state.all[index].project = payload.project
+        console.log(index, payload.project) /* eslint-disable-line no-console */
     }
 }
 

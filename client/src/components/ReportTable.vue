@@ -2,30 +2,7 @@
   <div>
     <v-toolbar flat>
       <v-toolbar-title>
-        <!-- <v-container grid-list-md>
-          <v-layout row justify-space-between>
-            <v-flex md1>
-              <v-icon @click="previousWeek">
-                skip_previous
-              </v-icon>
-            </v-flex>
-            <v-flex md10>
-              <p class="text-md-center">
-                {{ dateFrom.toLocaleDateString("en-US") }} - {{ dateTo.toLocaleDateString("en-US") }}
-              </p>
-            </v-flex>
-            <v-flex md1>
-              <v-icon @click="nextWeek">
-                skip_next
-              </v-icon>
-            </v-flex>
-          </v-layout>
-        </v-container> -->
-        <!-- <v-icon @click="previousWeek">
-          skip_previous
-        </v-icon> {{ dateFrom.toLocaleDateString("en-US") }} - {{ dateTo.toLocaleDateString("en-US") }} <v-icon @click="nextWeek">
-          skip_next
-        </v-icon> -->
+        <v-text-field v-model="search" append-icon="search" label="Search" single-line />
       </v-toolbar-title>
       <v-spacer />
       <v-dialog v-model="dialog" max-width="500px">
@@ -77,24 +54,34 @@
         </v-card>
       </v-dialog>
     </v-toolbar>
-    <v-data-table :headers="headers" :items="selectedReportedHours" class="elevation-1" :rows-per-page-items="rowsPerPage">
+    <v-data-table :headers="headers" :items="selectedReportedHours" :search="search" class="elevation-1" :rows-per-page-items="rowsPerPage">
       <template slot="items" slot-scope="props">
         <td>{{ formatDate(props.item.date) }}</td>
         <td class="text-xs-left">
           {{ props.item.hours }}
         </td>
         <td class="text-xs-left">
-          {{ props.item.project }}
+          <v-edit-dialog :return-value="props.item.project" lazy>
+            {{ props.item.project }}
+            <v-select slot="input" :value="props.item.project" item-text="name" item-value="name"
+                      :items="assignedProjects" label="Project" @input="onUpdateProject({_id: props.item._id, project: $event})"
+            />
+          </v-edit-dialog>
+          <!-- {{ props.item.project }} -->
         </td>
         <td class="text-xs-left">
-          {{ props.item.description }}
+          <v-edit-dialog :return-value.sync="props.item.description" lazy @save="descriptionSave" @cancel="descriptionCancel" @open="descriptionOpen" @close="descriptionClose">
+            {{ props.item.description }}
+            <v-text-field slot="input" v-model="props.item.description" :rules="[max100chars]" label="Edit" single-line counter />
+          </v-edit-dialog>
+          <!-- {{ props.item.description }} -->
         </td>
         <td class="text-xs-left">
           {{ props.item.rate }}
         </td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)">
-            edit
+            add
           </v-icon>
           <v-icon small @click="deleteItem(props.item)">
             delete
@@ -115,6 +102,8 @@
 
   export default {
     data: () => ({
+      search: '',
+      max100chars: v => v.length <= 100 || 'Input too long!',
       repDate: '',
       dialog: false,
       rowsPerPage: [ 30, 50, { 'text': '$vuetify.dataIterator.rowsPerPageAll', 'value': -1 } ],
@@ -180,6 +169,23 @@
     },
 
     methods: {
+      // inline editing functions
+      descriptionSave () {
+        console.log('saved') /* eslint-disable-line no-console */
+      },
+      onUpdateProject (newProject) {
+        console.log(newProject) /* eslint-disable-line no-console */
+        this.$store.dispatch('reportedHours/updateProject', newProject)
+      },
+      descriptionCancel () {
+        console.log('cancel') /* eslint-disable-line no-console */
+      },
+      descriptionOpen () {
+        console.log('open') /* eslint-disable-line no-console */
+      },
+      descriptionClose () {
+        console.log('close') /* eslint-disable-line no-console */
+      },
       initialize () {
         console.log('Get data clicked') /* eslint-disable-line no-console */
       },
