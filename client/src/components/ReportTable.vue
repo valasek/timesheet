@@ -58,21 +58,31 @@
       <template slot="items" slot-scope="props">
         <td>{{ formatDate(props.item.date) }}</td>
         <td class="text-xs-left">
-          {{ props.item.hours }}
+          <v-edit-dialog :return-value="props.item.hours" lazy>
+            {{ props.item.hours }}
+            <v-text-field slot="input" :value="props.item.hours" label="Hours" single-line
+                          type="number" min="0" max="20" step="0.5" maxlength="2"
+                          @input="onUpdateHours({_id: props.item._id, hours: $event})"
+            />
+          </v-edit-dialog>
+        <!-- {{ props.item.hours }} -->
         </td>
         <td class="text-xs-left">
           <v-edit-dialog :return-value="props.item.project" lazy>
             {{ props.item.project }}
             <v-select slot="input" :value="props.item.project" item-text="name" item-value="name"
-                      :items="assignedProjects" label="Project" @input="onUpdateProject({_id: props.item._id, project: $event})"
+                      :items="assignedProjects" label="Project" :dense="true" :hide-selected="true"
+                      @input="onUpdateProject({_id: props.item._id, project: $event})"
             />
           </v-edit-dialog>
           <!-- {{ props.item.project }} -->
         </td>
         <td class="text-xs-left">
-          <v-edit-dialog :return-value.sync="props.item.description" lazy @save="descriptionSave" @cancel="descriptionCancel" @open="descriptionOpen" @close="descriptionClose">
+          <v-edit-dialog :return-value="props.item.description" lazy>
             {{ props.item.description }}
-            <v-text-field slot="input" v-model="props.item.description" :rules="[max100chars]" label="Edit" single-line counter />
+            <v-text-field slot="input" :value="props.item.description" :rules="[ruleMax100chars]" label="Description" single-line
+                          counter @input="onUpdateDescription({_id: props.item._id, description: $event})"
+            />
           </v-edit-dialog>
           <!-- {{ props.item.description }} -->
         </td>
@@ -103,7 +113,7 @@
   export default {
     data: () => ({
       search: '',
-      max100chars: v => v.length <= 100 || 'Input too long!',
+      ruleMax100chars: v => v.length <= 100 || 'Input too long!',
       repDate: '',
       dialog: false,
       rowsPerPage: [ 30, 50, { 'text': '$vuetify.dataIterator.rowsPerPageAll', 'value': -1 } ],
@@ -176,6 +186,14 @@
       onUpdateProject (newProject) {
         console.log(newProject) /* eslint-disable-line no-console */
         this.$store.dispatch('reportedHours/updateProject', newProject)
+      },
+      onUpdateHours (newHours) {
+        console.log(newHours) /* eslint-disable-line no-console */
+        this.$store.dispatch('reportedHours/updateHours', newHours)
+      },
+      onUpdateDescription (newDescription) {
+        console.log(newDescription) /* eslint-disable-line no-console */
+        this.$store.dispatch('reportedHours/updateDescription', newDescription)
       },
       descriptionCancel () {
         console.log('cancel') /* eslint-disable-line no-console */

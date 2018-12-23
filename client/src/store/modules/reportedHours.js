@@ -55,6 +55,14 @@ const actions = {
     updateProject ({ commit }, payload) {
         console.log('updateProject', payload) /* eslint-disable-line no-console */
         commit('UPDATE_PROJECT', payload)
+    },
+    updateHours ({ commit }, payload) {
+        console.log('updateHours', payload) /* eslint-disable-line no-console */
+        commit('UPDATE_HOURS', payload)
+    },
+    updateDescription ({ commit }, payload) {
+        console.log('updateDescription', payload) /* eslint-disable-line no-console */
+        commit('UPDATE_DESCRIPTION', payload)
     }
 }
 
@@ -66,10 +74,16 @@ const mutations = {
         state.all.splice(index, 1)
     },
     UPDATE_PROJECT (state, payload) {
-        console.log(payload._id, payload.project) /* eslint-disable-line no-console */
         let index = state.all.findIndex(obj => obj._id === payload._id)
         state.all[index].project = payload.project
-        console.log(index, payload.project) /* eslint-disable-line no-console */
+    },
+    UPDATE_HOURS (state, payload) {
+        let index = state.all.findIndex(obj => obj._id === payload._id)
+        state.all[index].hours = payload.hours
+    },
+    UPDATE_DESCRIPTION (state, payload) {
+        let index = state.all.findIndex(obj => obj._id === payload._id)
+        state.all[index].description = payload.description
     }
 }
 
