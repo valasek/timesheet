@@ -5,54 +5,9 @@
         <v-text-field v-model="search" append-icon="search" label="Search" single-line />
       </v-toolbar-title>
       <v-spacer />
-      <v-dialog v-model="dialog" max-width="500px">
-        <v-btn slot="activator" color="primary" dark class="mb-2">
-          +
-        </v-btn>
-        <v-card>
-          <v-card-title>
-            <span class="headline">
-              {{ formTitle }}
-            </span>
-          </v-card-title>
-
-          <v-card-text>
-            <v-container grid-list-md>
-              <v-layout wrap>
-                <v-flex xs12 sm6 md4>
-                  <v-menu v-model="repDate" :close-on-content-click="true" :nudge-right="40" lazy transition="scale-transition" offset-y full-width min-width="290px">
-                    <v-text-field slot="activator" v-model="editedItem.date" label="Date" readonly />
-                    <v-date-picker v-model="editedItem.date" @input="repDate = false" />
-                  </v-menu>
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.hours" label="Hours" />
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-select v-model="editedItem.project" item-text="name" item-value="name" :items="assignedProjects" label="Project" />
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-text-field v-model="editedItem.description" label="Description" />
-                </v-flex>
-                <v-flex xs12 sm6 md4>
-                  <v-select v-model="editedItem.rate" item-text="name" item-value="name" :items="rates" label="Rate" />
-                  <!-- <v-text-field v-model="editedItem.rate" label="Rate" /> -->
-                </v-flex>
-              </v-layout>
-            </v-container>
-          </v-card-text>
-
-          <v-card-actions>
-            <v-spacer />
-            <v-btn color="blue darken-1" flat @click="close">
-              Cancel
-            </v-btn>
-            <v-btn color="blue darken-1" flat @click="save">
-              Save
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
+      <v-btn color="primary" dark class="mb-2" @click="addItem">
+        new record
+      </v-btn>
     </v-toolbar>
     <v-data-table :headers="headers" :items="selectedReportedHours" :search="search" class="elevation-1" :rows-per-page-items="rowsPerPage">
       <template slot="items" slot-scope="props">
@@ -87,10 +42,17 @@
           <!-- {{ props.item.description }} -->
         </td>
         <td class="text-xs-left">
-          {{ props.item.rate }}
+          <v-edit-dialog :return-value="props.item.rate" lazy>
+            {{ props.item.rate }}
+            <v-select slot="input" :value="props.item.rate" item-text="name" item-value="name"
+                      :items="rates" label="Rate" :dense="true" :hide-selected="true"
+                      @input="onUpdateRate({_id: props.item._id, rate: $event})"
+            />
+          </v-edit-dialog>
+          <!-- {{ props.item.rate }} -->
         </td>
         <td class="justify-center layout px-0">
-          <v-icon small class="mr-2" @click="editItem(props.item)">
+          <v-icon small class="mr-2" @click="duplicateItem(props.item)">
             add
           </v-icon>
           <v-icon small @click="deleteItem(props.item)">
@@ -115,7 +77,6 @@
       search: '',
       ruleMax100chars: v => v.length <= 100 || 'Input too long!',
       repDate: '',
-      dialog: false,
       rowsPerPage: [ 30, 50, { 'text': '$vuetify.dataIterator.rowsPerPageAll', 'value': -1 } ],
       headers: [
         {
@@ -130,22 +91,7 @@
         { text: 'Rate', value: 'rate' },
         { text: 'Actions', value: 'actions', sortable: false }
       ],
-      reported: [],
-      editedIndex: -1,
-      editedItem: {
-        date: '',
-        hours: 0,
-        project: '',
-        description: '',
-        rate: ''
-      },
-      defaultItem: {
-        date: (new Date()).toString(),
-        hours: 8,
-        project: '',
-        description: '',
-        rate: ''
-      }
+      reported: []
     }),
 
     computed: {
@@ -162,6 +108,7 @@
         reportedHours: state => state.reportedHours.all,
         dateFrom: state => state.context.dateFrom,
         dateTo: state => state.context.dateTo,
+        dateMonth: state => state.context.dateMonth,
         assignedProjects: state => state.projects.all,
         rates: state => state.rates.all,
         selectedConsultants: state => state.consultants.selected
@@ -195,55 +142,46 @@
         console.log(newDescription) /* eslint-disable-line no-console */
         this.$store.dispatch('reportedHours/updateDescription', newDescription)
       },
-      descriptionCancel () {
-        console.log('cancel') /* eslint-disable-line no-console */
-      },
-      descriptionOpen () {
-        console.log('open') /* eslint-disable-line no-console */
-      },
-      descriptionClose () {
-        console.log('close') /* eslint-disable-line no-console */
+      onUpdateRate (newRate) {
+        console.log(newRate) /* eslint-disable-line no-console */
+        this.$store.dispatch('reportedHours/updateRate', newRate)
       },
       initialize () {
         console.log('Get data clicked') /* eslint-disable-line no-console */
       },
-
       formatDate (date) {
         if (!date) return null
 
         const [year, month, day] = date.slice(0, 10).split('-')
         return `${month}/${day}/${year}`
       },
-
-      editItem (item) {
-        console.log('edit') /* eslint-disable-line no-console */
-        this.editedIndex = this.selectedReportedHours.indexOf(item)
-        this.editedItem = Object.assign({}, item)
-        this.dialog = true
+      addItem (item) {
+        let newRecord = {}
+        newRecord._id = null
+        newRecord.consultant = this.selectedConsultants
+        let monthM = new Date(this.dateMonth).toString
+        const [year, monthD, day] = this.dateFrom.toLocaleDateString('en-US').slice(0, 10).split('/')
+        console.log(this.dateFrom, this.dateTo, year, monthM, day, monthD) /* eslint-disable-line no-console */
+        if (monthM === monthD) {
+          newRecord.date = this.dateFrom.toISOString().substr(0, 10)
+        } else {
+          newRecord.date = this.dateTo.toISOString().substr(0, 10)
+        }
+        newRecord.hours = '8'
+        newRecord.rate = 'Off-site'
+        console.log(newRecord) /* eslint-disable-line no-console */
+        this.$store.dispatch('reportedHours/addRecord', newRecord)
       },
-
+      duplicateItem (item) {
+        let newRecord = Object.assign({}, item)
+        // let index = this.selectedReportedHours.indexOf(item)
+        newRecord._id = null
+        console.log(newRecord) /* eslint-disable-line no-console */
+        this.$store.dispatch('reportedHours/addRecord', newRecord)
+      },
       deleteItem (item) {
         confirm('Are you sure you want to delete the record?') && this.$store.dispatch('reportedHours/removeRecord', item._id)
         this.$store.dispatch('context/setNotification', this.formatDate(item.date) + ', ' + item.hours + ' hrs - record deleted')
-      },
-
-      close () {
-        console.log('close') /* eslint-disable-line no-console */
-        this.dialog = false
-        setTimeout(() => {
-          this.editedItem = Object.assign({}, this.defaultItem)
-          this.editedIndex = -1
-        }, 300)
-      },
-
-      save () {
-        console.log('save, editIndex: ' + this.editedIndex) /* eslint-disable-line no-console */
-        if (this.editedIndex > -1) {
-          Object.assign(this.selectedReportedHours[this.editedIndex], this.editedItem)
-        } else {
-          this.selectedReportedHours.push(this.editedItem)
-        }
-        this.close()
       }
     }
   }

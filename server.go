@@ -16,7 +16,7 @@ func main() {
 	n := negroni.Classic()
 	c := cors.New(cors.Options{
 		AllowedOrigins: []string{"http://localhost*"},
-		AllowedMethods: []string{"GET", "POST", "DELETE"},
+		AllowedMethods: []string{"GET", "POST", "PUT", "DELETE"},
 	})
 	n.Use(c)
 	n.UseHandler(r)

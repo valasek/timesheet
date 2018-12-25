@@ -43,15 +43,24 @@ const actions = {
             })
     },
     // here should be payload not id and record
-    updateRecord ({ commit }, id, record) {
-        apiClient.put('/api/reported/' + id, record)
-            .then(response => {
-                commit('UPDATE_RECORD', record)
-            })
-            .catch(e => {
-                console.log(e) /* eslint-disable-line no-console */
-            })
-    },
+    // updateRecord ({ commit }, id, record) {
+    //     apiClient.put('/api/reported/' + id, record)
+    //         .then(response => {
+    //             commit('UPDATE_RECORD', record)
+    //         })
+    //         .catch(e => {
+    //             console.log(e) /* eslint-disable-line no-console */
+    //         })
+    // },
+    addRecord ({ commit }, payload) {
+            apiClient.post('/api/reported/', payload)
+                .then(response => {
+                    commit('ADD_RECORD', payload)
+                })
+                .catch(e => {
+                    console.log(e) /* eslint-disable-line no-console */
+                })
+        },
     updateProject ({ commit }, payload) {
         console.log('updateProject', payload) /* eslint-disable-line no-console */
         commit('UPDATE_PROJECT', payload)
@@ -63,12 +72,19 @@ const actions = {
     updateDescription ({ commit }, payload) {
         console.log('updateDescription', payload) /* eslint-disable-line no-console */
         commit('UPDATE_DESCRIPTION', payload)
+    },
+    updateRate ({ commit }, payload) {
+        console.log('updateRate', payload) /* eslint-disable-line no-console */
+        commit('UPDATE_RATE', payload)
     }
 }
 
 const mutations = {
     SET_REPORTED_HOURS (state, reportedHours) {
         state.all = reportedHours
+    },
+    ADD_RECORD (state, payload) {
+        state.all.push(payload)
     },
     REMOVE_RECORD (state, index) {
         state.all.splice(index, 1)
@@ -84,6 +100,10 @@ const mutations = {
     UPDATE_DESCRIPTION (state, payload) {
         let index = state.all.findIndex(obj => obj._id === payload._id)
         state.all[index].description = payload.description
+    },
+    UPDATE_RATE (state, payload) {
+        let index = state.all.findIndex(obj => obj._id === payload._id)
+        state.all[index].rate = payload.rate
     }
 }
 

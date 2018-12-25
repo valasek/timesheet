@@ -2,7 +2,8 @@ import timesheet from '../../api/timesheet'
 
 // initial state
 const state = {
-    all: [ '' ]
+    all: [ '' ], // all available rates
+    allowed: [ '' ] // for selected project
 }
 
 const getters = {}

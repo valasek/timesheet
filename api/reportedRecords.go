@@ -50,3 +50,12 @@ func (api *API) ReportedRecordUpdate(w http.ResponseWriter, req *http.Request) {
 	//reportedRecord := api.reportedRecords.ReportedRecordUpdate( req.Body )
 	// json.NewEncoder(w).Encode(reportedRecord)
 }
+
+// ReportedRecordsAddRecord add new record
+func (api *API) ReportedRecordsAddRecord(w http.ResponseWriter, req *http.Request) {
+	_id := 999
+
+	fmt.Println(req.Body)
+
+	json.NewEncoder(w).Encode(_id)
+}

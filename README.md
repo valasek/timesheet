@@ -5,16 +5,26 @@ Time sheet web application.
 Postgre SQL DB VERSION
 
 ## Todo
-- Edit item
-- lock last week
+- Edit item - time
+- duplicate records
+- create new empty record
+- save edited values
 - overview
+-- show in days
 -- edit overtime and total working time per week, month
 -- compare weekly reported time against nominanl total time
-- Remember my settings (which month, week, consultant)
 - Export plugin to excel and csv
 
+# Fixes
+- edit records
+-- do not save the value id ESC is pressed
+-- update the store only when done editing not on each key push
+
 ## Improvements business
-- - Paginate and sort server-side - using vuetify data table
+- ability to lock last week
+- Remember my settings (which month, week, consultant)
+- show only available rates per project
+- Paginate and sort server-side - using vuetify data table
 - consistency checks
 - initial set up
 -- add environment configuration - for cors on backend and frontend)
