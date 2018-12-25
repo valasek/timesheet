@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-snackbar v-model="notification" color="info" :top="false" :right="true" :timeout="4000">
+    <v-snackbar v-model="notification" :color="notificationType" :top="false" :right="true" :timeout="4000">
       {{ notificationText }}
     </v-snackbar>
 
@@ -142,6 +142,7 @@
       },
       ...mapState({
         notificationText: state => state.context.notificationText,
+        notificationType: state => state.context.notificationType,
         dateFrom: state => state.context.dateFrom,
         dateTo: state => state.context.dateTo,
         consultants: state => state.consultants.all,
@@ -158,6 +159,7 @@
     },
 
     created () {
+      this.$store.dispatch('context/resetNotification')
       this.$store.dispatch('consultants/getConsultants')
       this.$store.dispatch('projects/getProjects')
       this.$store.dispatch('rates/getRates')
@@ -166,7 +168,6 @@
 
     methods: {
       changeConsultant (ids) {
-        console.log('changeConsultant ' + ids) /* eslint-disable-line no-console */
         this.$store.dispatch('consultants/setSelected', ids)
       },
 

@@ -5,9 +5,6 @@ Time sheet web application.
 Postgre SQL DB VERSION
 
 ## Todo
-- Edit item - time
-- duplicate records
-- create new empty record
 - save edited values
 - overview
 -- show in days
@@ -16,9 +13,11 @@ Postgre SQL DB VERSION
 - Export plugin to excel and csv
 
 # Fixes
+- NEW RECORD
+-- fix wrong from and to dates
+-- do not create new record if no consultant is selected
 - edit records
 -- do not save the value id ESC is pressed
--- update the store only when done editing not on each key push
 
 ## Improvements business
 - ability to lock last week

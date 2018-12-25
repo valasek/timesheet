@@ -1,10 +1,13 @@
 import { addDays, subDays } from 'date-fns'
 
+const defaultNotificationType = 'info'
+
 // initial state
 const state = {
     page: 'Time Sheet',
     notification: false,
     notificationText: '',
+    notificationType: defaultNotificationType, // success, info, error - snackbar types https://vuetifyjs.com/en/components/snackbars#introduction
     dateMonth: new Date().toISOString().substr(0, 7),
     dateFrom: getMonday(new Date()),
     dateTo: getSunday(new Date())
@@ -20,8 +23,8 @@ const actions = {
         commit('SET_MONTH', month)
     },
 
-    setNotification ({ commit }, text) {
-        commit('SET_NOTIFICATION', text)
+    setNotification ({ commit }, payload) {
+        commit('SET_NOTIFICATION', payload)
     },
 
     resetNotification ({ commit }) {
@@ -66,14 +69,18 @@ const mutations = {
         state.dateTo = addDays(monday, 7)
     },
 
-    SET_NOTIFICATION (state, text) {
-        state.notificationText = text
+    SET_NOTIFICATION (state, payload) {
+        state.notificationText = payload.text
+        if (payload.type.length > 1) {
+            state.notificationType = payload.type
+        }
         state.notification = true
     },
 
-    RESET_NOTIFICATION (state, text) {
+    RESET_NOTIFICATION (state) {
         state.notification = false
         state.notificationText = ''
+        state.notificationType = defaultNotificationType
     }
 
 }

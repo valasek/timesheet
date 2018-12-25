@@ -1,4 +1,4 @@
-import timesheet from '../../api/timesheet'
+import api from '../../api/axiosSettings'
 
 // initial state
 const state = {
@@ -9,10 +9,15 @@ const getters = {}
 
 const actions = {
 
-    getProjects ({ commit }) {
-        timesheet.getProjects(projects => {
-            commit('SET_PROJECTS', projects)
-        })
+    getProjects ({ commit, dispatch }) {
+        api.apiClient.get(`/api/projects/list`, { crossDomain: true })
+            .then(response => {
+                commit('SET_PROJECTS', response.data)
+            })
+            .catch(e => {
+                dispatch('context/setNotification', { text: 'Couldn\'t read projects from server. \n' + e.toString(), type: 'error' }, { root: true })
+                console.log(e) /* eslint-disable-line no-console */
+            })
     }
 
 }

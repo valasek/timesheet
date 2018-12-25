@@ -1,4 +1,4 @@
-import timesheet from '../../api/timesheet'
+import api from '../../api/axiosSettings'
 
 // initial state
 const state = {
@@ -10,9 +10,14 @@ const getters = {}
 
 const actions = {
 
-    getConsultants ({ commit }) {
-        timesheet.getConsultants(consultants => {
-            commit('SET_CONSULTANTS', consultants)
+    getConsultants ({ commit, dispatch }) {
+        api.apiClient.get(`/api/consultants/list`, { crossDomain: true })
+        .then(response => {
+            commit('SET_CONSULTANTS', response.data)
+        })
+        .catch(e => {
+            dispatch('context/setNotification', { text: 'Couldn\'t read consultants from server. \n' + e.toString(), type: 'error' }, { root: true })
+            console.log(e) /* eslint-disable-line no-console */
         })
     },
 
