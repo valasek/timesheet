@@ -10,6 +10,7 @@ const getters = {}
 
 const actions = {
     getReportedHours ({ commit, dispatch }, month) {
+        commit('SET_LOADING', true)
         state.loading = true
         let monthNumber = (new Date(month).getMonth() + 1).toString()
         let options = { year: 'numeric', month: 'long' }
@@ -18,11 +19,11 @@ const actions = {
             .then(response => {
                 commit('SET_REPORTED_HOURS', response.data)
                 dispatch('context/setNotification', { text: monthText + ' data retrieved', type: '' }, { root: true })
-                state.loading = false
+                commit('SET_LOADING', false)
             })
             .catch(e => {
                 dispatch('context/setNotification', { text: 'Couldn\'t read reported records from server. \n' + e.toString(), type: 'error' }, { root: true })
-                state.loading = false
+                commit('SET_LOADING', false)
                 console.log(e) /* eslint-disable-line no-console */
             })
     },
@@ -109,6 +110,9 @@ const mutations = {
     UPDATE_RATE (state, payload) {
         let index = state.all.findIndex(obj => obj._id === payload._id)
         state.all[index].rate = payload.rate
+    },
+    SET_LOADING (state, payload) {
+        state.loading = payload
     }
 }
 

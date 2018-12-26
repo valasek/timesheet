@@ -1,41 +1,50 @@
-# Work time management with export plugins
-Time sheet web application.
+# Time sheet for consultants
+
+Web application to report consuting hours on projects using selected rates on a weekly bases. Supports export into csv.
 
 # Requirements
-Postgre SQL DB VERSION
+
+- Linux, Windows or macOS
+- Connnection to PostgreSQL
+- Updated data in csv format (consultants, projects, rates, initial reported records - optional)
 
 ## Todo
-- save edited values
+
+- IMPORTANT save edited values
 - overview
 -- show in days
 -- edit overtime and total working time per week, month
--- compare weekly reported time against nominanl total time
+-- compare weekly reported time against nominal total time
 - Export plugin to excel and csv
 
 # Fixes
+
 - NEW RECORD
--- fix wrong from and to dates
+-- IMPORTANT fix wrong from and to dates
 -- do not create new record if no consultant is selected
-- edit records
+- Edit records
 -- do not save the value id ESC is pressed
 
 ## Improvements business
-- ability to lock last week
+
+- Ability to lock last week
 - Remember my settings (which month, week, consultant)
 - show only available rates per project
 - Paginate and sort server-side - using vuetify data table
-- consistency checks
-- initial set up
+- Consistency checks
+- Initial set up
 -- add environment configuration - for cors on backend and frontend)
 -- seed DB, all and per table
-- Add billing evidence and export plugin
+- Add billing evidence
+- Export to csv plugin
+- Configure connection to a DB
 
 ## Improvements technical
+
 - config from file
 - email confirmation
 - logrus
 - letsencrypt tls
-- read 
 - administration of a DB - https://getqor.com/en
 https://medium.com/statuscode/how-i-write-go-http-services-after-seven-years-37c208122831
 - refactor routes as on https://www.codementor.io/codehakase/building-a-restful-api-with-golang-a6yivzqdo
@@ -43,17 +52,22 @@ https://medium.com/statuscode/how-i-write-go-http-services-after-seven-years-37c
 
 /* eslint-disable-line no-console */
 
-# Built on a shoulders of a giants
+# Standing on the shoulders of giants
+
 [Go](https://golang.org/), [Vue](https://vuejs.org/), [Vuetify](https://vuetifyjs.com/en/), [PostgreSQL](https://www.postgresql.org/)
 
 ## Backend
+
 - Middleware: [Negroni](https://github.com/urfave/negroni)
 - Router: [Gorilla](https://github.com/gorilla/mux)
-- Orm: [Gorm](https://github.com/jinzhu/gorm) (sqlite or postgres)
+- Orm: [Gorm](https://github.com/jinzhu/gorm) (with [PostgreSQL](https://www.postgresql.org/) persistence)
 - Jwt authentication: [jwt-go](https://github.com/dgrijalva/jwt-go) and [go-jwt-middleware](https://github.com/auth0/go-jwt-middleware)
-- [Vue.js](https://vuejs.org/) spa client with webpack
 - User management
 
+## Frontend
+
+- [Vue.js](https://vuejs.org/) spa client with webpack
+- [Vuetify](https://vuetifyjs.com/en/) - light theme
 
 # To get started
 
@@ -73,7 +87,7 @@ cd client
 npm install
 
 # serve with hot reload at localhost:8080
-npm run dev
+npm run serve
 
 # build for production with minification
 npm run build
@@ -81,4 +95,4 @@ npm run build
 
 # License
 
-TBD - MIT License  - see LICENSE for more details
+TBD maybe MIT License  - see LICENSE for more details

@@ -42,6 +42,8 @@
         </v-list-tile>
       </v-list>
 
+      <v-divider />
+
       <v-list>
         <v-list-tile>
           <div class="header ">
@@ -49,15 +51,29 @@
           </div>
         </v-list-tile>
         <v-list-tile>
-          <v-icon @click="previousWeek">
-            skip_previous
-          </v-icon>
-          {{ dateFrom.toLocaleDateString("en-US") }} - {{ dateTo.toLocaleDateString("en-US") }}
-          <v-icon @click="nextWeek">
-            skip_next
-          </v-icon>
+          <v-container fluid grid-list-xs>
+            <v-layout align-center justify-space-between row fill-height>
+              <v-flex xs1>
+                <v-icon @click="previousWeek">
+                  skip_previous
+                </v-icon>
+              </v-flex>
+              <v-flex xs8>
+                <div class="text-xs-center">
+                  {{ dateFrom.toLocaleDateString("en-US") }} - {{ dateTo.toLocaleDateString("en-US") }}
+                </div>
+              </v-flex>
+              <v-flex xs1>
+                <v-icon justify-end @click="nextWeek">
+                  skip_next
+                </v-icon>
+              </v-flex>
+            </v-layout>
+          </v-container>
         </v-list-tile>
       </v-list>
+
+      <v-divider />
 
       <v-list>
         <v-list-tile>
@@ -72,6 +88,7 @@
           </v-menu>
         </v-list-tile>
       </v-list>
+      <v-divider />
     </v-navigation-drawer>
 
     <v-toolbar app>
@@ -185,3 +202,10 @@
     }
   }
 </script>
+
+<style>
+/* workaround to remove spacing before week selector */
+div .container.fluid.grid-list-xs {
+  padding-left: 0px !important;
+}
+</style>
