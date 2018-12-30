@@ -26,6 +26,8 @@ Command first tests connection to DB. If succeeds it will load or clean db and e
 			api.ResetAPI(db)
 		} else if len(load) > 1 {
 			api.SeedAPI(db, load)
+		} else {
+			cmd.Help()
 		}
 	
 	},
@@ -34,9 +36,9 @@ Command first tests connection to DB. If succeeds it will load or clean db and e
 func init() {
 	rootCmd.AddCommand(dbCmd)
 
-	dbCmd.PersistentFlags().StringVarP(&load, "load", "l", "all", `Truncate DB table/tables and load initial data from files in folder ./data. Options:
+	dbCmd.PersistentFlags().StringVarP(&load, "load", "l", "", `Truncate DB table/tables and load initial data from files in folder ./data. Options:
 all - apply on all tables
-rates | consultants | projects | holidays - apply only on one selected table`)
+rates | consultants | projects | holidays | reported_records - apply only on one selected table`)
 	dbCmd.PersistentFlags().BoolVarP(&clean,"clean", "c", false, `Drop and create all required DB tables`)
 
 	// Cobra supports local flags which will only run when this command

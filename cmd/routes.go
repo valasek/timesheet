@@ -5,7 +5,7 @@ package cmd
 import (
 	"github.com/valasek/time-sheet/api"
 	"github.com/valasek/time-sheet/routes"
-	
+
 	"github.com/spf13/cobra"
 )
 

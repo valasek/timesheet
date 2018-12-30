@@ -6,12 +6,15 @@ import (
 	"os"
 	"reflect"
 	"runtime"
+	"text/tabwriter"
 
 	"github.com/gorilla/mux"
 	"github.com/valasek/time-sheet/api"
 	"github.com/valasek/time-sheet/auth"
 	"github.com/urfave/negroni"
 )
+
+var w *tabwriter.Writer
 
 // NewRoutes builds the routes for the api
 func NewRoutes(api *api.API) *mux.Router {
@@ -69,12 +72,16 @@ func NewRoutes(api *api.API) *mux.Router {
 // PrintRoutes prints all set routes
 func PrintRoutes (routes *mux.Router) {
 	fmt.Println("Available routes")
-	fmt.Println("[URI] [Methods] [Handler]")
+	w = new(tabwriter.Writer)
+	w.Init(os.Stdout, 0, 8, 1, '\t', 0)
+	fmt.Fprintln(w, "[URI]\t[Methods]\t[Handler]")
 	err := routes.Walk(gorillaWalkFn)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
+	fmt.Fprintln(w)
+	w.Flush()
 }
 
 func gorillaWalkFn(route *mux.Route, router *mux.Router, ancestors []*mux.Route) error {
@@ -89,6 +96,6 @@ func gorillaWalkFn(route *mux.Route, router *mux.Router, ancestors []*mux.Route)
 	if reflectValue.IsValid() {
 		handler = runtime.FuncForPC(reflectValue.Pointer()).Name()
 	}
-	fmt.Println(path, methods, handler)
+	fmt.Fprintln(w, path, "\t", methods, "\t", handler)
     return nil
 }
