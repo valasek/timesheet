@@ -1,6 +1,10 @@
 package models
 
 import (
+	"fmt"
+	"os"
+
+	"github.com/gocarina/gocsv"
 	"github.com/jinzhu/gorm"
 	// postgress db driver
 	_ "github.com/jinzhu/gorm/dialects/postgres"
@@ -12,6 +16,13 @@ type Rate struct {
 	ID         int64  `gorm:"column:Fid; primary_key:yes" json:"_id" `
 	Name       string `gorm:"not null" json:"name"`
 	// add reference to a client
+}
+
+// RateCSV csv struct
+type RateCSV struct {
+	ID        uint     `csv:"id`
+	CreatedAt DateTime `csv:"created_at"`
+	Name      string   `csv:"name"`
 }
 
 // RateManager struct
@@ -39,4 +50,35 @@ func (db *RateManager) RatesGetAll() []Rate {
 		return rates
 	}
 	return nil
+}
+
+// RateCount - return all records of Rates
+func (db *RateManager) RateCount() (int) {
+	rates := []Rate{}
+	var count int
+	if err := db.db.Find(&rates).Count(&count); err != nil {
+		return count
+	}
+	return 0
+}
+
+// RateSeed - will load data from data file
+func (db *RateManager) RateSeed(file string) int {
+
+	csvfile, err := os.OpenFile(file, os.O_RDWR, os.ModePerm)
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer csvfile.Close()
+
+	ratesCSV := []*ConsultantCSV{}
+	if err := gocsv.UnmarshalFile(csvfile, &ratesCSV); err != nil {
+		fmt.Println(err)
+	}
+	for _, r := range ratesCSV {
+		newR := Rate{gorm.Model{ID: r.ID, CreatedAt: r.CreatedAt.Time}, int64(r.ID), r.Name}
+		db.db.Create(&newR)
+	}
+
+	return len(ratesCSV)
 }

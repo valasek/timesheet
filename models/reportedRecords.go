@@ -1,9 +1,13 @@
 package models
 
 import (
+	"fmt"
+	"os"
 	"time"
-	
+
+	"github.com/gocarina/gocsv"
 	"github.com/jinzhu/gorm"
+
 	// postgress db driver
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
@@ -11,13 +15,25 @@ import (
 // ReportedRecord struct
 type ReportedRecord struct {
 	gorm.Model  `json:"-"`
-	ID          int64  `gorm:"column:Fid; primary_key:yes" json:"_id" `
+	ID          int64     `gorm:"column:Fid; primary_key:yes" json:"_id" `
 	Date        time.Time `gorm:"not null" json:"date"`
-	Hours       float32  `gorm:"not null" json:"hours"`
-	Project     string `gorm:"not null" json:"project"`
-	Description string `gorm:"not null" json:"description"`
-	Rate        string `gorm:"not null" json:"rate"`
-	Consultant  string `gorm:"not null" json:"consultant"`
+	Hours       float32   `gorm:"not null" json:"hours"`
+	Project     string    `gorm:"not null" json:"project"`
+	Description string    `gorm:"not null" json:"description"`
+	Rate        string    `gorm:"not null" json:"rate"`
+	Consultant  string    `gorm:"not null" json:"consultant"`
+}
+
+// ReportedRecordCSV csv struct
+type ReportedRecordCSV struct {
+	ID          uint     `csv:"id`
+	CreatedAt   DateTime `csv:"created_at"`
+	Date        Date     `csv:"date"`
+	Hours       float32  `csv:"hours"`
+	Project     string   `csv:"project"`
+	Description string   `csv:"description"`
+	Rate        string   `csv:"rate"`
+	Consultant  string   `csv:"consultant"`
 }
 
 // ReportedRecordManager struct
@@ -64,18 +80,49 @@ func (db *ReportedRecordManager) ReportedRecordsDelete(id string) []ReportedReco
 	return nil
 }
 
-// ReportedRecordUpdate - 
+// ReportedRecordUpdate -
 func (db *ReportedRecordManager) ReportedRecordUpdate(r ReportedRecord) ReportedRecord {
 	reportedRecord := ReportedRecord{
-		Date: r.Date,
-		Hours: r.Hours,
-		Project: r.Project,
+		Date:        r.Date,
+		Hours:       r.Hours,
+		Project:     r.Project,
 		Description: r.Description,
-		Rate: r.Rate,
-		Consultant: r.Consultant,
+		Rate:        r.Rate,
+		Consultant:  r.Consultant,
 	}
 	if err := db.db.Update(reportedRecord); err != nil {
 		return reportedRecord
 	}
 	return ReportedRecord{}
+}
+
+// ReportedRecordSeed - will load data from data file
+func (db *ReportedRecordManager) ReportedRecordSeed(file string) int {
+
+	csvfile, err := os.OpenFile(file, os.O_RDWR, os.ModePerm)
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer csvfile.Close()
+
+	recordsCSV := []*ReportedRecordCSV{}
+	if err := gocsv.UnmarshalFile(csvfile, &recordsCSV); err != nil {
+		fmt.Println(err)
+	}
+	for _, r := range recordsCSV {
+		newR := ReportedRecord{gorm.Model{ID: r.ID, CreatedAt: r.CreatedAt.Time}, int64(r.ID), r.Date.Time, r.Hours, r.Project, r.Description, r.Rate, r.Consultant}
+		db.db.Create(&newR)
+	}
+
+	return len(recordsCSV)
+}
+
+// ReportedRecordCount - 
+func (db *ReportedRecordManager) ReportedRecordCount() (int) {
+	reportedRecords := []ReportedRecord{}
+	var count int
+	if err := db.db.Find(&reportedRecords).Count(&count); err != nil {
+		return count
+	}
+	return 0
 }

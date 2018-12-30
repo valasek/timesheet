@@ -56,12 +56,12 @@ func NewRoutes(api *api.API) *mux.Router {
 	r.HandleFunc("/{id}", api.ReportedRecordUpdate).Methods("PUT")
 
 	// quotes
-	q := a.PathPrefix("/quote").Subrouter()
-	q.HandleFunc("/random", api.Quote).Methods("GET")
-	q.Handle("/protected/random", negroni.New(
-		negroni.HandlerFunc(auth.JwtMiddleware.HandlerWithNext),
-		negroni.Wrap(http.HandlerFunc(api.SecretQuote)),
-	))
+	// q := a.PathPrefix("/quote").Subrouter()
+	// q.HandleFunc("/random", api.Quote).Methods("GET")
+	// q.Handle("/protected/random", negroni.New(
+	// 	negroni.HandlerFunc(auth.JwtMiddleware.HandlerWithNext),
+	// 	negroni.Wrap(http.HandlerFunc(api.SecretQuote)),
+	// ))
 
 	return mux
 }

@@ -1,0 +1,24 @@
+### default configuration file
+
+dailyWorkingHours: 8 # Used for vacations and weekly and monthly expected working hours
+
+url: "127.0.0.1" # URL on which application is running
+port: "3000" # port on which application is running
+
+# Table to file names mapping
+
+dbType: "postgresql" # DB type
+postgresql:
+  host: "localhost"
+  port: "5432"
+  name: "time-sheet"
+  user: "time-sheet"
+  password: "time-sheet"
+  sslMode: "disable"
+
+# inital DB data files which are loaded via command "time-sheet db --load all"
+data:
+  consultants: "consultants.csv"
+  rates: "rates.csv"
+  projects: "projects.csv"
+  reportedRecords: "reportedRecords.csv"
