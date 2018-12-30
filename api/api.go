@@ -13,6 +13,7 @@ type API struct {
 	reportedRecords *models.ReportedRecordManager
 	projects *models.ProjectManager
 	rates *models.RateManager
+	holidays *models.HolidayManager
 }
 
 // NewAPI -
@@ -35,6 +36,10 @@ func NewAPI(db *models.DB) *API {
 	if err != nil {
 		fmt.Println(err)
 	}
+	holidaysmgr, err := models.NewHolidayManager(db)
+	if err != nil {
+		fmt.Println(err)
+	}
 
 	return &API{
 		// users:  usermgr,
@@ -42,6 +47,7 @@ func NewAPI(db *models.DB) *API {
 		reportedRecords: reportedrecordsmgr,
 		projects: projectsmgr,
 		rates: ratesmgr,
+		holidays: holidaysmgr,
 	}
 }
 
@@ -53,6 +59,7 @@ func ResetAPI(db *models.DB) {
 	db.DropTableIfExists(&models.ReportedRecord{})
 	db.DropTableIfExists(&models.Rate{})
 	db.DropTableIfExists(&models.Project{})
+	db.DropTableIfExists(&models.Holiday{})
 
 	fmt.Println("recreated tables:")
 	// usermgr, err := models.NewUserManager(db)
@@ -80,6 +87,11 @@ func ResetAPI(db *models.DB) {
 		fmt.Println(err)
 	}
 	fmt.Println("- rates")
+	models.NewHolidayManager(db)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println("- holidays")
 }
 
 // SeedAPI - loads initial data into DB
@@ -87,7 +99,7 @@ func SeedAPI(db *models.DB, table string) {
 	api := NewAPI(db)
 	fmt.Println("Loaded table, # of records, filename:")
 	switch table {
-	case "rates", "consultants", "projects", "reported_records":
+	case "rates", "consultants", "projects", "reported_records", "holidays":
 		SeedTable(api, table)
 	case "all":
 		// users
@@ -95,6 +107,7 @@ func SeedAPI(db *models.DB, table string) {
 		SeedTable(api, "consultants")
 		SeedTable(api, "projects")
 		SeedTable(api, "reported_records")
+		SeedTable(api, "holidays")
 	}
 }
 
@@ -129,6 +142,13 @@ func SeedTable(api *API, table string) (count int){
 		}
 		count = api.reportedRecords.ReportedRecordSeed("./data./" + viper.GetString("data.reportedRecords"))
 		fmt.Printf("- reported_records, %d records, %s\n", count, viper.GetString("data.reportedRecords"))
+	case "holidays":
+		if api.holidays.HolidayCount() > 0 {
+			fmt.Printf("- holidays, file %s skipped, table contains %d records\n", viper.GetString("data.holidays"), api.holidays.HolidayCount())
+			return 0
+		}
+		count = api.holidays.HolidaySeed("./data./" + viper.GetString("data.holidays"))
+		fmt.Printf("- holidays, %d records, %s\n", count, viper.GetString("data.holidays"))
 	default:
 		fmt.Printf("unknown table to seed: %s\n", table)
 	}
@@ -150,6 +170,14 @@ func CheckAndInitAPI(db *models.DB) (api *API) {
 	}
 	if api.projects.ProjectCount() == 0 {
 		SeedTable(api, "projects")
+		emptyTable = true
+	}
+	if api.reportedRecords.ReportedRecordCount() == 0 {
+		SeedTable(api, "reported_records")
+		emptyTable = true
+	}
+	if api.holidays.HolidayCount() == 0 {
+		SeedTable(api, "holidays")
 		emptyTable = true
 	}
 	if emptyTable {

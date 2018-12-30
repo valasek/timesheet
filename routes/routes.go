@@ -47,6 +47,9 @@ func NewRoutes(api *api.API) *mux.Router {
 	// rates
 	a.HandleFunc("/rates", api.RatesGetAll).Methods("GET")
 
+	// holidays
+	a.HandleFunc("/holidays", api.HolidaysGetAll).Methods("GET")
+
 	// reported records
 	a.HandleFunc("/reported", api.ReportedRecordsAddRecord).Methods("POST")
 	a.HandleFunc("/reported", api.ReportedRecordsGetAll).Methods("GET")

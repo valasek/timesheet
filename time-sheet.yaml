@@ -22,3 +22,4 @@ data:
   rates: "rates.csv"
   projects: "projects.csv"
   reportedRecords: "reportedRecords.csv"
+  holidays: "holidays_cz_2018.csv"
