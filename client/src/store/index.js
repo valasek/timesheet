@@ -4,6 +4,7 @@ import reportedHours from './modules/reportedHours'
 import consultants from './modules/consultants'
 import projects from './modules/projects'
 import rates from './modules/rates'
+import holidays from './modules/holidays'
 import context from './modules/context'
 import createLogger from './modules/logger'
 
@@ -17,7 +18,8 @@ export default new Vuex.Store({
         consultants,
         context,
         projects,
-        rates
+        rates,
+        holidays
     },
     strict: debug,
     plugins: debug ? [createLogger()] : []

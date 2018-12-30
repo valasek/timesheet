@@ -9,6 +9,7 @@ import './plugins/vuetify'
 
 import ReportTable from './components/ReportTable'
 import ShowReportedTime from './components/ShowReportedTime'
+import Holidays from './components/Holidays'
 import Help from './components/Help'
 
 Vue.use(VueRouter)
@@ -27,6 +28,11 @@ let router = new VueRouter({
       path: '/reported',
       name: 'reported',
       component: ShowReportedTime
+    },
+    {
+      path: '/Holidays',
+      name: 'holidays',
+      component: Holidays
     },
     {
       path: '/help',

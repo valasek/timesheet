@@ -13,7 +13,7 @@
       <template slot="items" slot-scope="props">
         <td>
           <!-- <v-menu :value="props.item.date" :close-on-content-click="true" :nudge-right="40" lazy transition="scale-transition" offset-y full-width min-width="290px"> -->
-          <v-menu :close-on-content-click="true" :nudge-right="40" lazy transition="scale-transition" offset-y full-width min-width="290px">
+          <v-menu :close-on-content-click="true" :nudge-right="40" lazy transition="scale-transition" offset-y full-width min-width="290px" @keyup.esc="model = false">
             <v-text-field slot="activator" :value="formatDate(props.item.date)" readonly />
             <v-date-picker first-day-of-week="1" :value="props.item.date" @input="onUpdateDate({_id: props.item._id, date: $event})" />
           </v-menu>

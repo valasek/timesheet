@@ -5,8 +5,9 @@ Web application to report consuting hours on projects using selected rates on a 
 # Requirements
 
 - Linux, Windows or macOS
-- Connnection to PostgreSQL
-- Updated data in csv format (consultants, projects, rates, initial reported records - optional)
+- DB connnection to PostgreSQL
+- Initial yearly data in csv format (dates should be entered in ISO format YYYY-MM-DD HH:MM:SS):
+-- consultants, projects, rates, holidays, initial reported records - optional). 
 
 ## Todo
 

@@ -7,13 +7,16 @@
       <v-layout row wrap>
         <v-flex xs4>
           <v-card>
-            <v-data-table :items="vacations" hide-actions hide-headers class="elevation-1">
+            <v-data-table :headers="headersV" :items="vacations" hide-actions class="elevation-1">
               <template slot="items" slot-scope="props">
                 <td class="text-xs-left">
                   {{ props.item.text }}
                 </td>
                 <td class="text-xs-left">
                   {{ props.item.value }}
+                </td>
+                <td class="text-xs-left">
+                  {{ props.item.value/dailyWorkingHours }}
                 </td>
               </template>
             </v-data-table>
@@ -21,13 +24,16 @@
         </v-flex>
         <v-flex xs4>
           <v-card>
-            <v-data-table :items="personalDays" hide-actions hide-headers class="elevation-1">
+            <v-data-table :headers="headersP" :items="personalDays" hide-actions class="elevation-1">
               <template slot="items" slot-scope="props">
                 <td class="text-xs-left">
                   {{ props.item.text }}
                 </td>
                 <td class="text-xs-left">
                   {{ props.item.value }}
+                </td>
+                <td class="text-xs-left">
+                  {{ props.item.value/dailyWorkingHours }}
                 </td>
               </template>
             </v-data-table>
@@ -35,13 +41,16 @@
         </v-flex>
         <v-flex xs4>
           <v-card>
-            <v-data-table :items="sickDays" hide-actions hide-headers class="elevation-1">
+            <v-data-table :headers="headersS" :items="sickDays" hide-actions class="elevation-1">
               <template slot="items" slot-scope="props">
                 <td class="text-xs-left">
                   {{ props.item.text }}
                 </td>
                 <td class="text-xs-left">
                   {{ props.item.value }}
+                </td>
+                <td class="text-xs-left">
+                  {{ props.item.value/dailyWorkingHours }}
                 </td>
               </template>
             </v-data-table>
@@ -59,13 +68,16 @@
           </v-card>
           <v-container grid-list-md text-xs-center>
             <v-card>
-              <v-data-table :items="monthlyOverview" hide-actions hide-headers class="elevation-1">
+              <v-data-table :headers="headers" :items="monthlyOverview" hide-actions class="elevation-1">
                 <template slot="items" slot-scope="props">
-                  <td class="text-xs-left">
+                  <td v-if="props.item.value !== ''" class="text-xs-left">
                     {{ props.item.text }}
                   </td>
-                  <td class="text-xs-left">
+                  <td v-if="props.item.value !== ''" class="text-xs-left">
                     {{ props.item.value }}
+                  </td>
+                  <td v-if="props.item.value !== ''" class="text-xs-left">
+                    {{ props.item.value/dailyWorkingHours }}
                   </td>
                 </template>
               </v-data-table>
@@ -80,13 +92,16 @@
           </v-card>
           <v-container grid-list-md text-xs-center>
             <v-card>
-              <v-data-table :items="weeklyOverview" hide-actions hide-headers class="elevation-1">
+              <v-data-table :headers="headers" :items="weeklyOverview" hide-actions class="elevation-1">
                 <template slot="items" slot-scope="props">
-                  <td class="text-xs-left">
+                  <td v-if="props.item.value !== ''" class="text-xs-left">
                     {{ props.item.text }}
                   </td>
-                  <td class="text-xs-left">
+                  <td v-if="props.item.value !== ''" class="text-xs-left">
                     {{ props.item.value }}
+                  </td>
+                  <td v-if="props.item.value !== ''" class="text-xs-left">
+                    {{ props.item.value/dailyWorkingHours }}
                   </td>
                 </template>
               </v-data-table>
@@ -106,6 +121,26 @@
 
     data () {
       return {
+        headers: [
+          { text: '', align: 'left', value: 'reported', sortable: false },
+          { text: 'Hours', align: 'left', value: 'hours', sortable: false },
+          { text: 'Days', align: 'left', value: 'dayes', sortable: false }
+        ],
+        headersV: [
+          { text: 'Vacations', align: 'left', value: 'vacations', sortable: false },
+          { text: 'Hours', align: 'left', value: 'hours', sortable: false },
+          { text: 'Days', align: 'left', value: 'dayes', sortable: false }
+        ],
+        headersP: [
+          { text: 'Personal Days', align: 'left', value: 'personalDays', sortable: false },
+          { text: 'Hours', align: 'left', value: 'hours', sortable: false },
+          { text: 'Days', align: 'left', value: 'dayes', sortable: false }
+        ],
+        headersS: [
+          { text: 'Sick Days', align: 'left', value: 'sickDays', sortable: false },
+          { text: 'Hours', align: 'left', value: 'hours', sortable: false },
+          { text: 'Days', align: 'left', value: 'dayes', sortable: false }
+        ]
       }
     },
 
@@ -125,16 +160,17 @@
         reportedHours: state => state.reportedHours.all,
         dateFrom: state => state.reportedHours.dateFrom,
         dateTo: state => state.reportedHours.dateTo,
-        selectedConsultants: state => state.consultants.selected
+        selectedConsultants: state => state.consultants.selected,
+        dailyWorkingHours: state => state.context.dailyWorkingHours
       }),
       vacations () {
         return [
           {
-            text: 'Remaining vacations',
+            text: 'Remaining',
             value: 25
           },
           {
-            text: 'Reported vacations',
+            text: 'Reported',
             value: 10
           }
         ]
@@ -142,11 +178,11 @@
       personalDays () {
         return [
           {
-            text: 'Remaining personal days',
+            text: 'Remaining',
             value: 15
           },
           {
-            text: 'Reported personal days',
+            text: 'Reported',
             value: 17
           }
         ]
@@ -154,11 +190,11 @@
       sickDays () {
         return [
           {
-            text: 'Remaining sick days',
+            text: 'Remaining',
             value: 10
           },
           {
-            text: 'Reported sick days',
+            text: 'Reported',
             value: 7
           }
         ]
@@ -167,7 +203,7 @@
         return [
           {
             text: 'Available working hours',
-            value: 18 * 8
+            value: 18 * this.dailyWorkingHours
           },
           {
             text: 'Reported working hours',
@@ -215,7 +251,7 @@
         return [
           {
             text: 'Available working hours',
-            value: 18 * 8
+            value: this.getWeekdaysInMonth('', '') * this.dailyWorkingHours
           },
           {
             text: 'Reported working hours',
@@ -266,6 +302,24 @@
     },
 
     methods: {
+      getDaysInMonth (month, year) {
+        let date = new Date(year, month, 0).getDate()
+        return date
+      },
+      isWeekday (year, month, day) {
+        let date = new Date(year, month, day).getDay()
+        return date !== 0 && date !== 6
+      },
+      getWeekdaysInMonth (month, year) {
+        month = '12'
+        year = '2018'
+        let days = this.getDaysInMonth(month, year)
+        let weekdays = 0
+        for (let i = 0; i < days; i++) {
+          if (this.isWeekday(year, month, i + 1)) weekdays++
+        }
+        return weekdays
+      },
       getTotals (hours, rate) {
         let h = hours.reduce(
           function (total, current) {

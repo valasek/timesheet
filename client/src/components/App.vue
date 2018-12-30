@@ -133,7 +133,8 @@
         monthMenu: false,
         items: [
           { title: 'Report my work', icon: 'dashboard', route: 'report' },
-          { title: 'Show reported work', icon: 'question_answer', route: 'reported' }
+          { title: 'Show reported work', icon: 'question_answer', route: 'reported' },
+          { title: 'State holidays', icon: 'card_travel', route: 'holidays' }
         ],
         right: null
       }
@@ -180,6 +181,7 @@
       this.$store.dispatch('consultants/getConsultants')
       this.$store.dispatch('projects/getProjects')
       this.$store.dispatch('rates/getRates')
+      this.$store.dispatch('holidays/getHolidays')
       this.$store.dispatch('reportedHours/getReportedHours', this.dateMonth)
     },
 

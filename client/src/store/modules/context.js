@@ -10,7 +10,8 @@ const state = {
     notificationType: defaultNotificationType, // success, info, error - snackbar types https://vuetifyjs.com/en/components/snackbars#introduction
     dateMonth: new Date().toISOString().substr(0, 7),
     dateFrom: getMonday(new Date()),
-    dateTo: getSunday(new Date())
+    dateTo: getSunday(new Date()),
+    dailyWorkingHours: 8
 }
 
 const getters = {}
