@@ -39,24 +39,20 @@ func NewRoutes(api *api.API) *mux.Router {
 	))
 
 	// consultants
-	c := a.PathPrefix("/consultants").Subrouter()
-	c.HandleFunc("/list", api.ConsultantList).Methods("GET")
+	a.HandleFunc("/consultants", api.ConsultantList).Methods("GET")
 
 	// projects
-	p := a.PathPrefix("/projects").Subrouter()
-	p.HandleFunc("/list", api.ProjectsGetAll).Methods("GET")
+	a.HandleFunc("/projects", api.ProjectsGetAll).Methods("GET")
 
 	// rates
-	rates := a.PathPrefix("/rates").Subrouter()
-	rates.HandleFunc("/list", api.RatesGetAll).Methods("GET")
+	a.HandleFunc("/rates", api.RatesGetAll).Methods("GET")
 
 	// reported records
-	r := a.PathPrefix("/reported").Subrouter()
-	r.HandleFunc("/", api.ReportedRecordsAddRecord).Methods("POST")
-	r.HandleFunc("/all", api.ReportedRecordsGetAll).Methods("GET")
-	r.HandleFunc("/month/{month}", api.ReportedRecordsInMonth).Methods("GET")
-	r.HandleFunc("/{id}", api.ReportedRecordDelete).Methods("DELETE")
-	r.HandleFunc("/{id}", api.ReportedRecordUpdate).Methods("PUT")
+	a.HandleFunc("/reported", api.ReportedRecordsAddRecord).Methods("POST")
+	a.HandleFunc("/reported", api.ReportedRecordsGetAll).Methods("GET")
+	a.HandleFunc("/reported/month/{month}", api.ReportedRecordsInMonth).Methods("GET")
+	a.HandleFunc("/reported/{id}", api.ReportedRecordDelete).Methods("DELETE")
+	a.HandleFunc("/reported/{id}", api.ReportedRecordUpdate).Methods("PUT")
 
 	// quotes
 	// q := a.PathPrefix("/quote").Subrouter()

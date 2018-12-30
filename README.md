@@ -32,18 +32,12 @@ Web application to report consuting hours on projects using selected rates on a 
 - show only available rates per project
 - Paginate and sort server-side - using vuetify data table
 - Consistency checks
-- Initial set up
--- add environment configuration - for cors on backend and frontend)
--- seed DB, all and per table
 - Add billing evidence
 - Export to csv plugin
-- Configure connection to a DB
 
 ## Improvements technical
 
-- config from file
 - email confirmation
-- logrus
 - letsencrypt tls
 - administration of a DB - https://getqor.com/en
 https://medium.com/statuscode/how-i-write-go-http-services-after-seven-years-37c208122831

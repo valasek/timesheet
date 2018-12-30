@@ -11,7 +11,7 @@ const getters = {}
 const actions = {
 
     getConsultants ({ commit, dispatch }) {
-        api.apiClient.get(`/api/consultants/list`, { crossDomain: true })
+        api.apiClient.get(`/api/consultants`, { crossDomain: true })
         .then(response => {
             commit('SET_CONSULTANTS', response.data)
         })

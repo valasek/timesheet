@@ -10,7 +10,7 @@ const getters = {}
 const actions = {
 
     getProjects ({ commit, dispatch }) {
-        api.apiClient.get(`/api/projects/list`, { crossDomain: true })
+        api.apiClient.get(`/api/projects`, { crossDomain: true })
             .then(response => {
                 commit('SET_PROJECTS', response.data)
             })
