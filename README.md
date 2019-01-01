@@ -11,7 +11,10 @@ Web application to report consulting hours on projects using selected rates on a
 
 ## Todo
 
-- IMPORTANT save edited values
+- IMPORTANT
+/-- save edited date
+-- create new record
+-- duplicate record
 - overview
 -- show in days
 -- edit overtime and total working time per week, month
@@ -25,6 +28,7 @@ Web application to report consulting hours on projects using selected rates on a
 -- do not create new record if no consultant is selected
 - Edit records
 -- do not save the value id ESC is pressed
+-- Do not call backend 2x e.g. for updateDescription 
 
 ## Improvements business
 

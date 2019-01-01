@@ -13,6 +13,13 @@ type DB struct {
 	*gorm.DB
 }
 
+// UpdatedValue used to pass updated ReportedRecord value type and relevant ID
+type UpdatedValue struct {
+	ID int64
+	Type string
+	Value string
+}
+
 // DateTime used for csv marshalling and unmarshalling
 type DateTime struct {
 	time.Time

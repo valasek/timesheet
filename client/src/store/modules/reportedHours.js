@@ -61,25 +61,15 @@ const actions = {
                     console.log(e) /* eslint-disable-line no-console */
                 })
         },
-    updateDate ({ commit }, payload) {
-            console.log('updateDate', payload) /* eslint-disable-line no-console */
-            commit('UPDATE_DATE', payload)
-        },
-    updateProject ({ commit }, payload) {
-        console.log('updateProject', payload) /* eslint-disable-line no-console */
-        commit('UPDATE_PROJECT', payload)
-    },
-    updateHours ({ commit }, payload) {
-        console.log('updateHours', payload) /* eslint-disable-line no-console */
-        commit('UPDATE_HOURS', payload)
-    },
-    updateDescription ({ commit }, payload) {
-        console.log('updateDescription', payload) /* eslint-disable-line no-console */
-        commit('UPDATE_DESCRIPTION', payload)
-    },
-    updateRate ({ commit }, payload) {
-        console.log('updateRate', payload) /* eslint-disable-line no-console */
-        commit('UPDATE_RATE', payload)
+    updateAttributeValue ({ commit, dispatch }, payload) {
+        api.apiClient.put('/api/reported/' + payload.id, payload)
+            .then(response => {
+                commit('UPDATE_ATTRIBUTE_VALUE', payload)
+            })
+            .catch(e => {
+                dispatch('context/setNotification', { text: 'Couldn\'t update' + payload.type + 'on server. \n' + e.toString(), type: 'error' }, { root: true })
+                console.log(e) /* eslint-disable-line no-console */
+            })
     }
 }
 
@@ -94,25 +84,27 @@ const mutations = {
     REMOVE_RECORD (state, index) {
         state.all.splice(index, 1)
     },
-    UPDATE_DATE (state, payload) {
-        let index = state.all.findIndex(obj => obj._id === payload._id)
-        state.all[index].date = payload.date
-    },
-    UPDATE_PROJECT (state, payload) {
-        let index = state.all.findIndex(obj => obj._id === payload._id)
-        state.all[index].project = payload.project
-    },
-    UPDATE_HOURS (state, payload) {
-        let index = state.all.findIndex(obj => obj._id === payload._id)
-        state.all[index].hours = payload.hours
-    },
-    UPDATE_DESCRIPTION (state, payload) {
-        let index = state.all.findIndex(obj => obj._id === payload._id)
-        state.all[index].description = payload.description
-    },
-    UPDATE_RATE (state, payload) {
-        let index = state.all.findIndex(obj => obj._id === payload._id)
-        state.all[index].rate = payload.rate
+    UPDATE_ATTRIBUTE_VALUE (state, payload) {
+        let index = state.all.findIndex(obj => obj._id === payload.id)
+        switch (payload.type) {
+        case 'description':
+            state.all[index].description = payload.value
+            break
+        case 'hours':
+            state.all[index].hours = payload.value
+            break
+        case 'rate':
+            state.all[index].rate = payload.value
+            break
+        case 'project':
+            state.all[index].project = payload.value
+            break
+        case 'date':
+            state.all[index].date = payload.value
+            break
+        default:
+            console.log('UPDATE_ATTRIBUTE_VALUE unknown attribute type', payload) /* eslint-disable-line no-console */
+        }
     },
     SET_LOADING (state, payload) {
         state.loading = payload

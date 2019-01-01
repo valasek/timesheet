@@ -24,7 +24,7 @@
             {{ props.item.hours }}
             <v-text-field slot="input" :value="props.item.hours" label="Hours" single-line
                           type="number" min="0" max="20" step="0.5" maxlength="2"
-                          @input="onUpdateHours({_id: props.item._id, hours: $event})"
+                          @change="onUpdateHours({_id: props.item._id, hours: $event})"
             />
           </v-edit-dialog>
         <!-- {{ props.item.hours }} -->
@@ -34,7 +34,7 @@
             {{ props.item.project }}
             <v-select slot="input" :value="props.item.project" item-text="name" item-value="name"
                       :items="assignedProjects" label="Project" :dense="true" :hide-selected="true"
-                      @input="onUpdateProject({_id: props.item._id, project: $event})"
+                      @change="onUpdateProject({_id: props.item._id, project: $event})"
             />
           </v-edit-dialog>
           <!-- {{ props.item.project }} -->
@@ -53,7 +53,7 @@
             {{ props.item.rate }}
             <v-select slot="input" :value="props.item.rate" item-text="name" item-value="name"
                       :items="rates" label="Rate" :dense="true" :hide-selected="true"
-                      @input="onUpdateRate({_id: props.item._id, rate: $event})"
+                      @change="onUpdateRate({_id: props.item._id, rate: $event})"
             />
           </v-edit-dialog>
           <!-- {{ props.item.rate }} -->
@@ -135,25 +135,45 @@
     },
 
     methods: {
-      onUpdateProject (newProject) {
-        console.log(newProject) /* eslint-disable-line no-console */
-        this.$store.dispatch('reportedHours/updateProject', newProject)
+      onUpdateProject (newValue) {
+        let payload = {
+          id: newValue._id,
+          type: 'project',
+          value: newValue.project
+        }
+        this.$store.dispatch('reportedHours/updateAttributeValue', payload)
       },
-      onUpdateDate (newDate) {
-        console.log(newDate) /* eslint-disable-line no-console */
-        this.$store.dispatch('reportedHours/updateDate', newDate)
+      onUpdateDate (newValue) {
+        let payload = {
+          id: newValue._id,
+          type: 'description',
+          value: newValue.description
+        }
+        this.$store.dispatch('reportedHours/updateAttributeValue', payload)
       },
-      onUpdateHours (newHours) {
-        console.log(newHours) /* eslint-disable-line no-console */
-        this.$store.dispatch('reportedHours/updateHours', newHours)
+      onUpdateHours (newValue) {
+        let payload = {
+          id: newValue._id,
+          type: 'hours',
+          value: newValue.hours
+        }
+        this.$store.dispatch('reportedHours/updateAttributeValue', payload)
       },
-      onUpdateDescription (newDescription) {
-        console.log(newDescription) /* eslint-disable-line no-console */
-        this.$store.dispatch('reportedHours/updateDescription', newDescription)
+      onUpdateDescription (newValue) {
+        let payload = {
+          id: newValue._id,
+          type: 'description',
+          value: newValue.description
+        }
+        this.$store.dispatch('reportedHours/updateAttributeValue', payload)
       },
-      onUpdateRate (newRate) {
-        console.log(newRate) /* eslint-disable-line no-console */
-        this.$store.dispatch('reportedHours/updateRate', newRate)
+      onUpdateRate (newValue) {
+        let payload = {
+          id: newValue._id,
+          type: 'rate',
+          value: newValue.rate
+        }
+        this.$store.dispatch('reportedHours/updateAttributeValue', payload)
       },
       initialize () {
         console.log('Get data clicked') /* eslint-disable-line no-console */

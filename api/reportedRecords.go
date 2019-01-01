@@ -42,16 +42,17 @@ func (api *API) ReportedRecordDelete(w http.ResponseWriter, req *http.Request) {
 
 // ReportedRecordUpdate updates record
 func (api *API) ReportedRecordUpdate(w http.ResponseWriter, req *http.Request) {
-	vars := mux.Vars(req)
-	ID := vars["id"]
-	if len(ID) < 1 {
-		fmt.Println("ReportedRecordUpdate, param 'id' is missing")
+	decoder := json.NewDecoder(req.Body)
+	var updatedValue models.UpdatedValue
+	err := decoder.Decode(&updatedValue)
+	fmt.Println(updatedValue)
+	if err != nil {
+		fmt.Printf("unable to decode reported record %s, error: %s", req.Body, err)
 		return
 	}
 	// https://www.programming-books.io/essential/go/2f90f3ba9eab401699dbb119feab6665-handling-http-method-accessing-query-strings-request-body
-
-	//reportedRecord := api.reportedRecords.ReportedRecordUpdate( req.Body )
-	// json.NewEncoder(w).Encode(reportedRecord)
+	reportedRecord := api.reportedRecords.ReportedRecordUpdate( updatedValue )
+	json.NewEncoder(w).Encode(reportedRecord)
 }
 
 // ReportedRecordsAddRecord add new record

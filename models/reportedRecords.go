@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"time"
+	"strconv"
 
 	"github.com/gocarina/gocsv"
 	"github.com/jinzhu/gorm"
@@ -81,17 +82,30 @@ func (db *ReportedRecordManager) ReportedRecordsDelete(id string) []ReportedReco
 }
 
 // ReportedRecordUpdate -
-func (db *ReportedRecordManager) ReportedRecordUpdate(r ReportedRecord) ReportedRecord {
-	reportedRecord := ReportedRecord{
-		Date:        r.Date,
-		Hours:       r.Hours,
-		Project:     r.Project,
-		Description: r.Description,
-		Rate:        r.Rate,
-		Consultant:  r.Consultant,
+func (db *ReportedRecordManager) ReportedRecordUpdate(r UpdatedValue) ReportedRecord {
+	updateValue := UpdatedValue{
+		ID:        r.ID,
+		Type:       r.Type,
+		Value:     r.Value,
 	}
-	if err := db.db.Update(reportedRecord); err != nil {
-		return reportedRecord
+	reportedRecord := ReportedRecord{}
+	// handle attribute types
+	switch r.Type {
+	case "hours":
+		value, err := strconv.ParseFloat(updateValue.Value, 64)
+		if err != nil {
+			fmt.Println(err)
+		}
+		if err := db.db.First(&reportedRecord, updateValue.ID).Update(updateValue.Type, value); err != nil {
+			return reportedRecord
+		}
+	case "description", "rate", "project":
+		if err := db.db.First(&reportedRecord, updateValue.ID).Update(updateValue.Type, updateValue.Value); err != nil {
+			return reportedRecord
+		}
+	default:
+		fmt.Println("unknown attribute type: ", r.Type)
+		return ReportedRecord{}
 	}
 	return ReportedRecord{}
 }
