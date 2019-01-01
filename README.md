@@ -1,4 +1,4 @@
-# Time sheet for consultants
+# Timesheet for consultants
 
 Web application to report consulting hours on projects using selected rates on a weekly bases. Supports export into csv.
 
@@ -90,4 +90,4 @@ npm run build
 
 # License
 
-MIT License  - see LICENSE for more details
+[MIT license](./LICENSE.md) - see LICENSE for more details
