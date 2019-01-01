@@ -15,7 +15,7 @@ import (
 // ReportedRecord struct
 type ReportedRecord struct {
 	gorm.Model  `json:"-"`
-	ID          int64     `gorm:"column:Fid; primary_key:yes" json:"_id" `
+	ID          int64     `gorm:"column:Fid; primary_key:yes" json:"_id"`
 	Date        time.Time `gorm:"not null" json:"date"`
 	Hours       float32   `gorm:"not null" json:"hours"`
 	Project     string    `gorm:"not null" json:"project"`
@@ -26,7 +26,7 @@ type ReportedRecord struct {
 
 // ReportedRecordCSV csv struct
 type ReportedRecordCSV struct {
-	ID          uint     `csv:"id`
+	ID          uint     `csv:"id"`
 	CreatedAt   DateTime `csv:"created_at"`
 	Date        Date     `csv:"date"`
 	Hours       float32  `csv:"hours"`

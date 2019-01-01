@@ -12,10 +12,10 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
-// Project struct
+// Holiday struct
 type Holiday struct {
 	gorm.Model  `json:"-"`
-	ID          int64     `gorm:"column:Fid; primary_key:yes" json:"_id" `
+	ID          int64     `gorm:"column:Fid; primary_key:yes" json:"_id"`
 	Date        time.Time `gorm:"not null" json:"date"`
 	Description string    `gorm:"not null" json:"description"`
 	// add reference to a client
@@ -23,7 +23,7 @@ type Holiday struct {
 
 // HolidayCSV csv struct
 type HolidayCSV struct {
-	ID          uint     `csv:"id`
+	ID          uint     `csv:"id"`
 	CreatedAt   DateTime `csv:"created_at"`
 	Date        Date     `csv:"date"`
 	Description string   `csv:"description"`

@@ -1,0 +1,6 @@
+id,created_at,date,hours,project,description,rate,consultant
+1,"2016-06-22 19:10:25","2019-01-01",8,"_Public Holiday","","Public holiday","John Lasseter"
+2,"2016-06-22 19:10:25","2019-01-01",8,"_Public Holiday","","Public holiday","Stanislav Valasek"
+3,"2016-06-22 19:10:25","2019-01-02",8,"_Vacation","","Vacation","John Lasseter"
+4,"2016-06-22 19:10:25","2019-01-02",8,"_Training","Knowledge base study","Off-site","Stanislav Valasek"
+5,"2016-06-22 19:10:25","2019-01-03",2,"_Sick","Teeth doctor","Sick","John Lasseter"

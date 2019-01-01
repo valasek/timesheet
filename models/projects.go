@@ -14,14 +14,14 @@ import (
 // Project struct
 type Project struct {
 	gorm.Model `json:"-"`
-	ID         int64  `gorm:"column:Fid; primary_key:yes" json:"_id" `
+	ID         int64  `gorm:"column:Fid; primary_key:yes" json:"_id"`
 	Name       string `gorm:"not null" json:"name"`
 	// add reference to a client
 }
 
 // ProjectCSV csv struct
 type ProjectCSV struct {
-	ID        uint     `csv:"id`
+	ID        uint     `csv:"id"`
 	CreatedAt DateTime `csv:"created_at"`
 	Name      string   `csv:"name"`
 }

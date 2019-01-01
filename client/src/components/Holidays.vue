@@ -56,7 +56,7 @@
         const [year, , day] = date.slice(0, 10).split('-')
         let monthName = months[new Date(date).getMonth()]
         let dayName = weekdays[new Date(date).getDay()]
-        return `${dayName} / ${monthName} ${day} , ${year}`
+        return `${dayName}, ${monthName} ${day}, ${year}`
       }
     }
   }

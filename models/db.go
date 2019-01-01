@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/postgres"
+	_ "github.com/jinzhu/gorm/dialects/postgres" // needed becouse of gorm design
 	// _ "github.com/jinzhu/gorm/dialects/sqlite"
 )
 

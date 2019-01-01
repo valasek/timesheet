@@ -90,4 +90,4 @@ npm run build
 
 # License
 
-TBD maybe MIT License  - see LICENSE for more details
+MIT License  - see LICENSE for more details

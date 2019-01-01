@@ -16,3 +16,4 @@ tmp
 # private seed data
 timesheet-data.xlsx
 ~$timesheet-data.xlsx
+*_prod.csv

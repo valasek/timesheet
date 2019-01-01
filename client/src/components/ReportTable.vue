@@ -168,13 +168,15 @@
         let newRecord = {}
         newRecord._id = null
         newRecord.consultant = this.selectedConsultants
-        let monthM = new Date(this.dateMonth).toString
-        const [year, monthD, day] = this.dateFrom.toLocaleDateString('en-US').slice(0, 10).split('/')
-        console.log(this.dateFrom, this.dateTo, year, monthM, day, monthD) /* eslint-disable-line no-console */
+        let monthM = new Date(this.dateMonth).toString()
+        // const [year, monthD, day] = this.dateFrom.toLocaleDateString('en-US').slice(0, 10).split('/')
+        let monthD = this.dateFrom.getMonth()
+        // console.log(this.dateFrom, this.dateTo, year, monthM, day, monthD) /* eslint-disable-line no-console */
+        console.log(this.dateFrom, this.dateTo, monthM, monthD) /* eslint-disable-line no-console */
         if (monthM === monthD) {
-          newRecord.date = this.dateFrom.toISOString().substr(0, 10)
+          newRecord.date = this.dateFrom // .toISOString().substr(0, 10)
         } else {
-          newRecord.date = this.dateTo.toISOString().substr(0, 10)
+          newRecord.date = this.dateTo // .toISOString().substr(0, 10)
         }
         newRecord.hours = '8'
         newRecord.rate = 'Off-site'

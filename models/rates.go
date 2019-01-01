@@ -13,14 +13,14 @@ import (
 // Rate struct
 type Rate struct {
 	gorm.Model `json:"-"`
-	ID         int64  `gorm:"column:Fid; primary_key:yes" json:"_id" `
+	ID         int64  `gorm:"column:Fid; primary_key:yes" json:"_id"`
 	Name       string `gorm:"not null" json:"name"`
 	// add reference to a client
 }
 
 // RateCSV csv struct
 type RateCSV struct {
-	ID        uint     `csv:"id`
+	ID        uint     `csv:"id"`
 	CreatedAt DateTime `csv:"created_at"`
 	Name      string   `csv:"name"`
 }

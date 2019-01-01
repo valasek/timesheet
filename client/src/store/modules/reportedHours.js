@@ -49,7 +49,10 @@ const actions = {
     //         })
     // },
     addRecord ({ commit, dispatch }, payload) {
-        api.apiClient.post('/api/reported/', payload)
+        console.log(payload) /* eslint-disable-line no-console */
+        // payload.date = '2018–09–22T12:42:31+07:00'
+        console.log(payload) /* eslint-disable-line no-console */
+        api.apiClient.post('/api/reported', payload)
                 .then(response => {
                     commit('ADD_RECORD', payload)
                 })

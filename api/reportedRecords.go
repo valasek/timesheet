@@ -2,6 +2,9 @@ package api
 
 import (
 	"fmt"
+
+	"github.com/valasek/time-sheet/models"
+
 	"net/http"
 	"encoding/json"
 	"github.com/gorilla/mux"
@@ -53,9 +56,18 @@ func (api *API) ReportedRecordUpdate(w http.ResponseWriter, req *http.Request) {
 
 // ReportedRecordsAddRecord add new record
 func (api *API) ReportedRecordsAddRecord(w http.ResponseWriter, req *http.Request) {
-	_id := 999
+	decoder := json.NewDecoder(req.Body)
+	var reportedRecord models.ReportedRecord
+	err := decoder.Decode(&reportedRecord)
+	if err != nil {
+		fmt.Println("unable to decode reported record, error: ", err)
+		return
+	}
+	fmt.Println(reportedRecord)
 
+	fmt.Println("ReportedRecordsAddRecord")
 	fmt.Println(req.Body)
 
-	json.NewEncoder(w).Encode(_id)
+	id := "1234" 
+	json.NewEncoder(w).Encode(id)
 }

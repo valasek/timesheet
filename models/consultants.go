@@ -15,13 +15,13 @@ import (
 // Consultant struct
 type Consultant struct {
 	gorm.Model `json:"-"`
-	ID         int64  `gorm:"column:Fid; primary_key:yes" json:"_id" `
+	ID         int64  `gorm:"column:Fid; primary_key:yes" json:"_id"`
 	Name       string `gorm:"not null;unique" json:"name"`
 }
 
 // ConsultantCSV csv struct
 type ConsultantCSV struct {
-	ID        uint     `csv:"id`
+	ID        uint     `csv:"id"`
 	CreatedAt DateTime `csv:"created_at"`
 	Name      string    `csv:"name"`
 }
@@ -73,7 +73,7 @@ func (db *ConsultantManager) ConsultantSeed(file string) int {
 	return len(consultantsCSV)
 }
 
-// ConsultantsCount - 
+// ConsultantCount - 
 func (db *ConsultantManager) ConsultantCount() (int) {
 	consultants := []Consultant{}
 	var count int
