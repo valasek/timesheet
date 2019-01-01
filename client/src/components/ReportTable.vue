@@ -146,8 +146,8 @@
       onUpdateDate (newValue) {
         let payload = {
           id: newValue._id,
-          type: 'description',
-          value: newValue.description
+          type: 'date',
+          value: newValue.date
         }
         this.$store.dispatch('reportedHours/updateAttributeValue', payload)
       },

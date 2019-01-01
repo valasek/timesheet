@@ -80,6 +80,9 @@
               <v-date-picker v-model="dateMonth" :landscape="false" type="month" @change="monthMenu = false" />
             </v-menu>
           </v-list-tile>
+          <v-list-tile>
+            <v-switch v-model="previousWeeksUnLock" :label="previousWeeksUnLockText" color="error" hide-details />
+          </v-list-tile>
         </v-list-group>
       </v-list>
     </v-navigation-drawer>
@@ -140,6 +143,21 @@
         },
         set (newValue) {
           this.$store.dispatch('context/resetNotification')
+        }
+      },
+      previousWeeksUnLock: {
+        get () {
+          return this.$store.state.context.previousWeeksUnLock
+        },
+        set (newValue) {
+          this.$store.dispatch('context/TogglePreviousWeeksUnLock')
+        }
+      },
+      previousWeeksUnLockText () {
+        if (this.$store.state.context.previousWeeksUnLock) {
+          return 'Previous weeks unlocked'
+        } else {
+          return 'Previous weeks locked'
         }
       },
       dateMonth: {

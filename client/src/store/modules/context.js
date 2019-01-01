@@ -11,7 +11,8 @@ const state = {
     dateMonth: new Date().toISOString().substr(0, 7),
     dateFrom: getMonday(new Date()),
     dateTo: getSunday(new Date()),
-    dailyWorkingHours: 8
+    dailyWorkingHours: 8,
+    previousWeeksUnLock: false
 }
 
 const getters = {}
@@ -23,13 +24,14 @@ const actions = {
         dispatch('jumpToWeek', monday)
         commit('SET_MONTH', month)
     },
-
     setNotification ({ commit }, payload) {
         commit('SET_NOTIFICATION', payload)
     },
-
     resetNotification ({ commit }) {
         commit('RESET_NOTIFICATION')
+    },
+    TogglePreviousWeeksUnLock ({ commit }) {
+        commit('TOGGLE_PREVIOUS_WEEKS_UNLOCK')
     },
     changeWeek ({ commit }, direction) {
         commit('SET_WEEK', direction)
@@ -82,6 +84,10 @@ const mutations = {
         state.notification = false
         state.notificationText = ''
         state.notificationType = defaultNotificationType
+    },
+
+    TOGGLE_PREVIOUS_WEEKS_UNLOCK (state) {
+        state.previousWeeksUnLock = !state.previousWeeksUnLock
     }
 
 }

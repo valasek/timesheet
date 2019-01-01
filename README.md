@@ -12,26 +12,24 @@ Web application to report consulting hours on projects using selected rates on a
 ## Todo
 
 - IMPORTANT
-/-- save edited date
--- create new record
--- duplicate record
+  - create new record
+  - duplicate record
 - overview
--- show in days
--- edit overtime and total working time per week, month
--- compare weekly reported time against nominal total time
+  - show in days
+  - edit overtime and total working time per week, month
+  - compare weekly reported time against nominal total time
 - Export plugin to excel and csv
 
 # Fixes
 
 - NEW RECORD
--- IMPORTANT fix wrong from and to dates
--- do not create new record if no consultant is selected
+  - IMPORTANT fix wrong from and to dates
+  - do not create new record if no consultant is selected
 - Edit records
--- do not save the value id ESC is pressed
--- Do not call backend 2x e.g. for updateDescription 
+  - do not save the value id ESC is pressed
+  - Do not call backend 2x e.g. for updateDescription 
 
 ## Improvements business
-
 - Ability to lock last week
 - show only available rates per project
 - Paginate and sort server-side - using vuetify data table
@@ -42,14 +40,10 @@ Web application to report consulting hours on projects using selected rates on a
 ## Improvements technical
 
 - email confirmation
-
 - letsencrypt tls
-
 - move remembered state from local storage to the backend once user entity available
-
 - administration of a DB - https://getqor.com/en
 https://medium.com/statuscode/how-i-write-go-http-services-after-seven-years-37c208122831
-
 - refactor routes as on https://www.codementor.io/codehakase/building-a-restful-api-with-golang-a6yivzqdo
 - connect Vue with go - https://juliensalinas.com/en/golang-API-backend-vuejs-SPA-frontend-docker-modern-application/
 

@@ -103,6 +103,14 @@ func (db *ReportedRecordManager) ReportedRecordUpdate(r UpdatedValue) ReportedRe
 		if err := db.db.First(&reportedRecord, updateValue.ID).Update(updateValue.Type, updateValue.Value); err != nil {
 			return reportedRecord
 		}
+	case "date":
+		value, err := time.Parse("2006-01-02", updateValue.Value)
+		if err != nil {
+			fmt.Println(err)
+		}
+		if err := db.db.First(&reportedRecord, updateValue.ID).Update(updateValue.Type, value); err != nil {
+			return reportedRecord
+		}
 	default:
 		fmt.Println("unknown attribute type: ", r.Type)
 		return ReportedRecord{}
