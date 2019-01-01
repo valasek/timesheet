@@ -42,10 +42,14 @@ Web application to report consulting hours on projects using selected rates on a
 ## Improvements technical
 
 - email confirmation
+
 - letsencrypt tls
+
 - move remembered state from local storage to the backend once user entity available
+
 - administration of a DB - https://getqor.com/en
 https://medium.com/statuscode/how-i-write-go-http-services-after-seven-years-37c208122831
+
 - refactor routes as on https://www.codementor.io/codehakase/building-a-restful-api-with-golang-a6yivzqdo
 - connect Vue with go - https://juliensalinas.com/en/golang-API-backend-vuejs-SPA-frontend-docker-modern-application/
 
@@ -77,7 +81,7 @@ cd $GOPATH/src/github.com/valasek/timesheet
 
 # install Go dependencies (and make sure ports 3000/8080 are open)
 go get -u ./... 
-go run server.go
+go run timesheet.go
 
 # open a new terminal and change to the client dir
 cd client
