@@ -4,7 +4,7 @@ const defaultNotificationType = 'info'
 
 // initial state
 const state = {
-    page: 'Time Sheet',
+    page: 'Timesheet',
     notification: false,
     notificationText: '',
     notificationType: defaultNotificationType, // success, info, error - snackbar types https://vuetifyjs.com/en/components/snackbars#introduction

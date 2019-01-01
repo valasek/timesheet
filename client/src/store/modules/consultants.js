@@ -2,7 +2,7 @@ import api from '../../api/axiosSettings'
 
 // initial state
 const state = {
-    all: [ ],
+    all: [],
     selected: ''
 }
 
@@ -31,10 +31,17 @@ const mutations = {
 
     SET_CONSULTANTS (state, consultants) {
         state.all = consultants
+        let c = localStorage.getItem('selectedConsultant')
+        if (c && c.length > 0) {
+            state.selected = c
+        } else {
+            state.selected = consultants[0].name
+        }
     },
 
-    SET_SELECTED (state, selectedConsultants) {
-        state.selected = selectedConsultants
+    SET_SELECTED (state, selectedConsultant) {
+        state.selected = selectedConsultant
+        localStorage.setItem('selectedConsultant', selectedConsultant)
     }
 
 }

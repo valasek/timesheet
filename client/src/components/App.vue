@@ -9,7 +9,7 @@
         <v-list>
           <v-list-tile>
             <v-list-tile-title class="title">
-              Time sheets
+              Timesheet
             </v-list-tile-title>
           </v-list-tile>
         </v-list>
@@ -38,7 +38,7 @@
           </div>
         </v-list-tile>
         <v-list-tile>
-          <v-select :items="consultants" item-text="name" item-value="name" @change="changeConsultant" />
+          <v-select v-model="selectedConsultant" :items="consultants.all" item-text="name" item-value="name" />
         </v-list-tile>
       </v-list>
 
@@ -158,20 +158,20 @@
           this.$store.dispatch('reportedHours/getReportedHours', newValue)
         }
       },
+      selectedConsultant: {
+        set (newValue) {
+          this.$store.dispatch('consultants/setSelected', newValue)
+        },
+        get () {
+          return this.consultants.selected
+        }
+      },
       ...mapState({
         notificationText: state => state.context.notificationText,
         notificationType: state => state.context.notificationType,
         dateFrom: state => state.context.dateFrom,
         dateTo: state => state.context.dateTo,
-        consultants: state => state.consultants.all,
-        selectedConsultants: {
-          set (newValue) {
-            this.$store.dispatch('consultants/setSelected', newValue)
-          },
-          get () {
-            return this.consultants.selected
-          }
-        },
+        consultants: state => state.consultants,
         page: state => state.context.page
       })
     },
@@ -179,16 +179,13 @@
     created () {
       this.$store.dispatch('context/resetNotification')
       this.$store.dispatch('consultants/getConsultants')
+      this.$store.dispatch('reportedHours/getReportedHours', this.dateMonth)
       this.$store.dispatch('projects/getProjects')
       this.$store.dispatch('rates/getRates')
       this.$store.dispatch('holidays/getHolidays')
-      this.$store.dispatch('reportedHours/getReportedHours', this.dateMonth)
     },
 
     methods: {
-      changeConsultant (ids) {
-        this.$store.dispatch('consultants/setSelected', ids)
-      },
 
       previousWeek () {
         this.$store.dispatch('context/changeWeek', 'previous')
@@ -198,9 +195,6 @@
         this.$store.dispatch('context/changeWeek', 'next')
       }
 
-      // computedDateFormattedDatefns () {
-      //   return this.dateMonth ? format(this.dateMonth, 'dddd, MMMM Do YYYY') : ''
-      // }
     }
   }
 </script>
