@@ -3,7 +3,7 @@
 package main
 
 import (
-	"github.com/valasek/time-sheet/cmd"
+	"github.com/valasek/timesheet/cmd"
 )
 
 func main() {

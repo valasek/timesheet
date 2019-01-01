@@ -9,8 +9,8 @@ import (
 	"text/tabwriter"
 
 	"github.com/gorilla/mux"
-	"github.com/valasek/time-sheet/api"
-	"github.com/valasek/time-sheet/auth"
+	"github.com/valasek/timesheet/api"
+	"github.com/valasek/timesheet/auth"
 	"github.com/urfave/negroni"
 )
 

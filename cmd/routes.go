@@ -3,8 +3,8 @@
 package cmd
 
 import (
-	"github.com/valasek/time-sheet/api"
-	"github.com/valasek/time-sheet/routes"
+	"github.com/valasek/timesheet/api"
+	"github.com/valasek/timesheet/routes"
 
 	"github.com/spf13/cobra"
 )

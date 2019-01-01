@@ -2,7 +2,7 @@ package api
 
 import (
 	"fmt"
-	"github.com/valasek/time-sheet/models"
+	"github.com/valasek/timesheet/models"
 	"github.com/spf13/viper"
 )
 

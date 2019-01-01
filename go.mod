@@ -1,4 +1,4 @@
-module github.com/valasek/time-sheet
+module github.com/valasek/timesheet
 
 require (
 	cloud.google.com/go v0.34.0 // indirect

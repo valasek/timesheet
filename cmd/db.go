@@ -3,7 +3,7 @@
 package cmd
 
 import (
-	"github.com/valasek/time-sheet/api"
+	"github.com/valasek/timesheet/api"
 	"github.com/spf13/cobra"
 )
 
@@ -15,7 +15,7 @@ var (
 // dbCmd represents the db command
 var dbCmd = &cobra.Command{
 	Use:   "db",
-	Short: "Loads or cleans DB. See time-sheet help db",
+	Short: "Loads or cleans DB. See timesheet help db",
 	Long: `Loads or cleans DB.
 	
 Command first tests connection to DB. If succeeds it will load or clean db and exit.`,

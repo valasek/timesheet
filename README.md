@@ -1,11 +1,11 @@
 # Time sheet for consultants
 
-Web application to report consuting hours on projects using selected rates on a weekly bases. Supports export into csv.
+Web application to report consulting hours on projects using selected rates on a weekly bases. Supports export into csv.
 
 # Requirements
 
 - Linux, Windows or macOS
-- DB connnection to PostgreSQL
+- DB connection to PostgreSQL
 - Initial yearly data in csv format (dates should be entered in ISO format YYYY-MM-DD HH:MM:SS):
 -- consultants, projects, rates, holidays, initial reported records - optional). 
 
@@ -68,8 +68,8 @@ https://medium.com/statuscode/how-i-write-go-http-services-after-seven-years-37c
 
 ``` bash
 # clone repository
-go get github.com/valasek/time-sheet
-cd $GOPATH/src/github.com/valasek/time-sheet
+go get github.com/valasek/timesheet
+cd $GOPATH/src/github.com/valasek/timesheet
 
 # install Go dependencies (and make sure ports 3000/8080 are open)
 go get -u ./... 

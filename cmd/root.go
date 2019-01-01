@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/valasek/time-sheet/models"
+	"github.com/valasek/timesheet/models"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -16,10 +16,10 @@ var cfgFile string
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "time-sheet",
-	Version: "time-sheet 0.0.1",
-	Short: "Web based time-sheet application with DB persistence",
-	Long: `Web based time-sheet application with DB persistence.
+	Use:   "timesheet",
+	Version: "timesheet 0.0.1",
+	Short: "Web based timesheet application with DB persistence",
+	Long: `Web based timesheet application with DB persistence.
 	
 Application reads DB and server configuration from config.toml, loads default data if DB is empty and launch web GUI.`,
 	// Uncomment the following line if your bare application
@@ -63,7 +63,7 @@ func init() {
 	// Here you will define your flags and configuration settings.
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is ./time-sheet.yaml)")
+	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is ./timesheet.yaml)")
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
@@ -86,7 +86,7 @@ func initConfig() {
 
 		// Search config in current directory "./" (without extension).
 		viper.AddConfigPath(curDir)
-		viper.SetConfigName("time-sheet")
+		viper.SetConfigName("timesheet")
 	}
 
 	viper.AutomaticEnv() // read in environment variables that match

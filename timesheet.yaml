@@ -11,12 +11,12 @@ dbType: "postgresql" # DB type
 postgresql:
   host: "localhost"
   port: "5432"
-  name: "time-sheet"
-  user: "time-sheet"
-  password: "time-sheet"
+  name: "timesheet"
+  user: "timesheet"
+  password: "timesheet"
   sslMode: "disable"
 
-# inital DB data files which are loaded via command "time-sheet db --load all"
+# initial DB data files which are loaded via command "timesheet db --load all"
 data:
   consultants: "consultants_demo.csv"
   rates: "rates_demo.csv"
