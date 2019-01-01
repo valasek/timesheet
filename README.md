@@ -29,7 +29,6 @@ Web application to report consulting hours on projects using selected rates on a
 ## Improvements business
 
 - Ability to lock last week
-- Remember my settings (which month, week, consultant)
 - show only available rates per project
 - Paginate and sort server-side - using vuetify data table
 - Consistency checks
@@ -40,6 +39,7 @@ Web application to report consulting hours on projects using selected rates on a
 
 - email confirmation
 - letsencrypt tls
+- move remembered state from local storage to the backend once user entity available
 - administration of a DB - https://getqor.com/en
 https://medium.com/statuscode/how-i-write-go-http-services-after-seven-years-37c208122831
 - refactor routes as on https://www.codementor.io/codehakase/building-a-restful-api-with-golang-a6yivzqdo

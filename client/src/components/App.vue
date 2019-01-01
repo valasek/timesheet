@@ -27,68 +27,61 @@
             <v-list-tile-title>{{ item.title }}</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
+
+        <v-list-group prepend-icon="settings" value="true">
+          <v-list-tile slot="activator">
+            <v-list-tile-title>Settings</v-list-tile-title>
+          </v-list-tile>
+
+          <v-list-tile>
+            <div class="header ">
+              Consultant
+            </div>
+          </v-list-tile>
+          <v-list-tile>
+            <v-select v-model="selectedConsultant" :items="consultants.all" item-text="name" item-value="name" />
+          </v-list-tile>
+
+          <v-list-tile>
+            <div class="header ">
+              Week
+            </div>
+          </v-list-tile>
+          <v-list-tile>
+            <v-container fluid grid-list-xs>
+              <v-layout align-center justify-space-between row fill-height>
+                <v-flex xs1>
+                  <v-icon @click="previousWeek">
+                    skip_previous
+                  </v-icon>
+                </v-flex>
+                <v-flex xs8>
+                  <div class="text-xs-center">
+                    {{ dateFrom.toLocaleDateString("en-US") }} - {{ dateTo.toLocaleDateString("en-US") }}
+                  </div>
+                </v-flex>
+                <v-flex xs1>
+                  <v-icon justify-end @click="nextWeek">
+                    skip_next
+                  </v-icon>
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-list-tile>
+
+          <v-list-tile>
+            <div class="header ">
+              Month
+            </div>
+          </v-list-tile>
+          <v-list-tile>
+            <v-menu v-model="monthMenu" :close-on-content-click="true" full-width max-width="290">
+              <v-text-field slot="activator" :value="dateMonth" readonly />
+              <v-date-picker v-model="dateMonth" :landscape="false" type="month" @change="monthMenu = false" />
+            </v-menu>
+          </v-list-tile>
+        </v-list-group>
       </v-list>
-
-      <v-divider />
-
-      <v-list>
-        <v-list-tile>
-          <div class="header ">
-            Consultant
-          </div>
-        </v-list-tile>
-        <v-list-tile>
-          <v-select v-model="selectedConsultant" :items="consultants.all" item-text="name" item-value="name" />
-        </v-list-tile>
-      </v-list>
-
-      <v-divider />
-
-      <v-list>
-        <v-list-tile>
-          <div class="header ">
-            Week
-          </div>
-        </v-list-tile>
-        <v-list-tile>
-          <v-container fluid grid-list-xs>
-            <v-layout align-center justify-space-between row fill-height>
-              <v-flex xs1>
-                <v-icon @click="previousWeek">
-                  skip_previous
-                </v-icon>
-              </v-flex>
-              <v-flex xs8>
-                <div class="text-xs-center">
-                  {{ dateFrom.toLocaleDateString("en-US") }} - {{ dateTo.toLocaleDateString("en-US") }}
-                </div>
-              </v-flex>
-              <v-flex xs1>
-                <v-icon justify-end @click="nextWeek">
-                  skip_next
-                </v-icon>
-              </v-flex>
-            </v-layout>
-          </v-container>
-        </v-list-tile>
-      </v-list>
-
-      <v-divider />
-
-      <v-list>
-        <v-list-tile>
-          <div class="header ">
-            Month
-          </div>
-        </v-list-tile>
-        <v-list-tile>
-          <v-menu v-model="monthMenu" :close-on-content-click="true" full-width max-width="290">
-            <v-text-field slot="activator" :value="dateMonth" readonly />
-            <v-date-picker v-model="dateMonth" :landscape="false" type="month" @change="monthMenu = false" />
-          </v-menu>
-        </v-list-tile>
-      </v-list>
-      <v-divider />
     </v-navigation-drawer>
 
     <v-toolbar app>
@@ -112,7 +105,7 @@
     </v-content>
     <v-footer app>
       <v-flex text-xs-center>
-        2018 &copy; <strong>DataArch</strong>
+        2018 &copy; <strong>Stanislav Valasek</strong>
       </v-flex>
     </v-footer>
   </v-app>
@@ -200,8 +193,9 @@
 </script>
 
 <style>
-/* workaround to remove spacing before week selector */
+/* workaround to remove spacing before and above week selector */
 div .container.fluid.grid-list-xs {
   padding-left: 0px !important;
+  padding-top: 0px !important;
 }
 </style>
