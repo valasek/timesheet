@@ -12,6 +12,7 @@
 vendor
 node_modules
 tmp
+build/
 
 # private seed data
 timesheet-data.xlsx

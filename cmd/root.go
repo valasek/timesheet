@@ -49,7 +49,8 @@ func ConnectDB() (db *models.DB) {
 							   " password=" + viper.GetString("postgresql.password") +
 							   " sslmode=" + viper.GetString("postgresql.SSLMode")
 			db = models.NewPostgresDB(connectionString)
-			fmt.Println("connected to DB:", connectionString, "\n")
+			fmt.Println("connected to DB:  ", connectionString)
+			fmt.Println("")
 		default:
 			fmt.Println("supported DB types (postgresql), set: ", DBType)
 			os.Exit(1)

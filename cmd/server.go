@@ -29,7 +29,7 @@ projects, rates, consultants and holidays. If succeeds it will start server.`,
 		r := routes.NewRoutes(api)
 		n := negroni.Classic()
 		c := cors.New(cors.Options{
-			AllowedOrigins: []string{"http://localhost*"},
+			AllowedOrigins: []string{"http://localhost*", "http://127.0.0.1*"},
 			AllowedMethods: []string{"GET", "POST", "PUT", "DELETE"},
 		})
 		n.Use(c)
