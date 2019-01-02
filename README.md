@@ -12,12 +12,12 @@ Web application to report consulting hours on projects using selected rates on a
 - Linux, Windows or macOS
 - DB connection to PostgreSQL
 - Initial yearly data in csv format (dates should be entered in ISO format YYYY-MM-DD HH:MM:SS):
--- consultants, projects, rates, holidays, initial reported records - optional). 
+  - consultants, projects, rates, holidays, initial reported records - optional). 
 
 # Download - alpha release
-* [timesheet.exe](https://github.com/valasek/rajce-get/releases/download/v0.0.1/timesheet.exe) (MS Windows 64bit)
-* please build from source (Linux 64bit)
-* please build from source (Mac OS X 64bit)
+* [timesheet.zip](https://github.com/valasek/timesheet/releases/download/0.0.1/timesheet.zip) (MS Windows 64bit)
+* build from source (Linux 64bit)
+* build from source (Mac OS X 64bit)
 
 # Usage
 
