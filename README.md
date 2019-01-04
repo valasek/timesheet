@@ -65,6 +65,8 @@ Use "timesheet [command] --help" for more information about a command.
 - IMPORTANT
   - create new record
   - duplicate record
+  - always show full week, calculate month inputs correctly
+  - auto retrieve weekly data from backend when week is changed
 - overview
   - show in days
   - edit overtime and total working time per week, month
@@ -73,12 +75,8 @@ Use "timesheet [command] --help" for more information about a command.
 
 ## Fixes
 
-- NEW RECORD
-  - IMPORTANT fix wrong from and to dates
-  - do not create new record if no consultant is selected
 - Edit records
   - do not save the value id ESC is pressed
-  - Do not call backend 2x e.g. for updateDescription 
 
 ## Improvements business
 - Ability to lock last week

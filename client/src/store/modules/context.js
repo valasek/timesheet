@@ -1,4 +1,4 @@
-import { addDays, subDays } from 'date-fns'
+import moment from 'moment-timezone'
 
 const defaultNotificationType = 'info'
 
@@ -9,8 +9,9 @@ const state = {
     notificationText: '',
     notificationType: defaultNotificationType, // success, info, error - snackbar types https://vuetifyjs.com/en/components/snackbars#introduction
     dateMonth: new Date().toISOString().substr(0, 7),
-    dateFrom: getMonday(new Date()),
-    dateTo: getSunday(new Date()),
+    dateFrom: moment.tz({}, 'Europe/Prague').startOf('isoWeek'),
+    dateTo: moment.tz({}, 'Europe/Prague').endOf('isoWeek'),
+    timeZone: 'Europe/Prague',
     dailyWorkingHours: 8,
     previousWeeksUnLock: false
 }
@@ -20,7 +21,7 @@ const getters = {}
 const actions = {
 
     setMonth ({ commit, dispatch }, month) {
-        let monday = getMonday(new Date(month))
+        let monday = moment.tz({}, 'Europe/Prague').startOf('isoWeek')
         dispatch('jumpToWeek', monday)
         commit('SET_MONTH', month)
     },
@@ -35,10 +36,10 @@ const actions = {
     },
     changeWeek ({ commit }, direction) {
         commit('SET_WEEK', direction)
-    },
-    jumpToWeek ({ commit }, monday) {
-        commit('JUMP_TO_WEEK', monday)
     }
+    // jumpToWeek ({ commit }, monday) {
+    //     commit('JUMP_TO_WEEK', monday)
+    // }
 }
 
 const mutations = {
@@ -52,24 +53,23 @@ const mutations = {
     },
 
     SET_WEEK (state, direction) {
-        let targetMonday = {}
+        console.log(direction, state.dateFrom.format(), state.dateTo.format()) /* eslint-disable-line no-console */
         switch (direction) {
             case 'previous':
-                targetMonday = subDays(state.dateFrom, 7)
+                state.dateFrom = moment(state.dateFrom).subtract(7, 'days')
+                state.dateTo = moment(state.dateTo).subtract(7, 'days')
                 break
             case 'next':
-                targetMonday = addDays(state.dateTo, 7)
+                state.dateFrom = moment(state.dateFrom).add(7, 'days')
+                state.dateTo = moment(state.dateTo).add(7, 'days')
                 break
-            default:
-                return
         }
-        state.dateFrom = targetMonday
-        state.dateTo = addDays(targetMonday, 7)
+        console.log(direction, state.dateFrom.format(), state.dateTo.format()) /* eslint-disable-line no-console */
     },
 
-    JUMP_TO_WEEK (state, monday) {
-        state.dateFrom = monday
-        state.dateTo = addDays(monday, 7)
+    JUMP_TO_WEEK (state, month) {
+        state.dateFrom = month.startOf('isoWeek')
+        state.dateTo = month.endOf('isoWeek')
     },
 
     SET_NOTIFICATION (state, payload) {
@@ -92,17 +92,27 @@ const mutations = {
 
 }
 
-function getMonday (date) {
-    let day = date.getDay() || 7
-    if (day !== 1) { date.setHours(-24 * (day - 1)) }
-    return date
-}
+// function getMonday (date) {
+//     let d = date.getDate()
+//     let day = date.getDay() || 7
+//     let m = date.getMonth()
+//     let y = date.getFullYear()
+//     let newDate = new Date(y, m, d)
+//     console.log('newDate:', newDate) /* eslint-disable-line no-console */
+//     if (day !== 1) { newDate.setHours(-24 * (day - 1)) }
+//     console.log('newDate:', newDate) /* eslint-disable-line no-console */
+//     return newDate
+// }
 
-function getSunday (date) {
-    let day = date.getDay() || 7
-    if (day !== 7) { date.setHours(24 * (7 - day)) }
-    return date
-}
+// function getSunday (date) {
+//     let d = date.getDate()
+//     let day = date.getDay() || 7
+//     let m = date.getMonth()
+//     let y = date.getFullYear()
+//     let newDate = new Date(y, m, d)
+//     if (day !== 7) { newDate.setHours(24 * (7 - day)) }
+//     return newDate
+// }
 
 export default {
     namespaced: true,

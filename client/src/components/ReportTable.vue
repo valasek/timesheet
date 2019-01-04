@@ -5,6 +5,8 @@
         <v-text-field v-model="search" append-icon="search" label="Search" single-line />
       </v-toolbar-title>
       <v-spacer />
+      <v-label>{{ reportedThisWeek }} hours reported this week</v-label>
+      <v-spacer />
       <v-btn color="primary" dark class="mb-2" @click="addItem">
         new record
       </v-btn>
@@ -69,7 +71,7 @@
       </template>
       <template slot="no-data">
         <v-alert :value="true" color="info" icon="info">
-          Change month, select consultant or no reported hours this week :(
+          No reported hours this week :(
         </v-alert>
       </template>
     </v-data-table>
@@ -111,6 +113,13 @@
           // report.date = this.formatDate(report.date)
           return (d >= this.dateFrom && d <= this.dateTo && report.consultant === this.selectedConsultants)
         })
+      },
+      reportedThisWeek () {
+        let rep = 0.0
+        for (let i = 0; i < this.selectedReportedHours.length; i++) {
+          rep = rep + this.selectedReportedHours[i].hours
+        }
+        return rep
       },
       ...mapState({
         reportedHours: state => state.reportedHours.all,
@@ -175,32 +184,24 @@
         }
         this.$store.dispatch('reportedHours/updateAttributeValue', payload)
       },
-      initialize () {
-        console.log('Get data clicked') /* eslint-disable-line no-console */
-      },
       formatDate (date) {
         if (!date) return null
-
-        const [year, month, day] = date.slice(0, 10).split('-')
-        return `${month}/${day}/${year}`
+        // console.log('before slice') /* eslint-disable-line no-console */
+        const [, month, day] = date.slice(0, 10).split('-')
+        // console.log('after slice') /* eslint-disable-line no-console */
+        let weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+        let dayName = weekdays[new Date(date).getDay()]
+        return `${dayName} ${month}/${day}`
       },
       addItem (item) {
         let newRecord = {}
         newRecord._id = null
         newRecord.consultant = this.selectedConsultants
-        let monthM = new Date(this.dateMonth).toString()
-        // const [year, monthD, day] = this.dateFrom.toLocaleDateString('en-US').slice(0, 10).split('/')
-        let monthD = this.dateFrom.getMonth()
-        // console.log(this.dateFrom, this.dateTo, year, monthM, day, monthD) /* eslint-disable-line no-console */
-        console.log(this.dateFrom, this.dateTo, monthM, monthD) /* eslint-disable-line no-console */
-        if (monthM === monthD) {
-          newRecord.date = this.dateFrom // .toISOString().substr(0, 10)
-        } else {
-          newRecord.date = this.dateTo // .toISOString().substr(0, 10)
-        }
-        newRecord.hours = '8'
+        console.log('from:', this.dateFrom) /* eslint-disable-line no-console */
+        newRecord.date = this.dateFrom.format('YYYY-MM-DD')
+        console.log('date to ISO:', newRecord.date) /* eslint-disable-line no-console */
+        newRecord.hours = 8
         newRecord.rate = 'Off-site'
-        console.log(newRecord) /* eslint-disable-line no-console */
         this.$store.dispatch('reportedHours/addRecord', newRecord)
       },
       duplicateItem (item) {

@@ -38,25 +38,16 @@ const actions = {
                 console.log(e) /* eslint-disable-line no-console */
             })
     },
-    // here should be payload not id and record
-    // updateRecord ({ commit }, id, record) {
-    //     apiClient.put('/api/reported/' + id, record)
-    //         .then(response => {
-    //             commit('UPDATE_RECORD', record)
-    //         })
-    //         .catch(e => {
-    //             console.log(e) /* eslint-disable-line no-console */
-    //         })
-    // },
     addRecord ({ commit, dispatch }, payload) {
         console.log(payload) /* eslint-disable-line no-console */
         // payload.date = '2018–09–22T12:42:31+07:00'
-        console.log(payload) /* eslint-disable-line no-console */
+        // console.log(payload) /* eslint-disable-line no-console */
         api.apiClient.post('/api/reported', payload)
                 .then(response => {
                     commit('ADD_RECORD', payload)
                 })
                 .catch(e => {
+                    // rollback !!!
                     dispatch('context/setNotification', { text: 'Couldn\'t duplicate selected record on server. \n' + e.toString(), type: 'error' }, { root: true })
                     console.log(e) /* eslint-disable-line no-console */
                 })

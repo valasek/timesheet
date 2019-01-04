@@ -57,7 +57,7 @@
                 </v-flex>
                 <v-flex xs8>
                   <div class="text-xs-center">
-                    {{ dateFrom.toLocaleDateString("en-US") }} - {{ dateTo.toLocaleDateString("en-US") }}
+                    {{ formatDate(dateFrom) }} - {{ formatDate(dateTo) }}
                   </div>
                 </v-flex>
                 <v-flex xs1>
@@ -69,7 +69,7 @@
             </v-container>
           </v-list-tile>
 
-          <v-list-tile>
+          <!-- <v-list-tile>
             <div class="header ">
               Month
             </div>
@@ -79,7 +79,7 @@
               <v-text-field slot="activator" :value="dateMonth" readonly />
               <v-date-picker v-model="dateMonth" :landscape="false" type="month" @change="monthMenu = false" />
             </v-menu>
-          </v-list-tile>
+          </v-list-tile> -->
           <v-list-tile>
             <v-switch v-model="previousWeeksUnLock" :label="previousWeeksUnLockText" color="error" hide-details />
           </v-list-tile>
@@ -117,6 +117,7 @@
 <script>
   import ReportTable from './ReportTable'
   import { mapState } from 'vuex'
+  import moment from 'moment-timezone'
 
   export default {
     name: 'App',
@@ -126,7 +127,7 @@
 
     data () {
       return {
-        monthMenu: false,
+        // monthMenu: false,
         items: [
           { title: 'Report my work', icon: 'dashboard', route: 'report' },
           { title: 'Show reported work', icon: 'question_answer', route: 'reported' },
@@ -204,6 +205,11 @@
 
       nextWeek () {
         this.$store.dispatch('context/changeWeek', 'next')
+      },
+
+      formatDate (date) {
+        let a = moment(date, 'YYYY-MM-DD').format('MMM Do')
+        return a
       }
 
     }
