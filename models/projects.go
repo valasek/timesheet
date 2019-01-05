@@ -3,25 +3,25 @@ package models
 import (
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/gocarina/gocsv"
-	"github.com/jinzhu/gorm"
-
 	// postgress db driver
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
 // Project struct
 type Project struct {
-	gorm.Model `json:"-"`
-	ID         int64  `gorm:"column:Fid; primary_key:yes" json:"_id"`
-	Name       string `gorm:"not null" json:"name"`
+	ID        uint64     `gorm:"primary_key" json:"id"`
+	CreatedAt time.Time  `json:"-"`
+	UpdatedAt time.Time  `json:"-"`
+	DeletedAt *time.Time `json:"-"`
+	Name      string     `gorm:"not null" json:"name"`
 	// add reference to a client
 }
 
 // ProjectCSV csv struct
 type ProjectCSV struct {
-	ID        uint     `csv:"id"`
 	CreatedAt DateTime `csv:"created_at"`
 	Name      string   `csv:"name"`
 }
@@ -67,7 +67,7 @@ func (db *ProjectManager) ProjectSeed(file string) int {
 		fmt.Println(err)
 	}
 	for _, p := range projectsCSV {
-		newP := Project{gorm.Model{ID: p.ID, CreatedAt: p.CreatedAt.Time}, int64(p.ID), p.Name}
+		newP := Project{CreatedAt: p.CreatedAt.Time, Name: p.Name}
 		db.db.Create(&newP)
 	}
 
@@ -75,7 +75,7 @@ func (db *ProjectManager) ProjectSeed(file string) int {
 }
 
 // ProjectCount - return all records of Rates
-func (db *ProjectManager) ProjectCount() (int) {
+func (db *ProjectManager) ProjectCount() int {
 	projects := []Project{}
 	var count int
 	if err := db.db.Find(&projects).Count(&count); err != nil {

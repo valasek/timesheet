@@ -7,9 +7,9 @@ IF EXIST .\build\timesheet.exe del .\build\timesheet.exe
 IF EXIST .\build\timesheet.app del .\build\timesheet.app
 IF EXIST .\build\timesheet.bin del .\build\timesheet.bin
 IF EXIST .\build\timesheet.yaml del .\build\timesheet.yaml
-IF EXIST .\build\MS_Windows_64b.zip del .\build\MS_Windows_64b.zip
-IF EXIST .\build\Linux_64b.zip del .\build\Linux_64b.zip
-IF EXIST .\build\Mac_OS_X_64b.zip del .\build\Mac_OS_X_64b.zip
+IF EXIST .\build\MS_Windows_64bit.zip del .\build\MS_Windows_64bit.zip
+IF EXIST .\build\Linux_64bit.zip del .\build\Linux_64bit.zip
+IF EXIST .\build\Mac_OS_X_64bit.zip del .\build\Mac_OS_X_64bit.zip
 IF EXIST ".\build\client\dist\" @RD /S /Q ".\build\client\dist"
 
 ECHO ======================
@@ -38,9 +38,9 @@ go build -o .\build\timesheet.app .\timesheet.go
 ECHO =========================
 ECHO Compressing artifacts ...
 cd .\build
-call %zip% a -r MS_Windows_64b.zip timesheet.exe timesheet.yaml client/
-call %zip% a -r Linux_64b.zip ./timesheet.bin ./timesheet.yaml client/
-call %zip% a -r Mac_OS_X_64b.zip ./timesheet.app ./timesheet.yaml client/
+call %zip% a -r MS_Windows_64bit.zip timesheet.exe timesheet.yaml client/
+call %zip% a -r Linux_64bit.zip ./timesheet.bin ./timesheet.yaml client/
+call %zip% a -r Mac_OS_X_64bit.zip ./timesheet.app ./timesheet.yaml client/
 cd ..
 
 ECHO ===========

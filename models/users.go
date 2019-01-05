@@ -1,7 +1,7 @@
 package models
 
 import (
-	"github.com/jinzhu/gorm"
+	"time"
 	// postgress db driver
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	// import sqlite3 driver
@@ -12,10 +12,13 @@ import (
 
 // User struct
 type User struct {
-	gorm.Model `json:"-"`
-	Username   string `gorm:"not null;unique" json:"username"`
-	Password   string `gorm:"not null" json:"-"`
-	UUID       string `gorm:"not null;unique" json:"uuid"`
+	ID        uint64     `gorm:"primary_key" json:"id"`
+	CreatedAt time.Time  `json:"-"`
+	UpdatedAt time.Time  `json:"-"`
+	DeletedAt *time.Time `json:"-"`
+	Username  string     `gorm:"not null;unique" json:"username"`
+	Password  string     `gorm:"not null" json:"-"`
+	UUID      string     `gorm:"not null;unique" json:"uuid"`
 }
 
 // UserManager struct

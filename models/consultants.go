@@ -3,27 +3,26 @@ package models
 import (
 	"fmt"
 	"os"
+	"time"
 
-	"github.com/jinzhu/gorm"
 	"github.com/gocarina/gocsv"
-
-
 	// postgress db driver
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 )
 
 // Consultant struct
 type Consultant struct {
-	gorm.Model `json:"-"`
-	ID         int64  `gorm:"column:Fid; primary_key:yes" json:"_id"`
-	Name       string `gorm:"not null;unique" json:"name"`
+	ID        uint64     `gorm:"primary_key" json:"id"`
+	CreatedAt time.Time  `json:"-"`
+	UpdatedAt time.Time  `json:"-"`
+	DeletedAt *time.Time `json:"-"`
+	Name      string     `gorm:"not null;unique" json:"name"`
 }
 
 // ConsultantCSV csv struct
 type ConsultantCSV struct {
-	ID        uint     `csv:"id"`
 	CreatedAt DateTime `csv:"created_at"`
-	Name      string    `csv:"name"`
+	Name      string   `csv:"name"`
 }
 
 // ConsultantManager struct
@@ -66,15 +65,15 @@ func (db *ConsultantManager) ConsultantSeed(file string) int {
 		fmt.Println(err)
 	}
 	for _, c := range consultantsCSV {
-		newC := Consultant{gorm.Model{ID: c.ID, CreatedAt: c.CreatedAt.Time}, int64(c.ID), c.Name}
+		newC := Consultant{CreatedAt: c.CreatedAt.Time, Name: c.Name}
 		db.db.Create(&newC)
 	}
 
 	return len(consultantsCSV)
 }
 
-// ConsultantCount - 
-func (db *ConsultantManager) ConsultantCount() (int) {
+// ConsultantCount -
+func (db *ConsultantManager) ConsultantCount() int {
 	consultants := []Consultant{}
 	var count int
 	if err := db.db.Find(&consultants).Count(&count); err != nil {

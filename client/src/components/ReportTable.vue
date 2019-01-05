@@ -17,7 +17,7 @@
           <!-- <v-menu :value="props.item.date" :close-on-content-click="true" :nudge-right="40" lazy transition="scale-transition" offset-y full-width min-width="290px"> -->
           <v-menu :close-on-content-click="true" :nudge-right="40" lazy transition="scale-transition" offset-y full-width min-width="290px" @keyup.esc="model = false">
             <v-text-field slot="activator" :value="formatDate(props.item.date)" readonly />
-            <v-date-picker first-day-of-week="1" :value="props.item.date" @input="onUpdateDate({_id: props.item._id, date: $event})" />
+            <v-date-picker first-day-of-week="1" :value="props.item.date" @input="onUpdateDate({id: props.item.id, date: $event})" />
           </v-menu>
           <!-- {{ formatDate(props.item.date) }} -->
         </td>
@@ -26,7 +26,7 @@
             {{ props.item.hours }}
             <v-text-field slot="input" :value="props.item.hours" label="Hours" single-line
                           type="number" min="0" max="20" step="0.5" maxlength="2"
-                          @change="onUpdateHours({_id: props.item._id, hours: $event})"
+                          @change="onUpdateHours({id: props.item.id, hours: $event})"
             />
           </v-edit-dialog>
         <!-- {{ props.item.hours }} -->
@@ -36,7 +36,7 @@
             {{ props.item.project }}
             <v-select slot="input" :value="props.item.project" item-text="name" item-value="name"
                       :items="assignedProjects" label="Project" :dense="true" :hide-selected="true"
-                      @change="onUpdateProject({_id: props.item._id, project: $event})"
+                      @change="onUpdateProject({id: props.item.id, project: $event})"
             />
           </v-edit-dialog>
           <!-- {{ props.item.project }} -->
@@ -45,7 +45,7 @@
           <v-edit-dialog :return-value="props.item.description" lazy>
             {{ props.item.description }}
             <v-text-field slot="input" :value="props.item.description" :rules="[ruleMax100chars]" label="Description" single-line
-                          counter @change="onUpdateDescription({_id: props.item._id, description: $event})"
+                          counter @change="onUpdateDescription({id: props.item.id, description: $event})"
             />
           </v-edit-dialog>
           <!-- {{ props.item.description }} -->
@@ -55,7 +55,7 @@
             {{ props.item.rate }}
             <v-select slot="input" :value="props.item.rate" item-text="name" item-value="name"
                       :items="rates" label="Rate" :dense="true" :hide-selected="true"
-                      @change="onUpdateRate({_id: props.item._id, rate: $event})"
+                      @change="onUpdateRate({id: props.item.id, rate: $event})"
             />
           </v-edit-dialog>
           <!-- {{ props.item.rate }} -->
@@ -80,6 +80,7 @@
 
 <script>
   import { mapState } from 'vuex'
+  import moment from 'moment-timezone'
 
   export default {
     data: () => ({
@@ -146,7 +147,7 @@
     methods: {
       onUpdateProject (newValue) {
         let payload = {
-          id: newValue._id,
+          id: newValue.id,
           type: 'project',
           value: newValue.project
         }
@@ -154,7 +155,7 @@
       },
       onUpdateDate (newValue) {
         let payload = {
-          id: newValue._id,
+          id: newValue.id,
           type: 'date',
           value: newValue.date
         }
@@ -162,7 +163,7 @@
       },
       onUpdateHours (newValue) {
         let payload = {
-          id: newValue._id,
+          id: newValue.id,
           type: 'hours',
           value: newValue.hours
         }
@@ -170,7 +171,7 @@
       },
       onUpdateDescription (newValue) {
         let payload = {
-          id: newValue._id,
+          id: newValue.id,
           type: 'description',
           value: newValue.description
         }
@@ -178,7 +179,7 @@
       },
       onUpdateRate (newValue) {
         let payload = {
-          id: newValue._id,
+          id: newValue.id,
           type: 'rate',
           value: newValue.rate
         }
@@ -195,24 +196,25 @@
       },
       addItem (item) {
         let newRecord = {}
-        newRecord._id = null
+        newRecord.id = null
         newRecord.consultant = this.selectedConsultants
         console.log('from:', this.dateFrom) /* eslint-disable-line no-console */
-        newRecord.date = this.dateFrom.format('YYYY-MM-DD')
+        newRecord.date = this.dateFrom.format('YYYY-MM-DDTHH:mm:ssZ')
         console.log('date to ISO:', newRecord.date) /* eslint-disable-line no-console */
         newRecord.hours = 8
         newRecord.rate = 'Off-site'
+        newRecord.project = ''
         this.$store.dispatch('reportedHours/addRecord', newRecord)
       },
       duplicateItem (item) {
         let newRecord = Object.assign({}, item)
-        // let index = this.selectedReportedHours.indexOf(item)
-        newRecord._id = null
+        newRecord.id = null
+        newRecord.date = moment(item.date).format('YYYY-MM-DDTHH:mm:ssZ')
         console.log(newRecord) /* eslint-disable-line no-console */
         this.$store.dispatch('reportedHours/addRecord', newRecord)
       },
       deleteItem (item) {
-        confirm('Are you sure you want to delete the record?') && this.$store.dispatch('reportedHours/removeRecord', item._id)
+        confirm('Are you sure you want to delete the record?') && this.$store.dispatch('reportedHours/removeRecord', parseInt(item.id, 10))
         this.$store.dispatch('context/setNotification', { text: this.formatDate(item.date) + ', ' + item.hours + ' hrs - record deleted', type: 'success' })
       }
     }

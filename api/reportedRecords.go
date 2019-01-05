@@ -2,6 +2,7 @@ package api
 
 import (
 	"fmt"
+	"strconv"
 
 	"github.com/valasek/timesheet/models"
 
@@ -32,11 +33,12 @@ func (api *API) ReportedRecordsInMonth(w http.ResponseWriter, req *http.Request)
 func (api *API) ReportedRecordDelete(w http.ResponseWriter, req *http.Request) {
 	vars := mux.Vars(req)
 	ID := vars["id"]
-	if len(ID) < 1 {
-		fmt.Println("ReportedRecordsDelete, param 'id' is missing")
+	IDn, err := strconv.ParseUint(ID, 10, 32)
+	if err != nil {
+		fmt.Println("ReportedRecordsDelete, param 'id' is missing:", err)
 		return
 	}
-	reportedRecords := api.reportedRecords.ReportedRecordsDelete(ID)
+	reportedRecords := api.reportedRecords.ReportedRecordsDelete(IDn)
 	json.NewEncoder(w).Encode(reportedRecords)
 }
 
@@ -64,11 +66,6 @@ func (api *API) ReportedRecordsAddRecord(w http.ResponseWriter, req *http.Reques
 		fmt.Println("unable to decode reported record, error: ", err)
 		return
 	}
-	fmt.Println(reportedRecord)
-
-	fmt.Println("ReportedRecordsAddRecord")
-	fmt.Println(req.Body)
-
-	id := "1234" 
-	json.NewEncoder(w).Encode(id)
+	addedReportedRecord := api.reportedRecords.ReportedRecordAdd( reportedRecord )
+	json.NewEncoder(w).Encode(addedReportedRecord)
 }

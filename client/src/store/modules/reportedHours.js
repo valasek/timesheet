@@ -2,7 +2,7 @@ import api from '../../api/axiosSettings'
 
 // initial state
 const state = {
-    all: [], // _id, date, hours, project, description, rate, consultant
+    all: [], // id, date, hours, project, description, rate, consultant
     loading: true
 }
 
@@ -28,7 +28,7 @@ const actions = {
             })
     },
     removeRecord ({ commit, dispatch }, id) {
-        const index = state.all.findIndex(records => records._id === id)
+        const index = state.all.findIndex(records => records.id === id)
         api.apiClient.delete('/api/reported/' + id)
             .then(response => {
                 commit('REMOVE_RECORD', index)
@@ -40,8 +40,6 @@ const actions = {
     },
     addRecord ({ commit, dispatch }, payload) {
         console.log(payload) /* eslint-disable-line no-console */
-        // payload.date = '2018–09–22T12:42:31+07:00'
-        // console.log(payload) /* eslint-disable-line no-console */
         api.apiClient.post('/api/reported', payload)
                 .then(response => {
                     commit('ADD_RECORD', payload)
@@ -76,7 +74,7 @@ const mutations = {
         state.all.splice(index, 1)
     },
     UPDATE_ATTRIBUTE_VALUE (state, payload) {
-        let index = state.all.findIndex(obj => obj._id === payload.id)
+        let index = state.all.findIndex(obj => obj.id === payload.id)
         switch (payload.type) {
         case 'description':
             state.all[index].description = payload.value

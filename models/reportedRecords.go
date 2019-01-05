@@ -3,11 +3,11 @@ package models
 import (
 	"fmt"
 	"os"
-	"time"
 	"strconv"
+	"time"
 
 	"github.com/gocarina/gocsv"
-	"github.com/jinzhu/gorm"
+	// "github.com/jinzhu/gorm"
 
 	// postgress db driver
 	_ "github.com/jinzhu/gorm/dialects/postgres"
@@ -15,22 +15,23 @@ import (
 
 // ReportedRecord struct
 type ReportedRecord struct {
-	gorm.Model  `json:"-"`
-	ID          int64     `gorm:"column:Fid; primary_key:yes" json:"_id"`
-	Date        time.Time `gorm:"not null" json:"date"`
-	Hours       float32   `gorm:"not null" json:"hours"`
-	Project     string    `gorm:"not null" json:"project"`
-	Description string    `gorm:"not null" json:"description"`
-	Rate        string    `gorm:"not null" json:"rate"`
-	Consultant  string    `gorm:"not null" json:"consultant"`
+	ID          uint64     `gorm:"primary_key" json:"id"`
+	CreatedAt   time.Time  `json:"-"`
+	UpdatedAt   time.Time  `json:"-"`
+	DeletedAt   *time.Time `json:"-"`
+	Date        time.Time  `gorm:"not null" json:"date"`
+	Hours       float64    `gorm:"not null" json:"hours"`
+	Project     string     `gorm:"not null" json:"project"`
+	Description string     `gorm:"not null" json:"description"`
+	Rate        string     `gorm:"not null" json:"rate"`
+	Consultant  string     `gorm:"not null" json:"consultant"`
 }
 
 // ReportedRecordCSV csv struct
 type ReportedRecordCSV struct {
-	ID          uint     `csv:"id"`
 	CreatedAt   DateTime `csv:"created_at"`
 	Date        Date     `csv:"date"`
-	Hours       float32  `csv:"hours"`
+	Hours       float64  `csv:"hours"`
 	Project     string   `csv:"project"`
 	Description string   `csv:"description"`
 	Rate        string   `csv:"rate"`
@@ -60,6 +61,7 @@ func (db *ReportedRecordManager) ReportedRecordsGetAll() []ReportedRecord {
 	if err := db.db.Find(&reportedRecords); err != nil {
 		return reportedRecords
 	}
+	fmt.Println("failed - get all reported records")
 	return nil
 }
 
@@ -69,24 +71,36 @@ func (db *ReportedRecordManager) ReportedRecordsInMonth(month string) []Reported
 	if err := db.db.Where("extract(MONTH from date) = ?", month).Find(&reportedRecords); err != nil {
 		return reportedRecords
 	}
+	fmt.Println("failed - get reported records in month", month)
 	return nil
 }
 
 // ReportedRecordsDelete - return all records of ReportedRecords
-func (db *ReportedRecordManager) ReportedRecordsDelete(id string) []ReportedRecord {
+func (db *ReportedRecordManager) ReportedRecordsDelete(id uint64) []ReportedRecord {
 	reportedRecords := []ReportedRecord{}
 	if err := db.db.Where("id = ?", id).Delete(&reportedRecords); err != nil {
 		return reportedRecords
 	}
+	fmt.Println("failed - delete reported record for id", id)
 	return nil
+}
+
+// ReportedRecordAdd -
+func (db *ReportedRecordManager) ReportedRecordAdd(newRecord ReportedRecord) ReportedRecord {
+	fmt.Println("entering ReportedRecordAdd")
+	if err := db.db.Create(&newRecord); err != nil {
+		return newRecord
+	}
+	fmt.Println("failed - add new reported record")
+	return ReportedRecord{}
 }
 
 // ReportedRecordUpdate -
 func (db *ReportedRecordManager) ReportedRecordUpdate(r UpdatedValue) ReportedRecord {
 	updateValue := UpdatedValue{
-		ID:        r.ID,
-		Type:       r.Type,
-		Value:     r.Value,
+		ID:    r.ID,
+		Type:  r.Type,
+		Value: r.Value,
 	}
 	reportedRecord := ReportedRecord{}
 	// handle attribute types
@@ -112,9 +126,10 @@ func (db *ReportedRecordManager) ReportedRecordUpdate(r UpdatedValue) ReportedRe
 			return reportedRecord
 		}
 	default:
-		fmt.Println("unknown attribute type: ", r.Type)
+		fmt.Println("failed - updating reported record, unknown attribute type: ", r.Type, updateValue)
 		return ReportedRecord{}
 	}
+	fmt.Println("failed - updating reported record", updateValue)
 	return ReportedRecord{}
 }
 
@@ -132,19 +147,20 @@ func (db *ReportedRecordManager) ReportedRecordSeed(file string) int {
 		fmt.Println(err)
 	}
 	for _, r := range recordsCSV {
-		newR := ReportedRecord{gorm.Model{ID: r.ID, CreatedAt: r.CreatedAt.Time}, int64(r.ID), r.Date.Time, r.Hours, r.Project, r.Description, r.Rate, r.Consultant}
+		newR := ReportedRecord{CreatedAt: r.CreatedAt.Time, Date: r.Date.Time, Hours: r.Hours, Project: r.Project, Description: r.Description, Rate: r.Rate, Consultant: r.Consultant}
 		db.db.Create(&newR)
 	}
 
 	return len(recordsCSV)
 }
 
-// ReportedRecordCount - 
-func (db *ReportedRecordManager) ReportedRecordCount() (int) {
+// ReportedRecordCount -
+func (db *ReportedRecordManager) ReportedRecordCount() int {
 	reportedRecords := []ReportedRecord{}
 	var count int
 	if err := db.db.Find(&reportedRecords).Count(&count); err != nil {
 		return count
 	}
+	fmt.Println("failed - getting reported record count")
 	return 0
 }

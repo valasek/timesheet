@@ -108,7 +108,7 @@
     </v-content>
     <v-footer app>
       <v-flex text-xs-center>
-        2018 &copy; <strong>Stanislav Valasek</strong>
+        2018 - {{ (new Date()).getFullYear() }} &copy; <strong>Stanislav Valasek</strong>
       </v-flex>
     </v-footer>
   </v-app>

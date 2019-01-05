@@ -16,6 +16,10 @@ Web application to report consulting hours on projects using selected rates on a
   - (dates should be entered in ISO format YYYY-MM-DD HH:MM:SS)
   - consultants, projects, rates, holidays, initial reported records - optional
 
+# Screenshots
+
+![Main screen](screenshots/main_screen.png?raw=true "Main screen")
+
 # Download
 * [Releases](https://github.com/valasek/timesheet/releases/) (MS Windows 64bit, Linux 64bit, Mac OS X 64bit)
 
@@ -63,8 +67,6 @@ Use "timesheet [command] --help" for more information about a command.
 # Todo
 
 - IMPORTANT
-  - create new record
-  - duplicate record
   - always show full week, calculate month inputs correctly
   - auto retrieve weekly data from backend when week is changed
 - overview
@@ -75,12 +77,14 @@ Use "timesheet [command] --help" for more information about a command.
 
 ## Fixes
 
+- implement rollback in js store if DB fails
 - Edit records
   - do not save the value id ESC is pressed
 
 ## Improvements business
 - Ability to lock last week
-- show only available rates per project
+- Add validations on entered data
+- Show only available rates per project
 - Paginate and sort server-side - using vuetify data table
 - Consistency checks
 - Add billing evidence

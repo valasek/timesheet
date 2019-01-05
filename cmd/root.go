@@ -17,7 +17,7 @@ var cfgFile string
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "timesheet",
-	Version: "timesheet 0.0.3",
+	Version: "timesheet 0.0.4",
 	Short: "Web based timesheet application with DB persistence",
 	Long: `Web based timesheet application with DB persistence.
 	
