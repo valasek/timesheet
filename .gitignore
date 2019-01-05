@@ -1,13 +1,21 @@
 # file types
-*.o
-*.a
-*.so
-*.exe
 *.test
 *.prof
 *.db
 *.DS_Store
+
+# Binaries for programs and plugins
 timesheet.zip
+*.exe
+*.bin
+*.app
+*.app.zip
+*.exe~
+*.dll
+*.so
+*.o
+*.a
+*.dylib
 
 # folders
 vendor

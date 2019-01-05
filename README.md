@@ -1,4 +1,4 @@
-# Timesheet for consultants
+# Timesheet
 
 [![GitHub release](https://img.shields.io/github/release-pre/valasek/timesheet.svg)](https://github.com/valasek/timesheet/releases)
 [![GitHub issues](https://img.shields.io/github/issues/valasek/timesheet.svg)](https://github.com/valasek/timesheet/issues)
@@ -9,15 +9,15 @@ Web application to report consulting hours on projects using selected rates on a
 
 # Requirements
 
-- Linux, Windows or macOS
-- DB connection to PostgreSQL
-- Initial yearly data in csv format (dates should be entered in ISO format YYYY-MM-DD HH:MM:SS):
-  - consultants, projects, rates, holidays, initial reported records - optional). 
+- Linux, Windows or MacOS
+- DB connection to PostgreSQL - configute in timesheet.yaml
+- Initiallize the DB using command `timesheet db --clean`
+- Import initial data in csv format using command `timesheet db --load all`
+  - (dates should be entered in ISO format YYYY-MM-DD HH:MM:SS)
+  - consultants, projects, rates, holidays, initial reported records - optional
 
-# Download - alpha release
-* [timesheet.zip](https://github.com/valasek/timesheet/releases/download/0.0.2/timesheet.zip) (MS Windows 64bit)
-* build from source (Linux 64bit)
-* build from source (Mac OS X 64bit)
+# Download
+* [Releases](https://github.com/valasek/timesheet/releases/) (MS Windows 64bit, Linux 64bit, Mac OS X 64bit)
 
 # Usage
 
