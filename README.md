@@ -5,13 +5,13 @@
 [![GitHub license](https://img.shields.io/github/license/valasek/timesheet.svg)](https://github.com/valasek/timesheet/blob/master/LICENSE)
 [![PayPal Donate](https://img.shields.io/badge/donate-PayPal.me-ff69b4.svg)](https://paypal.me/StanislavValasek)
 
-Web application to report consulting hours on projects using selected rates on a weekly bases. Supports export into csv.
+Self-hosted web application for weekly reporting. Report your consulting hours on projects using selected rates.
 
 # Requirements
 
 - Linux, Windows or MacOS
-- DB connection to PostgreSQL - configute in timesheet.yaml
-- Initiallize the DB using command `timesheet db --clean`
+- DB connection to PostgreSQL - configure in timesheet.yaml
+- Initialize the DB using command `timesheet db --clean`
 - Import initial data in csv format using command `timesheet db --load all`
   - (dates should be entered in ISO format YYYY-MM-DD HH:MM:SS)
   - consultants, projects, rates, holidays, initial reported records - optional
@@ -49,7 +49,7 @@ Use "timesheet [command] --help" for more information about a command.
 
 # Standing on the shoulders of giants
 
-[Go](https://golang.org/), [Vue](https://vuejs.org/), [Vuetify](https://vuetifyjs.com/en/), [PostgreSQL](https://www.postgresql.org/)
+[Go](https://golang.org/), [Gorm](https://gorm.io/), [Vue](https://vuejs.org/), [axios](https://github.com/axios/axios), [Vuetify](https://vuetifyjs.com/en/), [PostgreSQL](https://www.postgresql.org/)
 
 ## Backend
 
@@ -85,7 +85,7 @@ Use "timesheet [command] --help" for more information about a command.
 - Ability to lock last week
 - Add validations on entered data
 - Show only available rates per project
-- Paginate and sort server-side - using vuetify data table
+- Paginate and sort server-side - using Vuetify data table
 - Consistency checks
 - Add billing evidence
 - Export to csv plugin
@@ -100,8 +100,6 @@ https://medium.com/statuscode/how-i-write-go-http-services-after-seven-years-37c
 - refactor routes as on https://www.codementor.io/codehakase/building-a-restful-api-with-golang-a6yivzqdo
 - connect Vue with go - https://juliensalinas.com/en/golang-API-backend-vuejs-SPA-frontend-docker-modern-application/
 
-/* eslint-disable-line no-console */
-
 # To get started
 
 ``` bash
@@ -111,7 +109,9 @@ cd $GOPATH/src/github.com/valasek/timesheet
 
 # install Go dependencies (and make sure ports 3000/8080 are open)
 go get -u ./... 
-go run timesheet.go
+go run timesheet.go db --clean
+go run timesheet.go db --load all
+go run timesheet.go server
 
 # open a new terminal and change to the client dir
 cd client
