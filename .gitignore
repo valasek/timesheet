@@ -23,6 +23,9 @@ node_modules
 tmp
 build/
 
+# backup files
+data/backups/*
+
 # private seed data
 timesheet-data.xlsx
 ~$timesheet-data.xlsx

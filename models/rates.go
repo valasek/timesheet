@@ -72,7 +72,7 @@ func (db *RateManager) RateSeed(file string) int {
 	}
 	defer csvfile.Close()
 
-	ratesCSV := []*ConsultantCSV{}
+	ratesCSV := []*RateCSV{}
 	if err := gocsv.UnmarshalFile(csvfile, &ratesCSV); err != nil {
 		fmt.Println(err)
 	}
@@ -82,4 +82,28 @@ func (db *RateManager) RateSeed(file string) int {
 	}
 
 	return len(ratesCSV)
+}
+
+// RateBackup will backup rates table
+func (db *RateManager) RateBackup(filePath string) (int, error) {
+	ratesFile, err := os.OpenFile(filePath, os.O_RDWR|os.O_CREATE, os.ModePerm)
+	if err != nil {
+		return 0, err
+	}
+	defer ratesFile.Close()
+
+	rates := []*Rate{}
+	db.db.Find(&rates).Where("DeletedAt = ?", nil)
+	ratesCSV := []*RateCSV{}
+	for _, r := range rates {
+		createdAt := DateTime{r.CreatedAt}
+		item := RateCSV{CreatedAt: createdAt, Name: r.Name}
+		ratesCSV = append(ratesCSV, &item)
+	}
+
+	err = gocsv.MarshalFile(&ratesCSV, ratesFile)
+	if err != nil {
+		return 0, err
+	}
+	return len(rates), nil
 }

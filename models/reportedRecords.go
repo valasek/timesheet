@@ -164,3 +164,28 @@ func (db *ReportedRecordManager) ReportedRecordCount() int {
 	fmt.Println("failed - getting reported record count")
 	return 0
 }
+
+// ReportedRecordBackup will backup rates table
+func (db *ReportedRecordManager) ReportedRecordBackup(filePath string) (int, error) {
+	reportedRecordsFile, err := os.OpenFile(filePath, os.O_RDWR|os.O_CREATE, os.ModePerm)
+	if err != nil {
+		return 0, err
+	}
+	defer reportedRecordsFile.Close()
+
+	reportedRecords := []*ReportedRecord{}
+	db.db.Find(&reportedRecords).Where("DeletedAt = ?", nil)
+	projectCSV := []*ReportedRecordCSV{}
+	for _, r := range reportedRecords {
+		createdAt := DateTime{r.CreatedAt}
+		date := Date{r.Date}
+		item := ReportedRecordCSV{CreatedAt: createdAt, Date: date, Hours: r.Hours, Project: r.Project, Description: r.Description, Consultant: r.Consultant}
+		projectCSV = append(projectCSV, &item)
+	}
+
+	err = gocsv.MarshalFile(&projectCSV, reportedRecordsFile)
+	if err != nil {
+		return 0, err
+	}
+	return len(reportedRecords), nil
+}

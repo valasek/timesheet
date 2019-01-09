@@ -10,26 +10,32 @@ import (
 var (
 	load string
 	clean bool
+	backup bool
 )
 
 // dbCmd represents the db command
 var dbCmd = &cobra.Command{
 	Use:   "db",
-	Short: "Loads or cleans DB. See timesheet help db",
-	Long: `Loads or cleans DB.
+	Short: "Initiate, load or backup DB. See timesheet help db",
+	Long: `Initiate, load,or backup DB.
 	
-Command first tests connection to DB. If succeeds it will load or clean db and exit.`,
+Command first tests connection to DB. If succeeds it will initiate, load or backup db and exit.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		db := ConnectDB()
 		defer db.Close()
 		if clean {
 			api.ResetAPI(db)
-		} else if len(load) > 1 {
-			api.SeedAPI(db, load)
 		} else {
-			cmd.Help()
+			if (len(load) > 1) {
+				api.SeedAPI(db, load)
+			} else {
+				if backup {
+					api.BackupAPI(db)
+				} else {
+					cmd.Help()
+				}
+			}
 		}
-	
 	},
 }
 
@@ -37,9 +43,10 @@ func init() {
 	rootCmd.AddCommand(dbCmd)
 
 	dbCmd.PersistentFlags().StringVarP(&load, "load", "l", "", `Truncate DB table/tables and load initial data from files in folder ./data. Options:
-all - apply on all tables
-rates | consultants | projects | holidays | reported_records - apply only on one selected table`)
+all - load all tables
+rates | consultants | projects | holidays | reported_records - load selected table`)
 	dbCmd.PersistentFlags().BoolVarP(&clean,"clean", "c", false, `Drop and create all required DB tables`)
+	dbCmd.PersistentFlags().BoolVarP(&backup,"backup", "b", false, `Backup all DB tables in the format used by db --load command`)
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:

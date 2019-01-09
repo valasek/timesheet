@@ -33,7 +33,7 @@ type HolidayManager struct {
 	db *DB
 }
 
-// NewHolidayManager - Create a Project manager that can be used for retrieving ReportedRecordss
+// NewHolidayManager - Create a Holiday manager that can be used for retrieving ReportedRecordss
 func NewHolidayManager(db *DB) (*HolidayManager, error) {
 
 	db.AutoMigrate(&Holiday{})
@@ -84,4 +84,28 @@ func (db *HolidayManager) HolidayCount() int {
 		return count
 	}
 	return 0
+}
+
+// HolidayBackup will backup rates table
+func (db *HolidayManager) HolidayBackup(filePath string) (int, error) {
+	holidaysFile, err := os.OpenFile(filePath, os.O_RDWR|os.O_CREATE, os.ModePerm)
+	if err != nil {
+		return 0, err
+	}
+	defer holidaysFile.Close()
+
+	holidays := []*Holiday{}
+	db.db.Find(&holidays).Where("DeletedAt = ?", nil)
+	holidayCSV := []*HolidayCSV{}
+	for _, r := range holidays {
+		createdAt := DateTime{r.CreatedAt}
+		item := HolidayCSV{CreatedAt: createdAt, Description: r.Description}
+		holidayCSV = append(holidayCSV, &item)
+	}
+
+	err = gocsv.MarshalFile(&holidayCSV, holidaysFile)
+	if err != nil {
+		return 0, err
+	}
+	return len(holidays), nil
 }

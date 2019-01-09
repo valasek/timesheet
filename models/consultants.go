@@ -81,3 +81,27 @@ func (db *ConsultantManager) ConsultantCount() int {
 	}
 	return 0
 }
+
+// ConsultantBackup will backup rates table
+func (db *ConsultantManager) ConsultantBackup(filePath string) (int, error) {
+	consultantsFile, err := os.OpenFile(filePath, os.O_RDWR|os.O_CREATE, os.ModePerm)
+	if err != nil {
+		return 0, err
+	}
+	defer consultantsFile.Close()
+
+	consultants := []*Consultant{}
+	db.db.Find(&consultants).Where("DeletedAt = ?", nil)
+	projectCSV := []*ConsultantCSV{}
+	for _, r := range consultants {
+		createdAt := DateTime{r.CreatedAt}
+		item := ConsultantCSV{CreatedAt: createdAt, Name: r.Name}
+		projectCSV = append(projectCSV, &item)
+	}
+
+	err = gocsv.MarshalFile(&projectCSV, consultantsFile)
+	if err != nil {
+		return 0, err
+	}
+	return len(consultants), nil
+}

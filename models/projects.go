@@ -83,3 +83,27 @@ func (db *ProjectManager) ProjectCount() int {
 	}
 	return 0
 }
+
+// ProjectBackup will backup rates table
+func (db *ProjectManager) ProjectBackup(filePath string) (int, error) {
+	projectsFile, err := os.OpenFile(filePath, os.O_RDWR|os.O_CREATE, os.ModePerm)
+	if err != nil {
+		return 0, err
+	}
+	defer projectsFile.Close()
+
+	projects := []*Project{}
+	db.db.Find(&projects).Where("DeletedAt = ?", nil)
+	projectCSV := []*ProjectCSV{}
+	for _, r := range projects {
+		createdAt := DateTime{r.CreatedAt}
+		item := ProjectCSV{CreatedAt: createdAt, Name: r.Name}
+		projectCSV = append(projectCSV, &item)
+	}
+
+	err = gocsv.MarshalFile(&projectCSV, projectsFile)
+	if err != nil {
+		return 0, err
+	}
+	return len(projects), nil
+}

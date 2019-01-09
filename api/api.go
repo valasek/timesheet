@@ -111,6 +111,55 @@ func SeedAPI(db *models.DB, table string) {
 	}
 }
 
+// BackupAPI - drops and creates all empty tables
+func BackupAPI(db *models.DB) {
+
+	api := NewAPI(db)
+	id := "1"
+	fmt.Printf("backup #%s, backuped tables:\n", id)
+	var folder = viper.GetString("location")
+
+	filePath := folder + "/rates_" + id + ".csv"
+	n, err := api.rates.RateBackup(filePath)
+	if err != nil {
+		fmt.Println("error during rates backup:", err)
+	} else {
+		fmt.Printf("- rates, %d records\n", n)
+	}
+
+	filePath = folder + "/projects_" + id + ".csv"
+	n, err = api.projects.ProjectBackup(filePath)
+	if err != nil {
+		fmt.Println("error during projects backup", err)
+	} else {
+		fmt.Printf("- projects, %d records\n", n)
+	}
+
+	filePath = folder + "/consultants_" + id + ".csv"
+	n, err = api.projects.ProjectBackup(filePath)
+	if err != nil {
+		fmt.Println("error during consultants backup", err)
+	} else {
+		fmt.Printf("- consultants, %d records\n", n)
+	}
+
+	filePath = folder + "/holidays_" + id + ".csv"
+	n, err = api.projects.ProjectBackup(filePath)
+	if err != nil {
+		fmt.Println("error during holidays backup", err)
+	} else {
+		fmt.Printf("- holidays, %d records\n", n)
+	}
+
+	filePath = folder + "/reported_records_" + id + ".csv"
+	n, err = api.projects.ProjectBackup(filePath)
+	if err != nil {
+		fmt.Println("error during reported_records backup", err)
+	} else {
+		fmt.Printf("- reported_records, %d records\n", n)
+	}
+}
+
 // SeedTable -
 func SeedTable(api *API, table string) (count int){
 	switch table {

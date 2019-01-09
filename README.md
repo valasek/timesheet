@@ -7,6 +7,18 @@
 
 Self-hosted web application for weekly reporting. Report your consulting hours on projects using selected rates.
 
+# Rationale
+
+Automation is based on a premise, that reporting and billing process includes three separated steps with well defined data which flows in between:
+* **Time reporting** - all company employees
+  * covered by this app - eliminates manual errors, shows important data for consultants, data entry is as easy as possible
+* **Billing preparation** (confirming/editing reported hours for billing) - project manager or administrative person
+  * covered partialy by this app. If you bill 1:1 with your reporting then it has all you need
+  * data are available in the DB which can be exported by this app read or exported by any DB tool
+* **Exporting reported and billed hours** in the internal accounting system for the invoicing to the clients and consultants - salaries
+  * not covered by this app
+  * data are available in the DB which can be exported by this app read or exported by any DB tool
+
 # Requirements
 
 - Linux, Windows or MacOS
@@ -21,6 +33,7 @@ Self-hosted web application for weekly reporting. Report your consulting hours o
 ![Main screen](screenshots/main_screen.png?raw=true "Main screen")
 
 # Download
+
 * [Releases](https://github.com/valasek/timesheet/releases/) (MS Windows 64bit, Linux 64bit, Mac OS X 64bit)
 
 # Usage
@@ -34,7 +47,7 @@ Usage:
   timesheet [command]
 
 Available Commands:
-  db          Loads or cleans DB. See timesheet help db
+  db          Initiate, load or backup DB. See timesheet help db
   help        Help about any command
   routes      Prints the list of all available routes
   server      Starts the server on URL and port defined in config.yaml
@@ -66,14 +79,14 @@ Use "timesheet [command] --help" for more information about a command.
 
 # Todo
 
-- IMPORTANT
-  - always show full week, calculate month inputs correctly
-  - auto retrieve weekly data from backend when week is changed
-- overview
-  - show in days
+Backup DB as configured
+Always show full week (then shows month data correctly)
+Auto retrieve weekly data from backend when the week is changed
+Overview
+  - show in month and week correct working and non working time
   - edit overtime and total working time per week, month
   - compare weekly reported time against nominal total time
-- Export plugin to excel and csv
+Ability to lock last week
 
 ## Fixes
 
@@ -82,13 +95,12 @@ Use "timesheet [command] --help" for more information about a command.
   - do not save the value id ESC is pressed
 
 ## Improvements business
-- Ability to lock last week
 - Add validations on entered data
+- Consistency checks
 - Show only available rates per project
 - Paginate and sort server-side - using Vuetify data table
-- Consistency checks
-- Add billing evidence
-- Export to csv plugin
+- Exports
+- Add support for billing - assigning reported hours on projects
 
 ## Improvements technical
 
