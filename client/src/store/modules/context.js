@@ -34,8 +34,17 @@ const actions = {
     TogglePreviousWeeksUnLock ({ commit }) {
         commit('TOGGLE_PREVIOUS_WEEKS_UNLOCK')
     },
-    changeWeek ({ commit }, direction) {
+    changeWeek ({ dispatch, commit }, direction) {
+        let oldDateFrom = state.dateFrom
+        let oldDateTo = state.dateTo
         commit('SET_WEEK', direction)
+        // read changed month if required
+        if (state.dateFrom.isBefore(oldDateFrom, 'month')) {
+            dispatch('reportedHours/getReportedHours', state.dateFrom.format('YYYY-MM'), { root: true })
+        }
+        if (state.dateTo.isAfter(oldDateTo, 'month')) {
+            dispatch('reportedHours/getReportedHours', state.dateTo.format('YYYY-MM'), { root: true })
+        }
     }
     // jumpToWeek ({ commit }, monday) {
     //     commit('JUMP_TO_WEEK', monday)
@@ -53,7 +62,6 @@ const mutations = {
     },
 
     SET_WEEK (state, direction) {
-        console.log(direction, state.dateFrom.format(), state.dateTo.format()) /* eslint-disable-line no-console */
         switch (direction) {
             case 'previous':
                 state.dateFrom = moment(state.dateFrom).subtract(7, 'days')
@@ -64,7 +72,6 @@ const mutations = {
                 state.dateTo = moment(state.dateTo).add(7, 'days')
                 break
         }
-        console.log(direction, state.dateFrom.format(), state.dateTo.format()) /* eslint-disable-line no-console */
     },
 
     JUMP_TO_WEEK (state, month) {
