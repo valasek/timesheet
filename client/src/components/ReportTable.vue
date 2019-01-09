@@ -5,7 +5,30 @@
         <v-text-field v-model="search" append-icon="search" label="Search" single-line />
       </v-toolbar-title>
       <v-spacer />
-      <v-label>{{ reportedThisWeek }} hours reported this week</v-label>
+      <v-label>{{ reportedThisWeek }} hours</v-label>
+      <v-spacer />
+      <v-layout align-center justify-space-between row fill-height>
+        <v-spacer />
+        <v-flex xs2>
+          <v-btn fab outline small color="teal" @click="previousWeek">
+            <v-icon>
+              skip_previous
+            </v-icon>
+          </v-btn>
+        </v-flex>
+        <v-flex xs5>
+          <v-label class="text-xs-center">
+            {{ formatWeek(dateFrom) }} - {{ formatWeek(dateTo) }}
+          </v-label>
+        </v-flex>
+        <v-flex xs5>
+          <v-btn outline small fab color="teal" @click="nextWeek">
+            <v-icon>
+              skip_next
+            </v-icon>
+          </v-btn>
+        </v-flex>
+      </v-layout>
       <v-spacer />
       <v-btn color="primary" :disabled="btnNewRecordDisabled" class="mb-2" @click="addItem">
         new record
@@ -285,6 +308,16 @@
           confirm('Are you sure you want to delete the record?') && this.$store.dispatch('reportedHours/removeRecord', parseInt(item.id, 10))
           this.$store.dispatch('context/setNotification', { text: this.formatDate(item.date) + ', ' + item.hours + ' hrs - record deleted', type: 'success' })
         }
+      },
+      previousWeek () {
+        this.$store.dispatch('context/changeWeek', 'previous')
+      },
+      nextWeek () {
+        this.$store.dispatch('context/changeWeek', 'next')
+      },
+      formatWeek (date) {
+        let a = moment(date, 'YYYY-MM-DD').format('MMM Do')
+        return a
       }
     }
   }

@@ -39,10 +39,10 @@ const actions = {
         let oldDateTo = state.dateTo
         commit('SET_WEEK', direction)
         // read changed month if required
-        if (state.dateFrom.isBefore(oldDateFrom, 'month')) {
+        if (state.dateFrom.isBefore(oldDateFrom, 'month') || state.dateFrom.isAfter(oldDateFrom, 'month')) {
             dispatch('reportedHours/getReportedHours', state.dateFrom.format('YYYY-MM'), { root: true })
         }
-        if (state.dateTo.isAfter(oldDateTo, 'month')) {
+        if (state.dateTo.isBefore(oldDateTo, 'month') || state.dateTo.isAfter(oldDateTo, 'month')) {
             dispatch('reportedHours/getReportedHours', state.dateTo.format('YYYY-MM'), { root: true })
         }
     }

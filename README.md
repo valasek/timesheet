@@ -26,7 +26,7 @@ Automation is based on a premise, that reporting and billing process includes th
 - Initialize the DB using command `timesheet db --clean`
 - Import initial data in csv format using command `timesheet db --load all`
   - (dates should be entered in ISO format YYYY-MM-DD HH:MM:SS)
-  - consultants, projects, rates, holidays, initial reported records - optional
+  - consultants, projects, rates, holidays, initial reported_records - optional
 
 # Screenshots
 
@@ -89,8 +89,6 @@ Overview
 ## Fixes
 - handle more than one year of reporting without data refresh (add year to retrieving data in addition to month)
 - implement rollback in js store if DB fails
-- Edit records
-  - do not save the value id ESC is pressed
 
 ## Improvements business
 - Add validations on entered data

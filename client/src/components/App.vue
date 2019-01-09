@@ -42,33 +42,6 @@
             <v-select v-model="selectedConsultant" :items="consultants.all" item-text="name" item-value="name" />
           </v-list-tile>
 
-          <v-list-tile>
-            <div class="header ">
-              Week
-            </div>
-          </v-list-tile>
-          <v-list-tile>
-            <v-container fluid grid-list-xs>
-              <v-layout align-center justify-space-between row fill-height>
-                <v-flex xs1>
-                  <v-icon @click="previousWeek">
-                    skip_previous
-                  </v-icon>
-                </v-flex>
-                <v-flex xs8>
-                  <div class="text-xs-center">
-                    {{ formatDate(dateFrom) }} - {{ formatDate(dateTo) }}
-                  </div>
-                </v-flex>
-                <v-flex xs1>
-                  <v-icon justify-end @click="nextWeek">
-                    skip_next
-                  </v-icon>
-                </v-flex>
-              </v-layout>
-            </v-container>
-          </v-list-tile>
-
           <!-- <v-list-tile>
             <div class="header ">
               Month
@@ -80,7 +53,7 @@
               <v-date-picker v-model="dateMonth" :landscape="false" type="month" @change="monthMenu = false" />
             </v-menu>
           </v-list-tile> -->
-          <v-list-tile>
+          <v-list-tile class="settingsLast">
             <v-switch v-model="previousWeeksUnLock" :label="previousWeeksUnLockText" color="error" hide-details />
           </v-list-tile>
         </v-list-group>
@@ -117,7 +90,6 @@
 <script>
   import ReportTable from './ReportTable'
   import { mapState } from 'vuex'
-  import moment from 'moment-timezone'
 
   export default {
     name: 'App',
@@ -181,8 +153,6 @@
       ...mapState({
         notificationText: state => state.context.notificationText,
         notificationType: state => state.context.notificationType,
-        dateFrom: state => state.context.dateFrom,
-        dateTo: state => state.context.dateTo,
         consultants: state => state.consultants,
         page: state => state.context.page
       })
@@ -198,26 +168,17 @@
     },
 
     methods: {
-
-      previousWeek () {
-        this.$store.dispatch('context/changeWeek', 'previous')
-      },
-
-      nextWeek () {
-        this.$store.dispatch('context/changeWeek', 'next')
-      },
-
-      formatDate (date) {
-        let a = moment(date, 'YYYY-MM-DD').format('MMM Do')
-        return a
-      }
-
     }
   }
 </script>
 
 <style>
 /* workaround to remove spacing before and above week selector */
+.settingsLast {
+  padding-top: 10px !important;
+  padding-bottom: 20px !important;
+}
+
 div .container.fluid.grid-list-xs {
   padding-left: 0px !important;
   padding-top: 0px !important;
