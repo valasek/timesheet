@@ -86,7 +86,7 @@ func (db *ProjectManager) ProjectCount() int {
 
 // ProjectBackup will backup rates table
 func (db *ProjectManager) ProjectBackup(filePath string) (int, error) {
-	projectsFile, err := os.OpenFile(filePath, os.O_RDWR|os.O_CREATE, os.ModePerm)
+	projectsFile, err := os.OpenFile(filePath, os.O_RDWR|os.O_CREATE|os.O_TRUNC, os.ModePerm)
 	if err != nil {
 		return 0, err
 	}

@@ -2,6 +2,11 @@ package api
 
 import (
 	"fmt"
+	"os"
+	"io/ioutil"
+	"path/filepath"
+	"strings"
+	"time"
 	"github.com/valasek/timesheet/models"
 	"github.com/spf13/viper"
 )
@@ -111,55 +116,6 @@ func SeedAPI(db *models.DB, table string) {
 	}
 }
 
-// BackupAPI - drops and creates all empty tables
-func BackupAPI(db *models.DB) {
-
-	api := NewAPI(db)
-	id := "1"
-	fmt.Printf("backup #%s, backuped tables:\n", id)
-	var folder = viper.GetString("location")
-
-	filePath := folder + "/rates_" + id + ".csv"
-	n, err := api.rates.RateBackup(filePath)
-	if err != nil {
-		fmt.Println("error during rates backup:", err)
-	} else {
-		fmt.Printf("- rates, %d records\n", n)
-	}
-
-	filePath = folder + "/projects_" + id + ".csv"
-	n, err = api.projects.ProjectBackup(filePath)
-	if err != nil {
-		fmt.Println("error during projects backup", err)
-	} else {
-		fmt.Printf("- projects, %d records\n", n)
-	}
-
-	filePath = folder + "/consultants_" + id + ".csv"
-	n, err = api.projects.ProjectBackup(filePath)
-	if err != nil {
-		fmt.Println("error during consultants backup", err)
-	} else {
-		fmt.Printf("- consultants, %d records\n", n)
-	}
-
-	filePath = folder + "/holidays_" + id + ".csv"
-	n, err = api.projects.ProjectBackup(filePath)
-	if err != nil {
-		fmt.Println("error during holidays backup", err)
-	} else {
-		fmt.Printf("- holidays, %d records\n", n)
-	}
-
-	filePath = folder + "/reported_records_" + id + ".csv"
-	n, err = api.projects.ProjectBackup(filePath)
-	if err != nil {
-		fmt.Println("error during reported_records backup", err)
-	} else {
-		fmt.Printf("- reported_records, %d records\n", n)
-	}
-}
-
 // SeedTable -
 func SeedTable(api *API, table string) (count int){
 	switch table {
@@ -233,4 +189,66 @@ func CheckAndInitAPI(db *models.DB) (api *API) {
 		fmt.Println("loaded missing required data (see tables above)")
 	}
 	return api
+}
+
+// BackupAPI - drops and creates all empty tables
+func BackupAPI(rotation int, folder string, db *models.DB) {
+
+	api := NewAPI(db)
+	id := time.Now().Format("2006-01-02_150405")
+
+	fmt.Println("backuped tables:")
+	tableNames := []string{"rates", "projects", "reported_records", "consultants", "holidays"}
+	for _, baseFileName := range tableNames {
+		err := rotateBackupFile(rotation, folder, baseFileName)
+		if err != nil {
+			fmt.Printf("not able to rotate %s backup files, backups stopped, handle the error: %s\n", baseFileName, err)
+		}
+
+		fileName := baseFileName + "_" + id + ".csv"
+		filePath := filepath.Join(folder, fileName)
+		n := 0
+		switch baseFileName {
+		case "projects": n, err = api.projects.ProjectBackup(filePath)
+		case "rates": n, err = api.rates.RateBackup(filePath)
+		case "consultants": n, err = api.consultants.ConsultantBackup(filePath)
+		case "holidays": n, err = api.holidays.HolidayBackup(filePath)
+		case "reported_records": n, err = api.reportedRecords.ReportedRecordBackup(filePath)
+		}
+		if err != nil {
+			fmt.Printf("error during %s backup: %s\n", baseFileName, err)
+		} else {
+			fmt.Printf("- %s, %d records\n", baseFileName, n)
+		}
+	}
+}
+
+func rotateBackupFile(rotation int, folder, baseFileName string) error {
+	files, err := ioutil.ReadDir(filepath.Clean(folder))
+	if err != nil {
+		return err
+	}
+
+	oldestTime :=  time.Now()
+	var oldestFile os.FileInfo
+	var filteredNames []string
+	if len(files) == 0 {
+		return nil
+	}
+	for _, file := range files {
+		if strings.Contains(file.Name(), baseFileName) {
+			filteredNames = append(filteredNames, file.Name())
+			if file.Mode().IsRegular() && file.ModTime().Before(oldestTime) {
+				oldestFile = file
+				oldestTime = file.ModTime()
+			}
+		}
+	}
+	if len(filteredNames) >= rotation {
+		err := os.Remove(filepath.Join(folder, oldestFile.Name()))
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }

@@ -86,7 +86,7 @@ func (db *RateManager) RateSeed(file string) int {
 
 // RateBackup will backup rates table
 func (db *RateManager) RateBackup(filePath string) (int, error) {
-	ratesFile, err := os.OpenFile(filePath, os.O_RDWR|os.O_CREATE, os.ModePerm)
+	ratesFile, err := os.OpenFile(filePath, os.O_RDWR|os.O_CREATE|os.O_TRUNC, os.ModePerm)
 	if err != nil {
 		return 0, err
 	}

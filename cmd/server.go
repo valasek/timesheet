@@ -3,8 +3,11 @@
 package cmd
 
 import (
+	"fmt"
 	"github.com/valasek/timesheet/api"
 	"github.com/valasek/timesheet/routes"
+
+	"github.com/robfig/cron"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -21,12 +24,14 @@ var serverCmd = &cobra.Command{
 Command first tests connection to DB, checks if DB contains at least one record in tables
 projects, rates, consultants and holidays. If succeeds it will start server.`,
 	Run: func(cmd *cobra.Command, args []string) {
+
+		// prepare the server
 		url := viper.GetString("url")
 		port := viper.GetString("port")
 		db := ConnectDB()
 		defer db.Close()
-		api := api.CheckAndInitAPI(db)
-		r := routes.NewRoutes(api)
+		apiInst := api.CheckAndInitAPI(db)
+		r := routes.NewRoutes(apiInst)
 		n := negroni.Classic()
 		c := cors.New(cors.Options{
 			AllowedOrigins: []string{"http://localhost*", "http://127.0.0.1*"},
@@ -34,6 +39,29 @@ projects, rates, consultants and holidays. If succeeds it will start server.`,
 		})
 		n.Use(c)
 		n.UseHandler(r)
+
+		// schedule DB backups
+		interval := viper.GetString("backup.interval")
+		rotation := viper.GetInt("backup.rotation")
+		location := viper.GetString("backup.location")
+		scheduler := cron.New()
+		switch interval {
+			case "weekly":
+				scheduler.AddFunc("0 0 0 * * 0", func() { api.BackupAPI(rotation, location, db) })
+			case "daily":
+				scheduler.AddFunc("0 0 0 * * *", func() { api.BackupAPI(rotation, location, db) })
+				// test schedule - every minute
+				// scheduler.AddFunc("0 * * * * *", func() { api.BackupAPI(rotation, location, db) })
+			default:
+				fmt.Printf("miconfigured backup interval;: %s, allowed intervals daily or weekly, falling back to daily\n", interval)
+				interval = "daily"
+				scheduler.AddFunc("0 0 0 * * *", func() { api.BackupAPI(rotation, location, db) })
+		}
+		scheduler.Start()
+		defer scheduler.Stop()
+		fmt.Printf("DB backups scheduled %s, %d backups back kept in location %s\n", interval, rotation, location)	
+
+		// run the server
 		n.Run(url + ":" + port)	
 	},
 }

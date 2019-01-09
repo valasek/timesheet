@@ -167,7 +167,7 @@ func (db *ReportedRecordManager) ReportedRecordCount() int {
 
 // ReportedRecordBackup will backup rates table
 func (db *ReportedRecordManager) ReportedRecordBackup(filePath string) (int, error) {
-	reportedRecordsFile, err := os.OpenFile(filePath, os.O_RDWR|os.O_CREATE, os.ModePerm)
+	reportedRecordsFile, err := os.OpenFile(filePath, os.O_RDWR|os.O_CREATE|os.O_TRUNC, os.ModePerm)
 	if err != nil {
 		return 0, err
 	}

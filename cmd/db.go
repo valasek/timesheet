@@ -5,6 +5,7 @@ package cmd
 import (
 	"github.com/valasek/timesheet/api"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 var (
@@ -30,7 +31,7 @@ Command first tests connection to DB. If succeeds it will initiate, load or back
 				api.SeedAPI(db, load)
 			} else {
 				if backup {
-					api.BackupAPI(db)
+					api.BackupAPI(viper.GetInt("backup.rotation"), viper.GetString("backup.location"), db)
 				} else {
 					cmd.Help()
 				}

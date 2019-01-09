@@ -6,12 +6,16 @@ dailyWorkingHours: 8 # Used for holidays and weekly and monthly expected working
 url: "127.0.0.1" # URL on which application is running
 port: "3000"     # port on which application is running
 
-# DB backup settings - data can be imported directly by a command "timesheet db --load all"
-location: "./data/backups" # select an empty and an existing folder
-backupRotation: 10    # in days - how many days back data should be kept
-
-# DB connection
+# DB type
 dbType: "postgresql" # DB type
+
+# DB backup settings - backuped data can be imported directly by a command "timesheet db --load all"
+backup:
+  location: "data/backups" # select an empty and an existing folder
+  rotation: 10             # how many backups back will be kept
+  interval: "daily"        # daily or weekly - how ofter the DB backup should be done
+
+# DB credentials
 postgresql:
   host: "localhost"
   port: "5432"

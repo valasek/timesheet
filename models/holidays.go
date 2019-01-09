@@ -88,7 +88,7 @@ func (db *HolidayManager) HolidayCount() int {
 
 // HolidayBackup will backup rates table
 func (db *HolidayManager) HolidayBackup(filePath string) (int, error) {
-	holidaysFile, err := os.OpenFile(filePath, os.O_RDWR|os.O_CREATE, os.ModePerm)
+	holidaysFile, err := os.OpenFile(filePath, os.O_RDWR|os.O_CREATE|os.O_TRUNC, os.ModePerm)
 	if err != nil {
 		return 0, err
 	}

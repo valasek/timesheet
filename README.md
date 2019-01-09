@@ -9,11 +9,11 @@ Self-hosted web application for weekly reporting. Report your consulting hours o
 
 # Rationale
 
-Automation is based on a premise, that reporting and billing process includes three separated steps with well defined data which flows in between:
+Automation is based on a premise, that reporting and billing process includes three separated steps with well-defined data which flows in between:
 * **Time reporting** - all company employees
   * covered by this app - eliminates manual errors, shows important data for consultants, data entry is as easy as possible
 * **Billing preparation** (confirming/editing reported hours for billing) - project manager or administrative person
-  * covered partialy by this app. If you bill 1:1 with your reporting then it has all you need
+  * covered partially by this app. If you bill 1:1 with your reporting then it has all you need
   * data are available in the DB which can be exported by this app read or exported by any DB tool
 * **Exporting reported and billed hours** in the internal accounting system for the invoicing to the clients and consultants - salaries
   * not covered by this app
@@ -79,11 +79,10 @@ Use "timesheet [command] --help" for more information about a command.
 
 # Todo
 
-Backup DB as configured
 Always show full week (then shows month data correctly)
 Auto retrieve weekly data from backend when the week is changed
 Overview
-  - show in month and week correct working and non working time
+  - show in month and week correct working and non-working time
   - edit overtime and total working time per week, month
   - compare weekly reported time against nominal total time
 Ability to lock last week
