@@ -1,6 +1,7 @@
 import moment from 'moment-timezone'
 
 const defaultNotificationType = 'info'
+const timeZone = 'Europe/Prague'
 
 // initial state
 const state = {
@@ -9,9 +10,8 @@ const state = {
     notificationText: '',
     notificationType: defaultNotificationType, // success, info, error - snackbar types https://vuetifyjs.com/en/components/snackbars#introduction
     dateMonth: new Date().toISOString().substr(0, 7),
-    dateFrom: moment.tz({}, 'Europe/Prague').startOf('isoWeek'),
-    dateTo: moment.tz({}, 'Europe/Prague').endOf('isoWeek'),
-    timeZone: 'Europe/Prague',
+    dateFrom: moment.tz({}, timeZone).startOf('isoWeek'),
+    dateTo: moment.tz({}, timeZone).endOf('isoWeek'),
     dailyWorkingHours: 8,
     previousWeeksUnLock: false
 }
@@ -21,7 +21,7 @@ const getters = {}
 const actions = {
 
     setMonth ({ commit, dispatch }, month) {
-        let monday = moment.tz({}, 'Europe/Prague').startOf('isoWeek')
+        let monday = moment.tz({}, timeZone).startOf('isoWeek')
         dispatch('jumpToWeek', monday)
         commit('SET_MONTH', month)
     },
