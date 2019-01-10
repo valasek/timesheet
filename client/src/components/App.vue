@@ -15,8 +15,6 @@
         </v-list>
       </v-toolbar>
 
-      <v-divider />
-
       <v-list dense class="pt-0">
         <v-list-tile v-for="item in items" :key="item.title" :to="item.route">
           <v-list-tile-action>
@@ -28,35 +26,26 @@
           </v-list-tile-content>
         </v-list-tile>
 
-        <v-list-group prepend-icon="settings" value="true">
-          <v-list-tile slot="activator">
-            <v-list-tile-title>Settings</v-list-tile-title>
-          </v-list-tile>
+        <v-divider class="menuSettings" />
 
-          <v-list-tile>
-            <div class="header ">
-              Consultant
-            </div>
-          </v-list-tile>
-          <v-list-tile>
-            <v-select v-model="selectedConsultant" :items="consultants.all" item-text="name" item-value="name" />
-          </v-list-tile>
+        <v-list-tile>
+          <v-select v-model="selectedConsultant" :items="consultants.all" item-text="name" item-value="name" />
+        </v-list-tile>
 
-          <!-- <v-list-tile>
-            <div class="header ">
-              Month
-            </div>
-          </v-list-tile>
-          <v-list-tile>
-            <v-menu v-model="monthMenu" :close-on-content-click="true" full-width max-width="290">
-              <v-text-field slot="activator" :value="dateMonth" readonly />
-              <v-date-picker v-model="dateMonth" :landscape="false" type="month" @change="monthMenu = false" />
-            </v-menu>
-          </v-list-tile> -->
-          <v-list-tile class="settingsLast">
-            <v-switch v-model="previousWeeksUnLock" :label="previousWeeksUnLockText" color="error" hide-details />
-          </v-list-tile>
-        </v-list-group>
+        <v-list-tile class="menuSettings">
+          <v-switch v-model="previousWeeksUnLock" :label="previousWeeksUnLockText" color="error" hide-details />
+        </v-list-tile>
+        <!-- <v-list-tile>
+          <div class="header ">
+            Month
+          </div>
+        </v-list-tile>
+        <v-list-tile>
+          <v-menu v-model="monthMenu" :close-on-content-click="true" full-width max-width="290">
+            <v-text-field slot="activator" :value="dateMonth" readonly />
+            <v-date-picker v-model="dateMonth" :landscape="false" type="month" @change="monthMenu = false" />
+          </v-menu>
+        </v-list-tile> -->
       </v-list>
     </v-navigation-drawer>
 
@@ -174,8 +163,8 @@
 
 <style>
 /* workaround to remove spacing before and above week selector */
-.settingsLast {
-  padding-top: 10px !important;
+.menuSettings {
+  padding-top: 20px !important;
   padding-bottom: 20px !important;
 }
 

@@ -1,34 +1,29 @@
 <template>
   <div>
     <v-toolbar flat>
+      <v-btn :disabled="!btnNewRecordDisabled" class="mb-2" @click="currentWeek">
+        today
+      </v-btn>
+      <v-btn fab small @click="previousWeek">
+        <v-icon>
+          skip_previous
+        </v-icon>
+      </v-btn>
+      <v-btn fab small @click="nextWeek">
+        <v-icon>
+          skip_next
+        </v-icon>
+      </v-btn>
+      <v-flex xs2>
+        <v-label class="text-xs-center">
+          {{ formatWeek(dateFrom) }} - {{ formatWeek(dateTo) }}
+        </v-label>
+      </v-flex>
+      <v-label>Weekly: {{ reportedThisWeek }} hours</v-label>
+      <v-spacer />
       <v-toolbar-title>
         <v-text-field v-model="search" append-icon="search" label="Search" single-line />
       </v-toolbar-title>
-      <v-spacer />
-      <v-label>{{ reportedThisWeek }} hours</v-label>
-      <v-spacer />
-      <v-layout align-center justify-space-between row fill-height>
-        <v-spacer />
-        <v-flex xs2>
-          <v-btn fab outline small color="teal" @click="previousWeek">
-            <v-icon>
-              skip_previous
-            </v-icon>
-          </v-btn>
-        </v-flex>
-        <v-flex xs5>
-          <v-label class="text-xs-center">
-            {{ formatWeek(dateFrom) }} - {{ formatWeek(dateTo) }}
-          </v-label>
-        </v-flex>
-        <v-flex xs5>
-          <v-btn outline small fab color="teal" @click="nextWeek">
-            <v-icon>
-              skip_next
-            </v-icon>
-          </v-btn>
-        </v-flex>
-      </v-layout>
       <v-spacer />
       <v-btn color="primary" :disabled="btnNewRecordDisabled" class="mb-2" @click="addItem">
         new record
@@ -46,7 +41,7 @@
         <td class="text-xs-left">
           <v-edit-dialog :return-value="props.item.hours" lazy>
             {{ props.item.hours }}
-            <v-text-field slot="input" :value="props.item.hours" label="Hours" single-line
+            <v-text-field slot="input" :value="props.item.hours" label="Hours" single-line :rules="[ruleFloat]"
                           type="number" min="0" max="20" step="0.5" maxlength="2"
                           @change="onUpdateHours({id: props.item.id, hours: $event})"
             />
@@ -129,7 +124,8 @@
     data: () => ({
       search: '',
       dialogEditingUnlockedWeek: false,
-      ruleMax100chars: v => v.length <= 100 || 'Input too long!',
+      ruleMax100chars: v => v.length <= 100 || v.length + ' / 100',
+      ruleFloat: v => !isNaN(parseFloat(v)) || 'Input should be a muber with one decimal',
       repDate: '',
       rowsPerPage: [ 30, 50, { 'text': '$vuetify.dataIterator.rowsPerPageAll', 'value': -1 } ],
       headers: [
@@ -207,6 +203,9 @@
     },
 
     methods: {
+      currentWeek () {
+        this.$store.dispatch('context/jumpToWeek', moment.tz({}, 'Europe/Prague'))
+      },
       editPreviousWeeks (itemID) {
         const editedDay = moment(this.selectedReportedHours.filter(item => item.id === itemID)[0].date)
         if (this.previousWeeksUnLock) {
@@ -248,7 +247,7 @@
           let payload = {
             id: newValue.id,
             type: 'hours',
-            value: newValue.hours
+            value: parseFloat(newValue.hours)
           }
           this.$store.dispatch('reportedHours/updateAttributeValue', payload)
         }
@@ -275,9 +274,7 @@
       },
       formatDate (date) {
         if (!date) return null
-        // console.log('before slice') /* eslint-disable-line no-console */
         const [, month, day] = date.slice(0, 10).split('-')
-        // console.log('after slice') /* eslint-disable-line no-console */
         let weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
         let dayName = weekdays[new Date(date).getDay()]
         return `${dayName} ${month}/${day}`
@@ -286,9 +283,7 @@
         let newRecord = {}
         newRecord.id = null
         newRecord.consultant = this.selectedConsultants
-        console.log('from:', this.dateFrom) /* eslint-disable-line no-console */
         newRecord.date = this.dateFrom.format('YYYY-MM-DDTHH:mm:ssZ')
-        console.log('date to ISO:', newRecord.date) /* eslint-disable-line no-console */
         newRecord.hours = 8
         newRecord.rate = 'Off-site'
         newRecord.project = ''

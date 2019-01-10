@@ -44,9 +44,9 @@ go build -o .\build\timesheet.app .\timesheet.go
 ECHO =========================
 ECHO Compressing artifacts ...
 cd .\build
-call %zip% a -r MS_Windows_64bit.zip timesheet.exe timesheet.yaml client/
-call %zip% a -r Linux_64bit.zip ./timesheet.bin ./timesheet.yaml client/
-call %zip% a -r Mac_OS_X_64bit.zip ./timesheet.app ./timesheet.yaml client/
+call %zip% a -r MS_Windows_64bit.zip timesheet.exe timesheet.yaml client/ data/
+call %zip% a -r Linux_64bit.zip ./timesheet.bin ./timesheet.yaml client/ data/
+call %zip% a -r Mac_OS_X_64bit.zip ./timesheet.app ./timesheet.yaml client/ data/
 cd ..
 
 ECHO ===========

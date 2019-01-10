@@ -63,12 +63,12 @@
         <v-flex xs6>
           <v-card>
             <v-toolbar flat>
-              <v-toolbar-title>Month</v-toolbar-title>
+              <v-toolbar-title>Week</v-toolbar-title>
             </v-toolbar>
           </v-card>
           <v-container grid-list-md text-xs-center>
             <v-card>
-              <v-data-table :headers="headers" :items="monthlyOverview" hide-actions class="elevation-1">
+              <v-data-table :headers="headers" :items="weeklyOverview" hide-actions class="elevation-1">
                 <template slot="items" slot-scope="props">
                   <td v-if="props.item.value !== ''" class="text-xs-left">
                     {{ props.item.text }}
@@ -87,12 +87,12 @@
         <v-flex xs6>
           <v-card>
             <v-toolbar flat>
-              <v-toolbar-title>Week</v-toolbar-title>
+              <v-toolbar-title>Month</v-toolbar-title>
             </v-toolbar>
           </v-card>
           <v-container grid-list-md text-xs-center>
             <v-card>
-              <v-data-table :headers="headers" :items="weeklyOverview" hide-actions class="elevation-1">
+              <v-data-table :headers="headers" :items="monthlyOverview" hide-actions class="elevation-1">
                 <template slot="items" slot-scope="props">
                   <td v-if="props.item.value !== ''" class="text-xs-left">
                     {{ props.item.text }}

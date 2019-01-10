@@ -20,7 +20,7 @@ Vue.config.productionTip = false
 let router = new VueRouter({
   routes: [
     {
-      path: '/',
+      path: '/report',
       name: 'report',
       component: ReportTable
     },
@@ -39,7 +39,7 @@ let router = new VueRouter({
       name: 'help',
       component: Help
     },
-    { path: '*', redirect: '/' }
+    { path: '*', redirect: '/report' }
   ]
 })
 

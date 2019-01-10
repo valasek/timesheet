@@ -20,11 +20,11 @@ const getters = {}
 
 const actions = {
 
-    setMonth ({ commit, dispatch }, month) {
-        let monday = moment.tz({}, timeZone).startOf('isoWeek')
-        dispatch('jumpToWeek', monday)
-        commit('SET_MONTH', month)
-    },
+    // setMonth ({ commit, dispatch }, month) {
+    //     let monday = moment.tz({}, timeZone).startOf('isoWeek')
+    //     dispatch('jumpToWeek', monday)
+    //     commit('SET_MONTH', month)
+    // },
     setNotification ({ commit }, payload) {
         commit('SET_NOTIFICATION', payload)
     },
@@ -45,10 +45,11 @@ const actions = {
         if (state.dateTo.isBefore(oldDateTo, 'month') || state.dateTo.isAfter(oldDateTo, 'month')) {
             dispatch('reportedHours/getReportedHours', state.dateTo.format('YYYY-MM'), { root: true })
         }
+    },
+    // monday
+    jumpToWeek ({ commit }, payload) {
+        commit('JUMP_TO_WEEK', payload)
     }
-    // jumpToWeek ({ commit }, monday) {
-    //     commit('JUMP_TO_WEEK', monday)
-    // }
 }
 
 const mutations = {
@@ -73,10 +74,10 @@ const mutations = {
                 break
         }
     },
-
-    JUMP_TO_WEEK (state, month) {
-        state.dateFrom = month.startOf('isoWeek')
-        state.dateTo = month.endOf('isoWeek')
+    // payload is any day within a week
+    JUMP_TO_WEEK (state, payload) {
+        state.dateFrom = moment(payload).startOf('isoWeek')
+        state.dateTo = moment(payload).endOf('isoWeek')
     },
 
     SET_NOTIFICATION (state, payload) {
@@ -98,28 +99,6 @@ const mutations = {
     }
 
 }
-
-// function getMonday (date) {
-//     let d = date.getDate()
-//     let day = date.getDay() || 7
-//     let m = date.getMonth()
-//     let y = date.getFullYear()
-//     let newDate = new Date(y, m, d)
-//     console.log('newDate:', newDate) /* eslint-disable-line no-console */
-//     if (day !== 1) { newDate.setHours(-24 * (day - 1)) }
-//     console.log('newDate:', newDate) /* eslint-disable-line no-console */
-//     return newDate
-// }
-
-// function getSunday (date) {
-//     let d = date.getDate()
-//     let day = date.getDay() || 7
-//     let m = date.getMonth()
-//     let y = date.getFullYear()
-//     let newDate = new Date(y, m, d)
-//     if (day !== 7) { newDate.setHours(24 * (7 - day)) }
-//     return newDate
-// }
 
 export default {
     namespaced: true,
