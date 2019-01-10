@@ -21,7 +21,13 @@ timesheet.zip
 vendor
 node_modules
 tmp
-build/
+
+# tenmporary build artifacts
+build/client/*.*
+build/client/dist/*
+build/data/*.*
+build/data/backups/*.*
+build/*.*
 
 # backup files
 data/backups/*

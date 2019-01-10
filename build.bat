@@ -10,7 +10,8 @@ IF EXIST .\build\timesheet.yaml del .\build\timesheet.yaml
 IF EXIST .\build\MS_Windows_64bit.zip del .\build\MS_Windows_64bit.zip
 IF EXIST .\build\Linux_64bit.zip del .\build\Linux_64bit.zip
 IF EXIST .\build\Mac_OS_X_64bit.zip del .\build\Mac_OS_X_64bit.zip
-IF EXIST ".\build\client\dist\" @RD /S /Q ".\build\client\dist"
+IF EXIST .\build\client\dist\ @RD /S /Q .\build\client\dist
+del .\build\data\*.csv /F /Q
 
 ECHO ======================
 ECHO Compiling frontend ...
@@ -22,6 +23,11 @@ cd ..
 ECHO =====================
 ECHO Compiling backend ...
 copy .\timesheet.yaml .\build\timesheet.yaml
+copy .\data\consultants_demo.csv .\build\data\consultants_demo.csv
+copy .\data\holidays_us_2019.csv .\build\data\holidays_us_2019.csv
+copy .\data\projects_demo.csv .\build\data\projects_demo.csv
+copy .\data\rates_demo.csv .\build\data\rates_demo.csv
+copy .\data\reportedRecords_demo.csv .\build\data\reportedRecords_demo.csv
 ECHO MS Windows ...
 set GOOS=windows
 set GOARCH=amd64
