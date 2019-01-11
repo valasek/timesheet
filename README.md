@@ -87,11 +87,12 @@ Overview
   - compare weekly reported time against nominal total time
 
 ## Fixes
+
 - handle more than one year of reporting without data refresh (add year to retrieving data in addition to month)
 - implement rollback in js store if DB fails
 
 ## Improvements business
-- Add validations on entered data
+
 - Consistency checks
 - Show only available rates per project
 - Paginate and sort server-side - using Vuetify data table
@@ -136,4 +137,4 @@ npm run build
 
 # License
 
-[MIT license](./LICENSE.md) - see LICENSE for more details
+[MIT license](./LICENSE.md)

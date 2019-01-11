@@ -51,7 +51,12 @@ const actions = {
                 })
         },
     updateAttributeValue ({ commit, dispatch }, payload) {
-        api.apiClient.put('/api/reported/' + payload.id, payload)
+        let payloadDB = {
+            id: payload.id,
+            type: payload.type,
+            value: String(payload.value)
+        }
+        api.apiClient.put('/api/reported/' + payload.id, payloadDB)
             .then(response => {
                 commit('UPDATE_ATTRIBUTE_VALUE', payload)
             })
