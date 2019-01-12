@@ -8,7 +8,7 @@ import VueRouter from 'vue-router'
 import './plugins/vuetify'
 
 import ReportTable from './components/ReportTable'
-import ShowReportedTime from './components/ShowReportedTime'
+import ReportedOverview from './components/ReportedOverview'
 import Holidays from './components/Holidays'
 import Help from './components/Help'
 
@@ -25,9 +25,9 @@ let router = new VueRouter({
       component: ReportTable
     },
     {
-      path: '/reported',
-      name: 'reported',
-      component: ShowReportedTime
+      path: '/overview',
+      name: 'overview',
+      component: ReportedOverview
     },
     {
       path: '/Holidays',

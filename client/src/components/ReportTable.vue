@@ -22,7 +22,7 @@
       <v-label>Weekly: {{ reportedThisWeek }} hours</v-label>
       <v-spacer />
       <v-toolbar-title>
-        <v-text-field v-model="search" append-icon="search" label="Search" single-line />
+        <v-text-field v-model="search" clearable append-icon="search" label="Search" single-line />
       </v-toolbar-title>
       <v-spacer />
       <v-btn color="primary" :disabled="btnNewRecordDisabled" class="mb-2" @click="addItem">
@@ -34,7 +34,7 @@
         <td>
           <!-- <v-menu :value="props.item.date" :close-on-content-click="true" :nudge-right="40" lazy transition="scale-transition" offset-y full-width min-width="290px"> -->
           <v-menu :close-on-content-click="true" :nudge-right="40" lazy transition="scale-transition" offset-y full-width min-width="290px" @keyup.esc="model = false">
-            <v-text-field slot="activator" :value="formatDate(props.item.date)" readonly />
+            <v-text-field slot="activator" :value="formatDate(props.item.date)" prepend-icon="today" readonly class="body-1" />
             <v-date-picker first-day-of-week="1" :value="props.item.date" @input="onUpdateDate({id: props.item.id, date: $event})" />
           </v-menu>
         </td>
@@ -75,7 +75,7 @@
         </td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="duplicateItem(props.item)">
-            add
+            file_copy
           </v-icon>
           <v-icon small @click="deleteItem(props.item)">
             delete
@@ -129,17 +129,12 @@
       repDate: '',
       rowsPerPage: [ 30, 50, { 'text': '$vuetify.dataIterator.rowsPerPageAll', 'value': -1 } ],
       headers: [
-        {
-          text: 'Date',
-          align: 'left',
-          sortable: true,
-          value: 'date'
-        },
-        { text: 'Hours', align: 'left', value: 'hours' },
-        { text: 'Project', align: 'left', value: 'project' },
-        { text: 'Description', value: 'description' },
-        { text: 'Rate', value: 'rate' },
-        { text: 'Actions', value: 'actions', sortable: false }
+        { text: 'Date', align: 'left', sortable: true, value: 'date', class: 'body-1' },
+        { text: 'Hours', align: 'left', sortable: true, value: 'hours', class: 'body-1' },
+        { text: 'Project', align: 'left', sortable: true, value: 'project', class: 'body-1' },
+        { text: 'Description', align: 'left', value: 'description', class: 'body-1' },
+        { text: 'Rate', align: 'left', sortable: true, value: 'rate', class: 'body-1' },
+        { text: 'Actions', align: 'center', sortable: false, value: 'actions', class: 'body-1' }
       ],
       reported: []
     }),
@@ -161,7 +156,6 @@
       selectedReportedHours () {
         return this.reportedHours.filter(report => {
           let d = new Date(report.date)
-          // report.date = this.formatDate(report.date)
           return (d >= this.dateFrom && d <= this.dateTo && report.consultant === this.selectedConsultants)
         })
       },
@@ -274,10 +268,7 @@
       },
       formatDate (date) {
         if (!date) return null
-        const [, month, day] = date.slice(0, 10).split('-')
-        let weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-        let dayName = weekdays[new Date(date).getDay()]
-        return `${dayName} ${month}/${day}`
+        return moment(date).format('ddd, MMM Do')
       },
       addItem (item) {
         let newRecord = {}
@@ -294,7 +285,6 @@
           let newRecord = Object.assign({}, item)
           newRecord.id = null
           newRecord.date = moment(item.date).format('YYYY-MM-DDTHH:mm:ssZ')
-          console.log(newRecord) /* eslint-disable-line no-console */
           this.$store.dispatch('reportedHours/addRecord', newRecord)
         }
       },

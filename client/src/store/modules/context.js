@@ -12,7 +12,10 @@ const state = {
     dateMonth: new Date().toISOString().substr(0, 7),
     dateFrom: moment.tz({}, timeZone).startOf('isoWeek'),
     dateTo: moment.tz({}, timeZone).endOf('isoWeek'),
-    dailyWorkingHours: 8,
+    dailyWorkingHours: 8, // Used for weekly and monthly expected working hours
+    yearlyVacationDays: 20, // Used for  weekly and monthly expected working hours
+    yearlyPersonalDays: 3, // Used for  weekly and monthly expected working hours
+    yearlySickDays: 2, // Used for  weekly and monthly expected working hours
     previousWeeksUnLock: false
 }
 

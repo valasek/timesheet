@@ -3,6 +3,22 @@
     <h1>Timeheet</h1>
     <p>Self-hosted web application for weekly reporting your consulting hours on projects using selected rates.</p>
 
+    <p>
+      Report an <a href src="https://github.com/valasek/timesheet/issues">
+        issue
+      </a> or request a <a href src="https://github.com/valasek/timesheet/issues">
+        new feature
+      </a>.
+    </p>
+
+    <p>
+      Donate to cover the spent time and support further development via <a src="https://www.patreon.com/valasek">
+        Patreon
+      </a> or <a src="https://paypal.me/StanislavValasek">
+        PayPal
+      </a>.
+    </p>
+
     <h2>Rationale</h2>
 
     <p>Automation is based on a premise, that reporting and billing process includes three separated steps with well-defined data which flows in between:</p>
@@ -28,19 +44,6 @@
       <br><strong>Not covered by this app.</strong><br>
       Data are available in the DB which can be exported by this app read or exported by any DB tool.
     </p>
-
-    <h2>Requirements</h2>
-
-    <ul>
-      <li>Linux, Windows or MacOS</li>
-      <li>DB connection to PostgreSQL - configure in <code>timesheet.yaml</code></li>
-      <li>Initialize the DB using command <code>timesheet db --clean</code></li>
-      <li>Import initial data in csv format using command <code>timesheet db --load all</code></li>
-      <ul>
-        <li>(dates should be entered in ISO format YYYY-MM-DD HH:MM:SS)</li>
-        <li>consultants, projects, rates, holidays, initial reported_records - optional</li>
-      </ul>
-    </ul>
   </div>
 </template>
 

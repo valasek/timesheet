@@ -1,6 +1,10 @@
 ### default configuration file
 
-dailyWorkingHours: 8 # Used for holidays and weekly and monthly expected working hours
+# these are now as constants on frontend
+# dailyWorkingHours: 8 # Used for weekly and monthly expected working hours
+# yearlyVacationDays: 20 # Used for  weekly and monthly expected working hours
+# yearlyPersonalDays: 3 # Used for  weekly and monthly expected working hours
+# yearlySickDays: 2 # Used for  weekly and monthly expected working hours
 
 # Application settings
 url: "127.0.0.1" # URL on which application is running

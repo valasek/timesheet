@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-toolbar flat>
-      <v-toolbar-title>Year</v-toolbar-title>
+      <v-toolbar-title>{{ thisYear }}</v-toolbar-title>
     </v-toolbar>
     <v-container grid-list-md text-xs-center>
       <v-layout row wrap>
@@ -63,7 +63,7 @@
         <v-flex xs6>
           <v-card>
             <v-toolbar flat>
-              <v-toolbar-title>Week</v-toolbar-title>
+              <v-toolbar-title>{{ thisWeek }} </v-toolbar-title>
             </v-toolbar>
           </v-card>
           <v-container grid-list-md text-xs-center>
@@ -87,7 +87,7 @@
         <v-flex xs6>
           <v-card>
             <v-toolbar flat>
-              <v-toolbar-title>Month</v-toolbar-title>
+              <v-toolbar-title>{{ thisMonth }}</v-toolbar-title>
             </v-toolbar>
           </v-card>
           <v-container grid-list-md text-xs-center>
@@ -115,31 +115,32 @@
 
 <script>
   import { mapState } from 'vuex'
+  import moment from 'moment-timezone'
 
   export default {
-    name: 'ShowReportedTime',
+    name: 'ReportedOverview',
 
     data () {
       return {
         headers: [
           { text: '', align: 'left', value: 'reported', sortable: false },
-          { text: 'Hours', align: 'left', value: 'hours', sortable: false },
-          { text: 'Days', align: 'left', value: 'dayes', sortable: false }
+          { text: 'Hours', align: 'left', value: 'hours', sortable: false, class: 'body-1' },
+          { text: 'Days', align: 'left', value: 'dayes', sortable: false, class: 'body-1' }
         ],
         headersV: [
-          { text: 'Vacations', align: 'left', value: 'vacations', sortable: false },
-          { text: 'Hours', align: 'left', value: 'hours', sortable: false },
-          { text: 'Days', align: 'left', value: 'dayes', sortable: false }
+          { text: 'Vacations', align: 'left', value: 'vacations', sortable: false, class: 'subheading' },
+          { text: 'Hours', align: 'left', value: 'hours', sortable: false, class: 'body-1' },
+          { text: 'Days', align: 'left', value: 'dayes', sortable: false, class: 'body-1' }
         ],
         headersP: [
-          { text: 'Personal Days', align: 'left', value: 'personalDays', sortable: false },
-          { text: 'Hours', align: 'left', value: 'hours', sortable: false },
-          { text: 'Days', align: 'left', value: 'dayes', sortable: false }
+          { text: 'Personal Days', align: 'left', value: 'personalDays', sortable: false, class: 'subheading' },
+          { text: 'Hours', align: 'left', value: 'hours', sortable: false, class: 'body-1' },
+          { text: 'Days', align: 'left', value: 'dayes', sortable: false, class: 'body-1' }
         ],
         headersS: [
-          { text: 'Sick Days', align: 'left', value: 'sickDays', sortable: false },
-          { text: 'Hours', align: 'left', value: 'hours', sortable: false },
-          { text: 'Days', align: 'left', value: 'dayes', sortable: false }
+          { text: 'Sick Days', align: 'left', value: 'sickDays', sortable: false, class: 'subheading' },
+          { text: 'Hours', align: 'left', value: 'hours', sortable: false, class: 'body-1' },
+          { text: 'Days', align: 'left', value: 'dayes', sortable: false, class: 'body-1' }
         ]
       }
     },
@@ -158,44 +159,64 @@
       },
       ...mapState({
         reportedHours: state => state.reportedHours.all,
-        dateFrom: state => state.reportedHours.dateFrom,
-        dateTo: state => state.reportedHours.dateTo,
+        dateFrom: state => state.context.dateFrom,
+        dateTo: state => state.context.dateTo,
         selectedConsultants: state => state.consultants.selected,
-        dailyWorkingHours: state => state.context.dailyWorkingHours
+        dailyWorkingHours: state => state.context.dailyWorkingHours,
+        yearlyVacationDays: state => state.context.yearlyVacationDays,
+        yearlyPersonalDays: state => state.context.yearlyPersonalDays,
+        yearlySickDays: state => state.context.yearlySickDays
       }),
+      thisYear () { return moment(this.dateFrom).year() },
+      thisWeek () {
+        return moment.tz(this.dateFrom, 'Europe/Prague').format('MMMM D') + ' - ' + moment(this.dateTo).format('D')
+      },
+      thisMonth () { return moment(this.dateFrom).format('MMMM') },
       vacations () {
         return [
           {
+            text: 'Total',
+            value: this.yearlyVacationDays * this.dailyWorkingHours
+          },
+          {
             text: 'Remaining',
-            value: 25
+            value: this.yearlyVacationDays * this.dailyWorkingHours - this.getTotals(this.selectedReportedHours, 'Vacation')
           },
           {
             text: 'Reported',
-            value: 10
+            value: this.getTotals(this.selectedReportedHours, 'Vacation')
           }
         ]
       },
       personalDays () {
         return [
           {
+            text: 'Total',
+            value: this.yearlyPersonalDays * this.dailyWorkingHours
+          },
+          {
             text: 'Remaining',
             value: 15
           },
           {
             text: 'Reported',
-            value: 17
+            value: this.getTotals(this.selectedReportedHours, 'Personal Day')
           }
         ]
       },
       sickDays () {
         return [
           {
+            text: 'Total',
+            value: this.yearlySickDays * this.dailyWorkingHours
+          },
+          {
             text: 'Remaining',
             value: 10
           },
           {
             text: 'Reported',
-            value: 7
+            value: this.getTotals(this.selectedReportedHours, 'Sick Day')
           }
         ]
       },

@@ -29,11 +29,11 @@
         <v-divider class="menuSettings" />
 
         <v-list-tile>
-          <v-select v-model="selectedConsultant" :items="consultants.all" item-text="name" item-value="name" />
+          <v-select v-model="selectedConsultant" prepend-icon="person" :items="consultants.all" item-text="name" item-value="name" class="body-1" />
         </v-list-tile>
 
         <v-list-tile class="menuSettings">
-          <v-switch v-model="previousWeeksUnLock" :label="previousWeeksUnLockText" color="error" hide-details />
+          <v-switch v-model="previousWeeksUnLock" :label="previousWeeksUnLockText" color="error" hide-details class="body-1" />
         </v-list-tile>
         <!-- <v-list-tile>
           <div class="header ">
@@ -70,7 +70,7 @@
     </v-content>
     <v-footer app>
       <v-flex text-xs-center>
-        2018 - {{ (new Date()).getFullYear() }} &copy; <strong>Stanislav Valasek</strong>
+        2018 - {{ (new Date()).getFullYear() }} &copy; <strong>Stanislav Valasek</strong> v{{ version }}
       </v-flex>
     </v-footer>
   </v-app>
@@ -79,6 +79,7 @@
 <script>
   import ReportTable from './ReportTable'
   import { mapState } from 'vuex'
+  import { version } from './../../package.json'
 
   export default {
     name: 'App',
@@ -90,11 +91,12 @@
       return {
         // monthMenu: false,
         items: [
-          { title: 'Report my work', icon: 'dashboard', route: 'report' },
-          { title: 'Show reported work', icon: 'question_answer', route: 'reported' },
-          { title: 'State holidays', icon: 'card_travel', route: 'holidays' }
+          { title: 'Report my work', icon: 'list', route: 'report' },
+          { title: 'Reported overview', icon: 'show_chart', route: 'overview' },
+          { title: 'State holidays', icon: 'calendar_today', route: 'holidays' }
         ],
-        right: null
+        right: null,
+        version: version
       }
     },
 

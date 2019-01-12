@@ -1,9 +1,18 @@
-# Timesheet
-
 [![GitHub release](https://img.shields.io/github/release-pre/valasek/timesheet.svg)](https://github.com/valasek/timesheet/releases)
 [![GitHub issues](https://img.shields.io/github/issues/valasek/timesheet.svg)](https://github.com/valasek/timesheet/issues)
 [![GitHub license](https://img.shields.io/github/license/valasek/timesheet.svg)](https://github.com/valasek/timesheet/blob/master/LICENSE)
-[![PayPal Donate](https://img.shields.io/badge/donate-PayPal.me-ff69b4.svg)](https://paypal.me/StanislavValasek)
+
+# Supporting Timesheet
+
+Timesheet is an MIT-licensed open source project with its ongoing development made possible entirely by the support of these awesome backers. If you'd like to join them, please consider:
+
+- [Become a backer or sponsor on Patreon](https://www.patreon.com/valasek)
+- [One-time donation via PayPal](https://paypal.me/StanislavValasek)
+
+---
+
+# Timesheet
+
 
 Self-hosted web application for weekly reporting. Report your consulting hours on projects using selected rates.
 
@@ -88,7 +97,6 @@ Overview
 
 ## Fixes
 
-- handle more than one year of reporting without data refresh (add year to retrieving data in addition to month)
 - implement rollback in js store if DB fails
 
 ## Improvements business
