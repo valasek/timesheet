@@ -13,7 +13,15 @@
                   {{ formatDate(props.item.date) }}
                 </td>
                 <td class="text-xs-left">
+                  {{ formatDay(props.item.date) }}
+                </td>
+                <td class="text-xs-left">
                   {{ props.item.description }}
+                </td>
+                <td class="text-xs-left">
+                  <v-icon small class="mr-2" @click="addHolidayToReport(props.item)">
+                    add
+                  </v-icon>
                 </td>
               </template>
             </v-data-table>
@@ -26,6 +34,7 @@
 
 <script>
   import { mapState } from 'vuex'
+  import moment from 'moment'
 
   export default {
     name: 'Holidays',
@@ -33,15 +42,19 @@
     data () {
       return {
         headers: [
-          { text: 'Date', align: 'left', value: 'date', sortable: false },
-          { text: 'Description', align: 'left', value: 'description', sortable: false }
+          { text: 'Date', align: 'left', value: 'date', sortable: true, class: 'body-1' },
+          { text: 'Day', align: 'left', value: 'day', sortable: true, class: 'body-1' },
+          { text: 'Description', align: 'left', value: 'description', sortable: false, class: 'body-1' },
+          { text: 'Actions', align: 'left', value: 'action', sortable: false, class: 'body-1' }
         ]
       }
     },
 
     computed: {
       ...mapState({
-        holidays: state => state.holidays.all
+        holidays: state => state.holidays.all,
+        dailyWorkingHours: state => state.context.dailyWorkingHours,
+        consultant: state => state.consultants.selected
       })
     },
 
@@ -49,14 +62,25 @@
     },
 
     methods: {
+      addHolidayToReport (item) {
+        let newRecord = {
+          id: null,
+          date: moment(item.date).format('YYYY-MM-DDTHH:mm:ssZ'),
+          hours: this.dailyWorkingHours,
+          project: 'Holiday',
+          description: item.description,
+          rate: '_Holiday',
+          consultant: this.consultant
+        }
+        this.$store.dispatch('reportedHours/addRecord', newRecord)
+        this.$store.dispatch('context/setNotification', { text: this.formatDate(item.date) + ' added to your reports', type: 'success' })
+      },
       formatDate (date) {
         if (!date) return null
-        let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-        let weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-        const [year, , day] = date.slice(0, 10).split('-')
-        let monthName = months[new Date(date).getMonth()]
-        let dayName = weekdays[new Date(date).getDay()]
-        return `${dayName}, ${monthName} ${day}, ${year}`
+        return moment(date).format('MMM Do, YYYY')
+      },
+      formatDay (date) {
+        return moment(date).format('dddd')
       }
     }
   }

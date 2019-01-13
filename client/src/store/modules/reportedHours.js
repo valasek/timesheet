@@ -1,4 +1,5 @@
 import api from '../../api/axiosSettings'
+import moment from 'moment'
 
 // initial state
 const state = {
@@ -39,9 +40,10 @@ const actions = {
             })
     },
     addRecord ({ commit, dispatch }, payload) {
-        console.log(payload) /* eslint-disable-line no-console */
         api.apiClient.post('/api/reported', payload)
                 .then(response => {
+                    // format date for Vuetify which works with ISO format
+                    payload.date = moment(payload.date).format('YYYY-MM-DD')
                     commit('ADD_RECORD', payload)
                 })
                 .catch(e => {
