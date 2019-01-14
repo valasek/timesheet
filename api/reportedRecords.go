@@ -29,6 +29,12 @@ func (api *API) ReportedRecordsInMonth(w http.ResponseWriter, req *http.Request)
 	json.NewEncoder(w).Encode(reportedRecords)
 }
 
+// ReportedRecordsSummary returns list of all 
+func (api *API) ReportedRecordsSummary(w http.ResponseWriter, req *http.Request) {
+	reportedRecordsSummary := api.reportedRecords.ReportedRecordsSummary()
+	json.NewEncoder(w).Encode(reportedRecordsSummary)
+}
+
 // ReportedRecordDelete deletes records with given id
 func (api *API) ReportedRecordDelete(w http.ResponseWriter, req *http.Request) {
 	vars := mux.Vars(req)

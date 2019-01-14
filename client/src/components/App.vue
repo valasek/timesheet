@@ -52,7 +52,7 @@
     <v-toolbar app>
       <v-toolbar-title class="headline">
         <span>{{ page }}</span>
-      <!-- <span class="font-weight-light">  management</span> -->
+        <!-- <span class="font-weight-light">  management</span> -->
       </v-toolbar-title>
       <v-spacer />
       <v-btn flat to="help">
@@ -70,7 +70,7 @@
     </v-content>
     <v-footer app>
       <v-flex text-xs-center>
-        2018 - {{ (new Date()).getFullYear() }} &copy; <strong>Stanislav Valasek</strong> v{{ version }}
+        2018 - {{ (new Date()).getFullYear() }} &copy; <strong>Stanislav Valasek</strong> Version {{ version }}
       </v-flex>
     </v-footer>
   </v-app>

@@ -13,7 +13,6 @@ Timesheet is an MIT-licensed open source project with its ongoing development ma
 
 # Timesheet
 
-
 Self-hosted web application for weekly reporting. Report your consulting hours on projects using selected rates.
 
 # Rationale
@@ -40,6 +39,8 @@ Automation is based on a premise, that reporting and billing process includes th
 # Screenshots
 
 ![Main screen](screenshots/main_screen.png?raw=true "Main screen")
+
+![State holidays](screenshots/holidays.png?raw=true "State holidays")
 
 # Download
 

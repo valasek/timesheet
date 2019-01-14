@@ -27,6 +27,15 @@ type ReportedRecord struct {
 	Consultant  string     `gorm:"not null" json:"consultant"`
 }
 
+// ReportedRecordsSummary struct
+type ReportedRecordsSummary struct {
+	Consultant string `json:"consultant"`
+	Year       string `json:"year"`
+	Month      string `json:"month"`
+	Rate       string  `json:"rate"`
+	Hours      float64 `json:"hours"`
+}
+
 // ReportedRecordCSV csv struct
 type ReportedRecordCSV struct {
 	CreatedAt   DateTime `csv:"created_at"`
@@ -72,6 +81,17 @@ func (db *ReportedRecordManager) ReportedRecordsInMonth(month string) []Reported
 		return reportedRecords
 	}
 	fmt.Println("failed - get reported records in month", month)
+	return nil
+}
+
+// ReportedRecordsSummary - return summary records of ReportedRecords
+func (db *ReportedRecordManager) ReportedRecordsSummary() []ReportedRecordsSummary {
+	reportedRecordsSummary := []ReportedRecordsSummary{}
+	sql := "select consultant, DATE_PART('year', date) as year, DATE_PART('month', date) as month, rate, sum(hours) from reported_records group by consultant, DATE_PART('month', date), DATE_PART('year', date), rate"
+	if err := db.db.Raw(sql).Scan(&reportedRecordsSummary); err != nil {
+		return reportedRecordsSummary
+	}
+	fmt.Println("failed - get all reported records")
 	return nil
 }
 

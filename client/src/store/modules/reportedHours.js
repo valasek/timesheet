@@ -3,7 +3,8 @@ import moment from 'moment'
 
 // initial state
 const state = {
-    all: [], // id, date, hours, project, description, rate, consultant
+    all: [], // {id, date, hours, project, description, rate, consultant}
+    summary: [], // {consultant, year, month, rate, hours }
     loading: true
 }
 
@@ -16,17 +17,27 @@ const actions = {
         let monthNumber = (new Date(month).getMonth() + 1).toString()
         let options = { year: 'numeric', month: 'long' }
         let monthText = new Intl.DateTimeFormat('en-US', options).format(new Date(month))
+        // get yearly summary
+        api.apiClient.get('/api/reported/summary')
+            .then(response => {
+                console.log(response.data) /* eslint-disable-line no-console */
+                commit('SET_REPORTED_HOURS_SUMMARY', response.data)
+            })
+            .catch(e => {
+                dispatch('context/setNotification', { text: 'Couldn\'t read reported records summary from server. \n' + e.toString(), type: 'error' }, { root: true })
+                console.log(e) /* eslint-disable-line no-console */
+            })
+        // get monthly data
         api.apiClient.get('/api/reported/month/' + monthNumber)
             .then(response => {
                 commit('SET_REPORTED_HOURS', response.data)
                 dispatch('context/setNotification', { text: monthText + ' data retrieved', type: '' }, { root: true })
-                commit('SET_LOADING', false)
             })
             .catch(e => {
                 dispatch('context/setNotification', { text: 'Couldn\'t read reported records from server. \n' + e.toString(), type: 'error' }, { root: true })
-                commit('SET_LOADING', false)
                 console.log(e) /* eslint-disable-line no-console */
             })
+            commit('SET_LOADING', false)
     },
     removeRecord ({ commit, dispatch }, id) {
         const index = state.all.findIndex(records => records.id === id)
@@ -72,7 +83,13 @@ const actions = {
 const mutations = {
     SET_REPORTED_HOURS (state, reportedHours) {
         state.all = reportedHours
+        // convert dates to ISO strings for Vuetify
         state.all.map(value => { value.date = value.date.substr(0, 10) })
+    },
+    SET_REPORTED_HOURS_SUMMARY (state, payload) {
+        state.summary = payload
+        // convert dates to ISO strings for Vuetify
+        // state.all.map(value => { value.date = value.date.substr(0, 10) })
     },
     ADD_RECORD (state, payload) {
         state.all.push(payload)

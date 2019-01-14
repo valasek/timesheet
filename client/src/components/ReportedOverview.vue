@@ -152,16 +152,23 @@
           return (d >= this.dateFrom && d <= this.dateTo && report.consultant === this.selectedConsultants)
         })
       },
+      summaryRates () {
+        let allowProjects = ['_Public Holiday', '_Personal Day', '_Sick Day']
+        return this.reportedHoursSummary.filter(record => {
+          return (record.consultant === this.selectedConsultant && allowProjects.includes(record.project))
+        })
+      },
       monthlyConsultantReportedHours () {
         return this.reportedHours.filter(report => {
-          return (report.consultant === this.selectedConsultants)
+          return (report.consultant === this.selectedConsultant)
         })
       },
       ...mapState({
         reportedHours: state => state.reportedHours.all,
+        reportedHoursSummary: state => state.reportedHours.summary,
         dateFrom: state => state.context.dateFrom,
         dateTo: state => state.context.dateTo,
-        selectedConsultants: state => state.consultants.selected,
+        selectedConsultant: state => state.consultants.selected,
         dailyWorkingHours: state => state.context.dailyWorkingHours,
         yearlyVacationDays: state => state.context.yearlyVacationDays,
         yearlyPersonalDays: state => state.context.yearlyPersonalDays,
