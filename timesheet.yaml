@@ -30,9 +30,8 @@ postgresql:
 
 # initial DB data files which are loaded via command "timesheet db --load all"
 data:
-  consultants: "consultants_prod.csv"
+  consultants: "consultants_demo.csv"
   rates: "rates_demo.csv"
-  projects: "projects_prod.csv"
-  reportedRecords: "reportedRecords_prod.csv"
-  holidays: "holidays_cz_2019.csv"
-  # holidays: "holidays_us_2019.csv"
+  projects: "projects_demo.csv"
+  reportedRecords: "reportedRecords_demo.csv"
+  holidays: "holidays_us_2019.csv"

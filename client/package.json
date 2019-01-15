@@ -15,7 +15,7 @@
     "vue": "^2.5.22",
     "vue-axios": "^2.1.4",
     "vue-router": "^3.0.2",
-    "vuetify": "^1.4.1",
+    "vuetify": "^1.4.2",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
@@ -24,7 +24,7 @@
     "@vue/cli-service": "^3.3.0",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.12.0",
-    "eslint-config-vuetify": "^0.1.0",
+    "eslint-config-vuetify": "^0.2.0",
     "eslint-plugin-vue": "^5.1.0",
     "npm-check": "^5.9.0",
     "stylus": "^0.54.5",

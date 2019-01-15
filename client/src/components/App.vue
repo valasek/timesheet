@@ -4,17 +4,7 @@
       {{ notificationText }}
     </v-snackbar>
 
-    <v-navigation-drawer app>
-      <v-toolbar flat>
-        <v-list>
-          <v-list-tile>
-            <v-list-tile-title class="title">
-              Timesheet
-            </v-list-tile-title>
-          </v-list-tile>
-        </v-list>
-      </v-toolbar>
-
+    <v-navigation-drawer v-model="drawer" clipped fixed app>
       <v-list dense class="pt-0">
         <v-list-tile v-for="item in items" :key="item.title" :to="item.route">
           <v-list-tile-action>
@@ -29,7 +19,7 @@
         <v-divider class="menuSettings" />
 
         <v-list-tile>
-          <v-select v-model="selectedConsultant" prepend-icon="person" :items="consultants.all" item-text="name" item-value="name" class="body-1" />
+          <v-select v-model="selectedConsultant" prepend-icon="person" :dense="true" :items="consultants.all" item-text="name" item-value="name" class="body-1" />
         </v-list-tile>
 
         <v-list-tile class="menuSettings">
@@ -49,8 +39,12 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-toolbar app>
+    <v-toolbar color="blue darken-3" dark fixed clipped-left app>
+      <v-toolbar-side-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title class="headline">
+        Timesheet /
+      </v-toolbar-title>
+      <v-toolbar-title>
         <span>{{ page }}</span>
         <!-- <span class="font-weight-light">  management</span> -->
       </v-toolbar-title>
@@ -68,7 +62,7 @@
         </router-view>
       </v-container>
     </v-content>
-    <v-footer app>
+    <v-footer color="blue darken-0" dark fixed app>
       <v-flex text-xs-center>
         2018 - {{ (new Date()).getFullYear() }} &copy; <strong>Stanislav Valasek</strong> Version {{ version }}
       </v-flex>
@@ -89,6 +83,7 @@
 
     data () {
       return {
+        drawer: true,
         // monthMenu: false,
         items: [
           { title: 'Report my work', icon: 'list', route: 'report' },

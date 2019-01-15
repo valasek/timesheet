@@ -19,9 +19,12 @@
                   {{ props.item.description }}
                 </td>
                 <td class="text-xs-left">
-                  <v-icon small class="mr-2" @click="addHolidayToReport(props.item)">
-                    add
-                  </v-icon>
+                  <v-tooltip bottom>
+                    <v-icon slot="activator" small class="mr-2" @click="addHolidayToReport(props.item)">
+                      add
+                    </v-icon>
+                    <span>Add to my reported records</span>
+                  </v-tooltip>
                 </td>
               </template>
             </v-data-table>

@@ -73,13 +73,19 @@
             />
           </v-edit-dialog>
         </td>
-        <td class="justify-center layout px-0">
-          <v-icon small class="mr-2" @click="duplicateItem(props.item)">
-            file_copy
-          </v-icon>
-          <v-icon small @click="deleteItem(props.item)">
-            delete
-          </v-icon>
+        <td class="text-xs-center px-0">
+          <v-tooltip bottom>
+            <v-icon slot="activator" small class="mr-2" @click="duplicateItem(props.item)">
+              file_copy
+            </v-icon>
+            <span>Duplicate this record</span>
+          </v-tooltip>
+          <v-tooltip bottom>
+            <v-icon slot="activator" small @click="deleteItem(props.item)">
+              delete
+            </v-icon>
+            <span>Remove this record</span>
+          </v-tooltip>
         </td>
       </template>
       <template slot="no-data">
