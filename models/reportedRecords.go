@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/gocarina/gocsv"
-	// "github.com/jinzhu/gorm"
+    "github.com/jinzhu/now"
 
 	// postgress db driver
 	_ "github.com/jinzhu/gorm/dialects/postgres"
@@ -74,14 +74,65 @@ func (db *ReportedRecordManager) ReportedRecordsGetAll() []ReportedRecord {
 	return nil
 }
 
-// ReportedRecordsInMonth - return all records of ReportedRecords
-func (db *ReportedRecordManager) ReportedRecordsInMonth(month string) []ReportedRecord {
+// ReportedRecordsInMonth - return records per month
+// adds days from previous and next month having the same week as month
+func (db *ReportedRecordManager) ReportedRecordsInMonth(year, month string) []ReportedRecord {
 	reportedRecords := []ReportedRecord{}
-	if err := db.db.Where("extract(MONTH from date) = ?", month).Find(&reportedRecords); err != nil {
-		return reportedRecords
+	if err := db.db.Where("extract(MONTH from date) = ? AND extract(YEAR from date) = ? ", month, year).Find(&reportedRecords); err != nil {
+		borderWeeksReportedRecords := []ReportedRecord{}
+		days, err := getborderDays(year, month)
+		if err != nil {
+			fmt.Printf("failed - get reported records in month %s, year %s, error: %s\n", month, year, err)
+			return nil
+		}
+		if err := db.db.Where("date(date) in (?)", days).Find(&borderWeeksReportedRecords); err != nil {
+			reportedRecords = append(reportedRecords, borderWeeksReportedRecords...)
+			return reportedRecords
+		}
 	}
-	fmt.Println("failed - get reported records in month", month)
+	fmt.Printf("failed - get reported records in month %s, year %s\n", month, year)
 	return nil
+}
+
+func getborderDays(year, month string) (days []string, err error) {
+	// days = append(days, "2018-12-31")
+	
+	layout := "2006-1-02"
+	monthStart, err := time.Parse(layout, year + "-" + month + "-01")
+	if err != nil {
+		return nil, err
+	}
+	monthN, err := strconv.Atoi(month)
+	if err != nil {
+		return nil, err
+	}
+	yearN, err := strconv.Atoi(year)
+	if err != nil {
+		return nil, err
+	}
+	prevMonth := fmt.Sprintf("%02d", monthN - 1)
+	prevYear, nextYear := strconv.Itoa(yearN), strconv.Itoa(yearN)
+	if monthN == 1 {
+		prevMonth = "12"
+		prevYear = strconv.Itoa(yearN-1)
+	}
+	nextMonth := fmt.Sprintf("%02d", monthN + 1)
+	if monthN == 12 {
+		nextMonth = "01"
+		nextYear = strconv.Itoa(yearN+1)
+	}
+	monday := now.New(monthStart).Monday()
+	sunday := now.New((now.New(monthStart).EndOfMonth())).Sunday()
+
+	for day := monday.Day(); day <= now.New(monthStart).EndOfMonth().Day(); day++ {
+		days = append(days, prevYear + "-" + prevMonth + "-" + fmt.Sprintf("%02d", day))
+	}
+
+	for day := 1; day <= sunday.Day(); day++ {
+		days = append(days, nextYear + "-" + nextMonth + "-" + fmt.Sprintf("%02d", day))
+	}
+
+	return days, nil
 }
 
 // ReportedRecordsSummary - return summary records of ReportedRecords

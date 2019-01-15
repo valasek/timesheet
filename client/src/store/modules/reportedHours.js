@@ -11,16 +11,13 @@ const state = {
 const getters = {}
 
 const actions = {
-    getReportedHours ({ commit, dispatch }, month) {
+    getReportedHours ({ commit, dispatch }, yearMonth) {
         commit('SET_LOADING', true)
         state.loading = true
-        let monthNumber = (new Date(month).getMonth() + 1).toString()
-        let options = { year: 'numeric', month: 'long' }
-        let monthText = new Intl.DateTimeFormat('en-US', options).format(new Date(month))
+        let [year, month] = yearMonth.split('-')
         // get yearly summary
         api.apiClient.get('/api/reported/summary')
             .then(response => {
-                console.log(response.data) /* eslint-disable-line no-console */
                 commit('SET_REPORTED_HOURS_SUMMARY', response.data)
             })
             .catch(e => {
@@ -28,10 +25,10 @@ const actions = {
                 console.log(e) /* eslint-disable-line no-console */
             })
         // get monthly data
-        api.apiClient.get('/api/reported/month/' + monthNumber)
+        api.apiClient.get('/api/reported/year/' + year + '/month/' + month)
             .then(response => {
                 commit('SET_REPORTED_HOURS', response.data)
-                dispatch('context/setNotification', { text: monthText + ' data retrieved', type: '' }, { root: true })
+                dispatch('context/setNotification', { text: moment.tz(yearMonth, 'Europe/Prague').format('MMMM') + ' ' + year + ' data', type: '' }, { root: true })
             })
             .catch(e => {
                 dispatch('context/setNotification', { text: 'Couldn\'t read reported records from server. \n' + e.toString(), type: 'error' }, { root: true })

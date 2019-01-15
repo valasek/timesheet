@@ -25,7 +25,12 @@ func (api *API) ReportedRecordsInMonth(w http.ResponseWriter, req *http.Request)
 		fmt.Println("ReportedRecordsInMonth, param 'month' is missing")
 		return
 	}
-	reportedRecords := api.reportedRecords.ReportedRecordsInMonth(month)
+	year := vars["year"]
+	if len(year) < 1 {
+		fmt.Println("ReportedRecordsInMonth, param 'year' is missing")
+		return
+	}
+	reportedRecords := api.reportedRecords.ReportedRecordsInMonth(year, month)
 	json.NewEncoder(w).Encode(reportedRecords)
 }
 
