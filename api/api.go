@@ -124,35 +124,35 @@ func SeedTable(api *API, table string) (count int){
 			fmt.Printf("- rates, file %s skipped, table contains %d records\n", viper.GetString("data.rates"), api.rates.RateCount())
 			return 0
 		}
-		count = api.rates.RateSeed("./data./" + viper.GetString("data.rates"))
+		count = api.rates.RateSeed("./data/" + viper.GetString("data.rates"))
 		fmt.Printf("- rates, %d records, %s\n", count, viper.GetString("data.rates"))
 	case "consultants":
 		if api.consultants.ConsultantCount() > 0 {
 			fmt.Printf("- consultants, file %s skipped, table contains %d records\n", viper.GetString("data.consultants"), api.consultants.ConsultantCount())
 			return 0
 		}
-		count = api.consultants.ConsultantSeed("./data./" + viper.GetString("data.consultants"))
+		count = api.consultants.ConsultantSeed("./data/" + viper.GetString("data.consultants"))
 		fmt.Printf("- consultants, %d records, %s\n", count, viper.GetString("data.consultants"))
 	case "projects":
 		if api.projects.ProjectCount() > 0 {
 			fmt.Printf("- projects, file %s skipped, table contains %d records\n", viper.GetString("data.projects"), api.projects.ProjectCount())
 			return 0
 		}
-		count = api.projects.ProjectSeed("./data./" + viper.GetString("data.projects"))
+		count = api.projects.ProjectSeed("./data/" + viper.GetString("data.projects"))
 		fmt.Printf("- projects, %d records, %s\n", count, viper.GetString("data.projects"))
 	case "reported_records":
 		if api.reportedRecords.ReportedRecordCount() > 0 {
 			fmt.Printf("- reported_records, file %s skipped, table contains %d records\n", viper.GetString("data.reportedRecords"), api.reportedRecords.ReportedRecordCount())
 			return 0
 		}
-		count = api.reportedRecords.ReportedRecordSeed("./data./" + viper.GetString("data.reportedRecords"))
+		count = api.reportedRecords.ReportedRecordSeed("./data/" + viper.GetString("data.reportedRecords"))
 		fmt.Printf("- reported_records, %d records, %s\n", count, viper.GetString("data.reportedRecords"))
 	case "holidays":
 		if api.holidays.HolidayCount() > 0 {
 			fmt.Printf("- holidays, file %s skipped, table contains %d records\n", viper.GetString("data.holidays"), api.holidays.HolidayCount())
 			return 0
 		}
-		count = api.holidays.HolidaySeed("./data./" + viper.GetString("data.holidays"))
+		count = api.holidays.HolidaySeed("./data/" + viper.GetString("data.holidays"))
 		fmt.Printf("- holidays, %d records, %s\n", count, viper.GetString("data.holidays"))
 	default:
 		fmt.Printf("unknown table to seed: %s\n", table)

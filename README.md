@@ -38,7 +38,7 @@ Automation is based on a premise, that reporting and billing process includes th
 
 # Screenshots
 
-![Main screen](screenshots/main_screen.png?raw=true "Main screen")
+![Home](screenshots/home.png?raw=true "Home")
 
 ![State holidays](screenshots/holidays.png?raw=true "State holidays")
 
@@ -121,7 +121,12 @@ https://medium.com/statuscode/how-i-write-go-http-services-after-seven-years-37c
 # To get started
 
 ``` bash
-# clone repository
+# create DB docker image
+sudo docker run --name pg-docker -e POSTGRES_USER=timesheet -e POSTGRES_PASSWORD=timesheet -e POSTGRES_DB=timesheet -d -p 5432:5432 postgres
+# alternatively Mount $HOME/docker/volumes/postgres on the host machine to the container side volume path /var/lib/postgresql/data created inside the container. This ensures that postgres data persists even after the container is removed.
+sudo docker run --rm --name pg-docker -e POSTGRES_USER=timesheet -e POSTGRES_PASSWORD=timesheet -e POSTGRES_DB=timesheet -d -p 5432:5432 -v $HOME/docker/volumes/postgres:/var/lib/postgresql/data  postgres
+
+# clone the repository
 go get github.com/valasek/timesheet
 cd $GOPATH/src/github.com/valasek/timesheet
 
@@ -131,7 +136,7 @@ go run timesheet.go db --clean
 go run timesheet.go db --load all
 go run timesheet.go server
 
-# open a new terminal and change to the client dir
+# open a new terminal and change to the client folder
 cd client
 
 # install dependencies
