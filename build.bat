@@ -1,5 +1,7 @@
 @ECHO OFF
 set zip="C:\Program Files\7-Zip\7z.exe"
+set version="0.0.8" 
+REM rem git describe --tags
 
 ECHO ==============================================
 ECHO Removing aftifacts from the previous build ...
@@ -7,6 +9,7 @@ IF EXIST .\build\timesheet.exe del .\build\timesheet.exe
 IF EXIST .\build\timesheet.app del .\build\timesheet.app
 IF EXIST .\build\timesheet.bin del .\build\timesheet.bin
 IF EXIST .\build\timesheet.yaml del .\build\timesheet.yaml
+IF EXIST .\build\timesheet-prod.yaml del .\build\timesheet-prod.yaml
 IF EXIST .\build\MS_Windows_64bit.zip del .\build\MS_Windows_64bit.zip
 IF EXIST .\build\Linux_64bit.zip del .\build\Linux_64bit.zip
 IF EXIST .\build\Mac_OS_X_64bit.zip del .\build\Mac_OS_X_64bit.zip
@@ -22,24 +25,24 @@ cd ..
 
 ECHO =====================
 ECHO Compiling backend ...
-copy .\timesheet.yaml .\build\timesheet.yaml
-copy .\data\consultants_demo.csv .\build\data\consultants_demo.csv
-copy .\data\holidays_us_2019.csv .\build\data\holidays_us_2019.csv
-copy .\data\projects_demo.csv .\build\data\projects_demo.csv
+copy .\timesheet-prod.yaml .\build\timesheet.yaml
+copy .\data\consultants_prod.csv .\build\data\consultants_prod.csv
+copy .\data\holidays_cz_2019.csv .\build\data\holidays_cz_2019.csv
+copy .\data\projects_prod.csv .\build\data\projects_prod.csv
 copy .\data\rates_demo.csv .\build\data\rates_demo.csv
-copy .\data\reportedRecords_demo.csv .\build\data\reportedRecords_demo.csv
+copy .\data\reportedRecords_prod.csv .\build\data\reportedRecords_prod.csv
 ECHO MS Windows ...
 set GOOS=windows
 set GOARCH=amd64
-go build -o .\build\timesheet.exe .\timesheet.go
+go build -ldflags "-X github.com/valasek/timesheet/version.Version=%version%" -o .\build\timesheet.exe .\timesheet.go
 ECHO Linux ...
 set GOOS=linux
 set GOARCH=amd64
-go build -o .\build\timesheet.bin .\timesheet.go
+go build -ldflags "-X github.com/valasek/timesheet/version.Version=%version%" -o .\build\timesheet.bin .\timesheet.go
 ECHO MAC OS X ...
 set GOOS=darwin
 set GOARCH=amd64
-go build -o .\build\timesheet.app .\timesheet.go
+go build -ldflags "-X github.com/valasek/timesheet/version.Version=%version%" -o .\build\timesheet.app .\timesheet.go
 
 ECHO =========================
 ECHO Compressing artifacts ...

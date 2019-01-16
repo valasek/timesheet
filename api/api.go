@@ -7,7 +7,12 @@ import (
 	"path/filepath"
 	"strings"
 	"time"
+	"net/http"
+	"encoding/json"
+
 	"github.com/valasek/timesheet/models"
+	"github.com/valasek/timesheet/version"
+	
 	"github.com/spf13/viper"
 )
 
@@ -19,6 +24,19 @@ type API struct {
 	projects *models.ProjectManager
 	rates *models.RateManager
 	holidays *models.HolidayManager
+}
+
+// AppSettings -
+type AppSettings struct {
+	Version string `json:"version"`
+}
+
+// AppSettings returns list of all 
+func (api *API) AppSettings(w http.ResponseWriter, req *http.Request) {
+	settings := AppSettings {
+		Version: version.Version,
+	}
+	json.NewEncoder(w).Encode(settings)
 }
 
 // NewAPI -

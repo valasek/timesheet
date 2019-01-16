@@ -29,6 +29,9 @@ func NewRoutes(api *api.API) *mux.Router {
 	// api
 	a := mux.PathPrefix("/api").Subrouter()
 
+	// app settings
+	a.HandleFunc("/settings", api.AppSettings).Methods("GET")
+
 	// users
 	u := a.PathPrefix("/user").Subrouter()
 	u.HandleFunc("/signup", api.UserSignup).Methods("POST")

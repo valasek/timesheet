@@ -73,7 +73,6 @@
 <script>
   import ReportTable from './ReportTable'
   import { mapState } from 'vuex'
-  import { version } from './../../package.json'
 
   export default {
     name: 'App',
@@ -90,8 +89,7 @@
           { title: 'Reported overview', icon: 'show_chart', route: 'overview' },
           { title: 'State holidays', icon: 'calendar_today', route: 'holidays' }
         ],
-        right: null,
-        version: version
+        right: null
       }
     },
 
@@ -140,7 +138,8 @@
         notificationText: state => state.context.notificationText,
         notificationType: state => state.context.notificationType,
         consultants: state => state.consultants,
-        page: state => state.context.page
+        page: state => state.context.page,
+        version: state => state.settings.version
       })
     },
 
@@ -151,6 +150,7 @@
       this.$store.dispatch('projects/getProjects')
       this.$store.dispatch('rates/getRates')
       this.$store.dispatch('holidays/getHolidays')
+      this.$store.dispatch('settings/getSettings')
     },
 
     methods: {

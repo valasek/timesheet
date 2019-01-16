@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/valasek/timesheet/models"
+	"github.com/valasek/timesheet/version"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -17,7 +18,7 @@ var cfgFile string
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "timesheet",
-	Version: "timesheet 0.0.7",
+	Version: version.Version,
 	Short: "Web based timesheet application with DB persistence",
 	Long: `Web based timesheet application with DB persistence.
 	

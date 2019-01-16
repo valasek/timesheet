@@ -99,6 +99,9 @@ Overview
 ## Fixes
 
 - implement rollback in js store if DB fails
+- report error if yaml config file is not present or DB is misconfigured
+- have one app version for FE (package.json) and BE (build.bat)
+- get favicon on production build
 
 ## Improvements business
 
@@ -124,7 +127,7 @@ https://medium.com/statuscode/how-i-write-go-http-services-after-seven-years-37c
 # create DB docker image
 sudo docker run --name pg-docker -e POSTGRES_USER=timesheet -e POSTGRES_PASSWORD=timesheet -e POSTGRES_DB=timesheet -d -p 5432:5432 postgres
 # alternatively Mount $HOME/docker/volumes/postgres on the host machine to the container side volume path /var/lib/postgresql/data created inside the container. This ensures that postgres data persists even after the container is removed.
-sudo docker run --rm --name pg-docker -e POSTGRES_USER=timesheet -e POSTGRES_PASSWORD=timesheet -e POSTGRES_DB=timesheet -d -p 5432:5432 -v $HOME/docker/volumes/postgres:/var/lib/postgresql/data  postgres
+sudo docker run --name pg-docker -e POSTGRES_USER=timesheet -e POSTGRES_PASSWORD=timesheet -e POSTGRES_DB=timesheet -d -p 5432:5432 -v $HOME/docker/volumes/postgres:/var/lib/postgresql/data  postgres
 
 # clone the repository
 go get github.com/valasek/timesheet
