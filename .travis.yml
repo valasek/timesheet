@@ -1,12 +1,12 @@
 matrix:
   include:
+    - os: linux
+      env: BINARY=timesheet.bin
+    - os: windows
+      env: BINARY=timesheet.exe
     - language: go
       go:
         - 1.11.x
-      - os: linux
-        env: BINARY=timesheet.bin
-      - os: windows
-        env: BINARY=timesheet.exe
         # - osx
         # - windows
       # Only clone the most recent commit.
