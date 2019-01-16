@@ -1,23 +1,33 @@
 matrix:
-  include:
-    - os: linux
-      env: BINARY=timesheet.bin
-    - os: windows
-      env: BINARY=timesheet.exe
+  include:      
     - language: go
       go:
         - 1.11.x
-        # - osx
-        # - windows
       # Only clone the most recent commit.
       git:
         depth: 1
       # Skip the install step. Don't `go get` dependencies. Only build with the code
       # in vendor/
+      os: linux
       install: true
       gobuild_args: -x -ldflags "-X github.com/valasek/timesheet/version.Version=0.0.8"
       script:
-        - env GO111MODULE=on go build -o $BINARY
+        - env GO111MODULE=on go build -o timesheet.bin
+        - env GO111MODULE=on go test
+
+    - language: go
+      go:
+        - 1.11.x
+      # Only clone the most recent commit.
+      git:
+        depth: 1
+      # Skip the install step. Don't `go get` dependencies. Only build with the code
+      # in vendor/
+      os: windows
+      install: true
+      gobuild_args: -x -ldflags "-X github.com/valasek/timesheet/version.Version=0.0.8"
+      script:
+        - env GO111MODULE=on go build -o timesheet.exe
         - env GO111MODULE=on go test
 
     - language: node_js
