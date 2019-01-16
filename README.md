@@ -98,7 +98,7 @@ Overview
 
 ## Fixes
 
-- implement rollback in js store if DB fails
+- implement rollback in js store if DB fails 
 - report error if yaml config file is not present or DB is misconfigured
 - have one app version for FE (package.json) and BE (build.bat)
 - get favicon on production build
