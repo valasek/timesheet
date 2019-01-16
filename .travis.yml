@@ -15,7 +15,7 @@ matrix:
       install: true
       gobuild_args: -x -ldflags "-X github.com/valasek/timesheet/version.Version=0.0.8"
       script:
-        - env GO111MODULE=on go build -o .\build\$BINARY .\timesheet.go
+        - env GO111MODULE=on go build
         - env GO111MODULE=on go test
 
     - language: node_js
