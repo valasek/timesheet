@@ -158,7 +158,6 @@ func (db *ReportedRecordManager) ReportedRecordsDelete(id uint64) []ReportedReco
 
 // ReportedRecordAdd -
 func (db *ReportedRecordManager) ReportedRecordAdd(newRecord ReportedRecord) ReportedRecord {
-	fmt.Println("entering ReportedRecordAdd")
 	if err := db.db.Create(&newRecord); err != nil {
 		return newRecord
 	}

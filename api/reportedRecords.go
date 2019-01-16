@@ -58,7 +58,6 @@ func (api *API) ReportedRecordUpdate(w http.ResponseWriter, req *http.Request) {
 	decoder := json.NewDecoder(req.Body)
 	var updatedValue models.UpdatedValue
 	err := decoder.Decode(&updatedValue)
-	fmt.Println(updatedValue)
 	if err != nil {
 		fmt.Printf("unable to decode reported record %s, error: %s", req.Body, err)
 		return

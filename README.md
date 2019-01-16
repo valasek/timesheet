@@ -150,6 +150,9 @@ npm run serve
 
 # build for production with minification
 npm run build
+
+# replace baseUrl in compiled js files
+sed -i -e 's/localhost/www.example.com/g' /client/dist/*.js
 ```
 
 # License
