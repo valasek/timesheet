@@ -1,0 +1,44 @@
+language: go
+
+# You don't need to test on very old version of the Go compiler. It's the user's
+# responsibility to keep their compilers up to date.
+go:
+  - 1.11.x
+
+os:
+  - linux
+  - osx
+  - windows
+
+# Only clone the most recent commit.
+git:
+  depth: 1
+
+# Skip the install step. Don't `go get` dependencies. Only build with the code
+# in vendor/
+install: true
+
+# Don't email me the results of the test runs.
+notifications:
+  email: false
+
+gobuild_args: -x -ldflags "-X github.com/valasek/timesheet/version.Version=0.0.8"
+
+script:
+  - env GO111MODULE=on go build
+  - env GO111MODULE=on go test
+
+deploy:
+  prerelease: true
+  provider: releases
+  api_key: "GITHUB OAUTH TOKEN"
+  file:
+    - timesheet.exe
+    - timesheet.bin
+    - timesheet.app
+    # - directory/*
+  skip_cleanup: true
+  draft: true
+  overwrite: true
+  on:
+    repo: valasek/timesheet
