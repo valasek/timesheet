@@ -3,10 +3,12 @@ matrix:
     - language: go
       go:
         - 1.11.x
-      os:
-        - linux
-        - osx
-        - windows
+        - os: linux
+          env: BINARY=timesheet.bin
+        - os: windows
+          env: BINARY=timesheet.exe
+        # - osx
+        # - windows
       # Only clone the most recent commit.
       git:
         depth: 1
@@ -15,7 +17,7 @@ matrix:
       install: true
       gobuild_args: -x -ldflags "-X github.com/valasek/timesheet/version.Version=0.0.8"
       script:
-        - env GO111MODULE=on go build
+        - env GO111MODULE=on go build -o .\build\"$BINARY"
         - env GO111MODULE=on go test
 
     - language: node_js
@@ -41,7 +43,7 @@ deploy:
     - timesheet.exe
     - timesheet.bin
     - timesheet.app
-    # - directory/*
+    - dist/*
   skip_cleanup: true
   draft: true
   overwrite: true
