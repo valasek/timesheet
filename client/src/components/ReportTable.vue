@@ -59,8 +59,8 @@
         <td class="text-xs-left">
           <v-edit-dialog :return-value="props.item.description" lazy>
             {{ props.item.description }}
-            <v-text-field slot="input" :value="props.item.description" :rules="[ruleMax100chars]" label="Description" single-line
-                          counter @change="onUpdateDescription({id: props.item.id, description: $event})"
+            <v-text-field slot="input" :value="props.item.description" label="Description" single-line counter
+                          :rules="[ruleMaxChars]" @change="onUpdateDescription({id: props.item.id, description: $event})"
             />
           </v-edit-dialog>
         </td>
@@ -127,23 +127,25 @@
   import moment from 'moment-timezone'
 
   export default {
-    data: () => ({
-      search: '',
-      dialogEditingUnlockedWeek: false,
-      ruleMax100chars: v => v.length <= 100 || v.length + ' / 100',
-      ruleFloat: v => !isNaN(parseFloat(v)) || 'Input should be a muber with one decimal',
-      repDate: '',
-      rowsPerPage: [ 30, 50, { 'text': '$vuetify.dataIterator.rowsPerPageAll', 'value': -1 } ],
-      headers: [
-        { text: 'Date', align: 'left', sortable: true, value: 'date', class: 'body-1' },
-        { text: 'Hours', align: 'left', sortable: true, value: 'hours', class: 'body-1' },
-        { text: 'Project', align: 'left', sortable: true, value: 'project', class: 'body-1' },
-        { text: 'Description', align: 'left', value: 'description', class: 'body-1' },
-        { text: 'Rate', align: 'left', sortable: true, value: 'rate', class: 'body-1' },
-        { text: 'Actions', align: 'center', sortable: false, value: 'actions', class: 'body-1' }
-      ],
-      reported: []
-    }),
+    data () {
+      return {
+        search: '',
+        dialogEditingUnlockedWeek: false,
+        ruleMaxChars: v => v.length <= 80 || v.length + ' / 80',
+        ruleFloat: v => !isNaN(parseFloat(v)) || 'Input should be a muber with one decimal',
+        repDate: '',
+        rowsPerPage: [ 30, 50, { 'text': '$vuetify.dataIterator.rowsPerPageAll', 'value': -1 } ],
+        headers: [
+          { text: 'Date', align: 'left', sortable: true, value: 'date', class: 'body-1' },
+          { text: 'Hours', align: 'left', sortable: true, value: 'hours', class: 'body-1' },
+          { text: 'Project', align: 'left', sortable: true, value: 'project', class: 'body-1' },
+          { text: 'Description', align: 'left', value: 'description', class: 'body-1' },
+          { text: 'Rate', align: 'left', sortable: true, value: 'rate', class: 'body-1' },
+          { text: 'Actions', align: 'center', sortable: false, value: 'actions', class: 'body-1' }
+        ],
+        reported: []
+      }
+    },
 
     computed: {
       btnNewRecordDisabled () {
@@ -160,9 +162,12 @@
         return this.editedIndex === -1 ? 'New Record' : 'Edit Record'
       },
       selectedReportedHours () {
-        return this.reportedHours.filter(report => {
+        let from = this.dateFrom
+        let to = this.dateTo
+        let consultant = this.selectedConsultants
+        return this.reportedHours.filter(function (report) {
           let d = new Date(report.date)
-          return (d >= this.dateFrom && d <= this.dateTo && report.consultant === this.selectedConsultants)
+          return (d >= from && d <= to && report.consultant === consultant)
         })
       },
       reportedThisWeek () {
@@ -283,6 +288,7 @@
         newRecord.date = this.dateFrom.format('YYYY-MM-DDTHH:mm:ssZ')
         newRecord.hours = 8
         newRecord.rate = 'Off-site'
+        newRecord.description = ''
         newRecord.project = ''
         this.$store.dispatch('reportedHours/addRecord', newRecord)
       },

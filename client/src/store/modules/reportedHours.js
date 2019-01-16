@@ -52,6 +52,7 @@ const actions = {
                 .then(response => {
                     // format date for Vuetify which works with ISO format
                     payload.date = moment(payload.date).format('YYYY-MM-DD')
+                    payload.id = response.data.id
                     commit('ADD_RECORD', payload)
                 })
                 .catch(e => {
