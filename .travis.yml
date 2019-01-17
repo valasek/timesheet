@@ -1,3 +1,10 @@
+env:
+  global:
+    - OWNER=${TRAVIS_REPO_SLUG%/*}
+    - DEV=${OWNER/timesheet/dev}
+    - BRANCH=${TRAVIS_BRANCH/master/}
+    - TAG=${DEV}${BRANCH:+_}${BRANCH}
+
 matrix:
   include:      
     - language: go
