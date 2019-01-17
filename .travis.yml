@@ -1,9 +1,9 @@
-env:
-  global:
-    - OWNER=${TRAVIS_REPO_SLUG%/*}
-    - DEV=${OWNER/timesheet/dev}
-    - BRANCH=${TRAVIS_BRANCH/master/}
-    - TAG=${DEV}${BRANCH:+_}${BRANCH}
+# env:
+#   global:
+#     - OWNER=${TRAVIS_REPO_SLUG%/*}
+#     - DEV=${OWNER/timesheet/dev}
+#     - BRANCH=${TRAVIS_BRANCH/master/}
+#     - TAG=${DEV}${BRANCH:+_}${BRANCH}
 
 matrix:
   include:      
@@ -65,13 +65,13 @@ matrix:
       script:
         - npm run build
 
-before_deploy:
-  - git tag -f travis-${TAG}-build
-  - git remote add gh
-    https://${OWNER}:${GITHUB_API_KEY}@github.com/${TRAVIS_REPO_SLUG}.git
-  - git push gh :travis-${TAG}-build || true
-  - git push -f gh travis-${TAG}-build
-  - git remote remove gh
+# before_deploy:
+#   - git tag -f travis-${TAG}-build
+#   - git remote add gh
+#     https://${OWNER}:${GITHUB_API_KEY}@github.com/${TRAVIS_REPO_SLUG}.git
+#   - git push gh :travis-${TAG}-build || true
+#   - git push -f gh travis-${TAG}-build
+#   - git remote remove gh
 
 deploy:
   provider: releases
@@ -83,12 +83,12 @@ deploy:
     - timesheet.app
     - dist/*
   skip_cleanup: true
-  name: Timesheet development build (${TRAVIS_BRANCH})
-  body: Automatic Timesheet development build of $TRAVIS_BRANCH branch
-    (commit $TRAVIS_COMMIT) built by Travis CI on $(date +'%F %T %Z').
+  name: Timesheet development build
+  body: Automatic Timesheet development build of master branch built by Travis CI on $(date +'%F %T %Z').
   prerelease: true
   overwrite: true
   target_commitish: $TRAVIS_COMMIT
+  tag_name: $TRAVIS_TAG
   draft: true
   on:
     repo: valasek/timesheet
