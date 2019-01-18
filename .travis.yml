@@ -81,7 +81,7 @@ deploy:
     - timesheet.exe
     - timesheet.bin
     - timesheet.app
-    - dist/*
+    - client/dist/*
   skip_cleanup: true
   name: Timesheet development build
   body: Automatic Timesheet development build of master branch built by Travis CI on $(date +'%F %T %Z').

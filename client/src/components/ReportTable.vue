@@ -41,7 +41,8 @@
         <td class="text-xs-left">
           <v-edit-dialog :return-value="props.item.hours" lazy>
             {{ props.item.hours }}
-            <v-text-field slot="input" :value="props.item.hours" label="Hours" single-line :rules="[ruleFloat]"
+            <v-text-field slot="input" suffix="hours" :value="props.item.hours" label="Hours" single-line
+                          :rules="[ruleFloat]"
                           type="number" min="0" max="20" step="0.5" maxlength="2"
                           @change="onUpdateHours({id: props.item.id, hours: $event})"
             />
@@ -186,11 +187,11 @@
         }
       },
       ...mapState({
-        reportedHours: state => state.reportedHours.all,
         loading: state => state.reportedHours.loading,
         dateFrom: state => state.context.dateFrom,
         dateTo: state => state.context.dateTo,
         dateMonth: state => state.context.dateMonth,
+        reportedHours: state => state.reportedHours.all,
         assignedProjects: state => state.projects.all,
         rates: state => state.rates.all,
         selectedConsultants: state => state.consultants.selected
@@ -235,6 +236,16 @@
             value: newValue.project
           }
           this.$store.dispatch('reportedHours/updateAttributeValue', payload)
+          // set rate to default rate
+          const newRate = this.assignedProjects.find(function (element) {
+            if (element.name === newValue.project) { return element.rate }
+          })
+          let payloadRate = {
+            id: newValue.id,
+            type: 'rate',
+            value: newRate.rate
+          }
+          this.$store.dispatch('reportedHours/updateAttributeValue', payloadRate)
         }
       },
       onUpdateDate (newValue) {
@@ -287,7 +298,7 @@
         newRecord.consultant = this.selectedConsultants
         newRecord.date = this.dateFrom.format('YYYY-MM-DDTHH:mm:ssZ')
         newRecord.hours = 8
-        newRecord.rate = 'Off-site'
+        newRecord.rate = ''
         newRecord.description = ''
         newRecord.project = ''
         this.$store.dispatch('reportedHours/addRecord', newRecord)

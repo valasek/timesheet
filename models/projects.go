@@ -17,6 +17,7 @@ type Project struct {
 	UpdatedAt time.Time  `json:"-"`
 	DeletedAt *time.Time `json:"-"`
 	Name      string     `gorm:"not null" json:"name"`
+	Rate      string     `gorm:"not null" json:"rate"`
 	// add reference to a client
 }
 
@@ -24,6 +25,7 @@ type Project struct {
 type ProjectCSV struct {
 	CreatedAt DateTime `csv:"created_at"`
 	Name      string   `csv:"name"`
+	Rate      string   `csv:"rate"`
 }
 
 // ProjectManager struct
@@ -62,12 +64,12 @@ func (db *ProjectManager) ProjectSeed(file string) int {
 	}
 	defer csvfile.Close()
 
-	projectsCSV := []*ConsultantCSV{}
+	projectsCSV := []*ProjectCSV{}
 	if err := gocsv.UnmarshalFile(csvfile, &projectsCSV); err != nil {
 		fmt.Println(err)
 	}
 	for _, p := range projectsCSV {
-		newP := Project{CreatedAt: p.CreatedAt.Time, Name: p.Name}
+		newP := Project{CreatedAt: p.CreatedAt.Time, Name: p.Name, Rate: p.Rate}
 		db.db.Create(&newP)
 	}
 
@@ -97,7 +99,7 @@ func (db *ProjectManager) ProjectBackup(filePath string) (int, error) {
 	projectCSV := []*ProjectCSV{}
 	for _, r := range projects {
 		createdAt := DateTime{r.CreatedAt}
-		item := ProjectCSV{CreatedAt: createdAt, Name: r.Name}
+		item := ProjectCSV{CreatedAt: createdAt, Name: r.Name, Rate: r.Rate}
 		projectCSV = append(projectCSV, &item)
 	}
 

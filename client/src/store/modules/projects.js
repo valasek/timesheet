@@ -2,7 +2,7 @@ import api from '../../api/axiosSettings'
 
 // initial state
 const state = {
-    all: [ '' ] // id, name
+    all: [ '' ] // id, name, rate
 }
 
 const getters = {}
