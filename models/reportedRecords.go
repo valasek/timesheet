@@ -123,14 +123,19 @@ func getborderDays(year, month string) (days []string, err error) {
 	}
 	monday := now.New(monthStart).Monday()
 	sunday := now.New((now.New(monthStart).EndOfMonth())).Sunday()
+	monthPrevious, err := time.Parse(layout, year + "-" + prevMonth + "-01")
+	if err != nil {
+		return nil, err
+	}
 
-	for day := monday.Day(); day <= now.New(monthStart).EndOfMonth().Day(); day++ {
+	for day := monday.Day(); day <= now.New(monthPrevious).EndOfMonth().Day(); day++ {
 		days = append(days, prevYear + "-" + prevMonth + "-" + fmt.Sprintf("%02d", day))
 	}
 
 	for day := 1; day <= sunday.Day(); day++ {
 		days = append(days, nextYear + "-" + nextMonth + "-" + fmt.Sprintf("%02d", day))
 	}
+	fmt.Println(days)
 
 	return days, nil
 }
