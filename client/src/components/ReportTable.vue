@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-toolbar flat>
-      <v-btn :disabled="!btnNewRecordDisabled" class="mb-2" @click="currentWeek">
+      <v-btn :disabled="isCurrentWeek" class="mb-2" @click="currentWeek">
         today
       </v-btn>
       <v-btn fab small @click="previousWeek">
@@ -149,14 +149,18 @@
     },
 
     computed: {
+      isCurrentWeek () {
+        let today = moment.tz({}, 'Europe/Prague')
+        if (today.isBetween(this.dateFrom, this.dateTo, null, '[]')) {
+          return true
+        }
+        return false
+      },
       btnNewRecordDisabled () {
         if (this.previousWeeksUnLock) {
           return false
         }
-        let today = moment.tz({}, 'Europe/Prague')
-        if (today.isBetween(this.dateFrom, this.dateTo, null, '[]')) {
-          return false
-        }
+        if (this.isCurrentWeek) { return false }
         return true
       },
       formTitle () {

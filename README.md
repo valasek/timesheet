@@ -103,6 +103,15 @@ Overview
 
 ## Fixes
 
+- Show correct numbers on Reported Records Overview
+  - update monthly edits in Vacation, Personal and Sick days (now manual refresh is required)
+  - show in weekly and monthly table
+    - Available working time ( - public holidays)
+    - Reported total
+      - Reported working time (working flag on rate)
+      - Reported non-working time  (non-working flag on rate)
+    - Remaining working time
+-	Wrong date for reading in 2018 date/time field value out of range: "2018-11-31"
 - implement rollback in js store if DB fails 
 - report error if yaml config file is not present or DB is misconfigured
 - have one app version for FE (package.json) and BE (build.bat)

@@ -29,7 +29,7 @@ copy .\timesheet-prod.yaml .\build\timesheet.yaml
 copy .\data\consultants_prod.csv .\build\data\consultants_prod.csv
 copy .\data\holidays_cz_2019.csv .\build\data\holidays_cz_2019.csv
 copy .\data\projects_prod.csv .\build\data\projects_prod.csv
-copy .\data\rates_demo.csv .\build\data\rates_demo.csv
+copy .\data\rates_prod.csv .\build\data\rates_prod.csv
 copy .\data\reportedRecords_prod.csv .\build\data\reportedRecords_prod.csv
 ECHO MS Windows ...
 set GOOS=windows
