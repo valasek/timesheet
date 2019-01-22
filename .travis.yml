@@ -37,20 +37,20 @@ matrix:
         - env GO111MODULE=on go build -o timesheet.exe
         - env GO111MODULE=on go test
 
-    - language: go
-      go:
-        - 1.11.x
-      # Only clone the most recent commit.
-      git:
-        depth: 1
-      # Skip the install step. Don't `go get` dependencies. Only build with the code
-      # in vendor/
-      os: osx
-      install: true
-      gobuild_args: -x -ldflags "-X github.com/valasek/timesheet/version.Version=0.0.8"
-      script:
-        - env GO111MODULE=on go build -o timesheet.app
-        - env GO111MODULE=on go test
+    # - language: go
+    #   go:
+    #     - 1.11.x
+    #   # Only clone the most recent commit.
+    #   git:
+    #     depth: 1
+    #   # Skip the install step. Don't `go get` dependencies. Only build with the code
+    #   # in vendor/
+    #   os: osx
+    #   install: true
+    #   gobuild_args: -x -ldflags "-X github.com/valasek/timesheet/version.Version=0.0.8"
+    #   script:
+    #     - env GO111MODULE=on go build -o timesheet.app
+    #     - env GO111MODULE=on go test
 
     - language: node_js
       node_js:
@@ -73,27 +73,27 @@ matrix:
 #   - git push -f gh travis-${TAG}-build
 #   - git remote remove gh
 
-deploy:
-  provider: releases
-  api_key:
-    secure: myWlnTneS5WzgIA7V0qA7tcGw6bvgQsQ0F4UNml4Gxh1stegAY6qZZdH6sFpu2RC6bD99P7lFHaBV3WSiWo5JHjCqsCrdEbfIZa1auydy8QMBWH8O5hnjdRrYuQTSd3kbjp4XxJlItI/41bdt8fWANHRrycSzyECpewSkQ5cWuX8FBUF4hxUyBFA0vT52upxk115vJ8CqwVa5M+9stZvLfgeNK0bFA9t6nEheNtKV3ZF9CagSGKBCXO8QvVz6PVzbZwAG/8drvJzt+5u3EJ4aPUJqWHabvH/fQ0AT9C4XD851R+X23eT3QgACjHOQTHgrlXcGhje9lJTdwxNL6U9AzSM4lXkrRifz//FGqtu6nNyz11er5goSRscFyxzL5E/e0VmDi0XEZoC6dUU5xOscJsw9JXAEk7oSXLF+QMZ8dl0UZIHUCeTsUsXDWipBIsK1ZLoj8pmYgfZDM8MQYFzvQlXVpMlAw7cU4OA8KbxdJ4jWizkq/xBmCC+cinCcm85ndvIRJFOhb/CCl0dkxLH64VlA+GUNJgEMIF6co0LLJFSstJLoh0J4MnXKiHroqY/C+vtguKKDz+QtFgIgbVmdKRTSSGRMwQggyyJqo699DiMkRq7FzfGFY/marCRQO8g1zANPt17cn9Tiuswtb9EBgjwqY4xAAnss5N4idvgFx0=
-  file:
-    - timesheet.exe
-    - timesheet.bin
-    - timesheet.app
-    - client/dist/*
-  skip_cleanup: true
-  name: Timesheet development build
-  body: Automatic Timesheet development build of master branch built by Travis CI on $(date +'%F %T %Z').
-  prerelease: true
-  overwrite: true
-  target_commitish: $TRAVIS_COMMIT
-  # tag_name: $TRAVIS_TAG
-  draft: true
-  on:
-    repo: valasek/timesheet
-    all_branches: true
-    tags: false
+# deploy:
+#   provider: releases
+#   api_key:
+#     secure: myWlnTneS5WzgIA7V0qA7tcGw6bvgQsQ0F4UNml4Gxh1stegAY6qZZdH6sFpu2RC6bD99P7lFHaBV3WSiWo5JHjCqsCrdEbfIZa1auydy8QMBWH8O5hnjdRrYuQTSd3kbjp4XxJlItI/41bdt8fWANHRrycSzyECpewSkQ5cWuX8FBUF4hxUyBFA0vT52upxk115vJ8CqwVa5M+9stZvLfgeNK0bFA9t6nEheNtKV3ZF9CagSGKBCXO8QvVz6PVzbZwAG/8drvJzt+5u3EJ4aPUJqWHabvH/fQ0AT9C4XD851R+X23eT3QgACjHOQTHgrlXcGhje9lJTdwxNL6U9AzSM4lXkrRifz//FGqtu6nNyz11er5goSRscFyxzL5E/e0VmDi0XEZoC6dUU5xOscJsw9JXAEk7oSXLF+QMZ8dl0UZIHUCeTsUsXDWipBIsK1ZLoj8pmYgfZDM8MQYFzvQlXVpMlAw7cU4OA8KbxdJ4jWizkq/xBmCC+cinCcm85ndvIRJFOhb/CCl0dkxLH64VlA+GUNJgEMIF6co0LLJFSstJLoh0J4MnXKiHroqY/C+vtguKKDz+QtFgIgbVmdKRTSSGRMwQggyyJqo699DiMkRq7FzfGFY/marCRQO8g1zANPt17cn9Tiuswtb9EBgjwqY4xAAnss5N4idvgFx0=
+#   file:
+#     - timesheet.exe
+#     - timesheet.bin
+#     - timesheet.app
+#     - client/dist/*
+#   skip_cleanup: true
+#   name: Timesheet development build
+#   body: Automatic Timesheet development build of master branch built by Travis CI on $(date +'%F %T %Z').
+#   prerelease: true
+#   overwrite: true
+#   target_commitish: $TRAVIS_COMMIT
+#   # tag_name: $TRAVIS_TAG
+#   draft: true
+#   on:
+#     repo: valasek/timesheet
+#     all_branches: true
+#     tags: false
 
 # Don't email me the results of the test runs.
 notifications:
