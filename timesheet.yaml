@@ -21,11 +21,11 @@ backup:
 
 # DB credentials
 postgresql:
-  host: "localhost"
+  host: "ec2-54-235-68-3.compute-1.amazonaws.com"
   port: "5432"
-  name: "timesheet"
-  user: "timesheet"
-  password: "timesheet"
+  name: "d53bs18jt1kc7k"
+  user: "luvpewagjsmecx"
+  password: "7b43ef5065215d91307e063c384da78db0c7b953387bdde27258f0f7bbcacf75"
   sslMode: "disable"
 
 # initial DB data files which are loaded via command "timesheet db --load all"

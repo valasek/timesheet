@@ -110,7 +110,6 @@ after_deploy:
   - npm install
   - npm run build
   - cd ..
-  - sudo docker run --name pg-docker -e POSTGRES_USER=timesheet -e POSTGRES_PASSWORD=timesheet -e POSTGRES_DB=timesheet -d -p 5432:5432 postgres
   - timesheet db --clean all
   - timesheet db --load all
 
