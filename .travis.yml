@@ -22,20 +22,20 @@ matrix:
         - env GO111MODULE=on go build -o timesheet.bin
         - env GO111MODULE=on go test
 
-    - language: go
-      go:
-        - 1.11.x
-      # Only clone the most recent commit.
-      git:
-        depth: 1
-      # Skip the install step. Don't `go get` dependencies. Only build with the code
-      # in vendor/
-      os: windows
-      install: true
-      gobuild_args: -x -ldflags "-X github.com/valasek/timesheet/version.Version=0.0.8"
-      script:
-        - env GO111MODULE=on go build -o timesheet.exe
-        - env GO111MODULE=on go test
+    # - language: go
+    #   go:
+    #     - 1.11.x
+    #   # Only clone the most recent commit.
+    #   git:
+    #     depth: 1
+    #   # Skip the install step. Don't `go get` dependencies. Only build with the code
+    #   # in vendor/
+    #   os: windows
+    #   install: true
+    #   gobuild_args: -x -ldflags "-X github.com/valasek/timesheet/version.Version=0.0.8"
+    #   script:
+    #     - env GO111MODULE=on go build -o timesheet.exe
+    #     - env GO111MODULE=on go test
 
     # - language: go
     #   go:
@@ -95,6 +95,14 @@ matrix:
 #     all_branches: true
 #     tags: false
 
-# Don't email me the results of the test runs.
+deploy:
+  provider: heroku
+  app: timesheet-cloud
+  api_key:
+    secure: secure
+  run:
+    - "timesheet.bin"
+    - "timesheet.bin --load all"
+# Don't email me the results
 notifications:
   email: false
