@@ -6,7 +6,7 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	// import sqlite3 driver
 	// _ "github.com/jinzhu/gorm/dialects/sqlite"
-	uuid "github.com/satori/go.uuid"
+	uuid "github.com/gofrs/uuid"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -63,7 +63,10 @@ func (state *UserManager) FindUserByUUID(uuid string) *User {
 // AddUser - Creates a user and hashes the password
 func (state *UserManager) AddUser(username, password string) *User {
 	passwordHash := state.HashPassword(username, password)
-	guid := uuid.NewV4()
+	guid, err := uuid.NewV4()
+	if err != nil {
+		return &User{}
+	}
 	user := &User{
 		Username: username,
 		Password: passwordHash,

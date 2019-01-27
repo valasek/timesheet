@@ -135,7 +135,6 @@ func getborderDays(year, month string) (days []string, err error) {
 	for day := 1; day <= sunday.Day(); day++ {
 		days = append(days, nextYear + "-" + nextMonth + "-" + fmt.Sprintf("%02d", day))
 	}
-	fmt.Println(days)
 
 	return days, nil
 }
