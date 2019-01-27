@@ -106,6 +106,7 @@ deploy:
 
 after_deploy:
   - cd client
+  - npm install -g @vue/cli
   - npm run build
   - cd ..
   - sudo docker run --name pg-docker -e POSTGRES_USER=timesheet -e POSTGRES_PASSWORD=timesheet -e POSTGRES_DB=timesheet -d -p 5432:5432 postgres
