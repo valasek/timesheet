@@ -99,7 +99,7 @@ deploy:
   provider: heroku
   app: timesheet-cloud
   api_key:
-    secure: secure
+    secure: $HEROKU-API-KEY
   run:
     - "timesheet.bin"
     - "timesheet.bin --load all"
