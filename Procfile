@@ -1,1 +1,1 @@
-Web: timesheet server
+web: timesheet server
