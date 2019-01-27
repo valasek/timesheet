@@ -96,7 +96,7 @@ deploy:
   provider: heroku
   app: timesheet-cloud
   api_key:
-    secure: $HEROKU-API-KEY
+    secure: MoyMmzy9bH2MqI6M7cEUblfNwqwe03v98ETw0Yf3Ou5ZTD9orh9Ah0CsqDKO78vRMJ+eK+7XilfSaQ6LH6TPqWkCArim4CsrVxNBvj6bnkbkaWgG7Q3QXA1PrrXJ7vrDBCajNVQTycQxhHiOUj2wXacMID6GT6h836NazTxZgQD4m+3gROtwiHb36fUnFmSjz/NlMYno7k3gi501OnHq7dyuzNPOUuyP5/G/C12TnJx/MefmCHf1GDBnD8gBs4Mw84H3tQA9iXfmZqxM57IfMlhLhO3URDBcFrxKgrzephLCTd6LfugHZ6zRBts+CKZlS5saURm67BS6w9OOMcJkseTT8Fsh1vq78xxTuah3LfMzExDvtXjAdZLACqgzHuKV3DhTZ4bOMTTHU0IYf2KhFJ6b73DUBHxdll6m8QXzLpsIuMhpeZzX8SzWY9inmos+g81FhI5YkCEjd41aNLGBcCoEgEtvHBBB/XAFVB+5ANXaXDEwh8g2En6mlLauLy/nlojR/o0/g21MZFd7scASqsruf5KiRL2D9y4VTlGMCdwmYvCJfiSmRSi85Iwr6QaH7TIYTK8suR5vuapvprKTi6lFT4tnO7LlskNiaok9727iU8D52pPkEJqc5/LWBioGXpdRJE75gI8+TyHypZqvyrUwd9Tmfl3M0TMeUMM5WBo=
   run:
   - timesheet.bin
   - timesheet.bin --load all
