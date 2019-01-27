@@ -92,6 +92,12 @@
 #     all_branches: true
 #     tags: false
 
+language: go
+  go:
+  - 1.11.x
+  git:
+    depth: 1
+
 deploy:
   provider: heroku
   app: timesheet-cloud
