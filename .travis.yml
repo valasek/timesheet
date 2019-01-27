@@ -93,10 +93,10 @@
 #     tags: false
 
 language: go
-  go:
-  - 1.11.x
-  git:
-    depth: 1
+go:
+- 1.11.x
+git:
+  depth: 1
 
 deploy:
   provider: heroku
