@@ -5,19 +5,19 @@
 #     - BRANCH=${TRAVIS_BRANCH/master/}
 #     - TAG=${DEV}${BRANCH:+_}${BRANCH}
 
-matrix:
-  include:
-  - language: go
-    go:
-    - 1.11.x
-    git:
-      depth: 1
-    os: linux
-    install: true
-    gobuild_args: -x -ldflags "-X github.com/valasek/timesheet/version.Version=0.0.8"
-    script:
-    - env GO111MODULE=on go build -o timesheet.bin
-    - env GO111MODULE=on go test
+# matrix:
+#   include:
+#   - language: go
+#     go:
+#     - 1.11.x
+#     git:
+#       depth: 1
+#     os: linux
+#     install: true
+#     gobuild_args: -x -ldflags "-X github.com/valasek/timesheet/version.Version=0.0.8"
+#     script:
+#     - env GO111MODULE=on go build -o timesheet.bin
+#     - env GO111MODULE=on go test
 
     # - language: go
     #   go:
@@ -49,19 +49,19 @@ matrix:
     #     - env GO111MODULE=on go build -o timesheet.app
     #     - env GO111MODULE=on go test
 
-  - language: node_js
-    node_js:
-    - stable
-    cache:
-      directories:
-      - node_modules
-    before_install:
-    - cd client
-    install:
-    - npm install
-    script:
-    - npm run build
-    
+  # - language: node_js
+  #   node_js:
+  #   - stable
+  #   cache:
+  #     directories:
+  #     - node_modules
+  #   before_install:
+  #   - cd client
+  #   install:
+  #   - npm install
+  #   script:
+  #   - npm run build
+
 # before_deploy:
 #   - git tag -f travis-${TAG}-build
 #   - git remote add gh
@@ -99,11 +99,8 @@ deploy:
     secure: MoyMmzy9bH2MqI6M7cEUblfNwqwe03v98ETw0Yf3Ou5ZTD9orh9Ah0CsqDKO78vRMJ+eK+7XilfSaQ6LH6TPqWkCArim4CsrVxNBvj6bnkbkaWgG7Q3QXA1PrrXJ7vrDBCajNVQTycQxhHiOUj2wXacMID6GT6h836NazTxZgQD4m+3gROtwiHb36fUnFmSjz/NlMYno7k3gi501OnHq7dyuzNPOUuyP5/G/C12TnJx/MefmCHf1GDBnD8gBs4Mw84H3tQA9iXfmZqxM57IfMlhLhO3URDBcFrxKgrzephLCTd6LfugHZ6zRBts+CKZlS5saURm67BS6w9OOMcJkseTT8Fsh1vq78xxTuah3LfMzExDvtXjAdZLACqgzHuKV3DhTZ4bOMTTHU0IYf2KhFJ6b73DUBHxdll6m8QXzLpsIuMhpeZzX8SzWY9inmos+g81FhI5YkCEjd41aNLGBcCoEgEtvHBBB/XAFVB+5ANXaXDEwh8g2En6mlLauLy/nlojR/o0/g21MZFd7scASqsruf5KiRL2D9y4VTlGMCdwmYvCJfiSmRSi85Iwr6QaH7TIYTK8suR5vuapvprKTi6lFT4tnO7LlskNiaok9727iU8D52pPkEJqc5/LWBioGXpdRJE75gI8+TyHypZqvyrUwd9Tmfl3M0TMeUMM5WBo=
 
 after_deploy:
-  - chmod +x ./timesheet.bin
-  - ./timesheet
-  - ./timesheet --load all
-  - ./timesheet.bin
-  - ./timesheet.bin --load all
+  - timesheet --clean all
+  - timesheet --load all
 
 notifications:
   email: false
