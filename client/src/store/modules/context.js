@@ -9,13 +9,17 @@ const state = {
     notification: false,
     notificationText: '',
     notificationType: defaultNotificationType, // success, info, error - snackbar types https://vuetifyjs.com/en/components/snackbars#introduction
-    dateMonth: new Date().toISOString().substr(0, 7),
+    selectedMonth: moment.tz({}, timeZone),
     dateFrom: moment.tz({}, timeZone).startOf('isoWeek'),
     dateTo: moment.tz({}, timeZone).endOf('isoWeek'),
     dailyWorkingHours: 8, // Used for weekly and monthly expected working hours
+    dailyWorkingHoursMin: 8, // Used to highlight if reported less
+    dailyWorkingHoursMax: 12, // Used to highlight if reported more
     yearlyVacationDays: 20, // Used for  weekly and monthly expected working hours
     yearlyPersonalDays: 3, // Used for  weekly and monthly expected working hours
     yearlySickDays: 2, // Used for  weekly and monthly expected working hours
+    isWorking: 'work',
+    isNonWorking: 'not-work',
     previousWeeksUnLock: false
 }
 
@@ -23,11 +27,6 @@ const getters = {}
 
 const actions = {
 
-    // setMonth ({ commit, dispatch }, month) {
-    //     let monday = moment.tz({}, timeZone).startOf('isoWeek')
-    //     dispatch('jumpToWeek', monday)
-    //     commit('SET_MONTH', month)
-    // },
     setNotification ({ commit }, payload) {
         commit('SET_NOTIFICATION', payload)
     },
@@ -43,10 +42,12 @@ const actions = {
         commit('SET_WEEK', direction)
         // read changed month if required
         if (state.dateFrom.isAfter(oldDateFrom, 'month')) {
-            dispatch('reportedHours/getReportedHours', state.dateFrom.format('YYYY-MM'), { root: true })
+            dispatch('reportedHours/getReportedHours', state.dateFrom, { root: true })
+            commit('SET_MONTH', state.dateFrom)
         }
         if (state.dateTo.isBefore(oldDateTo, 'month')) {
-            dispatch('reportedHours/getReportedHours', state.dateTo.format('YYYY-MM'), { root: true })
+            dispatch('reportedHours/getReportedHours', state.dateTo, { root: true })
+            commit('SET_MONTH', state.dateTo)
         }
     },
     // monday
@@ -62,7 +63,7 @@ const mutations = {
     },
 
     SET_MONTH (state, month) {
-        state.dateMonth = month
+        state.selectedMonth = month
     },
 
     SET_WEEK (state, direction) {

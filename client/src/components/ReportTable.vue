@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-toolbar flat>
+    <v-toolbar>
       <v-btn :disabled="isCurrentWeek" class="mb-2" @click="currentWeek">
         today
       </v-btn>
@@ -19,7 +19,7 @@
           {{ formatWeek(dateFrom) }} - {{ formatWeek(dateTo) }}
         </v-label>
       </v-flex>
-      <v-label>Weekly: {{ reportedThisWeek }} hours</v-label>
+      <v-select v-model="selectedConsultant" prepend-icon="person" :dense="true" :items="consultants.all" item-text="name" item-value="name" class="body-1" />
       <v-spacer />
       <v-toolbar-title>
         <v-text-field v-model="search" clearable append-icon="search" label="Search" single-line />
@@ -28,6 +28,50 @@
       <v-btn color="primary" :disabled="btnNewRecordDisabled" class="mb-2" @click="addItem">
         new record
       </v-btn>
+    </v-toolbar>
+    <v-toolbar dense>
+      <v-toolbar-title>
+        <v-label>Weekly: {{ reportedThisWeek }} hrs</v-label>
+      </v-toolbar-title>
+      <v-spacer />
+      <v-toolbar-title>
+        <v-label>
+          Mon: <span :class="textColor(reportedThisDay(1))">
+            {{ reportedThisDay(1) }} hrs
+          </span>
+        </v-label>
+      </v-toolbar-title>
+      <v-toolbar-title>
+        <v-label>
+          Tue: <span :class="textColor(reportedThisDay(2))">
+            {{ reportedThisDay(2) }} hrs
+          </span>
+        </v-label>
+      </v-toolbar-title>
+      <v-toolbar-title>
+        <v-label>
+          Wed: <span :class="textColor(reportedThisDay(3))">
+            {{ reportedThisDay(3) }} hrs
+          </span>
+        </v-label>
+      </v-toolbar-title>
+      <v-toolbar-title>
+        <v-label>
+          Thu: <span :class="textColor(reportedThisDay(4))">
+            {{ reportedThisDay(4) }} hrs
+          </span>
+        </v-label>
+      </v-toolbar-title>
+      <v-toolbar-title>
+        <v-label>
+          Fri: <span :class="textColor(reportedThisDay(5))">
+            {{ reportedThisDay(5) }} hrs
+          </span>
+        </v-label>
+      </v-toolbar-title>
+      <v-toolbar-title>
+        <v-label>Weekend: {{ reportedThisDay(6) + reportedThisDay(7) }} hrs</v-label>
+      </v-toolbar-title>
     </v-toolbar>
     <v-data-table :headers="headers" :items="selectedReportedHours" :search="search" :loading="loading" class="elevation-1" :rows-per-page-items="rowsPerPage">
       <template slot="items" slot-scope="props">
@@ -96,7 +140,7 @@
       </template>
     </v-data-table>
     <!-- Dialog if use attempts to edit previous weeks without unlocking -->
-    <v-dialog v-model="dialogEditingUnlockedWeek" width="30%">
+    <!-- <v-dialog v-model="dialogEditingUnlockedWeek" width="30%">
       <v-card>
         <v-card-title class="headline">
           Editing the previous week
@@ -119,19 +163,27 @@
           </v-btn>
         </v-card-actions>
       </v-card>
-    </v-dialog>
+    </v-dialog> -->
+    <!-- Dialog to confirm delete and unlock -->
+    <confirm ref="confirm" />
   </div>
 </template>
 
 <script>
   import { mapState } from 'vuex'
   import moment from 'moment-timezone'
+  import confirm from './Confirm'
 
   export default {
+
+    components: {
+      'confirm': confirm
+    },
+
     data () {
       return {
         search: '',
-        dialogEditingUnlockedWeek: false,
+        // dialogEditingUnlockedWeek: false,
         ruleMaxChars: v => v.length <= 80 || v.length + ' / 80',
         ruleFloat: v => !isNaN(parseFloat(v)) || 'Input should be a muber with one decimal',
         repDate: '',
@@ -149,6 +201,14 @@
     },
 
     computed: {
+      selectedConsultant: {
+        set (newValue) {
+          this.$store.dispatch('consultants/setSelected', newValue)
+        },
+        get () {
+          return this.consultants.selected
+        }
+      },
       isCurrentWeek () {
         let today = moment.tz({}, 'Europe/Prague')
         if (today.isBetween(this.dateFrom, this.dateTo, null, '[]')) {
@@ -194,11 +254,13 @@
         loading: state => state.reportedHours.loading,
         dateFrom: state => state.context.dateFrom,
         dateTo: state => state.context.dateTo,
-        dateMonth: state => state.context.dateMonth,
         reportedHours: state => state.reportedHours.all,
         assignedProjects: state => state.projects.all,
         rates: state => state.rates.all,
-        selectedConsultants: state => state.consultants.selected
+        consultants: state => state.consultants,
+        selectedConsultants: state => state.consultants.selected,
+        dailyWorkingHoursMax: state => state.context.dailyWorkingHoursMax,
+        dailyWorkingHoursMin: state => state.context.dailyWorkingHoursMin
       })
     },
 
@@ -213,6 +275,22 @@
     },
 
     methods: {
+      // FIXME return green of this day is holiday
+      textColor (item) {
+        let colorClass = ''
+        if (item < this.dailyWorkingHoursMin) { colorClass = 'red--text lighten-2' }
+        if (item >= this.dailyWorkingHoursMax) { colorClass = 'orange--text lighten-2' }
+        return colorClass
+      },
+      reportedThisDay (weekDay) {
+        let rep = 0.0
+        for (let i = 0; i < this.selectedReportedHours.length; i++) {
+          if (moment.tz(this.selectedReportedHours[i].date, 'Europe/Prague').weekday() === weekDay) {
+            rep = rep + this.selectedReportedHours[i].hours
+          }
+        }
+        return rep
+      },
       currentWeek () {
         this.$store.dispatch('context/jumpToWeek', moment.tz({}, 'Europe/Prague'))
       },
@@ -225,12 +303,14 @@
             return true
           }
         }
-        this.dialogEditingUnlockedWeek = true
+        this.$refs.confirm.open('Unlock previous weeks?', 'Data might be already reported to the clients. Do you want to unlock editing of previous weeks and repeat the edit?', { color: 'orange lighten-2' })
+          .then(confirm => {
+            if (confirm) { this.previousWeeksUnLock = true }
+          })
+          .catch(e => {
+            console.log('No') /* eslint-disable-line no-console */
+          })
         return false
-      },
-      unlockPreviousWeeks () {
-        this.previousWeeksUnLock = true
-        this.dialogEditingUnlockedWeek = false
       },
       onUpdateProject (newValue) {
         if (this.editPreviousWeeks(newValue.id)) {
@@ -311,14 +391,18 @@
         if (this.editPreviousWeeks(item.id)) {
           let newRecord = Object.assign({}, item)
           newRecord.id = null
-          newRecord.date = moment(item.date).format('YYYY-MM-DDTHH:mm:ssZ')
+          newRecord.date = moment.tz(item.date, 'Europe/Prague').format('YYYY-MM-DDTHH:mm:ssZ')
           this.$store.dispatch('reportedHours/addRecord', newRecord)
         }
       },
-      deleteItem (item) {
+      async deleteItem (item) {
         if (this.editPreviousWeeks(item.id)) {
-          confirm('Are you sure you want to delete the record?') && this.$store.dispatch('reportedHours/removeRecord', parseInt(item.id, 10))
-          this.$store.dispatch('context/setNotification', { text: this.formatDate(item.date) + ', ' + item.hours + ' hrs - record deleted', type: 'success' })
+          if (await this.$refs.confirm.open('Please confirm', 'Are you sure you want to delete the record?', { color: 'orange lighten-2' })) {
+            this.$store.dispatch('reportedHours/removeRecord', parseInt(item.id, 10))
+            this.$store.dispatch('context/setNotification', { text: this.formatDate(item.date) + ', ' + item.hours + ' hrs - record deleted', type: 'success' })
+          } else {
+            console.log('No') /* eslint-disable-line no-console */
+          }
         }
       },
       previousWeek () {
@@ -328,7 +412,7 @@
         this.$store.dispatch('context/changeWeek', 'next')
       },
       formatWeek (date) {
-        let a = moment(date, 'YYYY-MM-DD').format('MMM Do')
+        let a = moment.tz(date, 'YYYY-MM-DD', 'Europe/Prague').format('MMM Do')
         return a
       }
     }

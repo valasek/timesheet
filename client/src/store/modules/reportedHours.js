@@ -11,12 +11,11 @@ const state = {
 const getters = {}
 
 const actions = {
-    getReportedHours ({ commit, dispatch }, yearMonth) {
+    getReportedHours ({ commit, dispatch }, month) {
         commit('SET_LOADING', true)
         state.loading = true
-        let [year, month] = yearMonth.split('-')
         // get yearly summary
-        api.apiClient.get('/api/reported/summary')
+        api.apiClient.get('/api/reported/summary/' + month.year())
             .then(response => {
                 commit('SET_REPORTED_HOURS_SUMMARY', response.data)
             })
@@ -25,10 +24,10 @@ const actions = {
                 console.log(e) /* eslint-disable-line no-console */
             })
         // get monthly data
-        api.apiClient.get('/api/reported/year/' + year + '/month/' + month)
+        api.apiClient.get('/api/reported/year/' + month.year() + '/month/' + month.format('MM'))
             .then(response => {
                 commit('SET_REPORTED_HOURS', response.data)
-                dispatch('context/setNotification', { text: moment.tz(yearMonth, 'Europe/Prague').format('MMMM') + ' ' + year + ' data', type: '' }, { root: true })
+                dispatch('context/setNotification', { text: month.format('MMMM') + ' ' + month.year() + ' data', type: '' }, { root: true })
             })
             .catch(e => {
                 dispatch('context/setNotification', { text: 'Couldn\'t read reported records from server. \n' + e.toString(), type: 'error' }, { root: true })

@@ -36,7 +36,13 @@ func (api *API) ReportedRecordsInMonth(w http.ResponseWriter, req *http.Request)
 
 // ReportedRecordsSummary returns list of all 
 func (api *API) ReportedRecordsSummary(w http.ResponseWriter, req *http.Request) {
-	reportedRecordsSummary := api.reportedRecords.ReportedRecordsSummary()
+	vars := mux.Vars(req)
+	year := vars["year"]
+	if len(year) < 1 {
+		fmt.Println("ReportedRecordsInMonth, param 'year' is missing")
+		return
+	}
+	reportedRecordsSummary := api.reportedRecords.ReportedRecordsSummary(year)
 	json.NewEncoder(w).Encode(reportedRecordsSummary)
 }
 

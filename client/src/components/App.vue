@@ -18,24 +18,9 @@
 
         <v-divider class="menuSettings" />
 
-        <v-list-tile>
-          <v-select v-model="selectedConsultant" prepend-icon="person" :dense="true" :items="consultants.all" item-text="name" item-value="name" class="body-1" />
-        </v-list-tile>
-
         <v-list-tile class="menuSettings">
           <v-switch v-model="previousWeeksUnLock" :label="previousWeeksUnLockText" color="error" hide-details class="body-1" />
         </v-list-tile>
-        <!-- <v-list-tile>
-          <div class="header ">
-            Month
-          </div>
-        </v-list-tile>
-        <v-list-tile>
-          <v-menu v-model="monthMenu" :close-on-content-click="true" full-width max-width="290">
-            <v-text-field slot="activator" :value="dateMonth" readonly />
-            <v-date-picker v-model="dateMonth" :landscape="false" type="month" @change="monthMenu = false" />
-          </v-menu>
-        </v-list-tile> -->
       </v-list>
     </v-navigation-drawer>
 
@@ -117,27 +102,10 @@
           return 'Previous weeks locked'
         }
       },
-      dateMonth: {
-        get () {
-          return this.$store.state.context.dateMonth
-        },
-        set (newValue) {
-          this.$store.dispatch('context/setMonth', newValue)
-          this.$store.dispatch('reportedHours/getReportedHours', newValue)
-        }
-      },
-      selectedConsultant: {
-        set (newValue) {
-          this.$store.dispatch('consultants/setSelected', newValue)
-        },
-        get () {
-          return this.consultants.selected
-        }
-      },
       ...mapState({
         notificationText: state => state.context.notificationText,
         notificationType: state => state.context.notificationType,
-        consultants: state => state.consultants,
+        selectedMonth: state => state.context.selectedMonth,
         page: state => state.context.page,
         version: state => state.settings.version
       })
@@ -146,7 +114,7 @@
     created () {
       this.$store.dispatch('context/resetNotification')
       this.$store.dispatch('consultants/getConsultants')
-      this.$store.dispatch('reportedHours/getReportedHours', this.dateMonth)
+      this.$store.dispatch('reportedHours/getReportedHours', this.selectedMonth)
       this.$store.dispatch('projects/getProjects')
       this.$store.dispatch('rates/getRates')
       this.$store.dispatch('holidays/getHolidays')
@@ -161,12 +129,8 @@
 <style>
 /* workaround to remove spacing before and above week selector */
 .menuSettings {
-  padding-top: 20px !important;
-  padding-bottom: 20px !important;
+  padding-top: 1px !important;
+  padding-bottom: 1px !important;
 }
 
-div .container.fluid.grid-list-xs {
-  padding-left: 0px !important;
-  padding-top: 0px !important;
-}
 </style>

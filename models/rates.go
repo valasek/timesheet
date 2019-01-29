@@ -17,6 +17,7 @@ type Rate struct {
 	UpdatedAt time.Time  `json:"-"`
 	DeletedAt *time.Time `json:"-"`
 	Name      string     `gorm:"not null" json:"name"`
+	Type      string     `gorm:"not null" json:"type"`
 	// add reference to a client
 }
 
@@ -24,6 +25,7 @@ type Rate struct {
 type RateCSV struct {
 	CreatedAt DateTime `csv:"created_at"`
 	Name      string   `csv:"name"`
+	Type      string   `csv:"type"`
 }
 
 // RateManager struct
@@ -77,7 +79,7 @@ func (db *RateManager) RateSeed(file string) int {
 		fmt.Println(err)
 	}
 	for _, r := range ratesCSV {
-		newR := Rate{CreatedAt: r.CreatedAt.Time, Name: r.Name}
+		newR := Rate{CreatedAt: r.CreatedAt.Time, Name: r.Name, Type: r.Type}
 		db.db.Create(&newR)
 	}
 
@@ -97,7 +99,7 @@ func (db *RateManager) RateBackup(filePath string) (int, error) {
 	ratesCSV := []*RateCSV{}
 	for _, r := range rates {
 		createdAt := DateTime{r.CreatedAt}
-		item := RateCSV{CreatedAt: createdAt, Name: r.Name}
+		item := RateCSV{CreatedAt: createdAt, Name: r.Name, Type: r.Type}
 		ratesCSV = append(ratesCSV, &item)
 	}
 

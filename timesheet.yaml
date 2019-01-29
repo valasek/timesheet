@@ -16,17 +16,20 @@ dbType: "postgresql" # DB type
 # DB backup settings - backuped data can be imported directly by a command "timesheet db --load all"
 backup:
   location: "data/backups" # select an empty and an existing folder
-  rotation: 10             # how many backups back will be kept
+  rotation: 14             # how many backups back will be kept
   interval: "daily"        # daily or weekly - how ofter the DB backup should be done
 
 # DB credentials
 postgresql:
-  host: "ec2-54-235-68-3.compute-1.amazonaws.com"
+  host: "localhost" # "ec2-54-235-68-3.compute-1.amazonaws.com"
   port: "5432"
-  name: "d53bs18jt1kc7k"
-  user: "luvpewagjsmecx"
-  password: "7b43ef5065215d91307e063c384da78db0c7b953387bdde27258f0f7bbcacf75"
+  name: "timesheet" # "d53bs18jt1kc7k"
+  user: "timesheet" # "luvpewagjsmecx"
+  password: "timesheet" # "7b43ef5065215d91307e063c384da78db0c7b953387bdde27258f0f7bbcacf75"
   sslMode: "disable"
+
+# add production URL
+# DATABASE_URL: ""
 
 # initial DB data files which are loaded via command "timesheet db --load all"
 data:

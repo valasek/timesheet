@@ -87,7 +87,7 @@
         <v-flex xs6>
           <v-card>
             <v-toolbar flat>
-              <v-toolbar-title>{{ thisMonth }}</v-toolbar-title>
+              <v-toolbar-title>{{ selectedMonth.format('MMMM') }}</v-toolbar-title>
             </v-toolbar>
           </v-card>
           <v-container grid-list-md text-xs-center>
@@ -149,7 +149,7 @@
       selectedReportedHours () {
         return this.reportedHours.filter(report => {
           let d = new Date(report.date)
-          return (d >= this.dateFrom && d <= this.dateTo && report.consultant === this.selectedConsultants)
+          return (d >= this.dateFrom && d <= this.dateTo && report.consultant === this.selectedConsultant)
         })
       },
       summaryRates () {
@@ -166,19 +166,55 @@
       ...mapState({
         reportedHours: state => state.reportedHours.all,
         reportedHoursSummary: state => state.reportedHours.summary,
+        rates: state => state.rates.all,
         dateFrom: state => state.context.dateFrom,
         dateTo: state => state.context.dateTo,
+        selectedMonth: state => state.context.selectedMonth,
         selectedConsultant: state => state.consultants.selected,
         dailyWorkingHours: state => state.context.dailyWorkingHours,
         yearlyVacationDays: state => state.context.yearlyVacationDays,
         yearlyPersonalDays: state => state.context.yearlyPersonalDays,
-        yearlySickDays: state => state.context.yearlySickDays
+        yearlySickDays: state => state.context.yearlySickDays,
+        isWorking: state => state.context.isWorking,
+        isNonWorking: state => state.context.isNonWorking
       }),
-      thisYear () { return moment(this.dateFrom).year() },
+      thisYear () { return this.selectedMonth.year() },
       thisWeek () {
-        return moment.tz(this.dateFrom, 'Europe/Prague').format('MMMM D') + ' - ' + moment(this.dateTo).format('D')
+        return moment.tz(this.dateFrom, 'Europe/Prague').format('MMM D') + ' - ' + moment(this.dateTo).format('MMM D')
       },
-      thisMonth () { return moment(this.dateFrom).format('MMMM') },
+      // FIXME - subtract state holidays
+      businessMonthly () {
+        var param = moment.tz(this.selectedMonth, 'Europe/Prague').startOf('month')
+        var param1 = moment.tz(this.selectedMonth, 'Europe/Prague').endOf('month')
+        var signal = param.unix() < param1.unix() ? 1 : -1
+        var start = moment.min(param, param1).clone()
+        var end = moment.max(param, param1).clone()
+        var startOffset = start.day() - 7
+        var endOffset = end.day()
+
+        var endSunday = end.clone().subtract(endOffset, 'd')
+        var startSunday = start.clone().subtract(startOffset, 'd')
+        var weeks = endSunday.diff(startSunday, 'days') / 7
+
+        startOffset = Math.abs(startOffset)
+        if (startOffset === 7) {
+          startOffset = 5
+        } else {
+          if (startOffset === 1) {
+            startOffset = 0
+          } else {
+            startOffset -= 2
+          }
+        }
+        if (endOffset === 6) {
+          endOffset--
+        }
+        return signal * (weeks * 5 + startOffset + endOffset)
+      },
+      // FIXME - subtract state holidays
+      businessWeekly () {
+        return 5
+      },
       vacations () {
         return [
           {
@@ -228,100 +264,56 @@
         ]
       },
       weeklyOverview () {
-        return [
+        var data = []
+        data.push({
+          text: 'Available working time',
+          value: this.businessWeekly * this.dailyWorkingHours
+        })
+        let summary = this.getTotals1(this.selectedReportedHours)
+        data.push(
           {
-            text: 'Available working hours',
-            value: 18 * this.dailyWorkingHours
+            text: 'Reported total',
+            value: summary.working + summary.nonWorking
           },
           {
-            text: 'Reported working hours',
-            value: this.getTotals(this.selectedReportedHours, 'Off-site') + this.getTotals(this.selectedReportedHours, 'On-site')
+            text: 'Reported working time',
+            value: summary.working
           },
           {
-            text: 'Reported working hours during holiday',
-            value: this.getTotals(this.selectedReportedHours, 'Off-site Holiday')
-          },
-          {
-            text: 'Personal days',
-            value: this.getTotals(this.selectedReportedHours, 'Personal Day')
-          },
-          {
-            text: 'Sick days',
-            value: this.getTotals(this.selectedReportedHours, 'Sick Day')
-          },
-          {
-            text: 'Vacations',
-            value: this.getTotals(this.selectedReportedHours, 'Vacation')
-          },
-          {
-            text: 'Unpaid leave',
-            value: this.getTotals(this.selectedReportedHours, 'Unpaid Leave')
-          },
-          {
-            text: 'Sick',
-            value: this.getTotals(this.selectedReportedHours, 'Sick')
-          },
-          {
-            text: 'Weekend',
-            value: this.getTotals(this.selectedReportedHours, 'Off-site Weekend')
-          },
-          {
-            text: 'Holiday',
-            value: this.getTotals(this.selectedReportedHours, 'Public Holiday')
-          },
-          {
-            text: 'Overtime',
-            value: 999
+            text: 'Reported non-working time',
+            value: summary.nonWorking
           }
-        ]
+          // {
+          //   remaining working time
+          // }
+        )
+        return data
       },
       monthlyOverview () {
-        return [
+        var data = []
+        data.push({
+          text: 'Available working time',
+          value: this.businessMonthly * this.dailyWorkingHours
+        })
+        let summary = this.getTotals1(this.monthlyConsultantReportedHours)
+        data.push(
           {
-            text: 'Available working hours',
-            value: this.getWeekdaysInMonth('', '') * this.dailyWorkingHours
+            text: 'Reported total',
+            value: summary.working + summary.nonWorking
           },
           {
-            text: 'Reported working hours',
-            value: this.getTotals(this.monthlyConsultantReportedHours, 'Off-site') + this.getTotals(this.monthlyConsultantReportedHours, 'On-site')
+            text: 'Reported working time',
+            value: summary.working
           },
           {
-            text: 'Reported working hours during holiday',
-            value: this.getTotals(this.monthlyConsultantReportedHours, 'Off-site Holiday')
-          },
-          {
-            text: 'Personal days',
-            value: this.getTotals(this.monthlyConsultantReportedHours, 'Personal Day')
-          },
-          {
-            text: 'Sick days',
-            value: this.getTotals(this.monthlyConsultantReportedHours, 'Sick Day')
-          },
-          {
-            text: 'Vacations',
-            value: this.getTotals(this.monthlyConsultantReportedHours, 'Vacation')
-          },
-          {
-            text: 'Unpaid leave',
-            value: this.getTotals(this.monthlyConsultantReportedHours, 'Unpaid Leave')
-          },
-          {
-            text: 'Sick',
-            value: this.getTotals(this.monthlyConsultantReportedHours, 'Sick')
-          },
-          {
-            text: 'Weekend',
-            value: this.getTotals(this.monthlyConsultantReportedHours, 'Off-site Weekend')
-          },
-          {
-            text: 'Holiday',
-            value: this.getTotals(this.monthlyConsultantReportedHours, 'Public Holiday')
-          },
-          {
-            text: 'Overtime',
-            value: 999
+            text: 'Reported non-working time',
+            value: summary.nonWorking
           }
-        ]
+          // {
+          //   remaining working time
+          // }
+        )
+        return data
       }
     },
 
@@ -356,6 +348,20 @@
             return total + h
           }, 0)
         return h || ''
+      },
+      getTotals1 (hours) {
+        let working = 0
+        let nonWorking = 0
+        // var r =
+        hours.forEach(function (element) {
+          var el = this.rates.find(o => o.name === element.rate)
+          // if (el === undefined) {
+          //   console.log('element', element.hours, '"' + element.rate + '"') /* eslint-disable-line no-console */
+          // }
+          if (el !== undefined && el.type === this.isWorking) { working += element.hours }
+          if (el !== undefined && el.type === this.isNonWorking) { nonWorking += element.hours }
+        }, this)
+        return { working: working, nonWorking: nonWorking }
       }
     }
   }

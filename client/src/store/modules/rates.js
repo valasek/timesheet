@@ -2,7 +2,7 @@ import api from '../../api/axiosSettings'
 
 // initial state
 const state = {
-    all: [ '' ], // all available rates
+    all: [ '' ], // name, type
     allowed: [ '' ] // for selected project
 }
 
@@ -16,7 +16,7 @@ const actions = {
                 commit('SET_RATES', response.data)
             })
             .catch(e => {
-                dispatch('context/setNotification', { text: 'Couldn\'t read projects from server. \n' + e.toString(), type: 'error' }, { root: true })
+                dispatch('context/setNotification', { text: 'Couldn\'t read rates from server. \n' + e.toString(), type: 'error' }, { root: true })
                 console.log(e) /* eslint-disable-line no-console */
             })
     }
