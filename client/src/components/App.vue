@@ -68,11 +68,11 @@
     data () {
       return {
         drawer: true,
-        // monthMenu: false,
         items: [
           { title: 'Report my work', icon: 'list', route: 'report' },
           { title: 'Reported overview', icon: 'show_chart', route: 'overview' },
-          { title: 'State holidays', icon: 'calendar_today', route: 'holidays' }
+          { title: 'State holidays', icon: 'calendar_today', route: 'holidays' },
+          { title: 'Administration', icon: 'settings', route: 'administration' }
         ],
         right: null
       }

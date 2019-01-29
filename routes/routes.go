@@ -31,6 +31,8 @@ func NewRoutes(api *api.API) *mux.Router {
 
 	// app settings
 	a.HandleFunc("/settings", api.AppSettings).Methods("GET")
+	// download all data
+	a.HandleFunc("/download", api.Download).Methods("GET")
 
 	// users
 	u := a.PathPrefix("/user").Subrouter()

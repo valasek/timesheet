@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/valasek/timesheet/models"
 	"github.com/valasek/timesheet/version"
 
 	"github.com/spf13/cobra"
@@ -36,27 +35,6 @@ func Execute() {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-}
-
-// ConnectDB connects and pings DB
-func ConnectDB() (db *models.DB) {
-	switch DBType := viper.GetString("dbType"); (DBType) {
-		case "postgresql":
-			// DBhost, DBport, DBuser, DBpassword, DBname, SSLmode, url, port := "", "", "", "", "", "", "", ""
-			connectionString := "host=" + viper.GetString("postgresql.host") +
-							   " port=" + viper.GetString("postgresql.port") +
-							   " user=" + viper.GetString("postgresql.user") +
-							   " dbname=" + viper.GetString("postgresql.name") +
-							   " password=" + viper.GetString("postgresql.password") +
-							   " sslmode=" + viper.GetString("postgresql.SSLMode")
-			db = models.NewPostgresDB(connectionString)
-			fmt.Println("connected to DB:  ", connectionString)
-			fmt.Println("")
-		default:
-			fmt.Println("supported DB types (postgresql), set: ", DBType)
-			os.Exit(1)
-	}
-	return db
 }
 
 func init() {

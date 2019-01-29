@@ -92,25 +92,8 @@ Use "timesheet [command] --help" for more information about a command.
 - [Vue.js](https://vuejs.org/) spa client with webpack
 - [Vuetify](https://vuetifyjs.com/en/) - light theme
 
-# Todo
-
-Always show full week (then shows month data correctly)
-
-Overview
-  - show in month and week correct working and non-working time
-  - edit overtime and total working time per week, month
-  - compare weekly reported time against nominal total time
-
 ## Fixes
 
-- Show correct numbers on Reported Records Overview
-  - update monthly edits in Vacation, Personal and Sick days (now manual refresh is required)
-  - show in weekly and monthly table
-    - Available working time ( - public holidays)
-    - Reported total
-      - Reported working time (working flag on rate)
-      - Reported non-working time  (non-working flag on rate)
-    - Remaining working time
 - implement rollback in js store if DB fails 
 - report error if yaml config file is not present or DB is misconfigured
 - have one app version for FE (package.json) and BE (build.bat)

@@ -1,29 +1,32 @@
 package api
 
 import (
+	"archive/zip"
+	"encoding/json"
 	"fmt"
-	"os"
+	"io"
 	"io/ioutil"
+	"net/http"
+	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"time"
-	"net/http"
-	"encoding/json"
 
 	"github.com/valasek/timesheet/models"
 	"github.com/valasek/timesheet/version"
-	
+
 	"github.com/spf13/viper"
 )
 
 // API -
 type API struct {
-	users  *models.UserManager
-	consultants *models.ConsultantManager
+	users           *models.UserManager
+	consultants     *models.ConsultantManager
 	reportedRecords *models.ReportedRecordManager
-	projects *models.ProjectManager
-	rates *models.RateManager
-	holidays *models.HolidayManager
+	projects        *models.ProjectManager
+	rates           *models.RateManager
+	holidays        *models.HolidayManager
 }
 
 // AppSettings -
@@ -31,12 +34,51 @@ type AppSettings struct {
 	Version string `json:"version"`
 }
 
-// AppSettings returns list of all 
+// AppSettings returns list of all
 func (api *API) AppSettings(w http.ResponseWriter, req *http.Request) {
-	settings := AppSettings {
+	settings := AppSettings{
 		Version: version.Version,
 	}
 	json.NewEncoder(w).Encode(settings)
+}
+
+// Download -
+func (api *API) Download(w http.ResponseWriter, req *http.Request) {
+	fileName, err := export()
+	if err != nil {
+		http.Error(w, fmt.Sprintf("Export failed with error: %s", err), 404)
+		return
+	}
+
+	file, err := os.Open(fileName)
+	defer file.Close()
+	if err != nil {
+		http.Error(w, "File not found.", 404)
+		return
+	}
+
+	//Get the Content-Type of the file
+	//Create a buffer to store the header of the file in
+	FileHeader := make([]byte, 512)
+	//Copy the headers into the FileHeader buffer
+	file.Read(FileHeader)
+	//Get content type of file
+	FileContentType := http.DetectContentType(FileHeader)
+
+	//Get the file size
+	FileStat, _ := file.Stat()                         //Get info from file
+	FileSize := strconv.FormatInt(FileStat.Size(), 10) //Get file size as a string
+
+	//Send the headers
+	w.Header().Set("Content-Disposition", "attachment; filename=go.mod")
+	w.Header().Set("Content-Type", FileContentType)
+	w.Header().Set("Content-Length", FileSize)
+
+	//Send the file
+	//We read 512 bytes from the file already, so we reset the offset back to 0
+	file.Seek(0, 0)
+	io.Copy(w, file)
+	return
 }
 
 // NewAPI -
@@ -66,11 +108,11 @@ func NewAPI(db *models.DB) *API {
 
 	return &API{
 		// users:  usermgr,
-		consultants: consultantmgr,
+		consultants:     consultantmgr,
 		reportedRecords: reportedrecordsmgr,
-		projects: projectsmgr,
-		rates: ratesmgr,
-		holidays: holidaysmgr,
+		projects:        projectsmgr,
+		rates:           ratesmgr,
+		holidays:        holidaysmgr,
 	}
 }
 
@@ -135,7 +177,7 @@ func SeedAPI(db *models.DB, table string) {
 }
 
 // SeedTable -
-func SeedTable(api *API, table string) (count int){
+func SeedTable(api *API, table string) (count int) {
 	switch table {
 	case "rates":
 		if api.rates.RateCount() > 0 {
@@ -227,11 +269,16 @@ func BackupAPI(rotation int, folder string, db *models.DB) {
 		filePath := filepath.Join(folder, fileName)
 		n := 0
 		switch baseFileName {
-		case "projects": n, err = api.projects.ProjectBackup(filePath)
-		case "rates": n, err = api.rates.RateBackup(filePath)
-		case "consultants": n, err = api.consultants.ConsultantBackup(filePath)
-		case "holidays": n, err = api.holidays.HolidayBackup(filePath)
-		case "reported_records": n, err = api.reportedRecords.ReportedRecordBackup(filePath)
+		case "projects":
+			n, err = api.projects.ProjectBackup(filePath)
+		case "rates":
+			n, err = api.rates.RateBackup(filePath)
+		case "consultants":
+			n, err = api.consultants.ConsultantBackup(filePath)
+		case "holidays":
+			n, err = api.holidays.HolidayBackup(filePath)
+		case "reported_records":
+			n, err = api.reportedRecords.ReportedRecordBackup(filePath)
 		}
 		if err != nil {
 			fmt.Printf("error during %s backup: %s\n", baseFileName, err)
@@ -241,13 +288,34 @@ func BackupAPI(rotation int, folder string, db *models.DB) {
 	}
 }
 
+// ConnectDB connects and pings DB
+func ConnectDB() (db *models.DB) {
+	switch DBType := viper.GetString("dbType"); (DBType) {
+		case "postgresql":
+			// DBhost, DBport, DBuser, DBpassword, DBname, SSLmode, url, port := "", "", "", "", "", "", "", ""
+			connectionString := "host=" + viper.GetString("postgresql.host") +
+							   " port=" + viper.GetString("postgresql.port") +
+							   " user=" + viper.GetString("postgresql.user") +
+							   " dbname=" + viper.GetString("postgresql.name") +
+							   " password=" + viper.GetString("postgresql.password") +
+							   " sslmode=" + viper.GetString("postgresql.SSLMode")
+			db = models.NewPostgresDB(connectionString)
+			fmt.Println("connected to DB:  ", connectionString)
+			fmt.Println("")
+		default:
+			fmt.Println("supported DB types (postgresql), set: ", DBType)
+			os.Exit(1)
+	}
+	return db
+}
+
 func rotateBackupFile(rotation int, folder, baseFileName string) error {
 	files, err := ioutil.ReadDir(filepath.Clean(folder))
 	if err != nil {
 		return err
 	}
 
-	oldestTime :=  time.Now()
+	oldestTime := time.Now()
 	var oldestFile os.FileInfo
 	var filteredNames []string
 	if len(files) == 0 {
@@ -269,4 +337,79 @@ func rotateBackupFile(rotation int, folder, baseFileName string) error {
 		}
 	}
 	return nil
+}
+
+func appendFiles(filename string, zipw *zip.Writer) error {
+	file, err := os.Open(filename)
+	if err != nil {
+		return fmt.Errorf("failed to open %s: %s", filename, err)
+	}
+	defer file.Close()
+
+	wr, err := zipw.Create(filename)
+	if err != nil {
+		msg := "failed to create entry for %s in zip file: %s"
+		return fmt.Errorf(msg, filename, err)
+	}
+
+	if _, err := io.Copy(wr, file); err != nil {
+		return fmt.Errorf("failed to write %s to zip: %s", filename, err)
+	}
+
+	return nil
+}
+
+func cleanExportedFiles(folder string) error {
+	dir, err := os.Open(folder)
+	if err != nil {
+		return err
+	}
+	files, err := dir.Readdir(0)
+	if err != nil {
+		return err
+	}
+	for _, f := range files {
+		fName := f.Name()
+		fNamePath := filepath.Join(folder, fName)
+		os.Remove(fNamePath)
+	}
+	return nil
+}
+
+// exports all data from DB into file timesheet-backup.zip
+func export() (fileName string, err error) {
+	fileName = "timesheet-backup.zip"
+	db := ConnectDB()
+	defer db.Close()
+	exportFolder := viper.GetString("export.location")
+	
+	err = cleanExportedFiles(exportFolder)
+	if err != nil {
+		return "", err
+	}
+
+	BackupAPI(viper.GetInt("backup.rotation"), exportFolder, db)
+	flags := os.O_WRONLY | os.O_CREATE | os.O_TRUNC
+	file, err := os.OpenFile("timesheet-backup.zip", flags, 0644)
+	if err != nil {
+		return "", err
+	}
+	defer file.Close()
+
+	files, err := ioutil.ReadDir(exportFolder)
+    if err != nil {
+        return "", err
+	}
+
+	zipw := zip.NewWriter(file)
+	defer zipw.Close()
+
+	for _, file := range files {
+		err := appendFiles(filepath.Join(exportFolder,file.Name()), zipw)
+		if err != nil {
+			return "", err
+		}
+	}
+
+	return fileName, nil
 }

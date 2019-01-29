@@ -22,7 +22,7 @@ var dbCmd = &cobra.Command{
 	
 Command first tests connection to DB. If succeeds it will initiate, load or backup db and exit.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		db := ConnectDB()
+		db := api.ConnectDB()
 		defer db.Close()
 		if clean {
 			api.ResetAPI(db)

@@ -17,7 +17,7 @@ var routesCmd = &cobra.Command{
 	
 Command first tests connection to DB. If succeeds it will print routes.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		db := ConnectDB()
+		db := api.ConnectDB()
 		defer db.Close()
 		api := api.NewAPI(db)
 		r := routes.NewRoutes(api)

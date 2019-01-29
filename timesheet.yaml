@@ -19,6 +19,9 @@ backup:
   rotation: 14             # how many backups back will be kept
   interval: "daily"        # daily or weekly - how ofter the DB backup should be done
 
+export:
+  location: "data/exported" # select an empty and an existing folder
+
 # DB credentials
 postgresql:
   host: "localhost" # "ec2-54-235-68-3.compute-1.amazonaws.com"

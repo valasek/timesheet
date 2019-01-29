@@ -10,6 +10,7 @@ import './plugins/vuetify'
 import ReportTable from './components/ReportTable'
 import ReportedOverview from './components/ReportedOverview'
 import Holidays from './components/Holidays'
+import Administration from './components/Administration'
 import Help from './components/Help'
 
 Vue.use(VueRouter)
@@ -30,9 +31,14 @@ let router = new VueRouter({
       component: ReportedOverview
     },
     {
-      path: '/Holidays',
+      path: '/holidays',
       name: 'holidays',
       component: Holidays
+    },
+    {
+      path: '/administration',
+      name: 'administration',
+      component: Administration
     },
     {
       path: '/help',

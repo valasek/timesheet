@@ -31,6 +31,8 @@ build/*.*
 
 # backup files
 data/backups/*
+data/exported/*
+timesheet-backup.zip
 
 # private seed data
 

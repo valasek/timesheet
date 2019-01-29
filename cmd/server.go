@@ -28,7 +28,7 @@ projects, rates, consultants and holidays. If succeeds it will start server.`,
 		// prepare the server
 		url := viper.GetString("url")
 		port := viper.GetString("port")
-		db := ConnectDB()
+		db := api.ConnectDB()
 		defer db.Close()
 		apiInst := api.CheckAndInitAPI(db)
 		r := routes.NewRoutes(apiInst)
