@@ -428,4 +428,8 @@ table .v-input--is-readonly.theme--light {
   padding-top: 0px !important;
   margin-top: 0px !important;
 }
+.menuable__content__active {
+    transform: scale(0.875);
+    transform-origin: left;
+}
 </style>
