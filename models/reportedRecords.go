@@ -253,7 +253,7 @@ func (db *ReportedRecordManager) ReportedRecordBackup(filePath string) (int, err
 	for _, r := range reportedRecords {
 		createdAt := DateTime{r.CreatedAt}
 		date := Date{r.Date}
-		item := ReportedRecordCSV{CreatedAt: createdAt, Date: date, Hours: r.Hours, Project: r.Project, Description: r.Description, Consultant: r.Consultant}
+		item := ReportedRecordCSV{CreatedAt: createdAt, Date: date, Hours: r.Hours, Project: r.Project, Description: r.Description, Rate: r.Rate, Consultant: r.Consultant}
 		projectCSV = append(projectCSV, &item)
 	}
 

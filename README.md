@@ -1,22 +1,21 @@
 [![GitHub release](https://img.shields.io/github/release-pre/valasek/timesheet.svg)](https://github.com/valasek/timesheet/releases)
 [![GitHub issues](https://img.shields.io/github/issues/valasek/timesheet.svg)](https://github.com/valasek/timesheet/issues)
-[![GitHub license](https://img.shields.io/github/license/valasek/timesheet.svg)](https://github.com/valasek/timesheet/blob/master/LICENSE)
 
 
 | **Linux & Mac & Windows** |
 | :-----------------------: |
 | [![Build Status](https://travis-ci.org/valasek/timesheet.svg?branch=master)](https://travis-ci.org/valasek/timesheet) |
 
-# Supporting Timesheet
+# Supporting Simple Timesheet
 
-Timesheet is an MIT-licensed open source project with its ongoing development made possible entirely by the support of these awesome backers. If you'd like to join them, please consider:
+Simple Timesheet is project with its ongoing development made possible entirely by the support of these awesome backers. If you'd like to join them, please consider:
 
 - [Become a backer or sponsor on Patreon](https://www.patreon.com/valasek)
 - [One-time donation via PayPal](https://paypal.me/StanislavValasek)
 
 ---
 
-# Timesheet
+# Simple Timesheet
 
 Self-hosted web application for weekly reporting. Report your consulting hours on projects using selected rates.
 
@@ -46,10 +45,6 @@ Automation is based on a premise, that reporting and billing process includes th
 ![Home](screenshots/home.png?raw=true "Home")
 
 ![State holidays](screenshots/holidays.png?raw=true "State holidays")
-
-# Download
-
-* [Releases](https://github.com/valasek/timesheet/releases/) (MS Windows 64bit, Linux 64bit, Mac OS X 64bit)
 
 # Usage
 
@@ -150,7 +145,3 @@ npm run build
 # replace baseUrl in compiled js files
 sed -i -e 's/localhost/www.example.com/g' /client/dist/*.js
 ```
-
-# License
-
-[MIT license](./LICENSE.md)
