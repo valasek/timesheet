@@ -69,9 +69,9 @@
       return {
         drawer: true,
         items: [
-          { title: 'Report my work', icon: 'list', route: 'report' },
+          { title: 'Report my work', icon: 'work_outline', route: 'report' },
           { title: 'Reported overview', icon: 'show_chart', route: 'overview' },
-          { title: 'State holidays', icon: 'calendar_today', route: 'holidays' },
+          { title: 'State holidays', icon: 'event', route: 'holidays' },
           { title: 'Administration', icon: 'settings', route: 'administration' }
         ],
         right: null

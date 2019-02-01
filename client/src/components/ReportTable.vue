@@ -19,7 +19,7 @@
           {{ formatWeek(dateFrom) }} - {{ formatWeek(dateTo) }}
         </v-label>
       </v-flex>
-      <v-select v-model="selectedConsultant" prepend-icon="person" :dense="true" :items="consultants.all" item-text="name" item-value="name" class="body-1" />
+      <v-select v-model="selectedConsultant" prepend-icon="person_outline" :dense="true" :items="consultants.all" item-text="name" item-value="name" class="body-1" />
       <v-spacer />
       <v-toolbar-title>
         <v-text-field v-model="search" clearable append-icon="search" label="Search" single-line />
@@ -123,47 +123,22 @@
             <v-icon slot="activator" small class="mr-2" @click="duplicateItem(props.item)">
               file_copy
             </v-icon>
-            <span>Duplicate this record</span>
+            <span>Duplicate record</span>
           </v-tooltip>
           <v-tooltip bottom>
             <v-icon slot="activator" small @click="deleteItem(props.item)">
               delete
             </v-icon>
-            <span>Remove this record</span>
+            <span>Remove record</span>
           </v-tooltip>
         </td>
       </template>
       <template slot="no-data">
         <v-alert :value="true" color="info" icon="info">
-          No reported hours this week :(
+          No hours reported this week ...
         </v-alert>
       </template>
     </v-data-table>
-    <!-- Dialog if use attempts to edit previous weeks without unlocking -->
-    <!-- <v-dialog v-model="dialogEditingUnlockedWeek" width="30%">
-      <v-card>
-        <v-card-title class="headline">
-          Editing the previous week
-        </v-card-title>
-
-        <v-card-text multiline>
-          Data might be already reported to the clients.
-          Do you want to unlock editing of previous weeks and repeat the edit?
-        </v-card-text>
-
-        <v-card-actions>
-          <v-spacer />
-
-          <v-btn color="blue darken-1" flat="flat" @click="unlockPreviousWeeks">
-            Unlock
-          </v-btn>
-
-          <v-btn color="primary" dark class="mb-2" @click="dialogEditingUnlockedWeek = false">
-            Cancel
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog> -->
     <!-- Dialog to confirm delete and unlock -->
     <confirm ref="confirm" />
   </div>
