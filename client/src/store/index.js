@@ -7,7 +7,7 @@ import projects from './modules/projects'
 import rates from './modules/rates'
 import holidays from './modules/holidays'
 import context from './modules/context'
-import createLogger from './modules/logger'
+import createLogger from 'vuex/dist/logger'
 
 Vue.use(Vuex)
 

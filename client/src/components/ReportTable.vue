@@ -76,47 +76,64 @@
     <v-data-table :headers="headers" :items="selectedReportedHours" :search="search" :loading="loading" class="elevation-1" :rows-per-page-items="rowsPerPage">
       <template slot="items" slot-scope="props">
         <td>
-          <!-- <v-menu :value="props.item.date" :close-on-content-click="true" :nudge-right="40" lazy transition="scale-transition" offset-y full-width min-width="290px"> -->
           <v-menu :close-on-content-click="true" :nudge-right="40" lazy transition="scale-transition" offset-y full-width min-width="290px" @keyup.esc="model = false">
             <v-text-field slot="activator" :value="formatDate(props.item.date)" prepend-icon="today" readonly class="body-1" />
             <v-date-picker first-day-of-week="1" :value="props.item.date" @input="onUpdateDate({id: props.item.id, date: $event})" />
           </v-menu>
         </td>
         <td class="text-xs-left">
-          <v-edit-dialog :return-value="props.item.hours" lazy>
-            {{ props.item.hours }}
-            <v-text-field slot="input" suffix="hours" :value="props.item.hours" label="Hours" single-line
-                          :rules="[ruleFloat]"
+          <!-- <v-menu :close-on-content-click="false" :dark="true" :nudge-right="40" lazy transition="scale-transition" offset-y full-width max-width="5em" @keyup.esc="model = false"> -->
+          <!--:return-value="props.item.hours" lazy> -->
+          <!-- {{ props.item.hours }}
+            <v-text-field :value="props.item.hours" class="body-1" /> -->
+          <!-- <v-text-field :value="props.item.hours" label="Hours"
+                          single-line :rules="[ruleFloat]" suffix="hours"
                           type="number" min="0" max="20" step="0.5" maxlength="2"
                           @change="onUpdateHours({id: props.item.id, hours: $event})"
-            />
-          </v-edit-dialog>
+            /> -->
+          <!-- <v-text-field :value="props.item.hours" background-color="#F5F5F5" @change="onUpdateHours({id: props.item.id, hours: $event})" />
+          </v-menu> -->
+          <!-- <v-text-field :value="props.item.hours" type="number" min="0" max="20" step="0.5" -->
+          <v-text-field :value="props.item.hours" :rules="[ruleFloat]"
+                        class="body-1" maxlength="2" single-line @change="onUpdateHours({id: props.item.id, hours: $event})"
+          />
         </td>
         <td class="text-xs-left">
-          <v-edit-dialog :return-value="props.item.project" lazy>
+          <!-- <v-edit-dialog :return-value="props.item.project" lazy>
             {{ props.item.project }}
             <v-select slot="input" :value="props.item.project" item-text="name" item-value="name"
                       :items="assignedProjects" label="Project" :dense="true" :hide-selected="false"
                       @change="onUpdateProject({id: props.item.id, project: $event})"
             />
-          </v-edit-dialog>
+          </v-edit-dialog> -->
+          <v-select :value="props.item.project" item-text="name" item-value="name"
+                    :items="assignedProjects" :dense="true" :hide-selected="false" class="body-1"
+                    @change="onUpdateProject({id: props.item.id, project: $event})"
+          />
         </td>
         <td class="text-xs-left">
-          <v-edit-dialog :return-value="props.item.description" lazy>
+          <!-- <v-edit-dialog :return-value="props.item.description" lazy>
             {{ props.item.description }}
             <v-text-field slot="input" :value="props.item.description" label="Description" single-line counter
                           :rules="[ruleMaxChars]" @change="onUpdateDescription({id: props.item.id, description: $event})"
             />
-          </v-edit-dialog>
+          </v-edit-dialog> -->
+          <v-text-field slot="input" :value="props.item.description" single-line class="body-1"
+                        :rules="[ruleMaxChars]" @change="onUpdateDescription({id: props.item.id, description: $event})"
+          />
         </td>
         <td class="text-xs-left">
-          <v-edit-dialog :return-value="props.item.rate" lazy>
+          <!-- <v-edit-dialog :return-value="props.item.rate" lazy>
             {{ props.item.rate }}
             <v-select slot="input" :value="props.item.rate" item-text="name" item-value="name"
                       :items="rates" label="Rate" :dense="true" :hide-selected="false"
                       @change="onUpdateRate({id: props.item.id, rate: $event})"
             />
-          </v-edit-dialog>
+          </v-edit-dialog> -->
+          <v-select slot="input" :value="props.item.rate" item-text="name" item-value="name"
+                    :items="rates" :dense="true" :hide-selected="false" class="body-1"
+                    @change="onUpdateRate({id: props.item.id, rate: $event})"
+          />
         </td>
         <td class="text-xs-center px-0">
           <v-tooltip bottom>
@@ -164,12 +181,12 @@
         repDate: '',
         rowsPerPage: [ 30, 50, { 'text': '$vuetify.dataIterator.rowsPerPageAll', 'value': -1 } ],
         headers: [
-          { text: 'Date', align: 'left', sortable: true, value: 'date', class: 'body-1' },
-          { text: 'Hours', align: 'left', sortable: true, value: 'hours', class: 'body-1' },
-          { text: 'Project', align: 'left', sortable: true, value: 'project', class: 'body-1' },
-          { text: 'Description', align: 'left', value: 'description', class: 'body-1' },
-          { text: 'Rate', align: 'left', sortable: true, value: 'rate', class: 'body-1' },
-          { text: 'Actions', align: 'center', sortable: false, value: 'actions', class: 'body-1' }
+          { text: 'Date', align: 'left', sortable: true, value: 'date', width: '15%', class: 'body-1' },
+          { text: 'Hours', align: 'left', sortable: true, value: 'hours', width: '5%', class: 'body-1' },
+          { text: 'Project', align: 'left', sortable: true, value: 'project', width: '15%', class: 'body-1' },
+          { text: 'Description', align: 'left', value: 'description', width: '50%', class: 'body-1' },
+          { text: 'Rate', align: 'left', sortable: true, value: 'rate', width: '10%', class: 'body-1' },
+          { text: 'Actions', align: 'center', sortable: false, value: 'actions', width: '5%', class: 'body-1' }
         ],
         reported: []
       }
@@ -319,12 +336,15 @@
       },
       onUpdateHours (newValue) {
         if (this.editPreviousWeeks(newValue.id)) {
-          let payload = {
-            id: newValue.id,
-            type: 'hours',
-            value: parseFloat(newValue.hours)
+          const hrs = parseFloat(newValue.hours)
+          if (!isNaN(hrs)) {
+            let payload = {
+              id: newValue.id,
+              type: 'hours',
+              value: parseFloat(newValue.hours)
+            }
+            this.$store.dispatch('reportedHours/updateAttributeValue', payload)
           }
-          this.$store.dispatch('reportedHours/updateAttributeValue', payload)
         }
       },
       onUpdateDescription (newValue) {
@@ -403,8 +423,14 @@ table .v-input--is-readonly.theme--light {
   padding-top: 0px !important;
   margin-top: 0px !important;
 }
-.menuable__content__active {
+/* html.gr__localhost body div#app.application.theme--light div.v-menu__content.theme--light.menuable__content__active.v-small-dialog__content
+{
+  transform: scale(0.875);
+  transform-origin: left;
+  width: 10em;
+} */
+/* .menuable__content__active {
     transform: scale(0.875);
     transform-origin: left;
-}
+} */
 </style>

@@ -51,7 +51,11 @@ const actions = {
         }
     },
     // monday
-    jumpToWeek ({ commit }, payload) {
+    jumpToWeek ({ commit, dispatch }, payload) {
+        if (payload.month() !== state.selectedMonth.month()) {
+            dispatch('reportedHours/getReportedHours', payload, { root: true })
+            commit('SET_MONTH', payload)
+        }
         commit('JUMP_TO_WEEK', payload)
     }
 }
