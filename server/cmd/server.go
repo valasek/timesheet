@@ -5,16 +5,16 @@ package cmd
 import (
 	"fmt"
 	"github.com/valasek/timesheet/server/api"
-	"github.com/valasek/timesheet/server/routes"
 	"github.com/valasek/timesheet/server/logger"
+	"github.com/valasek/timesheet/server/routes"
 
 	"github.com/robfig/cron"
 
+	"github.com/meatballhat/negroni-logrus"
+	"github.com/rs/cors"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"github.com/urfave/negroni"
-	"github.com/meatballhat/negroni-logrus"
-	"github.com/rs/cors"
 )
 
 // serverCmd represents the server command
@@ -50,24 +50,24 @@ projects, rates, consultants and holidays. If succeeds it will start server.`,
 		location := viper.GetString("backup.location")
 		scheduler := cron.New()
 		switch interval {
-			case "weekly":
-				scheduler.AddFunc("0 0 0 * * 0", func() { api.BackupAPI(rotation, location, db) })
-			case "daily":
-				scheduler.AddFunc("0 0 0 * * *", func() { api.BackupAPI(rotation, location, db) })
-				// test schedule - every minute
-				// scheduler.AddFunc("0 * * * * *", func() { api.BackupAPI(rotation, location, db) })
-			default:
-				logger.Log.Warning(fmt.Sprintf("miconfigured backup interval;: %s, allowed intervals daily or weekly, falling back to daily", interval))
-				// logrus.WithFields(logrus.Fields{"category": "backup"}).Error("config file:      ", viper.ConfigFileUsed())
-				interval = "daily"
-				scheduler.AddFunc("0 0 0 * * *", func() { api.BackupAPI(rotation, location, db) })
+		case "weekly":
+			scheduler.AddFunc("0 0 0 * * 0", func() { api.BackupAPI(rotation, location, db) })
+		case "daily":
+			scheduler.AddFunc("0 0 0 * * *", func() { api.BackupAPI(rotation, location, db) })
+			// test schedule - every minute
+			// scheduler.AddFunc("0 * * * * *", func() { api.BackupAPI(rotation, location, db) })
+		default:
+			logger.Log.Warning(fmt.Sprintf("miconfigured backup interval;: %s, allowed intervals daily or weekly, falling back to daily", interval))
+			// logrus.WithFields(logrus.Fields{"category": "backup"}).Error("config file:      ", viper.ConfigFileUsed())
+			interval = "daily"
+			scheduler.AddFunc("0 0 0 * * *", func() { api.BackupAPI(rotation, location, db) })
 		}
 		scheduler.Start()
 		defer scheduler.Stop()
-		logger.Log.Info(fmt.Sprintf("DB backups scheduled %s, %d backups back kept in location %s", interval, rotation, location))	
+		logger.Log.Info(fmt.Sprintf("DB backups scheduled %s, %d backups back kept in location %s", interval, rotation, location))
 
 		// run the server
-		n.Run(url + ":" + port)	
+		n.Run(url + ":" + port)
 	},
 }
 

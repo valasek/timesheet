@@ -3,9 +3,9 @@
 package main
 
 import (
+	"github.com/sirupsen/logrus"
 	"github.com/valasek/timesheet/server/cmd"
 	"github.com/valasek/timesheet/server/logger"
-	"github.com/sirupsen/logrus"
 )
 
 func main() {

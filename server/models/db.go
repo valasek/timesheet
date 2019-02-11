@@ -15,8 +15,8 @@ type DB struct {
 
 // UpdatedValue used to pass updated ReportedRecord value type and relevant ID
 type UpdatedValue struct {
-	ID int64
-	Type string
+	ID    int64
+	Type  string
 	Value string
 }
 

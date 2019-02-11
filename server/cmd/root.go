@@ -6,14 +6,14 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/valasek/timesheet/server/version"
 	"github.com/valasek/timesheet/server/logger"
+	"github.com/valasek/timesheet/server/version"
 
-	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
+	nested "github.com/antonfisher/nested-logrus-formatter"
 	"github.com/orandin/lumberjackrus"
 	"github.com/sirupsen/logrus"
-	 nested "github.com/antonfisher/nested-logrus-formatter"
+	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 	"path"
 )
 
@@ -21,9 +21,9 @@ var cfgFile string
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "timesheet",
+	Use:     "timesheet",
 	Version: version.Version,
-	Short: "Web based timesheet application with DB persistence",
+	Short:   "Web based timesheet application with DB persistence",
 	Long: `Web based timesheet application with DB persistence.
 	
 Application reads DB and server configuration from config.toml, loads default data if DB is empty and launch web GUI.`,
@@ -86,13 +86,13 @@ func initConfig() {
 }
 
 func initLogger() {
-	formatter := nested.Formatter {
-		HideKeys:    true,
-		NoColors:    true,
-		NoFieldsColors:  true,
-		FieldsOrder: []string{"component", "category"},
+	formatter := nested.Formatter{
+		HideKeys:       true,
+		NoColors:       true,
+		NoFieldsColors: true,
+		FieldsOrder:    []string{"component", "category"},
 	}
-	
+
 	logger.Log.SetFormatter(&formatter)
 	logger.Log.SetLevel(logrus.InfoLevel)
 	logFolder := viper.GetString("logFolder")
@@ -100,22 +100,22 @@ func initLogger() {
 	hook, err := lumberjackrus.NewHook(
 		&lumberjackrus.LogFile{
 			Filename: path.Join(".", logFolder, "general.log"),
-			MaxSize: 100,
+			MaxSize:  100,
 		},
 		logrus.InfoLevel,
 		&formatter,
 		&lumberjackrus.LogFileOpts{
 			logrus.InfoLevel: &lumberjackrus.LogFile{
 				Filename: path.Join(".", logFolder, "info.log"),
-				MaxSize: 100,
+				MaxSize:  100,
 			},
 			logrus.WarnLevel: &lumberjackrus.LogFile{
 				Filename: path.Join(logFolder, "error.log"),
-				MaxSize: 100,
+				MaxSize:  100,
 			},
 			logrus.ErrorLevel: &lumberjackrus.LogFile{
 				Filename: path.Join(logFolder, "error.log"),
-				MaxSize: 100,
+				MaxSize:  100,
 			},
 		},
 	)

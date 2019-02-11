@@ -2,7 +2,7 @@ package auth
 
 import (
 	"github.com/valasek/timesheet/server/models"
-	
+
 	"net/http"
 	"time"
 

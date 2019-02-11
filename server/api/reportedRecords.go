@@ -1,22 +1,23 @@
 package api
 
 import (
-	"github.com/valasek/timesheet/server/models"
 	"github.com/valasek/timesheet/server/logger"
+	"github.com/valasek/timesheet/server/models"
 
-	"strconv"
-	"net/http"
 	"encoding/json"
+	"fmt"
 	"github.com/gorilla/mux"
+	"net/http"
+	"strconv"
 )
 
-// ReportedRecordsGetAll returns list of all 
+// ReportedRecordsGetAll returns list of all
 func (api *API) ReportedRecordsGetAll(w http.ResponseWriter, req *http.Request) {
 	reportedRecords := api.reportedRecords.ReportedRecordsGetAll()
 	json.NewEncoder(w).Encode(reportedRecords)
 }
 
-// ReportedRecordsInMonth returns list of all 
+// ReportedRecordsInMonth returns list of all
 func (api *API) ReportedRecordsInMonth(w http.ResponseWriter, req *http.Request) {
 	vars := mux.Vars(req)
 	month := vars["month"]
@@ -33,7 +34,7 @@ func (api *API) ReportedRecordsInMonth(w http.ResponseWriter, req *http.Request)
 	json.NewEncoder(w).Encode(reportedRecords)
 }
 
-// ReportedRecordsSummary returns list of all 
+// ReportedRecordsSummary returns list of all
 func (api *API) ReportedRecordsSummary(w http.ResponseWriter, req *http.Request) {
 	vars := mux.Vars(req)
 	year := vars["year"]
@@ -64,11 +65,11 @@ func (api *API) ReportedRecordUpdate(w http.ResponseWriter, req *http.Request) {
 	var updatedValue models.UpdatedValue
 	err := decoder.Decode(&updatedValue)
 	if err != nil {
-		logger.Log.Error("unable to decode reported record %s, error: %s", req.Body, err)
+		logger.Log.Error(fmt.Sprintf("unable to decode reported record %s, error: %s", req.Body, err))
 		return
 	}
 	// https://www.programming-books.io/essential/go/2f90f3ba9eab401699dbb119feab6665-handling-http-method-accessing-query-strings-request-body
-	reportedRecord := api.reportedRecords.ReportedRecordUpdate( updatedValue )
+	reportedRecord := api.reportedRecords.ReportedRecordUpdate(updatedValue)
 	json.NewEncoder(w).Encode(reportedRecord)
 }
 
@@ -81,6 +82,6 @@ func (api *API) ReportedRecordsAddRecord(w http.ResponseWriter, req *http.Reques
 		logger.Log.Error("unable to decode reported record, error: ", err)
 		return
 	}
-	addedReportedRecord := api.reportedRecords.ReportedRecordAdd( reportedRecord )
+	addedReportedRecord := api.reportedRecords.ReportedRecordAdd(reportedRecord)
 	json.NewEncoder(w).Encode(addedReportedRecord)
 }

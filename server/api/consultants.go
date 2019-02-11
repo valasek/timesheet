@@ -1,8 +1,8 @@
 package api
 
 import (
-	"net/http"
 	"encoding/json"
+	"net/http"
 )
 
 // ConsultantList returns list of all consultants

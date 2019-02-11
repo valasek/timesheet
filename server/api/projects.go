@@ -1,8 +1,8 @@
 package api
 
 import (
-	"net/http"
 	"encoding/json"
+	"net/http"
 )
 
 // ProjectsGetAll returns list of all projects

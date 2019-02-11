@@ -8,18 +8,18 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
+	"path"
 	"path/filepath"
 	"strconv"
 	"strings"
 	"time"
-	"path"
 
+	"github.com/valasek/timesheet/server/logger"
 	"github.com/valasek/timesheet/server/models"
 	"github.com/valasek/timesheet/server/version"
-	"github.com/valasek/timesheet/server/logger"
 
-	"github.com/spf13/viper"
 	"github.com/gorilla/mux"
+	"github.com/spf13/viper"
 )
 
 // API -
@@ -49,7 +49,7 @@ func (api *API) AppSettings(w http.ResponseWriter, req *http.Request) {
 func (api *API) Download(w http.ResponseWriter, req *http.Request) {
 	fileName, err := export()
 	if err != nil {
-		http.Error(w, "downloading data failed with error: " + err.Error(), 404)
+		http.Error(w, "downloading data failed with error: "+err.Error(), 404)
 		return
 	}
 
@@ -84,7 +84,7 @@ func (api *API) Download(w http.ResponseWriter, req *http.Request) {
 	return
 }
 
-// DownloadLogs - 
+// DownloadLogs -
 func (api *API) DownloadLogs(w http.ResponseWriter, req *http.Request) {
 
 	vars := mux.Vars(req)
@@ -109,7 +109,7 @@ func (api *API) DownloadLogs(w http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		w.Header().Set("Content-Type", "text/html")
 		w.WriteHeader(http.StatusOK)
-		fmt.Fprintf(w, file + " contains no log entries")
+		fmt.Fprintf(w, file+" contains no log entries")
 		return
 	}
 
@@ -252,7 +252,7 @@ func SeedTable(api *API, table string) (count int) {
 		count = api.holidays.HolidaySeed("./data/" + viper.GetString("data.holidays"))
 		logger.Log.Info(fmt.Sprintf("- holidays, %d records, %s", count, viper.GetString("data.holidays")))
 	default:
-		logger.Log.Warn(fmt.Sprintf("unknown table to seed:", table))
+		logger.Log.Warn("unknown table to seed: ", table)
 	}
 	return count
 }
@@ -327,22 +327,22 @@ func BackupAPI(rotation int, folder string, db *models.DB) {
 
 // ConnectDB connects and pings DB
 func ConnectDB() (db *models.DB) {
-	switch DBType := viper.GetString("dbType"); (DBType) {
-		case "postgresql":
-			// DBhost, DBport, DBuser, DBpassword, DBname, SSLmode, url, port := "", "", "", "", "", "", "", ""
-			connectionString := "host=" + viper.GetString("postgresql.host") +
-							   " port=" + viper.GetString("postgresql.port") +
-							   " user=" + viper.GetString("postgresql.user") +
-							   " dbname=" + viper.GetString("postgresql.name") +
-							   " password=" + viper.GetString("postgresql.password") +
-							   " sslmode=" + viper.GetString("postgresql.SSLMode")
-			db = models.NewPostgresDB(connectionString)
-			// fmt.Println("connected to DB:  ", connectionString)
-			logger.Log.Info("connected to DB:  ", connectionString)
-			// fmt.Println("")
-		default:
-			logger.Log.Error("not able to connect to DB, supported DB types (postgresql), set: ", DBType)
-			os.Exit(1)
+	switch DBType := viper.GetString("dbType"); DBType {
+	case "postgresql":
+		// DBhost, DBport, DBuser, DBpassword, DBname, SSLmode, url, port := "", "", "", "", "", "", "", ""
+		connectionString := "host=" + viper.GetString("postgresql.host") +
+			" port=" + viper.GetString("postgresql.port") +
+			" user=" + viper.GetString("postgresql.user") +
+			" dbname=" + viper.GetString("postgresql.name") +
+			" password=" + viper.GetString("postgresql.password") +
+			" sslmode=" + viper.GetString("postgresql.SSLMode")
+		db = models.NewPostgresDB(connectionString)
+		// fmt.Println("connected to DB:  ", connectionString)
+		logger.Log.Info("connected to DB:  ", connectionString)
+		// fmt.Println("")
+	default:
+		logger.Log.Error("not able to connect to DB, supported DB types (postgresql), set: ", DBType)
+		os.Exit(1)
 	}
 	return db
 }
@@ -420,7 +420,7 @@ func export() (fileName string, err error) {
 	db := ConnectDB()
 	defer db.Close()
 	exportFolder := viper.GetString("export.location")
-	
+
 	err = cleanExportedFiles(exportFolder)
 	if err != nil {
 		return "", err
@@ -435,15 +435,15 @@ func export() (fileName string, err error) {
 	defer file.Close()
 
 	files, err := ioutil.ReadDir(exportFolder)
-    if err != nil {
-        return "", err
+	if err != nil {
+		return "", err
 	}
 
 	zipw := zip.NewWriter(file)
 	defer zipw.Close()
 
 	for _, file := range files {
-		err := appendFiles(filepath.Join(exportFolder,file.Name()), zipw)
+		err := appendFiles(filepath.Join(exportFolder, file.Name()), zipw)
 		if err != nil {
 			return "", err
 		}

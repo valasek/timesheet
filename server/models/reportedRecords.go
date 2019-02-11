@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/gocarina/gocsv"
-    "github.com/jinzhu/now"
+	"github.com/jinzhu/now"
 
 	// postgress db driver
 	_ "github.com/jinzhu/gorm/dialects/postgres"
@@ -31,9 +31,9 @@ type ReportedRecord struct {
 
 // ReportedRecordsSummary struct
 type ReportedRecordsSummary struct {
-	Consultant string `json:"consultant"`
-	Year       string `json:"year"`
-	Month      string `json:"month"`
+	Consultant string  `json:"consultant"`
+	Year       string  `json:"year"`
+	Month      string  `json:"month"`
 	Rate       string  `json:"rate"`
 	Hours      float64 `json:"hours"`
 }
@@ -84,7 +84,7 @@ func (db *ReportedRecordManager) ReportedRecordsInMonth(year, month string) []Re
 		borderWeeksReportedRecords := []ReportedRecord{}
 		days, err := getborderDays(year, month)
 		if err != nil {
-			logger.Log.Error("failed - get reported records in month %s, year %s, error: %s\n", month, year, err)
+			logger.Log.Error(fmt.Sprintf("failed - get reported records in month %s, year %s, error: %s", month, year, err))
 			return nil
 		}
 		if err := db.db.Where("date(date) in (?)", days).Find(&borderWeeksReportedRecords); err != nil {
@@ -92,15 +92,15 @@ func (db *ReportedRecordManager) ReportedRecordsInMonth(year, month string) []Re
 			return reportedRecords
 		}
 	}
-	logger.Log.Error("failed - get reported records in month %s, year %s\n", month, year)
+	logger.Log.Error(fmt.Sprintf("failed - get reported records in month %s, year %s", month, year))
 	return nil
 }
 
 func getborderDays(year, month string) (days []string, err error) {
 	// days = append(days, "2018-12-31")
-	
+
 	layout := "2006-1-02"
-	monthStart, err := time.Parse(layout, year + "-" + month + "-01")
+	monthStart, err := time.Parse(layout, year+"-"+month+"-01")
 	if err != nil {
 		return nil, err
 	}
@@ -112,30 +112,30 @@ func getborderDays(year, month string) (days []string, err error) {
 	if err != nil {
 		return nil, err
 	}
-	prevMonth := fmt.Sprintf("%02d", monthN - 1)
+	prevMonth := fmt.Sprintf("%02d", monthN-1)
 	prevYear, nextYear := strconv.Itoa(yearN), strconv.Itoa(yearN)
 	if monthN == 1 {
 		prevMonth = "12"
-		prevYear = strconv.Itoa(yearN-1)
+		prevYear = strconv.Itoa(yearN - 1)
 	}
-	nextMonth := fmt.Sprintf("%02d", monthN + 1)
+	nextMonth := fmt.Sprintf("%02d", monthN+1)
 	if monthN == 12 {
 		nextMonth = "01"
-		nextYear = strconv.Itoa(yearN+1)
+		nextYear = strconv.Itoa(yearN + 1)
 	}
 	monday := now.New(monthStart).Monday()
 	sunday := now.New((now.New(monthStart).EndOfMonth())).Sunday()
-	monthPrevious, err := time.Parse(layout, year + "-" + prevMonth + "-01")
+	monthPrevious, err := time.Parse(layout, year+"-"+prevMonth+"-01")
 	if err != nil {
 		return nil, err
 	}
 
 	for day := monday.Day(); day <= now.New(monthPrevious).EndOfMonth().Day(); day++ {
-		days = append(days, prevYear + "-" + prevMonth + "-" + fmt.Sprintf("%02d", day))
+		days = append(days, prevYear+"-"+prevMonth+"-"+fmt.Sprintf("%02d", day))
 	}
 
 	for day := 1; day <= sunday.Day(); day++ {
-		days = append(days, nextYear + "-" + nextMonth + "-" + fmt.Sprintf("%02d", day))
+		days = append(days, nextYear+"-"+nextMonth+"-"+fmt.Sprintf("%02d", day))
 	}
 
 	return days, nil

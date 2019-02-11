@@ -1,8 +1,8 @@
 package api
 
 import (
-	"net/http"
 	"encoding/json"
+	"net/http"
 )
 
 // RatesGetAll returns list of all rates

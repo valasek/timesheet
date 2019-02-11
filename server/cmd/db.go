@@ -4,14 +4,14 @@ package cmd
 
 import (
 	"github.com/valasek/timesheet/server/api"
-	
+
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
 
 var (
-	load string
-	clean bool
+	load   string
+	clean  bool
 	backup bool
 )
 
@@ -28,7 +28,7 @@ Command first tests connection to DB. If succeeds it will initiate, load or back
 		if clean {
 			api.ResetAPI(db)
 		} else {
-			if (len(load) > 1) {
+			if len(load) > 1 {
 				api.SeedAPI(db, load)
 			} else {
 				if backup {
@@ -47,8 +47,8 @@ func init() {
 	dbCmd.PersistentFlags().StringVarP(&load, "load", "l", "", `Truncate DB table/tables and load initial data from files in folder ./data. Options:
 all - load all tables
 rates | consultants | projects | holidays | reported_records - load selected table`)
-	dbCmd.PersistentFlags().BoolVarP(&clean,"clean", "c", false, `Drop and create all required DB tables`)
-	dbCmd.PersistentFlags().BoolVarP(&backup,"backup", "b", false, `Backup all DB tables in the format used by db --load command`)
+	dbCmd.PersistentFlags().BoolVarP(&clean, "clean", "c", false, `Drop and create all required DB tables`)
+	dbCmd.PersistentFlags().BoolVarP(&backup, "backup", "b", false, `Backup all DB tables in the format used by db --load command`)
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:

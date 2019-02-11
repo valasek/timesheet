@@ -1,12 +1,12 @@
 package routes
 
 import (
-	"github.com/valasek/timesheet/server/logger"
 	"github.com/valasek/timesheet/server/api"
 	"github.com/valasek/timesheet/server/auth"
+	"github.com/valasek/timesheet/server/logger"
 
-	"net/http"
 	"fmt"
+	"net/http"
 	"os"
 	"reflect"
 	"runtime"
@@ -79,7 +79,7 @@ func NewRoutes(api *api.API) *mux.Router {
 }
 
 // PrintRoutes prints all set routes
-func PrintRoutes (routes *mux.Router) {
+func PrintRoutes(routes *mux.Router) {
 	fmt.Println("Available routes")
 	w = new(tabwriter.Writer)
 	w.Init(os.Stdout, 0, 8, 1, '\t', 0)
@@ -106,5 +106,5 @@ func gorillaWalkFn(route *mux.Route, router *mux.Router, ancestors []*mux.Route)
 		handler = runtime.FuncForPC(reflectValue.Pointer()).Name()
 	}
 	fmt.Fprintln(w, path, "\t", methods, "\t", handler)
-    return nil
+	return nil
 }
