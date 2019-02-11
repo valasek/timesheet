@@ -3,8 +3,8 @@
 package main
 
 import (
-	"github.com/valasek/timesheet/cmd"
-	"github.com/valasek/timesheet/logger"
+	"github.com/valasek/timesheet/server/cmd"
+	"github.com/valasek/timesheet/server/logger"
 	"github.com/sirupsen/logrus"
 )
 

@@ -14,9 +14,9 @@ import (
 	"time"
 	"path"
 
-	"github.com/valasek/timesheet/models"
-	"github.com/valasek/timesheet/version"
-	"github.com/valasek/timesheet/logger"
+	"github.com/valasek/timesheet/server/models"
+	"github.com/valasek/timesheet/server/version"
+	"github.com/valasek/timesheet/server/logger"
 
 	"github.com/spf13/viper"
 	"github.com/gorilla/mux"

@@ -4,9 +4,9 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/valasek/timesheet/api"
-	"github.com/valasek/timesheet/routes"
-	"github.com/valasek/timesheet/logger"
+	"github.com/valasek/timesheet/server/api"
+	"github.com/valasek/timesheet/server/routes"
+	"github.com/valasek/timesheet/server/logger"
 
 	"github.com/robfig/cron"
 

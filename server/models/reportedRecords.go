@@ -1,7 +1,7 @@
 package models
 
 import (
-	"github.com/valasek/timesheet/logger"
+	"github.com/valasek/timesheet/server/logger"
 
 	"fmt"
 	"os"

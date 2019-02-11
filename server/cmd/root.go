@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/valasek/timesheet/version"
-	"github.com/valasek/timesheet/logger"
+	"github.com/valasek/timesheet/server/version"
+	"github.com/valasek/timesheet/server/logger"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"

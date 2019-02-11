@@ -1,9 +1,9 @@
 package routes
 
 import (
-	"github.com/valasek/timesheet/logger"
-	"github.com/valasek/timesheet/api"
-	"github.com/valasek/timesheet/auth"
+	"github.com/valasek/timesheet/server/logger"
+	"github.com/valasek/timesheet/server/api"
+	"github.com/valasek/timesheet/server/auth"
 
 	"net/http"
 	"fmt"

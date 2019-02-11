@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/valasek/timesheet/auth"
-	"github.com/valasek/timesheet/models"
+	"github.com/valasek/timesheet/server/auth"
+	"github.com/valasek/timesheet/server/models"
 )
 
 // UserJSON - json data expected for login/signup

@@ -1,8 +1,8 @@
 package api
 
 import (
-	"github.com/valasek/timesheet/models"
-	"github.com/valasek/timesheet/logger"
+	"github.com/valasek/timesheet/server/models"
+	"github.com/valasek/timesheet/server/logger"
 
 	"strconv"
 	"net/http"

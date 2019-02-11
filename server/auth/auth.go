@@ -1,12 +1,13 @@
 package auth
 
 import (
+	"github.com/valasek/timesheet/server/models"
+	
 	"net/http"
 	"time"
 
 	jwtmiddleware "github.com/auth0/go-jwt-middleware"
 	jwt "github.com/dgrijalva/jwt-go"
-	"github.com/valasek/timesheet/models"
 )
 
 // signingKey set up a global string for our secret
