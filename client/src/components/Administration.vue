@@ -20,7 +20,7 @@
           <v-select :items="logLevels" item-value="id" item-text="level" :dense="true" label="Select log level" class="body-1" @change="getLogFile" />
         </v-flex>
       </v-layout>
-      <v-layout column align-left justify-top class="scroll-y elevation-5" style="max-height: 600px">
+      <v-layout column align-left justify-top class="scroll-y elevation-5 logs" style="max-height: 600px">
         <div v-for="line in logLines" :key="line.id">
           {{ line }}
         </div>
@@ -83,4 +83,7 @@
 </script>
 
 <style scoped>
+.logs {
+  padding: 10px;
+}
 </style>

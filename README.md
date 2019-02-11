@@ -34,17 +34,21 @@ Automation is based on a premise, that reporting and billing process includes th
 # Requirements
 
 - Linux, Windows or MacOS
-- DB connection to PostgreSQL - configure in timesheet.yaml
-- Initialize the DB using command `timesheet db --clean`
-- Import initial data in csv format using command `timesheet db --load all`
-  - (dates should be entered in ISO format YYYY-MM-DD HH:MM:SS)
-  - consultants, projects, rates, holidays, initial reported_records - optional
+- DB connection to PostgreSQL
+- Initialize the DB via `timesheet db --clean`
+- Import data from csv via `timesheet db --load all`
+  - mandatory: consultants, projects, rates, holidays
+  - optional: reported_records
 
 # Screenshots
 
 ![Home](screenshots/home.png?raw=true "Home")
 
-![State holidays](screenshots/holidays.png?raw=true "State holidays")
+![Reported Overview](screenshots/reported_overview.png?raw=true "Reported Overview")
+
+![State Holidays](screenshots/holidays.png?raw=true "State Holidays")
+
+![Admnistration](screenshots/administration.png?raw=true "Admnistration")
 
 # Usage
 
