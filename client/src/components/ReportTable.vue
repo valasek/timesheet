@@ -95,7 +95,8 @@
           </v-menu> -->
           <!-- <v-text-field :value="props.item.hours" type="number" min="0" max="20" step="0.5" -->
           <v-text-field :value="props.item.hours" :rules="[ruleFloat]"
-                        class="body-1" maxlength="2" single-line @change="onUpdateHours({id: props.item.id, hours: $event})"
+                        type="number" min="0" max="24" step="0.5" maxlength="2"
+                        class="body-1" single-line @change="onUpdateHours({id: props.item.id, hours: $event})"
           />
         </td>
         <td class="text-xs-left">
@@ -423,12 +424,12 @@ table .v-input--is-readonly.theme--light {
   padding-top: 0px !important;
   margin-top: 0px !important;
 }
-/* html.gr__localhost body div#app.application.theme--light div.v-menu__content.theme--light.menuable__content__active.v-small-dialog__content
-{
-  transform: scale(0.875);
-  transform-origin: left;
-  width: 10em;
-} */
+html.gr__localhost body div#app.application.theme--light div.application--wrap main.v-content div.v-content__wrap div.container.fluid div div.elevation-1 div.v-table__overflow table.v-datatable.v-table.theme--light tbody tr td.text-xs-left div.v-input.body-1.v-text-field.v-text-field--single-line.v-input--is-label-active.v-input--is-dirty.theme--light {
+  padding-top: 0px !important;
+}
+html.gr__localhost body div#app.application.theme--light div.application--wrap main.v-content div.v-content__wrap div.container.fluid div div.elevation-1 div.v-table__overflow table.v-datatable.v-table.theme--light tbody tr td.text-xs-left div.v-input.body-1.v-text-field.v-select.v-input--is-label-active.v-input--is-dirty.theme--light {
+  padding-top: 0px !important;
+}
 /* .menuable__content__active {
     transform: scale(0.875);
     transform-origin: left;

@@ -99,7 +99,6 @@ Use "timesheet [command] --help" for more information about a command.
 - Consistency checks
 - Show only available rates per project
 - Paginate and sort server-side - using Vuetify data table
-- Exports
 - Add support for billing - assigning reported hours on projects
 
 ## Improvements technical
