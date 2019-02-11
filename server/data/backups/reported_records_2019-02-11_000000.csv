@@ -1,0 +1,350 @@
+created_at,date,hours,project,description,rate,consultant
+2019-01-14 01:00:00,2019-01-01,8,_Public Holiday,,Public Holiday,Jakub Bartak
+2019-01-14 01:00:00,2019-01-01,8,_Public Holiday,,Public Holiday,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-01,8,_Public Holiday,,Public Holiday,Zoroslav Kuncak
+2019-01-14 01:00:00,2019-01-01,8,_Public Holiday,,Public Holiday,Jaroslav Barannikov
+2019-01-14 01:00:00,2019-01-01,8,_Public Holiday,,Public Holiday,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-01,8,_Public Holiday,,Public Holiday,Radek Ocelak
+2019-01-14 01:00:00,2019-01-02,6.5,St Lukes,Patient matching,Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-02,0.5,Voya,Status call,Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-02,4,Workbench Oper. Improv.,"Work on OG-4304, OG-4308",Off-site,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-02,1.5,Servus,Loqate troubleshooting,Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-02,1.5,BCBST,Match processing,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-02,0.5,_People mgmt & hiring,Personal mgmt with Jakub,Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-02,3,_People mgmt & hiring,,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-02,2,_Administration,2018 budget reports for Gregory,Off-site,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-02,6,Servus,Entity Mastering QA,Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-02,3,_Travel Time,Praha and back to Pisek,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-02,0.5,Voya,TFS,Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-02,1,Voya,High-level guidance,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-02,1,Servus,High-level guidance,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-02,0.5,Servus,Status,Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-02,8,_Vacation,,Vacation,Zoroslav Kuncak
+2019-01-14 01:00:00,2019-01-02,2,Voya,"Documentation, Match quality score",Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-02,8,_Vacation,last year vacation,Vacation,Jaroslav Barannikov
+2019-01-14 01:00:00,2019-01-02,2,_Administration,"Ferda NB, Timesheet personal - year 2019",Off-site,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-02,0,Michigan State Police,"MSP laptops, Presentation for Jakub / Duff - SVA",On-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-03,8,_Vacation,,Vacation,Zoroslav Kuncak
+2019-01-14 01:00:00,2019-01-03,3,Voya,Documentation,Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-03,0.5,Michigan State Police,Checking the access,Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-03,2,St Lukes,Stand up with Ferda and status for Davin,Off-site,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-03,4.5,_People mgmt & hiring,Computer reinstall + email catching up,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-03,3.5,Servus,Reference codes standardization,Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-03,3,Workbench Oper. Improv.,"Fixed OG-4306, OG-4308",Off-site,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-03,2,St Lukes,Patient matching,Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-03,0.5,Servus,Remediation - Credential,Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-03,3,Servus,Bundle generation and deployment,Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-03,7,Workbench Oper. Improv.,Creating test plans for different datatypes,Off-site,Jaroslav Barannikov
+2019-01-14 01:00:00,2019-01-03,0.5,Voya,Status call,Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-03,1.5,BCBST,Match processing,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-03,1,Servus,High-level guidance,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-03,1,Voya,High-level guidance,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-03,1,_Other internal,office,Off-site,Jaroslav Barannikov
+2019-01-14 01:00:00,2019-01-03,2,Servus,Entity Mastering QA,Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-03,3,Voya,"Office cleansing, deploying new bundle, chasing errors with wrapper component",Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-03,3,_Training,"OG, DQS training and codereview - Jarda",Off-site,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-03,0,Michigan State Police,MSP meetings on Officer/Vehicle/Person enhanced and Saturn Rings,On-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-04,0.5,Voya,Status call,Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-04,8,_Vacation,,Vacation,Zoroslav Kuncak
+2019-01-14 01:00:00,2019-01-04,1,Servus,Entity Mastering QA,Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-04,2,_Administration,"Salaries, internal timesheet for 2019",Off-site,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-04,3.5,Servus,Reference codes standardization,Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-04,5,Voya,"Documentation Office, Firm, Contact",Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-04,5.5,_Administration,End-of-year accounting + computer reinstall,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-04,2,Servus,Reference codes discussion + Radek,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-04,1.5,Servus,Remediation - Credential,Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-04,2.5,Voya,chasing error with office wrapper component during creation of bundle,Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-04,0.5,TrialCard,TrialCard discussion,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-04,1,_Other internal,office,Off-site,Jaroslav Barannikov
+2019-01-14 01:00:00,2019-01-04,6,Workbench Oper. Improv.,"OG, DQS training - Jarda",Off-site,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-04,0.5,Servus,Status,Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-04,1,Servus,ETL Checks Captivation (source status codes),Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-04,5,Workbench Oper. Improv.,Creating test plans for different datatypes,Off-site,Jaroslav Barannikov
+2019-01-14 01:00:00,2019-01-04,3,Workbench Oper. Improv.,Testing components for different datatypes in omniPE,Off-site,Jaroslav Barannikov
+2019-01-14 01:00:00,2019-01-04,1,Voya,High-level guidance,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-07,3,Workbench Oper. Improv.,"Workbench personal edition, list datime operations",Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-07,1,Bank United,Support call - discussing Merge issues,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-07,6.5,Servus,Remediation - Credential,Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-07,6,Voya,Matching presentation (preparation + presentation itself),Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-07,1,_Other internal,Collect estimates,Off-site,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-07,1,_Other internal,"Printer Setup, organization of English Classes",Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-07,8,_Vacation,,Vacation,Zoroslav Kuncak
+2019-01-14 01:00:00,2019-01-07,4,Workbench Oper. Improv.,"OG PE, OG-4308, Fixed OG-4304, code review - OG-4306",Off-site,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-07,1,Voya,Help to Ferda,Off-site,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-07,8,_Vacation,last year vacation (last day)  / Jarda went to the doctor,Vacation,Jaroslav Barannikov
+2019-01-14 01:00:00,2019-01-07,3.5,Voya,"chasing error with contact merge, creating new bundle",Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-07,1,_Training,English pronounciation,Off-site,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-07,1.5,Voya,"Status call, matching algorithums call",Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-07,1,TrialCard,Outstanding items discussion and prep,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-07,1,_People mgmt & hiring,Market,Off-site,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-07,1.5,_Travel Time,Travel to Prague,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-08,3,_Training,"Fix OG-4007 - code review, training",Off-site,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-08,1.5,_Travel Time,Travel from Prague,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-08,2,_Administration,office,Off-site,Jaroslav Barannikov
+2019-01-14 01:00:00,2019-01-08,2.5,_Other internal,Methodology,Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-08,0.5,Michigan State Police,Trying to reset password,Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-08,4,_Administration,End-of-year accounting,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-08,2,Servus,Preparing data extracts from Captivation Cleanse and Match,Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-08,0.5,Voya,Status call,Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-08,3,Servus,Remediation - Credential,Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-08,0.5,Voya,Status call,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-08,8,_Vacation,,Vacation,Zoroslav Kuncak
+2019-01-14 01:00:00,2019-01-08,4,OmniHealth,Merge Provider and Provider Practice,Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-08,0.5,Workbench Designs,Matching discussion with Don and Craig,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-08,2,_Other internal,2019 planning and 2018 review,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-08,6,Workbench Oper. Improv.,IBI - Omni-Gen Operations - FIX OG-4007 (solved),Off-site,Jaroslav Barannikov
+2019-01-14 01:00:00,2019-01-08,0.5,Servus,Omni troubleshooting,Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-08,2.5,_Other internal,Methodology - knowledge transfer,Off-site,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-08,0.5,CCNC,Support call - discussing CCNC issues with Lou and his team,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-08,3,Voya,"Profiling plans, showing Jim how it works",Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-08,0.5,Servus,Bundle generation and deployment,Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-08,2.5,_Administration,"TDATA, timesheets, status reports",Off-site,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-09,1.5,_Project management,"Servus status with Stano, Jakub",Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-09,4,_Training,DQS - Pattern parser,Off-site,Jaroslav Barannikov
+2019-01-14 01:00:00,2019-01-09,1,Servus,Omni tables intro for Sheraz,Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-09,2,Servus,Reference codes discussion with Brian + prep,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-09,1.5,_Travel Time,Praha - Pisek,Off-site,Jaroslav Barannikov
+2019-01-14 01:00:00,2019-01-09,8,_Vacation,,Vacation,Zoroslav Kuncak
+2019-01-14 01:00:00,2019-01-09,3.5,Servus,Reference codes standardization,Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-09,1,CCNC,Call with Darren about large candidate groups (TIME APPROVED BY COLEEN),Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-09,0.5,BCBST,Matching performance call with Kent,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-09,0.5,Servus,General project leadership,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-09,3.5,_Other internal,2019 planning and 2018 review,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-09,4,OmniHealth,"OHD PHYS - task to Ferda, Call with Dan",Off-site,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-09,8,OmniHealth,"OHD PHYS changes to provider, provider practice",Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-09,3,Workbench Oper. Improv.,fixing OG-4572 Operation Validate USA States,Off-site,Jaroslav Barannikov
+2019-01-14 01:00:00,2019-01-09,4,Workbench Oper. Improv.,OG datetime - task and review,Off-site,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-09,0.5,Voya,General project leadership,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-09,0.5,Servus,Status,Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-09,0.5,Voya,Status call,Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-09,2.5,Servus,Remediation - Credential,Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-10,7.5,_Training,DQS - Pattern parser,Off-site,Jaroslav Barannikov
+2019-01-14 01:00:00,2019-01-10,1,_Administration,"Testing of new timesheets, methodology",Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-10,4.5,_Other internal,Methodology - knowledge transfer,Off-site,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-10,0.5,Servus,Loqate intro for Sheraz,Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-10,0.5,Voya,General project leadership,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-10,8,_Vacation,,Vacation,Zoroslav Kuncak
+2019-01-14 01:00:00,2019-01-10,0.5,Voya,Status call,Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-10,6,_Other internal,I don't remember so Internal :(,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-10,0.5,Servus,General project leadership,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-10,1,_Training,"Loqate, SQL",Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-10,1.5,_Travel Time,Pisek - Praha,Off-site,Jaroslav Barannikov
+2019-01-14 01:00:00,2019-01-10,4,Servus,Reference codes standardization,Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-10,0.5,St Lukes,Mastering subjects overview for Jakub,Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-10,3,OmniHealth,OHD PHYS config files - fixed OHD-625,Off-site,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-10,7,OmniHealth,"OHD Phys - cleansing the bundle, updating the cleansing and merging components, updating matching components",Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-10,1.5,Servus,Remediation - Credential,Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-10,1,CCNC,Call with Darren about large candidate groups (TIME APPROVED BY COLEEN),Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-10,0.5,_People mgmt & hiring,Interview prep,Off-site,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-11,0.5,Servus,General project leadership,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-11,8,_Vacation,,Vacation,Zoroslav Kuncak
+2019-01-14 01:00:00,2019-01-11,0.5,_People mgmt & hiring,Testing Marketa,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-11,0.5,_Training,feedback to workbench,Off-site,Jaroslav Barannikov
+2019-01-14 01:00:00,2019-01-11,1,_People mgmt & hiring,"Market, Julian",Off-site,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-11,5.5,Servus,Reference codes standardization,Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-11,1,BCBST,Matching performance call with Kent,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-11,0.5,Servus,Training - OG (Radek),Off-site,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-11,1,_Administration,AJ,Off-site,Jaroslav Barannikov
+2019-01-14 01:00:00,2019-01-11,1.5,Voya,"Status call, Data hygiene call",Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-11,4.5,_Administration,Accounting + prep for end-of-year presentation,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-11,1,_Other internal,Methodology - knowledge transfer,Off-site,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-11,1,_Administration,office,Off-site,Jaroslav Barannikov
+2019-01-14 01:00:00,2019-01-11,1.5,Voya,Going over Discovery Data hygiene datafiles,Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-11,1,Servus,"Bundle generation, deployment, storage",Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-11,1.5,Voya,Voya call about using Discovery data from data hygiene project,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-11,2,Workbench Oper. Improv.,,Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-11,1.5,_Training,DQS - Pattern parser,Off-site,Jaroslav Barannikov
+2019-01-14 01:00:00,2019-01-11,2,Workbench Oper. Improv.,"Training (DQS, svn, Jira), OG-4572 code review",Off-site,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-11,1,_Training,English,Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-11,2,OmniHealth,OHD PHYS - handover to Dan,Off-site,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-11,1,_Training,English pronounciation,Off-site,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-11,4,Workbench Oper. Improv.,fixing OG-4572 Operation Validate USA States,Off-site,Jaroslav Barannikov
+2019-01-14 01:00:00,2019-01-11,0.5,_Other internal,DIsk safe erase,Off-site,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-11,3,OmniHealth,Omnihealth Physician changes,Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-14,0.5,Voya,Status call,Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-14,3,Voya,Comparisson of old and new etl loads,Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-14,3,Voya,Office merge issue - investigating the root cause,Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-14,4,Voya,Discovery Data hygiene comparison with Omni results,Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-14,0.25,_Other internal,Talks with Jakub,Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-14,0.25,OmniHealth,Merge issue for Provider education with Stano,Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-14,1,_Training,AJ,Off-site,Jaroslav Barannikov
+2019-01-14 01:00:00,2019-01-14,6,_Training,DQS - Pattern parser,Off-site,Jaroslav Barannikov
+2019-01-14 01:00:00,2019-01-14,1,_Other internal,office,Off-site,Jaroslav Barannikov
+2019-01-14 01:00:00,2019-01-14,1,OmniHealth,Errors review,Off-site,Zoroslav Kuncak
+2019-01-14 01:00:00,2019-01-14,1,Target,Credentials setup + Stand up,Off-site,Zoroslav Kuncak
+2019-01-14 01:00:00,2019-01-14,5,Target,"Collecting new or changed RuleMappings, Rules and RuleSets from IB DEV",Off-site,Zoroslav Kuncak
+2019-01-14 01:00:00,2019-01-14,3,Workbench Designs,Workbench design,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-14,1,Voya,General project leadership,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-14,2,_Travel Time,Travel to Prague,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-14,2,_Other internal,2019 planning and 2018 review,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-14,2,_Other internal,Various stuff,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-14,1,_Training,English pronounciation,Off-site,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-14,7,_Training,"Help for Jarda, Zoro, methodology, task estimates",Off-site,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-14,0.5,Servus,"New environment access, troubleshooting",Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-14,7.5,Servus,Reference codes standardization,Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-15,1.5,_Other internal,Breakfest,Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-15,0.5,Voya,Status call,Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-15,4,Voya,ETL checks,Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-15,3,Voya,"OMNI failed loads, Discovery Cleansing comparison",Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-15,1.5,_Other internal,breakfast,Off-site,Jaroslav Barannikov
+2019-01-14 01:00:00,2019-01-15,1,_Other internal,office,Off-site,Jaroslav Barannikov
+2019-01-14 01:00:00,2019-01-15,5.5,_Training,DQS - Pattern parser,Off-site,Jaroslav Barannikov
+2019-01-14 01:00:00,2019-01-15,1.5,_Other internal,"Company Breakfast - Review of the year 2018, Goals for this year",Off-site,Zoroslav Kuncak
+2019-01-14 01:00:00,2019-01-15,1,Target,Connection to SVN failed + Stand up,Off-site,Zoroslav Kuncak
+2019-01-14 01:00:00,2019-01-15,5,Workbench Oper. Improv.,DEA and NPI validation components: Test in OG PE and code review with Stano,Off-site,Zoroslav Kuncak
+2019-01-14 01:00:00,2019-01-15,1.5,_Training,"OG PE 3.7.4 uninstalled, 3.9.0 installed and uninstalled, 3.7.5 installed",Off-site,Zoroslav Kuncak
+2019-01-14 01:00:00,2019-01-15,1,Voya,General project leadership,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-15,2,_Travel Time,Travel from Prague,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-15,2,_Other internal,2019 planning and 2018 review,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-15,2,_Other internal,Various stuff,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-15,1,_Unpaid Leave,Unpaid leave,Unpaid Leave,Jakub Bartak
+2019-01-14 01:00:00,2019-01-15,2,_Other internal,Redefinition of responsibilities with Jakub,Off-site,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-15,1.5,_Other internal,DataArch 2018 Overview,Off-site,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-15,4.5,_Other internal,"Methodology, time estimates, timesheets, tech help for consultants",Off-site,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-15,1.5,_Other internal,DataArch 2018 Overview,Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-15,1.5,Servus,"New environment access, troubleshooting",Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-15,1,Servus,"Membership Cleansing (Captivation, Membership address)",Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-15,4.5,Servus,Reference codes standardization,Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-16,0.5,Voya,Status call,Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-16,7,Voya,Discovary Data Cleansing and Omni matches compaison,Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-16,1.5,_Travel Time,Praha - Pisek,Off-site,Jaroslav Barannikov
+2019-01-14 01:00:00,2019-01-16,2.5,_Training,reinstalation omnigen PE,Off-site,Jaroslav Barannikov
+2019-01-14 01:00:00,2019-01-16,2,Workbench Oper. Improv.,"check functionality of country_cleansed comp, JIRA (OG-4400)",Off-site,Jaroslav Barannikov
+2019-01-14 01:00:00,2019-01-16,2,_Training,DQS - Pattern parser,Off-site,Jaroslav Barannikov
+2019-01-14 01:00:00,2019-01-16,2,Workbench Oper. Improv.,OG-4303 Creating DEA validation component,Off-site,Zoroslav Kuncak
+2019-01-14 01:00:00,2019-01-16,6,Workbench Oper. Improv.,OG-4302 NPI_INTEGER and NPI_LONG cleansing and validation components,Off-site,Zoroslav Kuncak
+2019-01-14 01:00:00,2019-01-16,1,Voya,General project leadership,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-16,2,_Training,Training Jarda,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-16,2,_Other internal,Various stuff,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-16,3,_Unpaid Leave,Unpaid leave,Unpaid Leave,Jakub Bartak
+2019-01-14 01:00:00,2019-01-16,1,_Unpaid Leave,,Unpaid Leave,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-16,7,_Other internal,"Methodology, time estimates, tech help for consultants",Off-site,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-16,1,Servus,"Status, new environment access",Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-16,3.5,Servus,Reference codes standardization,Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-16,3.5,_Other internal,Methodology,Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-17,0.5,Voya,Status call,Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-17,1,_Training,about status with stano,Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-17,2,Voya,Merge rules update,Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-17,2,Voya,Remediation for Team,Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-17,1.5,Voya,Cleansing update for team and contact - adding tags for team names without or with /,Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-17,1.5,Voya,"Creating new bundle, deployment, reprocess, checking results",Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-17,8,_Training,DQS - Pattern parser,Off-site,Jaroslav Barannikov
+2019-01-14 01:00:00,2019-01-17,1.5,_Travel Time,Pisek - Praha,Off-site,Jaroslav Barannikov
+2019-01-14 01:00:00,2019-01-17,6,Workbench Oper. Improv.,"Revising all files regarding OG-4302 and OG-4303, copying to trunk and commit to svn repo, lesson learned 101 with Stano",Off-site,Zoroslav Kuncak
+2019-01-14 01:00:00,2019-01-17,2,_Training,Omni-Gen Self study,Off-site,Zoroslav Kuncak
+2019-01-14 01:00:00,2019-01-17,1,Voya,General project leadership,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-17,2,_Training,Training Jarda,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-17,1,OmniGen 3.x server,OmniGen dev call with Schaefer and Stano,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-17,1,Bank United,Recovery calls and discussions,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-17,2,_Other internal,Various stuff,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-17,1,_Unpaid Leave,Unpaid leave,Unpaid Leave,Jakub Bartak
+2019-01-14 01:00:00,2019-01-17,1,_Unpaid Leave,,Unpaid Leave,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-17,2,_Project management,"IBI internal budget + DEA, NPI",Off-site,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-17,2,_Training,"Ferda status summary and next steps, Zoro evaluation",Off-site,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-17,2,_Project management,Move to internal timesheet,Off-site,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-17,1,_Marketing and Sales,Preparation and call with Don,Off-site,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-17,2.5,_Other internal,Methodology,Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-17,3,Servus,Project planning,Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-17,1.5,Servus,Reference codes standardization,Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-17,0.5,Servus,Omni troubleshooting,Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-18,1,Voya,"Status call, preparation etc",Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-18,1.25,_Training,English lesson,Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-18,1.25,Voya,Investigation for the merge error during firm processing,Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-18,1.5,Voya,"Team Remediation - fixing the bug in LKP and in the plan, creating new bundle, deploying to DEV",Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-18,2,Voya,Model changes - updating model,Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-18,4,_Vacation,,Vacation,Jaroslav Barannikov
+2019-01-14 01:00:00,2019-01-18,0.5,_Training,English Pronunciation Lesson: Test,Off-site,Zoroslav Kuncak
+2019-01-14 01:00:00,2019-01-18,1,Target,Stand Up call and Permissions Setting Test,Off-site,Zoroslav Kuncak
+2019-01-14 01:00:00,2019-01-18,4,_Training,Omni-Gen Details Self study,Off-site,Zoroslav Kuncak
+2019-01-14 01:00:00,2019-01-18,1,_Training,Fix: TrialCard bug,Off-site,Zoroslav Kuncak
+2019-01-14 01:00:00,2019-01-18,1,Voya,General project leadership,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-18,1,Bank United,Recovery calls and discussions,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-18,2,_Other internal,Various stuff,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-18,4,_Unpaid Leave,Unpaid leave,Unpaid Leave,Jakub Bartak
+2019-01-14 01:00:00,2019-01-18,1,_Other internal,Interview with Alex,Off-site,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-18,7,_Other internal,"Methodology, time estimates, timesheets, tech help for consultants",Off-site,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-18,0.5,Servus,ETL Checks Captivation,Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-18,9,Servus,"New environment setup, troubleshooting",Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-21,0.5,_Other internal,Jakub talk,Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-21,5.5,Servus,"New environment setup, troubleshooting",Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-21,1,Servus,Reference codes standardization,Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-21,0.5,Servus,ETL Checks Captivation,Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-22,1,Servus,Reference codes standardization,Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-22,3,Servus,Unmasked attributes profiling (Captivation),Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-22,6.5,Servus,"New environment setup, troubleshooting",Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-23,4,Servus,"New environment setup, troubleshooting",Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-23,1.5,Servus,"Status, Remediation Portal presentation",Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-23,1.5,Servus,INTERNAL CHARGE-TRAINING Email addresses cleansing,Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-23,0.5,Servus,Unmasked attributes profiling (Captivation),Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-24,0.5,Servus,"Project planning, logging",Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-24,2,Servus,Unmasked attributes profiling (Captivation),Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-24,4,Servus,"New environment setup, troubleshooting",Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-25,8,_Vacation,,Vacation,Radek Ocelak
+2019-01-14 01:00:00,2019-01-21,1,_Training,English lesson,Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-21,0.5,Voya,Status Voya,Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-21,8,Voya,"Voya, model update, DQS components update",Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-22,0.5,Voya,Status VOya,Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-22,1,Voya,"Michigan access, Address cleansing issue with Jakub",Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-22,7.5,Voya,"Voya, model update, DQS components update, testing",Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-23,1,_Other internal,Zoro's questions ,Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-23,0.5,Voya,Voya status,Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-23,4,Voya,"Voya checking the results, patching up some bugs, answering Jim's questions",Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-23,3,Michigan State Police,"Address investigation, call with Duff",Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-24,1,Voya,"Status call, call with Jim - updating bundle showing the new columns etc.",Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-24,0.5,St Lukes,Table names with Jakub,Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-24,4,Michigan State Police,"Environment recognition, mastering DEV environments requirements, call with Bob",Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-24,2.5,Michigan State Police,Location and Vehicle data,Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-25,1.5,Voya,Status,Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-25,6,Michigan State Police,"Vehicle matching - interesting cases, cleansing makes",Off-site,Jan Ferdinand Polasek
+2019-01-14 01:00:00,2019-01-21,1,_Training,AJ,Off-site,Jaroslav Barannikov
+2019-01-14 01:00:00,2019-01-21,2,_Other internal,office,Off-site,Jaroslav Barannikov
+2019-01-14 01:00:00,2019-01-21,6,_Training,DQS - Pattern parser,Off-site,Jaroslav Barannikov
+2019-01-14 01:00:00,2019-01-22,6,_Training,DQS - Pattern parser,Off-site,Jaroslav Barannikov
+2019-01-14 01:00:00,2019-01-23,1.5,_Travel Time,Praha - Pisek,Off-site,Jaroslav Barannikov
+2019-01-14 01:00:00,2019-01-23,8,_Training,DQS - Pattern parser,Off-site,Jaroslav Barannikov
+2019-01-14 01:00:00,2019-01-24,3,TrialCard,Fix: Code fix and testing of cleanse_provider.comp,Off-site,Jaroslav Barannikov
+2019-01-14 01:00:00,2019-01-24,5,_Training,DQS - Pattern parser,Off-site,Jaroslav Barannikov
+2019-01-14 01:00:00,2019-01-24,1.5,_Travel Time,Praha - Pisek,Off-site,Jaroslav Barannikov
+2019-01-14 01:00:00,2019-01-25,5.5,_Other internal,Jakub's task - English courses,Off-site,Jaroslav Barannikov
+2019-01-14 01:00:00,2019-01-25,1,_Other internal,office,Off-site,Jaroslav Barannikov
+2019-01-14 01:00:00,2019-01-21,1,TrialCard,Fix: TrialCard bug,Off-site,Zoroslav Kuncak
+2019-01-14 01:00:00,2019-01-21,8,Target,Merging DQMFramework from IBI DEV and Target DEV,Off-site,Zoroslav Kuncak
+2019-01-14 01:00:00,2019-01-22,8,Target,"Creating new bundle, integrating new ruleset, creating RID 82",Off-site,Zoroslav Kuncak
+2019-01-14 01:00:00,2019-01-22,1.5,Workbench Oper. Improv.,Advising Dan on Loqate and possible improvements in OHD PHYS,Off-site,Zoroslav Kuncak
+2019-01-14 01:00:00,2019-01-23,5,Target,Integrating the latest DQM Framework to Omni-Gen and procesing potfolios 21 and 42,Off-site,Zoroslav Kuncak
+2019-01-14 01:00:00,2019-01-23,3,TrialCard,Fix: TrialCard bug (creating titles.lkp),Off-site,Zoroslav Kuncak
+2019-01-14 01:00:00,2019-01-24,3,Target,"Processing subject Customer of portfolio 42, Stand Up, Updating JIRA Issue TGP-116",Off-site,Zoroslav Kuncak
+2019-01-14 01:00:00,2019-01-24,1,Workbench Oper. Improv.,Replying on Dan's e-mail about OHD PHYS,Off-site,Zoroslav Kuncak
+2019-01-14 01:00:00,2019-01-24,4,TrialCard,Fix: Code fix and testing of cleanse_provider.comp,Off-site,Zoroslav Kuncak
+2019-01-14 01:00:00,2019-01-25,4.5,_Training,Omni-Gen work order phases and system tables,Off-site,Zoroslav Kuncak
+2019-01-14 01:00:00,2019-01-25,1,Target,Stand Up + updating confluence,Off-site,Zoroslav Kuncak
+2019-01-14 01:00:00,2019-01-25,2.5,_Other internal,Povoleny unpaid leave,Off-site,Zoroslav Kuncak
+2019-01-14 01:00:00,2019-01-21,1,_Administration,Ranní meetingy,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-21,1.5,_Travel Time,Travel to Prague,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-21,1,Servus,Servus general assistance,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-22,1,Servus,Servus general assistance,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-22,1.5,_Travel Time,Travel from Prague,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-22,4,BCBST,Preparation for BCBS corrections,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-22,6,Bank United,Production recovery (this is a fix-time fix-prize TO),Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-23,1,Servus,Servus general assistance,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-23,4,BCBST,BCBS corrections,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-23,6,Bank United,Production recovery (this is a fix-time fix-prize TO),Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-24,1,Servus,Servus general assistance,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-24,7,Bank United,Production recovery (this is a fix-time fix-prize TO),Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-25,1,Servus,Servus general assistance,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-25,2,UTZ,UTZ preparations and Project takeover,Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-21,3,_Sick Day,Hausmann tabulky,Vacation Sick,Jakub Bartak
+2019-01-14 01:00:00,2019-01-25,5,Bank United,Production recovery (this is a fix-time fix-prize TO),Off-site,Jakub Bartak
+2019-01-14 01:00:00,2019-01-26,6,Bank United,Production recovery (this is a fix-time fix-prize TO),Off-site Weekend,Jakub Bartak
+2019-01-14 01:00:00,2019-01-27,6,Bank United,Production recovery (this is a fix-time fix-prize TO),Off-site Weekend,Jakub Bartak
+2019-01-14 01:00:00,2019-01-21,3,_Training,Hausman,Off-site,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-21,3,_Other internal,TDATA and timesheets,Off-site,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-21,2,_Training,"Handover to Jakub, Help to Radek - integrated security",Off-site,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-22,8,_Unpaid Leave,,Unpaid Leave,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-23,8,_Unpaid Leave,,Unpaid Leave,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-24,8,_Unpaid Leave,,Unpaid Leave,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-25,8,_Unpaid Leave,,Unpaid Leave,Stanislav Valasek
+2019-01-14 01:00:00,2019-01-21,5,Servus,Unmasked attributes profiling (Captivation),Off-site,Radek Ocelak
+2019-01-14 01:00:00,2019-01-21,2.5,_Administration,Schůzka Šilhavý kolem WorkLounge,Off-site Weekend,Jakub Bartak
+2019-02-03 16:47:17,2019-01-28,8,Bank United,,Off-site,Stanislav Valasek
+2019-02-10 23:48:36,2019-02-04,8,OmniGen 3.x server,Stanislav Valasek,Off-site,Jakub Bartak

@@ -1,0 +1,11 @@
+created_at,name,type
+2019-01-14 01:00:00,On-site,work
+2019-01-14 01:00:00,Off-site,work
+2019-01-14 01:00:00,Off-site Weekend,work
+2019-01-14 01:00:00,Off-site Holiday,work
+2019-01-14 01:00:00,Vacation,not-work
+2019-01-14 01:00:00,Vacation Sick,not-work
+2019-01-14 01:00:00,Vacation Personal,not-work
+2019-01-14 01:00:00,Vacation Unpaid,not-work
+2019-01-14 01:00:00,Sick,not-work
+2019-01-14 01:00:00,Public Holiday,not-work

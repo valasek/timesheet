@@ -1,6 +1,6 @@
 @ECHO OFF
 set zip="C:\Program Files\7-Zip\7z.exe"
-set version="0.0.8" 
+set version="0.1.0"
 REM rem git describe --tags
 
 ECHO ==============================================
@@ -25,34 +25,36 @@ cd ..
 
 ECHO =====================
 ECHO Compiling backend ...
-copy .\timesheet-prod.yaml .\build\timesheet.yaml
-copy .\data\consultants_prod.csv .\build\data\consultants_prod.csv
-copy .\data\holidays_cz_2019.csv .\build\data\holidays_cz_2019.csv
-copy .\data\projects_prod.csv .\build\data\projects_prod.csv
-copy .\data\rates_prod.csv .\build\data\rates_prod.csv
-copy .\data\reportedRecords_prod.csv .\build\data\reportedRecords_prod.csv
+cd .\server
+copy .\timesheet-prod.yaml .\..\build\timesheet.yaml
+copy .\data\consultants_prod.csv .\..\build\data\consultants_prod.csv
+copy .\data\holidays_cz_2019.csv .\..\build\data\holidays_cz_2019.csv
+copy .\data\projects_prod.csv .\..\build\data\projects_prod.csv
+copy .\data\rates_prod.csv .\..\build\data\rates_prod.csv
+copy .\data\reportedRecords_prod.csv .\..\build\data\reportedRecords_prod.csv
 ECHO MS Windows ...
 set GOOS=windows
 set GOARCH=amd64
-go build -ldflags "-X github.com/valasek/timesheet/version.Version=%version%" -o .\build\timesheet.exe .\timesheet.go
+go build -ldflags "-X github.com/valasek/timesheet/version.Version=%version%" -o .\..\build\timesheet.exe .\timesheet.go
 ECHO Linux ...
 set GOOS=linux
 set GOARCH=amd64
-go build -ldflags "-X github.com/valasek/timesheet/version.Version=%version%" -o .\build\timesheet.bin .\timesheet.go
+go build -ldflags "-X github.com/valasek/timesheet/version.Version=%version%" -o .\..\build\timesheet.bin .\timesheet.go
 ECHO MAC OS X ...
 set GOOS=darwin
 set GOARCH=amd64
-go build -ldflags "-X github.com/valasek/timesheet/version.Version=%version%" -o .\build\timesheet.app .\timesheet.go
+go build -ldflags "-X github.com/valasek/timesheet/version.Version=%version%" -o .\..\build\timesheet.app .\timesheet.go
+cd ..
 
 ECHO =========================
 ECHO Compressing artifacts ...
 cd .\build
-call %zip% a -r MS_Windows_64bit.zip timesheet.exe timesheet.yaml client/ data/
-call %zip% a -r Linux_64bit.zip ./timesheet.bin ./timesheet.yaml client/ data/
-call %zip% a -r Mac_OS_X_64bit.zip ./timesheet.app ./timesheet.yaml client/ data/
+call %zip% a -r MS_Windows_64bit.zip timesheet.exe timesheet.yaml client/ data/ logs/
+call %zip% a -r Linux_64bit.zip ./timesheet.bin ./timesheet.yaml client/ data/ logs/
+call %zip% a -r Mac_OS_X_64bit.zip ./timesheet.app ./timesheet.yaml client/ data/ logs/
 cd ..
 
 ECHO ===========
-ECHO Builds ready
+ECHO Builds are ready
 
 @ECHO ON

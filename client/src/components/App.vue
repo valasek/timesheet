@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-snackbar v-model="notification" :color="notificationType" :top="false" :right="true" :timeout="4000">
+    <v-snackbar v-model="notification" :color="notificationType" :top="false" :timeout="4000">
       {{ notificationText }}
     </v-snackbar>
 

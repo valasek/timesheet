@@ -1,0 +1,43 @@
+### default configuration file
+
+# these are now as constants on frontend
+# dailyWorkingHours: 8 # Used for weekly and monthly expected working hours
+# yearlyVacationDays: 20 # Used for  weekly and monthly expected working hours
+# yearlyPersonalDays: 3 # Used for  weekly and monthly expected working hours
+# yearlySickDays: 2 # Used for  weekly and monthly expected working hours
+
+# Application settings
+url: "127.0.0.1" # URL on which application is running
+port: "3000"     # port on which application is running
+
+# where info and error logs will go
+logFolder: "logs"
+
+# DB type
+dbType: "postgresql" # DB type
+
+# DB backup settings - backuped data can be imported directly by a command "timesheet db --load all"
+backup:
+  location: "data/backups" # select an empty and an existing folder
+  rotation: 14             # how many backups back will be kept
+  interval: "daily"        # daily or weekly - how ofter the DB backup should be done
+
+export:
+  location: "data/exported" # select an empty and an existing folder
+
+# DB credentials
+postgresql:
+  host: "localhost"
+  port: "5432"
+  name: "timesheet"
+  user: "timesheet"
+  password: "timesheet"
+  sslMode: "disable"
+
+# initial DB data files which are loaded via command "timesheet db --load all"
+data:
+  consultants: "consultants_prod.csv"
+  rates: "rates_prod.csv"
+  projects: "projects_prod.csv"
+  reportedRecords: "reportedRecords_prod.csv"
+  holidays: "holidays_cz_2019.csv"

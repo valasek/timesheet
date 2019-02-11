@@ -181,11 +181,11 @@
         repDate: '',
         rowsPerPage: [ 30, 50, { 'text': '$vuetify.dataIterator.rowsPerPageAll', 'value': -1 } ],
         headers: [
-          { text: 'Date', align: 'left', sortable: true, value: 'date', width: '15%', class: 'body-1' },
+          { text: 'Date', align: 'left', sortable: true, value: 'date', width: '12%', class: 'body-1' },
           { text: 'Hours', align: 'left', sortable: true, value: 'hours', width: '5%', class: 'body-1' },
           { text: 'Project', align: 'left', sortable: true, value: 'project', width: '15%', class: 'body-1' },
-          { text: 'Description', align: 'left', value: 'description', width: '50%', class: 'body-1' },
-          { text: 'Rate', align: 'left', sortable: true, value: 'rate', width: '10%', class: 'body-1' },
+          { text: 'Description', align: 'left', value: 'description', width: '48%', class: 'body-1' },
+          { text: 'Rate', align: 'left', sortable: true, value: 'rate', width: '15%', class: 'body-1' },
           { text: 'Actions', align: 'center', sortable: false, value: 'actions', width: '5%', class: 'body-1' }
         ],
         reported: []
@@ -396,7 +396,7 @@
             this.$store.dispatch('reportedHours/removeRecord', parseInt(item.id, 10))
             this.$store.dispatch('context/setNotification', { text: this.formatDate(item.date) + ', ' + item.hours + ' hrs - record deleted', type: 'success' })
           } else {
-            console.log('No') /* eslint-disable-line no-console */
+            console.log('canceled record delete') /* eslint-disable-line no-console */
           }
         }
       },

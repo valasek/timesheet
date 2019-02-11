@@ -1,0 +1,46 @@
+### default configuration file
+
+# these are now as constants on frontend
+# dailyWorkingHours: 8 # Used for weekly and monthly expected working hours
+# yearlyVacationDays: 20 # Used for  weekly and monthly expected working hours
+# yearlyPersonalDays: 3 # Used for  weekly and monthly expected working hours
+# yearlySickDays: 2 # Used for  weekly and monthly expected working hours
+
+# Application settings
+url: "127.0.0.1" # URL on which application is running
+port: "3000"     # port on which application is running
+
+# where info and error logs will go
+logFolder: "logs"
+
+# DB type
+dbType: "postgresql" # DB type
+
+# DB backup settings - backuped data can be imported directly by a command "timesheet db --load all"
+backup:
+  location: "data/backups" # select an empty and an existing folder
+  rotation: 14             # how many backups back will be kept
+  interval: "daily"        # daily or weekly - how ofter the DB backup should be done
+
+export:
+  location: "data/exported" # select an empty and an existing folder
+
+# DB credentials
+postgresql:
+  host: "localhost" # "ec2-54-235-68-3.compute-1.amazonaws.com"
+  port: "5432"
+  name: "timesheet" # "d53bs18jt1kc7k"
+  user: "timesheet" # "luvpewagjsmecx"
+  password: "timesheet" # "7b43ef5065215d91307e063c384da78db0c7b953387bdde27258f0f7bbcacf75"
+  sslMode: "disable"
+
+# add production URL
+# DATABASE_URL: ""
+
+# initial DB data files which are loaded via command "timesheet db --load all"
+data:
+  consultants: "consultants_demo.csv"
+  rates: "rates_demo.csv"
+  projects: "projects_demo.csv"
+  reportedRecords: "reportedRecords_demo.csv"
+  holidays: "holidays_us_2019.csv"
