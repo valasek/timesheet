@@ -19,6 +19,7 @@ Vue.use(VueAxios, axios)
 Vue.config.productionTip = false
 
 let router = new VueRouter({
+  mode: 'history',
   routes: [
     {
       path: '/report',

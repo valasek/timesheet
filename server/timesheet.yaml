@@ -27,7 +27,7 @@ export:
 
 # DB credentials
 postgresql:
-  host: "localhost" # "ec2-54-235-68-3.compute-1.amazonaws.com"
+  host: "127.0.0.1" # "ec2-54-235-68-3.compute-1.amazonaws.com"
   port: "5432"
   name: "timesheet" # "d53bs18jt1kc7k"
   user: "timesheet" # "luvpewagjsmecx"
@@ -39,8 +39,8 @@ postgresql:
 
 # initial DB data files which are loaded via command "timesheet db --load all"
 data:
-  consultants: "consultants_demo.csv"
-  rates: "rates_demo.csv"
-  projects: "projects_demo.csv"
-  reportedRecords: "reportedRecords_demo.csv"
+  consultants: "consultants.csv"
+  rates: "rates.csv"
+  projects: "projects.csv"
+  reportedRecords: "reportedRecords.csv"
   holidays: "holidays_us_2019.csv"
