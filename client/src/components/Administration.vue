@@ -75,7 +75,7 @@
           })
           .catch(function (e) {
             console.log('getLogFile failed', e) /* eslint-disable-line no-console */
-            adm.$store.dispatch('context/setNotification', { text: 'Cannot retieve log file: ' + e, type: 'error' })
+            adm.$store.dispatch('context/setNotification', { text: 'Cannot retrieve log file: ' + e, type: 'error' })
           })
       }
     }
