@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Timeheet</h1>
+    <h1>TimeSheet</h1>
     <p>Self-hosted web application for weekly reporting your consulting hours on projects using selected rates.</p>
 
     <p>
