@@ -40,6 +40,8 @@ Automation is based on a premise, that reporting and billing process includes th
   - mandatory: consultants, projects, rates, holidays
   - optional: reported_records
 
+Simple timesheet can be deployed using Docker (server image size 24.9 MB, DB image size 312 MB)
+
 # Screenshots
 
 ![Home](screenshots/home.png?raw=true "Home")
@@ -147,4 +149,12 @@ npm run build
 
 # replace baseUrl in compiled js files
 sed -i -e 's/localhost/www.example.com/g' /client/dist/*.js
+```
+
+# Create docker images
+```
+docker save -o ./postgres.tar postgres:latest
+docker save -o ./server.tar timesheet_server:latest
+copy to target machine
+docker load -i <path to image tar file>
 ```
