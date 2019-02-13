@@ -5,25 +5,15 @@ import moment from 'moment'
 const state = {
     all: [], // {id, date, hours, project, description, rate, consultant}
     summary: [], // {consultant, year, month, rate, hours }
-    loading: true
+    loading: false
 }
 
 const getters = {}
 
 const actions = {
-    getReportedHours ({ commit, dispatch }, month) {
+    // get monthly data
+    getMonthlyData ({ commit, dispatch }, month) {
         commit('SET_LOADING', true)
-        state.loading = true
-        // get yearly summary
-        api.apiClient.get('/api/reported/summary/' + month.year())
-            .then(response => {
-                commit('SET_REPORTED_HOURS_SUMMARY', response.data)
-            })
-            .catch(e => {
-                dispatch('context/setNotification', { text: 'Couldn\'t read reported records summary from server. \n' + e.toString(), type: 'error' }, { root: true })
-                console.log(e) /* eslint-disable-line no-console */
-            })
-        // get monthly data
         api.apiClient.get('/api/reported/year/' + month.year() + '/month/' + month.format('MM'))
             .then(response => {
                 commit('SET_REPORTED_HOURS', response.data)
@@ -33,7 +23,18 @@ const actions = {
                 dispatch('context/setNotification', { text: 'Couldn\'t read reported records from server. \n' + e.toString(), type: 'error' }, { root: true })
                 console.log(e) /* eslint-disable-line no-console */
             })
-            commit('SET_LOADING', false)
+        commit('SET_LOADING', false)
+    },
+    // get yearly summary
+    getYearlySummary ({ commit, dispatch }, month) {
+        api.apiClient.get('/api/reported/summary/' + month.year())
+            .then(response => {
+                commit('SET_REPORTED_HOURS_SUMMARY', response.data)
+            })
+            .catch(e => {
+                dispatch('context/setNotification', { text: 'Couldn\'t read reported records summary from server. \n' + e.toString(), type: 'error' }, { root: true })
+                console.log(e) /* eslint-disable-line no-console */
+            })
     },
     removeRecord ({ commit, dispatch }, id) {
         const index = state.all.findIndex(records => records.id === id)

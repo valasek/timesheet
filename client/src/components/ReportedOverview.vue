@@ -16,7 +16,7 @@
                   {{ props.item.value }}
                 </td>
                 <td class="text-xs-left">
-                  {{ props.item.value/dailyWorkingHours }}
+                  {{ props.item.value / dailyWorkingHours }}
                 </td>
               </template>
             </v-data-table>
@@ -33,7 +33,7 @@
                   {{ props.item.value }}
                 </td>
                 <td class="text-xs-left">
-                  {{ props.item.value/dailyWorkingHours }}
+                  {{ props.item.value / dailyWorkingHours }}
                 </td>
               </template>
             </v-data-table>
@@ -50,7 +50,7 @@
                   {{ props.item.value }}
                 </td>
                 <td class="text-xs-left">
-                  {{ props.item.value/dailyWorkingHours }}
+                  {{ props.item.value / dailyWorkingHours }}
                 </td>
               </template>
             </v-data-table>
@@ -77,7 +77,7 @@
                     {{ props.item.value }}
                   </td>
                   <td v-if="props.item.value !== ''" class="text-xs-left">
-                    {{ props.item.value/dailyWorkingHours }}
+                    {{ props.item.value / dailyWorkingHours }}
                   </td>
                 </template>
               </v-data-table>
@@ -125,42 +125,40 @@
         headers: [
           { text: '', align: 'left', value: 'reported', sortable: false },
           { text: 'Hours', align: 'left', value: 'hours', sortable: false, class: 'body-1' },
-          { text: 'Days', align: 'left', value: 'dayes', sortable: false, class: 'body-1' }
+          { text: 'Days', align: 'left', value: 'days', sortable: false, class: 'body-1' }
         ],
         headersV: [
           { text: 'Vacations', align: 'left', value: 'vacations', sortable: false, class: 'subheading' },
           { text: 'Hours', align: 'left', value: 'hours', sortable: false, class: 'body-1' },
-          { text: 'Days', align: 'left', value: 'dayes', sortable: false, class: 'body-1' }
+          { text: 'Days', align: 'left', value: 'days', sortable: false, class: 'body-1' }
         ],
         headersP: [
           { text: 'Personal Days', align: 'left', value: 'personalDays', sortable: false, class: 'subheading' },
           { text: 'Hours', align: 'left', value: 'hours', sortable: false, class: 'body-1' },
-          { text: 'Days', align: 'left', value: 'dayes', sortable: false, class: 'body-1' }
+          { text: 'Days', align: 'left', value: 'days', sortable: false, class: 'body-1' }
         ],
         headersS: [
           { text: 'Sick Days', align: 'left', value: 'sickDays', sortable: false, class: 'subheading' },
           { text: 'Hours', align: 'left', value: 'hours', sortable: false, class: 'body-1' },
-          { text: 'Days', align: 'left', value: 'dayes', sortable: false, class: 'body-1' }
+          { text: 'Days', align: 'left', value: 'days', sortable: false, class: 'body-1' }
         ]
       }
     },
 
     computed: {
-      selectedReportedHours () {
-        return this.reportedHours.filter(report => {
+      selectedReportedHoursWeekly () {
+        let from = this.dateFrom
+        let to = this.dateTo
+        let consultant = this.selectedConsultant
+        return this.reportedHours.filter(function (report) {
           let d = new Date(report.date)
-          return (d >= this.dateFrom && d <= this.dateTo && report.consultant === this.selectedConsultant)
+          return (d >= from && d <= to && report.consultant === consultant)
         })
       },
       summaryRates () {
         let allowProjects = ['_Public Holiday', '_Personal Day', '_Sick Day']
         return this.reportedHoursSummary.filter(record => {
           return (record.consultant === this.selectedConsultant && allowProjects.includes(record.project))
-        })
-      },
-      monthlyConsultantReportedHours () {
-        return this.reportedHours.filter(report => {
-          return (report.consultant === this.selectedConsultant)
         })
       },
       ...mapState({
@@ -223,11 +221,11 @@
           },
           {
             text: 'Remaining',
-            value: this.yearlyVacationDays * this.dailyWorkingHours - this.getTotals(this.selectedReportedHours, 'Vacation')
+            value: this.yearlyVacationDays * this.dailyWorkingHours - this.getTotalsForRate(this.reportedHoursSummary, 'Vacation')
           },
           {
             text: 'Reported',
-            value: this.getTotals(this.selectedReportedHours, 'Vacation')
+            value: this.getTotalsForRate(this.reportedHoursSummary, 'Vacation')
           }
         ]
       },
@@ -239,11 +237,11 @@
           },
           {
             text: 'Remaining',
-            value: 15
+            value: this.yearlyPersonalDays * this.dailyWorkingHours - this.getTotalsForRate(this.reportedHoursSummary, 'Vacation Pesonal')
           },
           {
             text: 'Reported',
-            value: this.getTotals(this.selectedReportedHours, 'Personal Day')
+            value: this.getTotalsForRate(this.reportedHoursSummary, 'Vacation Personal')
           }
         ]
       },
@@ -255,11 +253,11 @@
           },
           {
             text: 'Remaining',
-            value: 10
+            value: this.yearlySickDays * this.dailyWorkingHours - this.getTotalsForRate(this.reportedHoursSummary, 'Vacation Sick')
           },
           {
             text: 'Reported',
-            value: this.getTotals(this.selectedReportedHours, 'Sick Day')
+            value: this.getTotalsForRate(this.reportedHoursSummary, 'Vacation Sick')
           }
         ]
       },
@@ -269,7 +267,7 @@
           text: 'Available working time',
           value: this.businessWeekly * this.dailyWorkingHours
         })
-        let summary = this.getTotals1(this.selectedReportedHours)
+        let summary = this.getTotalsInWeek(this.selectedReportedHoursWeekly)
         data.push(
           {
             text: 'Reported total',
@@ -295,7 +293,7 @@
           text: 'Available working time',
           value: this.businessMonthly * this.dailyWorkingHours
         })
-        let summary = this.getTotals1(this.monthlyConsultantReportedHours)
+        let summary = this.getTotalInMonth(this.reportedHoursSummary)
         data.push(
           {
             text: 'Reported total',
@@ -319,6 +317,7 @@
 
     created () {
       this.$store.commit('context/SET_PAGE', 'Overview of reported hours')
+      this.$store.dispatch('reportedHours/getYearlySummary', this.selectedMonth)
     },
 
     methods: {
@@ -340,24 +339,35 @@
         }
         return weekdays
       },
-      getTotals (hours, rate) {
+      getTotalsForRate (hours, rate) {
+        const consultant = this.selectedConsultant
         let h = hours.reduce(
           function (total, current) {
             let h = 0
-            if (current.rate === rate) { h = current.hours }
+            if (current.rate === rate && current.consultant === consultant) { h = current.hours }
             return total + h
           }, 0)
-        return h || ''
+        return h || 0
       },
-      getTotals1 (hours) {
+      getTotalInMonth (hours) {
         let working = 0
         let nonWorking = 0
-        // var r =
+        const consultant = this.selectedConsultant
+        const month = this.selectedMonth.format('M')
+        hours.forEach(function (element) {
+          if (element.month === month && element.consultant === consultant) {
+            var el = this.rates.find(o => o.name === element.rate)
+            if (el !== undefined && el.type === this.isWorking) { working += element.hours }
+            if (el !== undefined && el.type === this.isNonWorking) { nonWorking += element.hours }
+          }
+        }, this)
+        return { working: working, nonWorking: nonWorking }
+      },
+      getTotalsInWeek (hours) {
+        let working = 0
+        let nonWorking = 0
         hours.forEach(function (element) {
           var el = this.rates.find(o => o.name === element.rate)
-          // if (el === undefined) {
-          //   console.log('element', element.hours, '"' + element.rate + '"') /* eslint-disable-line no-console */
-          // }
           if (el !== undefined && el.type === this.isWorking) { working += element.hours }
           if (el !== undefined && el.type === this.isNonWorking) { nonWorking += element.hours }
         }, this)

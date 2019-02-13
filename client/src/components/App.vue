@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-snackbar v-model="notification" :color="notificationType" :top="false" :timeout="4000">
+    <v-snackbar v-model="notification" :color="notificationType" :left="true" :timeout="5000">
       {{ notificationText }}
     </v-snackbar>
 
@@ -60,7 +60,6 @@
   import { mapState } from 'vuex'
 
   export default {
-    name: 'App',
     components: {
       ReportTable
     },
@@ -114,7 +113,7 @@
     created () {
       this.$store.dispatch('context/resetNotification')
       this.$store.dispatch('consultants/getConsultants')
-      this.$store.dispatch('reportedHours/getReportedHours', this.selectedMonth)
+      this.$store.dispatch('reportedHours/getMonthlyData', this.selectedMonth)
       this.$store.dispatch('projects/getProjects')
       this.$store.dispatch('rates/getRates')
       this.$store.dispatch('holidays/getHolidays')

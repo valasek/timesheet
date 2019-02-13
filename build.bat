@@ -1,6 +1,6 @@
 @ECHO OFF
 set zip="C:\Program Files\7-Zip\7z.exe"
-set version="0.1.0"
+set version="0.1.1"
 REM rem git describe --tags
 
 if "%1" == "demo" (
@@ -39,27 +39,26 @@ if "%1" == "demo" (
     copy .\data\projects_demo.csv .\..\build\data\projects.csv
     copy .\data\rates_demo.csv .\..\build\data\rates.csv
     copy .\data\reportedRecords_demo.csv .\..\build\data\reportedRecords.csv
-
 ) else (
     copy .\timesheet-prod.yaml .\..\build\timesheet.yaml
-    copy .\data\consultants_prod.csv .\..\build\data\consultants.csv
+    copy .\data\consultants_prod.csv .\..\build\data\consultants_prod.csv
     copy .\data\holidays_cz_2019.csv .\..\build\data\holidays_cz_2019.csv
-    copy .\data\projects_prod.csv .\..\build\data\projects.csv
-    copy .\data\rates_prod.csv .\..\build\data\rates.csv
-    copy .\data\reportedRecords_prod.csv .\..\build\data\reportedRecords.csv
+    copy .\data\projects_prod.csv .\..\build\data\projects_prod.csv
+    copy .\data\rates_prod.csv .\..\build\data\rates_prod.csv
+    copy .\data\reportedRecords_prod.csv .\..\build\data\reportedRecords_prod.csv
 )
 ECHO MS Windows ...
 set GOOS=windows
 set GOARCH=amd64
-go build -ldflags "-X github.com/valasek/timesheet/version.Version=%version%" -o .\..\build\timesheet.exe .\timesheet.go
+go build -ldflags "-X github.com/valasek/timesheet/server/version.Version=%version%" -o .\..\build\timesheet.exe .\timesheet.go
 ECHO Linux ...
 set GOOS=linux
 set GOARCH=amd64
-go build -ldflags "-X github.com/valasek/timesheet/version.Version=%version%" -o .\..\build\timesheet.bin .\timesheet.go
+go build -ldflags "-X github.com/valasek/timesheet/server/version.Version=%version%" -o .\..\build\timesheet.bin .\timesheet.go
 ECHO MAC OS X ...
 set GOOS=darwin
 set GOARCH=amd64
-go build -ldflags "-X github.com/valasek/timesheet/version.Version=%version%" -o .\..\build\timesheet.app .\timesheet.go
+go build -ldflags "-X github.com/valasek/timesheet/server/version.Version=%version%" -o .\..\build\timesheet.app .\timesheet.go
 cd ..
 
 ECHO =========================

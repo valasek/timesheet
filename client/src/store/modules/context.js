@@ -42,18 +42,18 @@ const actions = {
         commit('SET_WEEK', direction)
         // read changed month if required
         if (state.dateFrom.isAfter(oldDateFrom, 'month')) {
-            dispatch('reportedHours/getReportedHours', state.dateFrom, { root: true })
+            dispatch('reportedHours/getMonthlyData', state.dateFrom, { root: true })
             commit('SET_MONTH', state.dateFrom)
         }
         if (state.dateTo.isBefore(oldDateTo, 'month')) {
-            dispatch('reportedHours/getReportedHours', state.dateTo, { root: true })
+            dispatch('reportedHours/getMonthlyData', state.dateTo, { root: true })
             commit('SET_MONTH', state.dateTo)
         }
     },
     // monday
     jumpToWeek ({ commit, dispatch }, payload) {
         if (payload.month() !== state.selectedMonth.month()) {
-            dispatch('reportedHours/getReportedHours', payload, { root: true })
+            dispatch('reportedHours/getMonthlyData', payload, { root: true })
             commit('SET_MONTH', payload)
         }
         commit('JUMP_TO_WEEK', payload)

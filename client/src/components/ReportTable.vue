@@ -19,7 +19,7 @@
           {{ formatWeek(dateFrom) }} - {{ formatWeek(dateTo) }}
         </v-label>
       </v-flex>
-      <v-select v-model="selectedConsultant" prepend-icon="person_outline" :dense="true" :items="consultants.all" item-text="name" item-value="name" class="body-1" />
+      <v-autocomplete v-model="selectedConsultant" prepend-icon="person_outline" :dense="true" :items="consultants.all" item-text="name" item-value="name" class="body-1" />
       <v-spacer />
       <v-toolbar-title>
         <v-text-field v-model="search" clearable append-icon="search" label="Search" single-line />
@@ -77,63 +77,31 @@
       <template slot="items" slot-scope="props">
         <td>
           <v-menu :close-on-content-click="true" :nudge-right="40" lazy transition="scale-transition" offset-y full-width min-width="290px" @keyup.esc="model = false">
-            <v-text-field slot="activator" :value="formatDate(props.item.date)" prepend-icon="today" readonly class="body-1" />
+            <v-text-field slot="activator" :value="props.item.date | formatDate" prepend-icon="today" readonly class="body-1" />
             <v-date-picker first-day-of-week="1" :value="props.item.date" @input="onUpdateDate({id: props.item.id, date: $event})" />
           </v-menu>
         </td>
         <td class="text-xs-left">
-          <!-- <v-menu :close-on-content-click="false" :dark="true" :nudge-right="40" lazy transition="scale-transition" offset-y full-width max-width="5em" @keyup.esc="model = false"> -->
-          <!--:return-value="props.item.hours" lazy> -->
-          <!-- {{ props.item.hours }}
-            <v-text-field :value="props.item.hours" class="body-1" /> -->
-          <!-- <v-text-field :value="props.item.hours" label="Hours"
-                          single-line :rules="[ruleFloat]" suffix="hours"
-                          type="number" min="0" max="20" step="0.5" maxlength="2"
-                          @change="onUpdateHours({id: props.item.id, hours: $event})"
-            /> -->
-          <!-- <v-text-field :value="props.item.hours" background-color="#F5F5F5" @change="onUpdateHours({id: props.item.id, hours: $event})" />
-          </v-menu> -->
-          <!-- <v-text-field :value="props.item.hours" type="number" min="0" max="20" step="0.5" -->
           <v-text-field :value="props.item.hours" :rules="[ruleFloat]"
                         type="number" min="0" max="24" step="0.5" maxlength="2"
                         class="body-1" single-line @change="onUpdateHours({id: props.item.id, hours: $event})"
           />
         </td>
         <td class="text-xs-left">
-          <!-- <v-edit-dialog :return-value="props.item.project" lazy>
-            {{ props.item.project }}
-            <v-select slot="input" :value="props.item.project" item-text="name" item-value="name"
-                      :items="assignedProjects" label="Project" :dense="true" :hide-selected="false"
-                      @change="onUpdateProject({id: props.item.id, project: $event})"
-            />
-          </v-edit-dialog> -->
-          <v-select :value="props.item.project" item-text="name" item-value="name"
-                    :items="assignedProjects" :dense="true" :hide-selected="false" class="body-1"
-                    @change="onUpdateProject({id: props.item.id, project: $event})"
+          <v-autocomplete :value="props.item.project" item-text="name" item-value="name"
+                          :items="assignedProjects" :dense="true" :hide-selected="false" class="body-1"
+                          @change="onUpdateProject({id: props.item.id, project: $event})"
           />
         </td>
         <td class="text-xs-left">
-          <!-- <v-edit-dialog :return-value="props.item.description" lazy>
-            {{ props.item.description }}
-            <v-text-field slot="input" :value="props.item.description" label="Description" single-line counter
-                          :rules="[ruleMaxChars]" @change="onUpdateDescription({id: props.item.id, description: $event})"
-            />
-          </v-edit-dialog> -->
           <v-text-field slot="input" :value="props.item.description" single-line class="body-1"
                         :rules="[ruleMaxChars]" @change="onUpdateDescription({id: props.item.id, description: $event})"
           />
         </td>
         <td class="text-xs-left">
-          <!-- <v-edit-dialog :return-value="props.item.rate" lazy>
-            {{ props.item.rate }}
-            <v-select slot="input" :value="props.item.rate" item-text="name" item-value="name"
-                      :items="rates" label="Rate" :dense="true" :hide-selected="false"
-                      @change="onUpdateRate({id: props.item.id, rate: $event})"
-            />
-          </v-edit-dialog> -->
-          <v-select slot="input" :value="props.item.rate" item-text="name" item-value="name"
-                    :items="rates" :dense="true" :hide-selected="false" class="body-1"
-                    @change="onUpdateRate({id: props.item.id, rate: $event})"
+          <v-autocomplete slot="input" :value="props.item.rate" item-text="name" item-value="name"
+                          :items="rates" :dense="true" :hide-selected="false" class="body-1"
+                          @change="onUpdateRate({id: props.item.id, rate: $event})"
           />
         </td>
         <td class="text-xs-center px-0">
@@ -173,10 +141,16 @@
       'confirm': confirm
     },
 
+    filters: {
+      formatDate: function (date) {
+        if (!date) return ''
+        return moment(date).format('ddd, MMM Do')
+      }
+    },
+
     data () {
       return {
         search: '',
-        // dialogEditingUnlockedWeek: false,
         ruleMaxChars: v => v.length <= 80 || v.length + ' / 80',
         ruleFloat: v => !isNaN(parseFloat(v)) || 'Input should be a muber with one decimal',
         repDate: '',
@@ -199,7 +173,7 @@
           this.$store.dispatch('consultants/setSelected', newValue)
         },
         get () {
-          return this.consultants.selected
+          return this.$store.state.consultants.selected
         }
       },
       isCurrentWeek () {
@@ -222,7 +196,7 @@
       selectedReportedHours () {
         let from = this.dateFrom
         let to = this.dateTo
-        let consultant = this.selectedConsultants
+        let consultant = this.selectedConsultant
         return this.reportedHours.filter(function (report) {
           let d = new Date(report.date)
           return (d >= from && d <= to && report.consultant === consultant)
@@ -251,17 +225,17 @@
         assignedProjects: state => state.projects.all,
         rates: state => state.rates.all,
         consultants: state => state.consultants,
-        selectedConsultants: state => state.consultants.selected,
+        // selectedConsultant: state => state.consultants.selected,
         dailyWorkingHoursMax: state => state.context.dailyWorkingHoursMax,
         dailyWorkingHoursMin: state => state.context.dailyWorkingHoursMin
       })
     },
 
-    watch: {
-      dialog (val) {
-        val || this.close()
-      }
-    },
+    // watch: {
+    //   dialog (val) {
+    //     val || this.close()
+    //   }
+    // },
 
     created () {
       this.$store.commit('context/SET_PAGE', 'Reported hours')
@@ -368,19 +342,20 @@
           this.$store.dispatch('reportedHours/updateAttributeValue', payload)
         }
       },
-      formatDate (date) {
-        if (!date) return null
-        return moment(date).format('ddd, MMM Do')
-      },
       addItem (item) {
-        let newRecord = {}
-        newRecord.id = null
-        newRecord.consultant = this.selectedConsultants
-        newRecord.date = this.dateFrom.format('YYYY-MM-DDTHH:mm:ssZ')
-        newRecord.hours = 8
-        newRecord.rate = ''
-        newRecord.description = ''
-        newRecord.project = ''
+        let d = moment.tz({}, 'Europe/Prague')
+        if (!d.isBetween(this.dateFrom, this.dateTo, '[]')) {
+          d = this.dateFrom
+        }
+        const newRecord = {
+          id: null,
+          consultant: this.selectedConsultant,
+          date: d.format('YYYY-MM-DDTHH:mm:ssZ'),
+          hours: 8,
+          rate: '',
+          description: '',
+          project: ''
+        }
         this.$store.dispatch('reportedHours/addRecord', newRecord)
       },
       duplicateItem (item) {
@@ -395,7 +370,7 @@
         if (this.editPreviousWeeks(item.id)) {
           if (await this.$refs.confirm.open('Please confirm', 'Are you sure you want to delete the record?', { color: 'orange lighten-2' })) {
             this.$store.dispatch('reportedHours/removeRecord', parseInt(item.id, 10))
-            this.$store.dispatch('context/setNotification', { text: this.formatDate(item.date) + ', ' + item.hours + ' hrs - record deleted', type: 'success' })
+            this.$store.dispatch('context/setNotification', { text: this.$options.filters.formatDate(item.date) + ', ' + item.hours + ' hrs - record deleted', type: 'success' })
           } else {
             console.log('canceled record delete') /* eslint-disable-line no-console */
           }
@@ -424,9 +399,11 @@ table .v-input--is-readonly.theme--light {
   padding-top: 0px !important;
   margin-top: 0px !important;
 }
+/* remove spacing above table text fields */
 html.gr__localhost body div#app.application.theme--light div.application--wrap main.v-content div.v-content__wrap div.container.fluid div div.elevation-1 div.v-table__overflow table.v-datatable.v-table.theme--light tbody tr td.text-xs-left div.v-input.body-1.v-text-field.v-text-field--single-line.v-input--is-label-active.v-input--is-dirty.theme--light {
   padding-top: 0px !important;
 }
+/* remove spacing above table select field */
 html.gr__localhost body div#app.application.theme--light div.application--wrap main.v-content div.v-content__wrap div.container.fluid div div.elevation-1 div.v-table__overflow table.v-datatable.v-table.theme--light tbody tr td.text-xs-left div.v-input.body-1.v-text-field.v-select.v-input--is-label-active.v-input--is-dirty.theme--light {
   padding-top: 0px !important;
 }

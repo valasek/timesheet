@@ -32,7 +32,6 @@
   import moment from 'moment'
 
   export default {
-    name: 'Holidays',
 
     data () {
       return {
@@ -51,6 +50,7 @@
     },
 
     created () {
+      this.$store.commit('context/SET_PAGE', 'State holiday')
     },
 
     methods: {

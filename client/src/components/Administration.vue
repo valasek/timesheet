@@ -33,7 +33,7 @@
   import api from '../api/axiosSettings'
 
   export default {
-    name: 'Administration',
+
     data () {
       return {
         logLevels: [
