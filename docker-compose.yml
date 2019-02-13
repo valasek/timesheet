@@ -1,15 +1,19 @@
-version '3'
-services:
-  web:
-    build: .
-    ports:
-    - "3000:3000"
-  db:
-    image: postgres
-    restart: always
-    environment:
-      POSTGRES_PASSWORD: timesheet
-      POSTGRES_USER: timesheet
-      POSTGRES_DB: timesheet
-
-# sudo docker run --name pg-docker -e POSTGRES_USER=timesheet -e POSTGRES_PASSWORD=timesheet -e POSTGRES_DB=timesheet -d -p 5432:5432 postgres
+  version: '3.3'
+  
+  services:
+    server:
+      build: .
+      ports:
+      - "3000:3000"
+      depends_on:
+      - "db"
+    db:
+      image: postgres
+      restart: always
+      environment:
+        POSTGRES_PASSWORD: timesheet
+        POSTGRES_USER: timesheet
+        POSTGRES_DB: timesheet
+      ports:
+      - "5432:5432"
+        # sudo docker run --name pg-docker -e POSTGRES_USER=timesheet -e POSTGRES_PASSWORD=timesheet -e POSTGRES_DB=timesheet -d -p 5432:5432 postgres
