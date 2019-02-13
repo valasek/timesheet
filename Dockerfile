@@ -100,3 +100,4 @@ COPY --from=backend /docker-entrypoint.sh /docker-entrypoint.sh
 COPY --from=backend /timesheet.yaml /timesheet.yaml
 # Run the compiled binary.
 ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["/timesheet.bin" "server"]
