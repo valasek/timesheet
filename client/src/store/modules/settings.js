@@ -9,8 +9,11 @@ const state = {
     dailyWorkingHoursMin: 8, // Used to highlight if reported less
     dailyWorkingHoursMax: 12, // Used to highlight if reported more
     yearlyVacationDays: 20, // Used for  weekly and monthly expected working hours
+    vacation: 'Vacation', // Rate for vacations
     yearlyPersonalDays: 3, // Used for  weekly and monthly expected working hours
+    vacationPersonal: 'Vacation Personal', // Rate for additonal vacations
     yearlySickDays: 2, // Used for  weekly and monthly expected working hours
+    vacationSick: 'Vacation Sick', // Rate for additonal vacations as sick days
     isWorking: 'work', // all rates are categorized ising one of this two rates used on Overview page
     isNonWorking: 'not-work', // all rates are categorized ising one of this two rates used on Overview page
     selectedMonth: moment.tz({}, 'Europe/Prague'),
@@ -80,8 +83,11 @@ const mutations = {
         state.timeZone = payload.timeZone
         state.dailyWorkingHours = payload.dailyWorkingHours
         state.yearlyVacationDays = payload.yearlyVacationDays
+        state.vacation = payload.vacation
         state.yearlyPersonalDays = payload.yearlyPersonalDays
+        state.vacationPersonal = payload.vacationPersonal
         state.yearlySickDays = payload.yearlySickDays
+        state.vacationSick = payload.vacationSick
         state.isWorking = payload.isWorking
         state.isNonWorking = payload.isNonWorking
     },

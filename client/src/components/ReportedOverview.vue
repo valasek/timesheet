@@ -171,8 +171,11 @@
         selectedConsultant: state => state.consultants.selected,
         dailyWorkingHours: state => state.settings.dailyWorkingHours,
         yearlyVacationDays: state => state.settings.yearlyVacationDays,
+        vacation: state => state.settings.vacation,
         yearlyPersonalDays: state => state.settings.yearlyPersonalDays,
+        vacationPersonal: state => state.settings.vacationPersonal,
         yearlySickDays: state => state.settings.yearlySickDays,
+        vacationSick: state => state.settings.vacationSick,
         isWorking: state => state.settings.isWorking,
         isNonWorking: state => state.settings.isNonWorking
       }),
@@ -221,11 +224,11 @@
           },
           {
             text: 'Remaining',
-            value: this.yearlyVacationDays * this.dailyWorkingHours - this.getTotalsForRate(this.reportedHoursSummary, 'Vacation')
+            value: this.yearlyVacationDays * this.dailyWorkingHours - this.getTotalsForRate(this.reportedHoursSummary, this.vacation)
           },
           {
             text: 'Reported',
-            value: this.getTotalsForRate(this.reportedHoursSummary, 'Vacation')
+            value: this.getTotalsForRate(this.reportedHoursSummary, this.vacation)
           }
         ]
       },
@@ -237,11 +240,11 @@
           },
           {
             text: 'Remaining',
-            value: this.yearlyPersonalDays * this.dailyWorkingHours - this.getTotalsForRate(this.reportedHoursSummary, 'Vacation Pesonal')
+            value: this.yearlyPersonalDays * this.dailyWorkingHours - this.getTotalsForRate(this.reportedHoursSummary, this.vacationPersonal)
           },
           {
             text: 'Reported',
-            value: this.getTotalsForRate(this.reportedHoursSummary, 'Vacation Personal')
+            value: this.getTotalsForRate(this.reportedHoursSummary, this.vacationPersonal)
           }
         ]
       },
@@ -253,11 +256,11 @@
           },
           {
             text: 'Remaining',
-            value: this.yearlySickDays * this.dailyWorkingHours - this.getTotalsForRate(this.reportedHoursSummary, 'Vacation Sick')
+            value: this.yearlySickDays * this.dailyWorkingHours - this.getTotalsForRate(this.reportedHoursSummary, this.vacationSick)
           },
           {
             text: 'Reported',
-            value: this.getTotalsForRate(this.reportedHoursSummary, 'Vacation Sick')
+            value: this.getTotalsForRate(this.reportedHoursSummary, this.vacationSick)
           }
         ]
       },
