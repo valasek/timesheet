@@ -15,10 +15,10 @@ vacation: "Vacation"
 yearlyVacationDays: 20 # Used for  weekly and monthly expected working hours
 
 # Rate for additonal vacations. If not used, leave blank "" and set yearlyPersonalDays: 0
-vacationPersonal: "Vacation Pesonal"
+vacationPersonal: "Vacation Personal"
 yearlyPersonalDays: 3 # Used for  weekly and monthly expected working hours
 
-# Rate used for additonal vacation intended fo sick day. If not used, leave blank "" and set yearlySickDays: 0
+# Rate used for additonal vacation intended for sick day. If not used, leave blank "" and set yearlySickDays: 0
 vacationSick: "Vacation Sick"
 yearlySickDays: 2 # Used for  weekly and monthly expected working hours
 
