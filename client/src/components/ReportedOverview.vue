@@ -118,7 +118,6 @@
   import moment from 'moment-timezone'
 
   export default {
-    name: 'ReportedOverview',
 
     data () {
       return {
@@ -155,35 +154,36 @@
           return (d >= from && d <= to && report.consultant === consultant)
         })
       },
-      summaryRates () {
-        let allowProjects = ['_Public Holiday', '_Personal Day', '_Sick Day']
-        return this.reportedHoursSummary.filter(record => {
-          return (record.consultant === this.selectedConsultant && allowProjects.includes(record.project))
-        })
-      },
+      // summaryRates () {
+      //   let allowProjects = ['_Public Holiday', '_Personal Day', '_Sick Day']
+      //   return this.reportedHoursSummary.filter(record => {
+      //     return (record.consultant === this.selectedConsultant && allowProjects.includes(record.project))
+      //   })
+      // },
       ...mapState({
         reportedHours: state => state.reportedHours.all,
         reportedHoursSummary: state => state.reportedHours.summary,
         rates: state => state.rates.all,
-        dateFrom: state => state.context.dateFrom,
-        dateTo: state => state.context.dateTo,
-        selectedMonth: state => state.context.selectedMonth,
+        dateFrom: state => state.settings.dateFrom,
+        dateTo: state => state.settings.dateTo,
+        selectedMonth: state => state.settings.selectedMonth,
+        timeZone: state => state.settings.timeZone,
         selectedConsultant: state => state.consultants.selected,
-        dailyWorkingHours: state => state.context.dailyWorkingHours,
-        yearlyVacationDays: state => state.context.yearlyVacationDays,
-        yearlyPersonalDays: state => state.context.yearlyPersonalDays,
-        yearlySickDays: state => state.context.yearlySickDays,
-        isWorking: state => state.context.isWorking,
-        isNonWorking: state => state.context.isNonWorking
+        dailyWorkingHours: state => state.settings.dailyWorkingHours,
+        yearlyVacationDays: state => state.settings.yearlyVacationDays,
+        yearlyPersonalDays: state => state.settings.yearlyPersonalDays,
+        yearlySickDays: state => state.settings.yearlySickDays,
+        isWorking: state => state.settings.isWorking,
+        isNonWorking: state => state.settings.isNonWorking
       }),
       thisYear () { return this.selectedMonth.year() },
       thisWeek () {
-        return moment.tz(this.dateFrom, 'Europe/Prague').format('MMM D') + ' - ' + moment(this.dateTo).format('MMM D')
+        return moment.tz(this.dateFrom, this.timeZone).format('MMM D') + ' - ' + moment(this.dateTo).format('MMM D')
       },
       // FIXME - subtract state holidays
       businessMonthly () {
-        var param = moment.tz(this.selectedMonth, 'Europe/Prague').startOf('month')
-        var param1 = moment.tz(this.selectedMonth, 'Europe/Prague').endOf('month')
+        var param = moment.tz(this.selectedMonth, this.timeZone).startOf('month')
+        var param1 = moment.tz(this.selectedMonth, this.timeZone).endOf('month')
         var signal = param.unix() < param1.unix() ? 1 : -1
         var start = moment.min(param, param1).clone()
         var end = moment.max(param, param1).clone()

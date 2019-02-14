@@ -1,16 +1,37 @@
-### default configuration file
+### Default configuration file
 
-# these are now as constants on frontend
-# dailyWorkingHours: 8 # Used for weekly and monthly expected working hours
-# yearlyVacationDays: 20 # Used for  weekly and monthly expected working hours
-# yearlyPersonalDays: 3 # Used for  weekly and monthly expected working hours
-# yearlySickDays: 2 # Used for  weekly and monthly expected working hours
+######################
+# User configuration #
 
-# Application settings
+# Set your timezone. Supported timezones: https://github.com/moment/moment-timezone/blob/develop/data/packed/latest.json
+timeZone: "Europe/Prague"
+
+dailyWorkingHours: 8 # Used for weekly and monthly expected working hours
+dailyWorkingHoursMin: 8 # Used to highlight if reported less
+dailyWorkingHoursMax: 12 # Used to highlight if reported more
+
+# Rate used for vacations
+vacation: "Vacation"
+yearlyVacationDays: 20 # Used for  weekly and monthly expected working hours
+
+# Rate for additonal vacations. If not used, leave blank "" and set yearlyPersonalDays: 0
+vacationPersonal: "Vacation Pesonal"
+yearlyPersonalDays: 3 # Used for  weekly and monthly expected working hours
+
+# Rate used for additonal vacation intended fo sick day. If not used, leave blank "" and set yearlySickDays: 0
+vacationSick: "Vacation Sick"
+yearlySickDays: 2 # Used for  weekly and monthly expected working hours
+
+# Categorize all rates into one of these types
+isWorking: "work" # when consultant works
+isNonWorking: "not-work" # when consultant dows not work, examples: vacation, sick, personal day, public holiday, vacation, unpaid leave, ...
+
+########################
+# Application settings #
 url: "" # URL on which application is running
 port: "3000"     # port on which application is running
 
-# where info and error logs will go
+# Folder for logging
 logFolder: "logs"
 
 # DB type
@@ -27,11 +48,12 @@ export:
 
 # DB credentials
 postgresql:
-  host: "db" # "ec2-54-235-68-3.compute-1.amazonaws.com"
+  # host: "db" #
+  host: "127.0.0.1" #
   port: "5432"
-  name: "timesheet" # "d53bs18jt1kc7k"
-  user: "timesheet" # "luvpewagjsmecx"
-  password: "timesheet" # "7b43ef5065215d91307e063c384da78db0c7b953387bdde27258f0f7bbcacf75"
+  name: "timesheet"
+  user: "timesheet"
+  password: "timesheet"
   sslMode: "disable"
 
 # add production URL

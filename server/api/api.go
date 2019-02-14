@@ -35,12 +35,36 @@ type API struct {
 // AppSettings -
 type AppSettings struct {
 	Version string `json:"version"`
+	TimeZone string `json:"timeZone"`
+	DailyWorkingHours float64 `json:"dailyWorkingHours"`
+	DailyWorkingHoursMin float64 `json:"dailyWorkingHoursMin"`
+	DailyWorkingHoursMax float64 `json:"dailyWorkingHoursMax"`
+	Vacation string `json:"vacation"`
+	YearlyVacationDays int64 `json:"yearlyVacationDays"`
+	VacationPersonal string `json:"vacationPersonal"`
+	YearlyPersonalDays int64 `json:"yearlyPersonalDays"`
+	VacationSick string `json:"vacationSick"`
+	YearlySickDays int64 `json:"yearlySickDays"`
+	IsWorking string `json:"isWorking"`
+	IsNonWorking string `json:"isNonWorking"`
 }
 
-// AppSettings returns list of all
+// AppSettings returns list of all appliocation and user settings for configuration file
 func (api *API) AppSettings(w http.ResponseWriter, req *http.Request) {
 	settings := AppSettings{
 		Version: version.Version,
+		TimeZone: viper.GetString("timeZone"),
+		DailyWorkingHours: viper.GetFloat64("dailyWorkingHours"),
+		DailyWorkingHoursMin: viper.GetFloat64("dailyWorkingHoursMin"),
+		DailyWorkingHoursMax: viper.GetFloat64("dailyWorkingHoursMax"),
+		Vacation: viper.GetString("vacation"),
+		YearlyVacationDays: viper.GetInt64("yearlyVacationDays"),
+		VacationPersonal: viper.GetString("vacationPersonal"),
+		YearlyPersonalDays: viper.GetInt64("yearlyPersonalDays"),
+		VacationSick: viper.GetString("vacationSick"),
+		YearlySickDays: viper.GetInt64("yearlySickDays"),
+		IsWorking: viper.GetString("isWorking"),
+		IsNonWorking: viper.GetString("isNonWorking"),
 	}
 	json.NewEncoder(w).Encode(settings)
 }

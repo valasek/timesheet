@@ -104,7 +104,7 @@
       ...mapState({
         notificationText: state => state.context.notificationText,
         notificationType: state => state.context.notificationType,
-        selectedMonth: state => state.context.selectedMonth,
+        selectedMonth: state => state.settings.selectedMonth,
         page: state => state.context.page,
         version: state => state.settings.version
       })

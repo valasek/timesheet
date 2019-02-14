@@ -177,7 +177,7 @@
         }
       },
       isCurrentWeek () {
-        let today = moment.tz({}, 'Europe/Prague')
+        let today = moment.tz({}, this.timeZone)
         if (today.isBetween(this.dateFrom, this.dateTo, null, '[]')) {
           return true
         }
@@ -219,15 +219,15 @@
       },
       ...mapState({
         loading: state => state.reportedHours.loading,
-        dateFrom: state => state.context.dateFrom,
-        dateTo: state => state.context.dateTo,
+        dateFrom: state => state.settings.dateFrom,
+        dateTo: state => state.settings.dateTo,
         reportedHours: state => state.reportedHours.all,
         assignedProjects: state => state.projects.all,
         rates: state => state.rates.all,
         consultants: state => state.consultants,
-        // selectedConsultant: state => state.consultants.selected,
-        dailyWorkingHoursMax: state => state.context.dailyWorkingHoursMax,
-        dailyWorkingHoursMin: state => state.context.dailyWorkingHoursMin
+        timeZone: state => state.settings.timeZone,
+        dailyWorkingHoursMax: state => state.settings.dailyWorkingHoursMax,
+        dailyWorkingHoursMin: state => state.settings.dailyWorkingHoursMin
       })
     },
 
@@ -252,21 +252,21 @@
       reportedThisDay (weekDay) {
         let rep = 0.0
         for (let i = 0; i < this.selectedReportedHours.length; i++) {
-          if (moment.tz(this.selectedReportedHours[i].date, 'Europe/Prague').weekday() === weekDay) {
+          if (moment.tz(this.selectedReportedHours[i].date, this.timeZone).weekday() === weekDay) {
             rep = rep + this.selectedReportedHours[i].hours
           }
         }
         return rep
       },
       currentWeek () {
-        this.$store.dispatch('context/jumpToWeek', moment.tz({}, 'Europe/Prague'))
+        this.$store.dispatch('settings/jumpToWeek', moment.tz({}, this.timeZone))
       },
       editPreviousWeeks (itemID) {
         const editedDay = moment(this.selectedReportedHours.filter(item => item.id === itemID)[0].date)
         if (this.previousWeeksUnLock) {
           return true
         } else {
-          if (editedDay.isBetween(moment.tz({}, 'Europe/Prague').startOf('isoWeek'), moment.tz({}, 'Europe/Prague').endOf('isoWeek'), null, '[]')) {
+          if (editedDay.isBetween(moment.tz({}, this.timeZone).startOf('isoWeek'), moment.tz({}, this.timeZone).endOf('isoWeek'), null, '[]')) {
             return true
           }
         }
@@ -343,7 +343,7 @@
         }
       },
       addItem (item) {
-        let d = moment.tz({}, 'Europe/Prague')
+        let d = moment.tz({}, this.timeZone)
         if (!d.isBetween(this.dateFrom, this.dateTo, '[]')) {
           d = this.dateFrom
         }
@@ -362,7 +362,7 @@
         if (this.editPreviousWeeks(item.id)) {
           let newRecord = Object.assign({}, item)
           newRecord.id = null
-          newRecord.date = moment.tz(item.date, 'Europe/Prague').format('YYYY-MM-DDTHH:mm:ssZ')
+          newRecord.date = moment.tz(item.date, this.timeZone).format('YYYY-MM-DDTHH:mm:ssZ')
           this.$store.dispatch('reportedHours/addRecord', newRecord)
         }
       },
@@ -377,13 +377,14 @@
         }
       },
       previousWeek () {
-        this.$store.dispatch('context/changeWeek', 'previous')
+        this.$store.dispatch('settings/changeWeek', 'previous')
       },
       nextWeek () {
-        this.$store.dispatch('context/changeWeek', 'next')
+        this.$store.dispatch('settings/changeWeek', 'next')
       },
+      // FIXME move to filter
       formatWeek (date) {
-        let a = moment.tz(date, 'YYYY-MM-DD', 'Europe/Prague').format('MMM Do')
+        let a = moment.tz(date, 'YYYY-MM-DD', this.timeZone).format('MMM Do')
         return a
       }
     }
@@ -400,11 +401,15 @@ table .v-input--is-readonly.theme--light {
   margin-top: 0px !important;
 }
 /* remove spacing above table text fields */
-html.gr__localhost body div#app.application.theme--light div.application--wrap main.v-content div.v-content__wrap div.container.fluid div div.elevation-1 div.v-table__overflow table.v-datatable.v-table.theme--light tbody tr td.text-xs-left div.v-input.body-1.v-text-field.v-text-field--single-line.v-input--is-label-active.v-input--is-dirty.theme--light {
+/* html.gr__localhost body div#app.application.theme--light div.application--wrap main.v-content div.v-content__wrap div.container.fluid div div.elevation-1 div.v-table__overflow table.v-datatable.v-table.theme--light tbody tr td.text-xs-left div.v-input.body-1.v-text-field.v-text-field--single-line.v-input--is-label-active.v-input--is-dirty.theme--light {
+html.gr__localhost body div#app.application.theme--light div.application--wrap main.v-content div.v-content__wrap div.container.fluid div div.elevation-1 div.v-table__overflow table.v-datatable.v-table.theme--light tbody tr td.text-xs-left div.v-input.body-1.v-text-field.v-text-field--single-line.theme--light */
+html.gr__localhost body div#app.application.theme--light div.application--wrap main.v-content div.v-content__wrap div.container.fluid div div.elevation-1 div.v-table__overflow table.v-datatable.v-table.theme--light tbody tr td.text-xs-left div.v-input.body-1.v-text-field.v-text-field--single-line {
   padding-top: 0px !important;
 }
 /* remove spacing above table select field */
-html.gr__localhost body div#app.application.theme--light div.application--wrap main.v-content div.v-content__wrap div.container.fluid div div.elevation-1 div.v-table__overflow table.v-datatable.v-table.theme--light tbody tr td.text-xs-left div.v-input.body-1.v-text-field.v-select.v-input--is-label-active.v-input--is-dirty.theme--light {
+/* html.gr__localhost body div#app.application.theme--light div.application--wrap main.v-content div.v-content__wrap div.container.fluid div div.elevation-1 div.v-table__overflow table.v-datatable.v-table.theme--light tbody tr td.text-xs-left div.v-input.body-1.v-text-field.v-select.v-input--is-label-active.v-input--is-dirty.theme--light {
+html.gr__localhost body div#app.application.theme--light div.application--wrap main.v-content div.v-content__wrap div.container.fluid div div.elevation-1 div.v-table__overflow table.v-datatable.v-table.theme--light tbody tr td.text-xs-left div.v-input.body-1.v-text-field.v-select.v-autocomplete.theme--light */
+html.gr__localhost body div#app.application.theme--light div.application--wrap main.v-content div.v-content__wrap div.container.fluid div div.elevation-1 div.v-table__overflow table.v-datatable.v-table.theme--light tbody tr td.text-xs-left div.v-input.body-1.v-text-field.v-select {
   padding-top: 0px !important;
 }
 /* .menuable__content__active {

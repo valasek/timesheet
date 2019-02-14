@@ -1,6 +1,6 @@
 @ECHO OFF
 set zip="C:\Program Files\7-Zip\7z.exe"
-set version="0.1.2"
+set version="0.1.3"
 REM rem git describe --tags
 
 if "%1" == "demo" (
