@@ -50,7 +50,7 @@ export:
 # used for development and testing. Ignored if DATABASE_URL is set
 postgresql:
   # host: "db" #
-  host: "128.0.0.1" #
+  host: "127.0.0.1" #
   port: "5432"
   name: "timesheet"
   user: "timesheet"
