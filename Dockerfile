@@ -40,7 +40,9 @@ COPY ./server/ ./
 # RUN GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" CGO_ENABLED=0 \
 #     -installsuffix 'static' \
 #     -o /app .
-RUN GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -installsuffix 'static' -o /timesheet.bin .
+RUN GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build \
+-ldflags "-X github.com/valasek/timesheet/server/version.Version=latest" \
+-installsuffix 'static' -o /timesheet.bin .
 # RUN ls -la .
 
 ##############################################
@@ -91,7 +93,8 @@ COPY --from=frontend /client/dist /client/dist
 # Declare the port on which the webbackend will be exposed.
 # As we're going to run the executable as an unprivileged user, we can't bind
 # to ports below 1024.
-EXPOSE 3000
+# Expose is NOT supported by Heroku
+# EXPOSE 3000
 
 # Perform any further action as an unprivileged user.
 # USER nobody:nobody
@@ -100,4 +103,4 @@ COPY --from=backend /docker-entrypoint.sh /docker-entrypoint.sh
 COPY --from=backend /timesheet.yaml /timesheet.yaml
 # Run the compiled binary.
 ENTRYPOINT ["/docker-entrypoint.sh"]
-CMD ["/timesheet.bin" "server"]
+CMD ["/docker-entrypoint.sh"]
