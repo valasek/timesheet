@@ -367,7 +367,7 @@ func ConnectDB() (db *models.DB) {
 		logger.Log.Info("connecting to DB ", dbURL)
 		db = models.NewPostgresDB(dbURL)
 		// fmt.Println("connected to DB:  ", connectionString)
-		logger.Log.Info(dbURL, " connected")
+		logger.Log.Info("connected to DB ", dbURL)
 		// fmt.Println("")
 	default:
 		logger.Log.Error("not able to connect to DB, supported DB types (postgresql), set: ", DBType)
