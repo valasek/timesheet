@@ -82,7 +82,7 @@ func initConfig() {
 	}
 
 	initLogger()
-	logger.Log.Info("config file:      ", viper.ConfigFileUsed())
+	logger.Log.Info("config file ", viper.ConfigFileUsed())
 }
 
 func initLogger() {

@@ -354,15 +354,20 @@ func ConnectDB() (db *models.DB) {
 	switch DBType := viper.GetString("dbType"); DBType {
 	case "postgresql":
 		// DBhost, DBport, DBuser, DBpassword, DBname, SSLmode, url, port := "", "", "", "", "", "", "", ""
-		connectionString := "host=" + viper.GetString("postgresql.host") +
+		dbURL := viper.GetString("DATABASE_URL")
+
+		if len(dbURL) == 0 {
+			dbURL = "host=" + viper.GetString("postgresql.host") +
 			" port=" + viper.GetString("postgresql.port") +
 			" user=" + viper.GetString("postgresql.user") +
 			" dbname=" + viper.GetString("postgresql.name") +
 			" password=" + viper.GetString("postgresql.password") +
 			" sslmode=" + viper.GetString("postgresql.SSLMode")
-		db = models.NewPostgresDB(connectionString)
+		}
+		logger.Log.Info("connecting to DB ", dbURL)
+		db = models.NewPostgresDB(dbURL)
 		// fmt.Println("connected to DB:  ", connectionString)
-		logger.Log.Info("connected to DB:  ", connectionString)
+		logger.Log.Info(dbURL, " connected")
 		// fmt.Println("")
 	default:
 		logger.Log.Error("not able to connect to DB, supported DB types (postgresql), set: ", DBType)

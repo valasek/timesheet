@@ -29,7 +29,7 @@ isNonWorking: "not-work" # when consultant dows not work, examples: vacation, si
 ########################
 # Application settings #
 url: "" # URL on which application is running
-port: "3000"     # port on which application is running
+PORT: "3000"     # port on which application is running
 
 # Folder for logging
 logFolder: "logs"
@@ -47,17 +47,19 @@ export:
   location: "data/exported" # select an empty and an existing folder
 
 # DB credentials
+# used for development and testing. Ignored if DATABASE_URL is set
 postgresql:
   # host: "db" #
-  host: "127.0.0.1" #
+  host: "128.0.0.1" #
   port: "5432"
   name: "timesheet"
   user: "timesheet"
   password: "timesheet"
   sslMode: "disable"
 
-# add production URL
-# DATABASE_URL: ""
+# Production URL - will be read from heroku config variables
+# If set, abeve mentioned postgresql: settings are ignored
+DATABASE_URL: ""
 
 # initial DB data files which are loaded via command "timesheet db --load all"
 data:
