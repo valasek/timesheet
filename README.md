@@ -166,3 +166,28 @@ docker save -o ./server.tar timesheet_server:latest
 copy to target machine
 docker load -i <path to image tar file>
 ```
+
+# Push to heroku
+https://devcenter.heroku.com/articles/heroku-cli-commands
+https://devcenter.heroku.com/articles/container-registry-and-runtime
+
+```
+heroku login
+heroku container:login
+
+docker-compose -f "docker-compose.yml" up -d --build
+docker build --rm -f "Dockerfile" -t timesheet:latest .
+heroku container:run --app=timesheet-cloud timesheet -v
+
+heroku container:rm web
+heroku container:push web --app timesheet-cloud
+heroku container:release web --app timesheet-cloud
+
+heroku run printenv
+
+heroku ps -a timesheet-cloud
+
+heroku logs --app timesheet-cloud
+
+heroku config
+```

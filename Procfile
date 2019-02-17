@@ -1,1 +1,1 @@
-web: timesheet server
+web: ./docker-entrypoint.sh
