@@ -2,8 +2,9 @@ import api from '../../api/axiosSettings'
 
 // initial state
 const state = {
-    all: [ '' ], // name, type
-    allowed: [ '' ] // for selected project
+    // rates: [ '' ], // array of rates:string
+    types: [ '' ], // array of rateType:string
+    all: [ {} ] // id: '', name: '', type: ''
 }
 
 const getters = {}
@@ -27,6 +28,12 @@ const mutations = {
 
     SET_RATES (state, rates) {
         state.all = rates
+        // state.rates = rates.map(function (obj) {
+        //     return obj.name
+        // })
+        state.types = [...new Set(rates.map(function (obj) {
+            return obj.type
+        }))]
     }
 
 }

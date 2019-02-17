@@ -35,6 +35,8 @@ func NewRoutes(api *api.API) *mux.Router {
 	a.HandleFunc("/settings", api.AppSettings).Methods("GET")
 	// download all data
 	a.HandleFunc("/download/data", api.Download).Methods("GET")
+	// upload all data
+	a.HandleFunc("/upload/data", api.Upload).Methods("POST")
 	// download logs
 	a.HandleFunc("/download/logs/{logLevel}", api.DownloadLogs).Methods("GET")
 

@@ -124,4 +124,5 @@ func initLogger() {
 		panic(err)
 	}
 	logger.Log.AddHook(hook)
+	logger.Log.Info("log folder ", logFolder)
 }

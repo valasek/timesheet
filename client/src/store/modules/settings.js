@@ -40,12 +40,24 @@ const actions = {
             })
     },
 
-    setDailyWorkingHoursMax ({ commit }, payload) {
-        commit('SET_DAILY_WORKING_HOURS_MAX', payload)
+    setHours ({ commit }, payload) {
+        commit('SET_HOURS', payload)
     },
 
-    setDailyWorkingHoursMin ({ commit }, payload) {
-        commit('SET_DAILY_WORKING_HOURS_MIN', payload)
+    setDays ({ commit }, payload) {
+        commit('SET_DAYS', payload)
+    },
+
+    setRate ({ commit }, payload) {
+        commit('SET_RATE', payload)
+    },
+
+    setRateType ({ commit }, payload) {
+        commit('SET_RATE_TYPE', payload)
+    },
+
+    setTimeZone ({ commit }, payload) {
+        commit('SET_TIME_ZONE', payload)
     },
 
     changeWeek ({ dispatch, commit }, direction) {
@@ -91,14 +103,68 @@ const mutations = {
         state.isWorking = payload.isWorking
         state.isNonWorking = payload.isNonWorking
     },
-    SET_DAILY_WORKING_HOURS_MIN (state, hours) {
-        state.dailyWorkingHoursMin = hours
+    SET_HOURS (state, hours) {
+        switch (hours.hourType) {
+            case 'dailyWorkingHours':
+            state.dailyWorkingHours = hours.hourValue
+            break
+            case 'dailyWorkingHoursMin':
+            state.dailyWorkingHoursMin = hours.hourValue
+            break
+            case 'dailyWorkingHoursMax':
+            state.dailyWorkingHoursMax = hours.hourValue
+            break
+            default:
+            console.log('SET_HOURS unknown value', hours) /* eslint-disable-line no-console */
+        }
     },
-    SET_DAILY_WORKING_HOURS_MAX (state, hours) {
-        state.dailyWorkingHoursMax = hours
+    SET_DAYS (state, days) {
+        switch (days.dayType) {
+            case 'yearlyVacationDays':
+            state.yearlyVacationDays = days.dayValue
+            break
+            case 'yearlyPersonalDays':
+            state.yearlyPersonalDays = days.dayValue
+            break
+            case 'yearlySickDays':
+            state.yearlySickDays = days.dayValue
+            break
+            default:
+            console.log('SET_DAYS unknown value', days) /* eslint-disable-line no-console */
+        }
+    },
+    SET_RATE (state, rate) {
+        switch (rate.rateType) {
+            case 'vacation':
+            state.vacation = rate.rateValue
+            break
+            case 'vacationPersonal':
+            state.vacationPersonal = rate.rateValue
+            break
+            case 'vacationSick':
+            state.vacationSick = rate.rateValue
+            break
+            default:
+            console.log('SET_RATE unknown value', rate) /* eslint-disable-line no-console */
+        }
+    },
+    SET_RATE_TYPE (state, rateType) {
+        switch (rateType.rateTypeType) {
+            case 'isWorking':
+            state.isWorking = rateType.rateTypeValue
+            break
+            case 'isNonWorking':
+            state.isNonWorking = rateType.rateTypeValue
+            break
+            default:
+            console.log('SET_RATE_TYPE unknown value', rateType) /* eslint-disable-line no-console */
+        }
     },
     SET_MONTH (state, month) {
         state.selectedMonth = month
+    },
+    SET_TIME_ZONE (state, timeZone) {
+        state.timeZone = timeZone
     },
     SET_WEEK (state, direction) {
         switch (direction) {

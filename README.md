@@ -42,6 +42,12 @@ Automation is based on a premise, that reporting and billing process includes th
 
 Simple timesheet can be deployed using Docker (server image size 24.9 MB, DB image size 312 MB)
 
+# How to start
+
+- Update Application settings , Vacation settings and Warning limits to meet your needs
+- Use Backup & Restore to export demo data. Update csv files and import back your projects, rates, consultants and holidays.
+- You are good to go 
+
 # Screenshots
 
 ![Home](screenshots/home.png?raw=true "Home")
@@ -52,7 +58,9 @@ Simple timesheet can be deployed using Docker (server image size 24.9 MB, DB ima
 
 ![Admnistration](screenshots/administration.png?raw=true "Admnistration")
 
-# Usage
+![Help](screenshots/help.png?raw=true "Help")
+
+# Server Usage
 
 ```
 Web based timesheet application with DB persistence.

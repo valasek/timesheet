@@ -31,15 +31,18 @@ isNonWorking: "not-work" # when consultant dows not work, examples: vacation, si
 url: "" # URL on which application is running
 PORT: "3000"     # port on which application is running
 
-# Folder for logging
+# Log folder, relative to timesheet folder
 logFolder: "logs"
+
+# # Folder for uploaded data, relative to timesheet folder
+uploadFolder: "data/uploaded"
 
 # DB type
 dbType: "postgresql" # DB type
 
 # DB backup settings - backuped data can be imported directly by a command "timesheet db --load all"
 backup:
-  location: "data/backups" # select an empty and an existing folder
+  location: "data/backups" # select an empty and an existing folder relative to timesheet/data folder
   rotation: 14             # how many backups back will be kept
   interval: "daily"        # daily or weekly - how ofter the DB backup should be done
 
@@ -49,8 +52,8 @@ export:
 # DB credentials
 # used for development and testing. Ignored if DATABASE_URL is set
 postgresql:
-  host: "db" #
-  # host: "127.0.0.1" #
+  # host: "db" #
+  host: "127.0.0.1" #
   port: "5432"
   name: "timesheet"
   user: "timesheet"

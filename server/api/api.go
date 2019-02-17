@@ -2,10 +2,12 @@ package api
 
 import (
 	"archive/zip"
+	"crypto/rand"
 	"encoding/json"
 	"fmt"
 	"io"
 	"io/ioutil"
+	"mime"
 	"net/http"
 	"os"
 	"path"
@@ -34,37 +36,37 @@ type API struct {
 
 // AppSettings -
 type AppSettings struct {
-	Version string `json:"version"`
-	TimeZone string `json:"timeZone"`
-	DailyWorkingHours float64 `json:"dailyWorkingHours"`
+	Version              string  `json:"version"`
+	TimeZone             string  `json:"timeZone"`
+	DailyWorkingHours    float64 `json:"dailyWorkingHours"`
 	DailyWorkingHoursMin float64 `json:"dailyWorkingHoursMin"`
 	DailyWorkingHoursMax float64 `json:"dailyWorkingHoursMax"`
-	Vacation string `json:"vacation"`
-	YearlyVacationDays int64 `json:"yearlyVacationDays"`
-	VacationPersonal string `json:"vacationPersonal"`
-	YearlyPersonalDays int64 `json:"yearlyPersonalDays"`
-	VacationSick string `json:"vacationSick"`
-	YearlySickDays int64 `json:"yearlySickDays"`
-	IsWorking string `json:"isWorking"`
-	IsNonWorking string `json:"isNonWorking"`
+	Vacation             string  `json:"vacation"`
+	YearlyVacationDays   int64   `json:"yearlyVacationDays"`
+	VacationPersonal     string  `json:"vacationPersonal"`
+	YearlyPersonalDays   int64   `json:"yearlyPersonalDays"`
+	VacationSick         string  `json:"vacationSick"`
+	YearlySickDays       int64   `json:"yearlySickDays"`
+	IsWorking            string  `json:"isWorking"`
+	IsNonWorking         string  `json:"isNonWorking"`
 }
 
 // AppSettings returns list of all appliocation and user settings for configuration file
 func (api *API) AppSettings(w http.ResponseWriter, req *http.Request) {
 	settings := AppSettings{
-		Version: version.Version,
-		TimeZone: viper.GetString("timeZone"),
-		DailyWorkingHours: viper.GetFloat64("dailyWorkingHours"),
+		Version:              version.Version,
+		TimeZone:             viper.GetString("timeZone"),
+		DailyWorkingHours:    viper.GetFloat64("dailyWorkingHours"),
 		DailyWorkingHoursMin: viper.GetFloat64("dailyWorkingHoursMin"),
 		DailyWorkingHoursMax: viper.GetFloat64("dailyWorkingHoursMax"),
-		Vacation: viper.GetString("vacation"),
-		YearlyVacationDays: viper.GetInt64("yearlyVacationDays"),
-		VacationPersonal: viper.GetString("vacationPersonal"),
-		YearlyPersonalDays: viper.GetInt64("yearlyPersonalDays"),
-		VacationSick: viper.GetString("vacationSick"),
-		YearlySickDays: viper.GetInt64("yearlySickDays"),
-		IsWorking: viper.GetString("isWorking"),
-		IsNonWorking: viper.GetString("isNonWorking"),
+		Vacation:             viper.GetString("vacation"),
+		YearlyVacationDays:   viper.GetInt64("yearlyVacationDays"),
+		VacationPersonal:     viper.GetString("vacationPersonal"),
+		YearlyPersonalDays:   viper.GetInt64("yearlyPersonalDays"),
+		VacationSick:         viper.GetString("vacationSick"),
+		YearlySickDays:       viper.GetInt64("yearlySickDays"),
+		IsWorking:            viper.GetString("isWorking"),
+		IsNonWorking:         viper.GetString("isNonWorking"),
 	}
 	json.NewEncoder(w).Encode(settings)
 }
@@ -108,13 +110,84 @@ func (api *API) Download(w http.ResponseWriter, req *http.Request) {
 	return
 }
 
+// Upload -
+func (api *API) Upload(w http.ResponseWriter, req *http.Request) {
+	const maxUploadSize = 10 * 1024 * 1024 // 2 mb
+	// validate file size
+	req.Body = http.MaxBytesReader(w, req.Body, maxUploadSize)
+	if err := req.ParseMultipartForm(maxUploadSize); err != nil {
+		logger.Log.Error("unable to upload file: FILE_TOO_BIG")
+		renderError(w, "FILE_TOO_BIG", http.StatusBadRequest)
+		return
+	}
+
+	// parse and validate file and post parameters
+	fileType := req.PostFormValue("type")
+	file, _, err := req.FormFile("uploadFile")
+	if err != nil {
+		logger.Log.Error("unable to upload file: INVALID_FILE")
+		renderError(w, "INVALID_FILE", http.StatusBadRequest)
+		return
+	}
+	defer file.Close()
+	fileBytes, err := ioutil.ReadAll(file)
+	if err != nil {
+		logger.Log.Error("unable to upload file: INVALID_FILE")
+		return
+	}
+
+	// check file type, detectcontenttype only needs the first 512 bytes
+	filetype := http.DetectContentType(fileBytes)
+	if filetype != "application/zip" {
+		logger.Log.Error("unable to upload file: INVALID_FILE_TYPE: ", filetype)
+		renderError(w, "INVALID_FILE_TYPE", http.StatusBadRequest)
+		return
+	}
+	fileName := randToken(12)
+	fileEndings, err := mime.ExtensionsByType(fileType)
+	if err != nil {
+		logger.Log.Error("unable to upload file: CANT_READ_FILE_TYPE")
+		renderError(w, "CANT_READ_FILE_TYPE", http.StatusInternalServerError)
+		return
+	}
+	uploadPath := viper.GetString("uploadFolder")
+	newPath := filepath.Join(uploadPath, fileName+fileEndings[0])
+	fmt.Printf("FileType: %s, File: %s\n", fileType, newPath)
+
+	// write file
+	newFile, err := os.Create(newPath)
+	if err != nil {
+		logger.Log.Error("unable to upload file: CANT_WRITE_FILE")
+		renderError(w, "CANT_WRITE_FILE", http.StatusInternalServerError)
+		return
+	}
+	defer newFile.Close() // idempotent, okay to call twice
+	if _, err := newFile.Write(fileBytes); err != nil || newFile.Close() != nil {
+		logger.Log.Error("unable to upload file: CANT_WRITE_FILE")
+		renderError(w, "CANT_WRITE_FILE", http.StatusInternalServerError)
+		return
+	}
+	w.Write([]byte("SUCCESS"))
+}
+
+func randToken(len int) string {
+	b := make([]byte, len)
+	rand.Read(b)
+	return fmt.Sprintf("%x", b)
+}
+
+func renderError(w http.ResponseWriter, message string, statusCode int) {
+	w.WriteHeader(http.StatusBadRequest)
+	w.Write([]byte(message))
+}
+
 // DownloadLogs -
 func (api *API) DownloadLogs(w http.ResponseWriter, req *http.Request) {
 
 	vars := mux.Vars(req)
 	logLevel := vars["logLevel"]
 	if len(logLevel) < 1 {
-		logger.Log.Error("DownloadLogs, param 'logLevel' is missing")
+		logger.Log.Error("unable to download log files, param 'logLevel' is missing")
 		return
 	}
 
@@ -125,7 +198,7 @@ func (api *API) DownloadLogs(w http.ResponseWriter, req *http.Request) {
 	case "1":
 		file = "error.log"
 	default:
-		logger.Log.Error("DownloadLogs, unknown logLevel ", logLevel)
+		logger.Log.Error("unable to download log files, unknown logLevel: ", logLevel)
 	}
 	fileName := path.Join(viper.GetString("logFolder"), file)
 	f, err := os.Open(fileName)
@@ -358,11 +431,11 @@ func ConnectDB() (db *models.DB) {
 
 		if len(dbURL) == 0 {
 			dbURL = "host=" + viper.GetString("postgresql.host") +
-			" port=" + viper.GetString("postgresql.port") +
-			" user=" + viper.GetString("postgresql.user") +
-			" dbname=" + viper.GetString("postgresql.name") +
-			" password=" + viper.GetString("postgresql.password") +
-			" sslmode=" + viper.GetString("postgresql.SSLMode")
+				" port=" + viper.GetString("postgresql.port") +
+				" user=" + viper.GetString("postgresql.user") +
+				" dbname=" + viper.GetString("postgresql.name") +
+				" password=" + viper.GetString("postgresql.password") +
+				" sslmode=" + viper.GetString("postgresql.SSLMode")
 		}
 		logger.Log.Info("connecting to DB ", dbURL)
 		db = models.NewPostgresDB(dbURL)

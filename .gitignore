@@ -50,10 +50,12 @@ build/data/*.*
 build/data/backups/*.*
 build/*.*
 
-# backup files
-data/backups/*
-data/exported/*
+# backup and log files
+server/data/backups/*
+server/data/exported/*
+server/data/uploaded/*
 timesheet-backup.zip
+logs/*
 
 # private seed data
 timesheet-data.xlsx
