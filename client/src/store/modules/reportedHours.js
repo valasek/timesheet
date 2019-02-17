@@ -17,7 +17,7 @@ const actions = {
         api.apiClient.get('/api/reported/year/' + month.year() + '/month/' + month.format('MM'))
             .then(response => {
                 commit('SET_REPORTED_HOURS', response.data)
-                dispatch('context/setNotification', { text: month.format('MMMM') + ' ' + month.year() + ' data', type: '' }, { root: true })
+                // dispatch('context/setNotification', { text: month.format('MMMM') + ' ' + month.year() + ' data', type: '' }, { root: true })
             })
             .catch(e => {
                 dispatch('context/setNotification', { text: 'Couldn\'t read reported records from server. \n' + e.toString(), type: 'error' }, { root: true })

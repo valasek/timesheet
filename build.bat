@@ -1,6 +1,6 @@
 @ECHO OFF
 set zip="C:\Program Files\7-Zip\7z.exe"
-set version="0.1.3"
+set version="1.0.0"
 REM rem git describe --tags
 
 if "%1" == "demo" (
@@ -38,14 +38,14 @@ if "%1" == "demo" (
     copy .\data\holidays_us_2019.csv .\..\build\data\holidays_us_2019.csv
     copy .\data\projects_demo.csv .\..\build\data\projects.csv
     copy .\data\rates_demo.csv .\..\build\data\rates.csv
-    copy .\data\reportedRecords_demo.csv .\..\build\data\reportedRecords.csv
+    copy .\data\reported_records_demo.csv .\..\build\data\reported_records.csv
 ) else (
     copy .\timesheet-prod.yaml .\..\build\timesheet.yaml
     copy .\data\consultants_prod.csv .\..\build\data\consultants_prod.csv
     copy .\data\holidays_cz_2019.csv .\..\build\data\holidays_cz_2019.csv
     copy .\data\projects_prod.csv .\..\build\data\projects_prod.csv
     copy .\data\rates_prod.csv .\..\build\data\rates_prod.csv
-    copy .\data\reportedRecords_prod.csv .\..\build\data\reportedRecords_prod.csv
+    copy .\data\reported_records_prod.csv .\..\build\data\reported_records_prod.csv
 )
 ECHO MS Windows ...
 set GOOS=windows

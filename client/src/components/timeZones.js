@@ -1,4 +1,4 @@
-module.exports = [
+const timeZones = [
     'Asia/Seoul',
     'Africa/Cairo',
     'Africa/Johannesburg',
@@ -105,3 +105,5 @@ module.exports = [
     'Pacific/Pago_Pago',
     'Pacific/Pohnpei'
 ]
+
+export default timeZones

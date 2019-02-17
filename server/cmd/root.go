@@ -5,6 +5,7 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"github.com/valasek/timesheet/server/logger"
 	"github.com/valasek/timesheet/server/version"
@@ -14,7 +15,6 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"path"
 )
 
 var cfgFile string
@@ -99,22 +99,22 @@ func initLogger() {
 
 	hook, err := lumberjackrus.NewHook(
 		&lumberjackrus.LogFile{
-			Filename: path.Join(".", logFolder, "general.log"),
+			Filename: filepath.Join(".", logFolder, "general.log"),
 			MaxSize:  100,
 		},
 		logrus.InfoLevel,
 		&formatter,
 		&lumberjackrus.LogFileOpts{
 			logrus.InfoLevel: &lumberjackrus.LogFile{
-				Filename: path.Join(".", logFolder, "info.log"),
+				Filename: filepath.Join(".", logFolder, "info.log"),
 				MaxSize:  100,
 			},
 			logrus.WarnLevel: &lumberjackrus.LogFile{
-				Filename: path.Join(logFolder, "error.log"),
+				Filename: filepath.Join(logFolder, "error.log"),
 				MaxSize:  100,
 			},
 			logrus.ErrorLevel: &lumberjackrus.LogFile{
-				Filename: path.Join(logFolder, "error.log"),
+				Filename: filepath.Join(logFolder, "error.log"),
 				MaxSize:  100,
 			},
 		},

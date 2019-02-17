@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>TimeSheet</h1>
+    <h1>Timesheet</h1>
     <p>Self-hosted web application for weekly reporting your consulting hours on projects using selected rates.</p>
 
     <!-- <p>
@@ -47,7 +47,7 @@
       </a>.
     </p>
     <v-img
-      :src="require('../assets/settings-image.jpg')"
+      src="./settings-image.jpg"
       class="grey lighten-2 image"
     />
   </div>

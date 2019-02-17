@@ -187,7 +187,9 @@
 
 <script>
   import { mapState } from 'vuex'
+  import timeZones from './timeZones'
   import api from '../api/axiosSettings'
+  // import axios from 'axios'
   import UploadButton from 'vuetify-upload-button'
 
   export default {
@@ -209,7 +211,8 @@
           }
         ],
         logLines: ['select desired log level ...'],
-        timeZones: require('./timeZones.js')
+        timeZones: timeZones,
+        uploadFile: {}
       }
     },
 
@@ -228,7 +231,8 @@
         isWorking: state => state.settings.isWorking,
         isNonWorking: state => state.settings.isNonWorking,
         rates: state => state.rates.all,
-        types: state => state.rates.types
+        types: state => state.rates.types,
+        selectedMonth: state => state.settings.selectedMonth
       })
     },
 
@@ -238,17 +242,39 @@
 
     methods: {
       upload (file) {
-        const admin = this
-        const formData = new FormData()
-        formData.append('file', file)
-        api.apiClient.post('/api/upload/data', { headers: { 'Content-Type': 'multipart/form-data' } })
-          .then(response => {
-            admin.$store.dispatch('context/setNotification', { text: 'HOTOVO', type: 'error' }, { root: true })
-          })
-          .catch(function (e) {
-            admin.$store.dispatch('context/setNotification', { text: 'Couldn\'t upload file: ' + e.response.data, type: 'error' }, { root: true })
-            console.log(e, e.response) /* eslint-disable-line no-console */
-          })
+        // const apiClient = axios.create({
+        //   baseURL: 'http://localhost:3000',
+        //   withCredentials: false, // This is the default
+        //   crossDomain: true,
+        //   headers: {
+        //     Accept: 'application/json',
+        //     'Content-Type': 'multipart/form-data'
+        //   },
+        //   timeout: 10000
+        // })
+
+        const fr = new FileReader()
+        fr.readAsDataURL(file)
+        fr.addEventListener('load', () => {
+          this.uploadedImage = fr.result
+          this.uploadFile = file
+          const admin = this
+          const formData = new FormData()
+          formData.append('uploadFile', this.uploadFile)
+          api.apiClient.post('/api/upload/data', formData)
+            .then(response => {
+              this.$store.dispatch('context/setNotification', { text: 'Restore successfully completed', type: 'success' })
+              this.$store.dispatch('consultants/getConsultants')
+              this.$store.dispatch('reportedHours/getMonthlyData', this.selectedMonth)
+              this.$store.dispatch('projects/getProjects')
+              this.$store.dispatch('rates/getRates')
+              this.$store.dispatch('holidays/getHolidays')
+            })
+            .catch(function (e) {
+              admin.$store.dispatch('context/setNotification', { text: 'Couldn\'t upload file: ' + e.response.data, type: 'error' }, { root: true })
+              console.log(e, e.response) /* eslint-disable-line no-console */
+            })
+        })
       },
       download () {
         const admin = this

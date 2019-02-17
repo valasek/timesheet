@@ -4,13 +4,13 @@ import (
 	"archive/zip"
 	"crypto/rand"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"io/ioutil"
-	"mime"
+	// "mime"
 	"net/http"
 	"os"
-	"path"
 	"path/filepath"
 	"strconv"
 	"strings"
@@ -49,6 +49,62 @@ type AppSettings struct {
 	YearlySickDays       int64   `json:"yearlySickDays"`
 	IsWorking            string  `json:"isWorking"`
 	IsNonWorking         string  `json:"isNonWorking"`
+}
+
+// FileList returs map tables and input file for initial seeding
+func FileList() map[string]string {
+	list := map[string]string{
+		"rates":            filepath.Join(".", "data", viper.GetString("data.rates")),
+		"consultants":      filepath.Join(".", "data", viper.GetString("data.consultants")),
+		"projects":         filepath.Join(".", "data", viper.GetString("data.projects")),
+		"reported_records": filepath.Join(".", "data", viper.GetString("data.reportedRecords")),
+		"holidays":         filepath.Join(".", "data", viper.GetString("data.holidays")),
+	}
+	// fmt.Println(list)
+	return list
+}
+
+func uploadedFileList() (list map[string]string, err error) {
+	list = make(map[string]string)
+	files, err := ioutil.ReadDir(filepath.Clean(viper.GetString("uploadFolderTemp")))
+	if err != nil {
+		return nil, err
+	}
+
+	if len(files) != 5 {
+		return nil, errors.New("archive should contain 5 files")
+	}
+
+	for _, file := range files {
+		table := tableFromFilename(file.Name())
+		if len(table) > 0 {
+			if _, ok := list[table]; ok {
+				return nil, errors.New("archive contains same data: " + table)
+			} else {
+				list[table] = filepath.Join(".", viper.GetString("uploadFolderTemp"), file.Name())
+			}
+		} else {
+			logger.Log.Warn(file.Name(), " - ignored")
+		}
+	}
+
+	if len(list) != 5 {
+		logger.Log.Error("expected 5 files, got: ", list)
+		return nil, errors.New("expected 5 files, got: " + strconv.Itoa(len(list)))
+	}
+
+	fmt.Println(list)
+	return list, nil
+}
+
+func tableFromFilename(file string) string {
+	tables := [5]string{"rates", "holidays", "consultants", "reported_records", "projects"}
+	for _, table := range tables {
+		if strings.Contains(file, table) {
+			return table
+		}
+	}
+	return ""
 }
 
 // AppSettings returns list of all appliocation and user settings for configuration file
@@ -112,12 +168,12 @@ func (api *API) Download(w http.ResponseWriter, req *http.Request) {
 
 // Upload -
 func (api *API) Upload(w http.ResponseWriter, req *http.Request) {
-	const maxUploadSize = 10 * 1024 * 1024 // 2 mb
+	const maxUploadSize = 5 * 1024 * 1024 // 5 mb
 	// validate file size
 	req.Body = http.MaxBytesReader(w, req.Body, maxUploadSize)
 	if err := req.ParseMultipartForm(maxUploadSize); err != nil {
-		logger.Log.Error("unable to upload file: FILE_TOO_BIG")
-		renderError(w, "FILE_TOO_BIG", http.StatusBadRequest)
+		logger.Log.Error("unable to upload file (size limit 5 MBs): ", err)
+		renderError(w, "unable to upload file (size limit 5 MBs): "+err.Error(), http.StatusBadRequest)
 		return
 	}
 
@@ -125,49 +181,155 @@ func (api *API) Upload(w http.ResponseWriter, req *http.Request) {
 	fileType := req.PostFormValue("type")
 	file, _, err := req.FormFile("uploadFile")
 	if err != nil {
-		logger.Log.Error("unable to upload file: INVALID_FILE")
-		renderError(w, "INVALID_FILE", http.StatusBadRequest)
+		logger.Log.Error("unable to upload file, INVALID_FILE: ", err)
+		renderError(w, "INVALID_FILE: "+err.Error(), http.StatusBadRequest)
 		return
 	}
 	defer file.Close()
 	fileBytes, err := ioutil.ReadAll(file)
 	if err != nil {
-		logger.Log.Error("unable to upload file: INVALID_FILE")
+		logger.Log.Error("unable to upload file: INVALID_FILE: ", err)
+		renderError(w, "INVALID_FILE: "+err.Error(), http.StatusBadRequest)
 		return
 	}
 
 	// check file type, detectcontenttype only needs the first 512 bytes
 	filetype := http.DetectContentType(fileBytes)
-	if filetype != "application/zip" {
-		logger.Log.Error("unable to upload file: INVALID_FILE_TYPE: ", filetype)
-		renderError(w, "INVALID_FILE_TYPE", http.StatusBadRequest)
+	if (filetype != "application/zip") && (filetype != "application/x-zip-compressed") {
+		logger.Log.Error("unable to upload file, INVALID_FILE_TYPE (supported: application/zip, application/x-zip-compressed): ", filetype)
+		renderError(w, "INVALID_FILE_TYPE: "+filetype, http.StatusBadRequest)
 		return
 	}
-	fileName := randToken(12)
-	fileEndings, err := mime.ExtensionsByType(fileType)
-	if err != nil {
-		logger.Log.Error("unable to upload file: CANT_READ_FILE_TYPE")
-		renderError(w, "CANT_READ_FILE_TYPE", http.StatusInternalServerError)
-		return
-	}
+	fileName := randToken(12) + ".zip"
+	// fileEndings, err := mime.ExtensionsByType(fileType)
+	// if err != nil {
+	// 	logger.Log.Error("unable to upload file, CANT_READ_FILE_TYPE: ", err)
+	// 	renderError(w, "CANT_READ_FILE_TYPE: " + err.Error(), http.StatusInternalServerError)
+	// 	return
+	// }
 	uploadPath := viper.GetString("uploadFolder")
-	newPath := filepath.Join(uploadPath, fileName+fileEndings[0])
+	// newPath := filepath.Join(uploadPath, fileName+fileEndings[0])
+	newPath := filepath.Join(uploadPath, fileName)
 	fmt.Printf("FileType: %s, File: %s\n", fileType, newPath)
 
 	// write file
 	newFile, err := os.Create(newPath)
 	if err != nil {
-		logger.Log.Error("unable to upload file: CANT_WRITE_FILE")
-		renderError(w, "CANT_WRITE_FILE", http.StatusInternalServerError)
+		logger.Log.Error("unable to upload file, CANT_WRITE_FILE: ", err)
+		renderError(w, "CANT_WRITE_FILE: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
 	defer newFile.Close() // idempotent, okay to call twice
 	if _, err := newFile.Write(fileBytes); err != nil || newFile.Close() != nil {
-		logger.Log.Error("unable to upload file: CANT_WRITE_FILE")
-		renderError(w, "CANT_WRITE_FILE", http.StatusInternalServerError)
+		logger.Log.Error("unable to upload file. CANT_WRITE_FILE: ", err)
+		renderError(w, "CANT_WRITE_FILE: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+	if err := restoreDB(newFile); err != nil {
+		logger.Log.Error("unable to restore: ", err)
+		renderError(w, "CANT_RESTORE: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+	err = os.RemoveAll(viper.GetString("uploadFolder"))
+	if err != nil {
+		logger.Log.Error("unable to restore: ", err)
+		renderError(w, "CANT_RESTORE: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+	err = os.Mkdir(viper.GetString("uploadFolder"), os.ModeDir)
+	if err != nil {
+		logger.Log.Error("unable to restore: ", err)
+		renderError(w, "CANT_RESTORE: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
 	w.Write([]byte("SUCCESS"))
+}
+
+func restoreDB(f *os.File) error {
+	// delete if target folder exists
+	err := os.RemoveAll(viper.GetString("uploadFolderTemp"))
+	if err != nil {
+		return err
+	}
+	err = os.Mkdir(viper.GetString("uploadFolderTemp"), os.ModeDir)
+	if err != nil {
+		return err
+	}
+
+	err = unzip(f.Name(), viper.GetString("uploadFolderTemp"))
+	if err != nil {
+		return err
+	}
+
+	files, err := uploadedFileList()
+	if err != nil {
+		return err
+	}
+
+	db := ConnectDB()
+	ResetAPI(db)
+	err = SeedAPI(db, "all", files)
+
+	return err
+}
+
+func unzip(src, dest string) error {
+	r, err := zip.OpenReader(src)
+	if err != nil {
+		return err
+	}
+	defer func() {
+		if err := r.Close(); err != nil {
+			logger.Log.Error(err)
+			panic(err)
+		}
+	}()
+
+	extractAndWrite := func(f *zip.File) error {
+		rc, err := f.Open()
+		if err != nil {
+			return err
+		}
+		defer func() {
+			if err := rc.Close(); err != nil {
+				logger.Log.Error(err)
+				panic(err)
+			}
+		}()
+
+		path := filepath.Join(dest, f.Name)
+
+		if f.FileInfo().IsDir() {
+			return errors.New("got folder, zip and upload only csv files")
+		} else {
+			os.MkdirAll(filepath.Dir(path), f.Mode())
+			f, err := os.OpenFile(path, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, f.Mode())
+			if err != nil {
+				return err
+			}
+			defer func() {
+				if err := f.Close(); err != nil {
+					logger.Log.Error(err)
+					panic(err)
+				}
+			}()
+
+			_, err = io.Copy(f, rc)
+			if err != nil {
+				return err
+			}
+		}
+		return nil
+	}
+
+	for _, f := range r.File {
+		err := extractAndWrite(f)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
 
 func randToken(len int) string {
@@ -200,7 +362,7 @@ func (api *API) DownloadLogs(w http.ResponseWriter, req *http.Request) {
 	default:
 		logger.Log.Error("unable to download log files, unknown logLevel: ", logLevel)
 	}
-	fileName := path.Join(viper.GetString("logFolder"), file)
+	fileName := filepath.Join(viper.GetString("logFolder"), file)
 	f, err := os.Open(fileName)
 	defer f.Close()
 	if err != nil {
@@ -292,62 +454,64 @@ func ResetAPI(db *models.DB) {
 }
 
 // SeedAPI - loads initial data into DB
-func SeedAPI(db *models.DB, table string) {
+func SeedAPI(db *models.DB, table string, inputFiles map[string]string) error {
 	api := NewAPI(db)
 	logger.Log.Info("Loaded table, # of records, filename:")
 	switch table {
 	case "rates", "consultants", "projects", "reported_records", "holidays":
-		SeedTable(api, table)
+		SeedTable(api, table, inputFiles[table])
 	case "all":
 		// users
-		SeedTable(api, "rates")
-		SeedTable(api, "consultants")
-		SeedTable(api, "projects")
-		SeedTable(api, "reported_records")
-		SeedTable(api, "holidays")
+		SeedTable(api, "rates", inputFiles["rates"])
+		SeedTable(api, "consultants", inputFiles["consultants"])
+		SeedTable(api, "projects", inputFiles["projects"])
+		SeedTable(api, "reported_records", inputFiles["reported_records"])
+		SeedTable(api, "holidays", inputFiles["holidays"])
 	default:
 		logger.Log.Error("unable to seed non-existent table: ", table)
+		return errors.New("unable to seed non-existent table: " + table)
 	}
+	return nil
 }
 
 // SeedTable -
-func SeedTable(api *API, table string) (count int) {
+func SeedTable(api *API, table, file string) (count int) {
 	switch table {
 	case "rates":
 		if api.rates.RateCount() > 0 {
-			logger.Log.Warn(fmt.Sprintf("- rates, file %s skipped, table contains %d records", viper.GetString("data.rates"), api.rates.RateCount()))
+			logger.Log.Warn(fmt.Sprintf("- rates, file %s skipped, table contains %d records", file, api.rates.RateCount()))
 			return 0
 		}
-		count = api.rates.RateSeed("./data/" + viper.GetString("data.rates"))
-		logger.Log.Info(fmt.Sprintf("- rates, %d records, %s", count, viper.GetString("data.rates")))
+		count = api.rates.RateSeed(file)
+		logger.Log.Info(fmt.Sprintf("- rates, %d records, %s", count, file))
 	case "consultants":
 		if api.consultants.ConsultantCount() > 0 {
-			logger.Log.Warn(fmt.Sprintf("- consultants, file %s skipped, table contains %d records", viper.GetString("data.consultants"), api.consultants.ConsultantCount()))
+			logger.Log.Warn(fmt.Sprintf("- consultants, file %s skipped, table contains %d records", file, api.consultants.ConsultantCount()))
 			return 0
 		}
-		count = api.consultants.ConsultantSeed("./data/" + viper.GetString("data.consultants"))
-		logger.Log.Info(fmt.Sprintf("- consultants, %d records, %s", count, viper.GetString("data.consultants")))
+		count = api.consultants.ConsultantSeed(file)
+		logger.Log.Info(fmt.Sprintf("- consultants, %d records, %s", count, file))
 	case "projects":
 		if api.projects.ProjectCount() > 0 {
-			logger.Log.Warn(fmt.Sprintf("- projects, file %s skipped, table contains %d records", viper.GetString("data.projects"), api.projects.ProjectCount()))
+			logger.Log.Warn(fmt.Sprintf("- projects, file %s skipped, table contains %d records", file, api.projects.ProjectCount()))
 			return 0
 		}
-		count = api.projects.ProjectSeed("./data/" + viper.GetString("data.projects"))
-		logger.Log.Info(fmt.Sprintf("- projects, %d records, %s", count, viper.GetString("data.projects")))
+		count = api.projects.ProjectSeed(file)
+		logger.Log.Info(fmt.Sprintf("- projects, %d records, %s", count, file))
 	case "reported_records":
 		if api.reportedRecords.ReportedRecordCount() > 0 {
-			logger.Log.Warn(fmt.Sprintf("- reported_records, file %s skipped, table contains %d records", viper.GetString("data.reportedRecords"), api.reportedRecords.ReportedRecordCount()))
+			logger.Log.Warn(fmt.Sprintf("- reported_records, file %s skipped, table contains %d records", file, api.reportedRecords.ReportedRecordCount()))
 			return 0
 		}
-		count = api.reportedRecords.ReportedRecordSeed("./data/" + viper.GetString("data.reportedRecords"))
-		logger.Log.Info(fmt.Sprintf("- reported_records, %d records, %s", count, viper.GetString("data.reportedRecords")))
+		count = api.reportedRecords.ReportedRecordSeed(file)
+		logger.Log.Info(fmt.Sprintf("- reported_records, %d records, %s", count, file))
 	case "holidays":
 		if api.holidays.HolidayCount() > 0 {
-			logger.Log.Warn(fmt.Sprintf("- holidays, file %s skipped, table contains %d records", viper.GetString("data.holidays"), api.holidays.HolidayCount()))
+			logger.Log.Warn(fmt.Sprintf("- holidays, file %s skipped, table contains %d records", file, api.holidays.HolidayCount()))
 			return 0
 		}
-		count = api.holidays.HolidaySeed("./data/" + viper.GetString("data.holidays"))
-		logger.Log.Info(fmt.Sprintf("- holidays, %d records, %s", count, viper.GetString("data.holidays")))
+		count = api.holidays.HolidaySeed(file)
+		logger.Log.Info(fmt.Sprintf("- holidays, %d records, %s", count, file))
 	default:
 		logger.Log.Warn("unknown table to seed: ", table)
 	}
@@ -357,26 +521,27 @@ func SeedTable(api *API, table string) (count int) {
 // CheckAndInitAPI - loads initial data into DB
 func CheckAndInitAPI(db *models.DB) (api *API) {
 	logger.Log.Info("checking DB ...")
+	files := FileList()
 	emptyTable := false
 	api = NewAPI(db)
 	if api.rates.RateCount() == 0 {
-		SeedTable(api, "rates")
+		SeedTable(api, "rates", files["rates"])
 		emptyTable = true
 	}
 	if api.consultants.ConsultantCount() == 0 {
-		SeedTable(api, "consultants")
+		SeedTable(api, "consultants", files["consultants"])
 		emptyTable = true
 	}
 	if api.projects.ProjectCount() == 0 {
-		SeedTable(api, "projects")
+		SeedTable(api, "projects", files["projects"])
 		emptyTable = true
 	}
 	if api.reportedRecords.ReportedRecordCount() == 0 {
-		SeedTable(api, "reported_records")
+		SeedTable(api, "reported_records", files["reported_records"])
 		emptyTable = true
 	}
 	if api.holidays.HolidayCount() == 0 {
-		SeedTable(api, "holidays")
+		SeedTable(api, "holidays", files["holidays"])
 		emptyTable = true
 	}
 	if emptyTable {

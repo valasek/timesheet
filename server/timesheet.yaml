@@ -36,6 +36,7 @@ logFolder: "logs"
 
 # # Folder for uploaded data, relative to timesheet folder
 uploadFolder: "data/uploaded"
+uploadFolderTemp: "data/uploaded/temp"
 
 # DB type
 dbType: "postgresql" # DB type
@@ -69,5 +70,5 @@ data:
   consultants: "consultants_demo.csv"
   rates: "rates_demo.csv"
   projects: "projects_demo.csv"
-  reportedRecords: "reportedRecords_demo.csv"
+  reportedRecords: "reported_records_demo.csv"
   holidays: "holidays_us_2019.csv"

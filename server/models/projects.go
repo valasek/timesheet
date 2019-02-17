@@ -62,7 +62,7 @@ func (db *ProjectManager) ProjectSeed(file string) int {
 
 	csvfile, err := os.OpenFile(file, os.O_RDWR, os.ModePerm)
 	if err != nil {
-		logger.Log.Error(err)
+		logger.Log.Error(err, " Input file: ", file)
 	}
 	defer csvfile.Close()
 

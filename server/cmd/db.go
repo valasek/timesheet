@@ -29,7 +29,8 @@ Command first tests connection to DB. If succeeds it will initiate, load or back
 			api.ResetAPI(db)
 		} else {
 			if len(load) > 1 {
-				api.SeedAPI(db, load)
+				// ignore the error, is already logged
+				api.SeedAPI(db, load, api.FileList())
 			} else {
 				if backup {
 					api.BackupAPI(viper.GetInt("backup.rotation"), viper.GetString("backup.location"), db)
