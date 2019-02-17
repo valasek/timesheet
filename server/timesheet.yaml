@@ -61,7 +61,7 @@ postgresql:
   sslMode: "disable"
 
 # Production URL - will be read from heroku config variables
-# If set, abeve mentioned postgresql: settings are ignored
+# If set, above mentioned postgresql: settings are ignored
 DATABASE_URL: ""
 
 # initial DB data files which are loaded via command "timesheet db --load all"

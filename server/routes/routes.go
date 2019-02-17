@@ -70,6 +70,7 @@ func NewRoutes(api *api.API) *mux.Router {
 	a.HandleFunc("/reported/{id}", api.ReportedRecordUpdate).Methods("PUT")
 
 	// handle 404 and due to Vue history mode return home page
+	// FIXME serve only /dist/index.html
 	mux.NotFoundHandler = http.HandlerFunc(func (w http.ResponseWriter, req *http.Request) {
         mux.Handle("/", http.FileServer(http.Dir("./client/dist/"))).Methods("GET")
 	})
