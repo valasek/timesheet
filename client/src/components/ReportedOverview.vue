@@ -15,10 +15,10 @@
                   {{ props.item.text }}
                 </td>
                 <td class="text-xs-left">
-                  {{ props.item.value }}
+                  {{ props.item.value / dailyWorkingHours }}
                 </td>
                 <td class="text-xs-left">
-                  {{ props.item.value / dailyWorkingHours }}
+                  {{ props.item.value }}
                 </td>
               </template>
             </v-data-table>
@@ -32,10 +32,10 @@
                   {{ props.item.text }}
                 </td>
                 <td class="text-xs-left">
-                  {{ props.item.value }}
+                  {{ props.item.value / dailyWorkingHours }}
                 </td>
                 <td class="text-xs-left">
-                  {{ props.item.value / dailyWorkingHours }}
+                  {{ props.item.value }}
                 </td>
               </template>
             </v-data-table>
@@ -49,10 +49,10 @@
                   {{ props.item.text }}
                 </td>
                 <td class="text-xs-left">
-                  {{ props.item.value }}
+                  {{ props.item.value / dailyWorkingHours }}
                 </td>
                 <td class="text-xs-left">
-                  {{ props.item.value / dailyWorkingHours }}
+                  {{ props.item.value }}
                 </td>
               </template>
             </v-data-table>
@@ -76,10 +76,10 @@
                     {{ props.item.text }}
                   </td>
                   <td v-if="props.item.value !== ''" class="text-xs-left">
-                    {{ props.item.value }}
+                    {{ props.item.value / dailyWorkingHours }}
                   </td>
                   <td v-if="props.item.value !== ''" class="text-xs-left">
-                    {{ props.item.value / dailyWorkingHours }}
+                    {{ props.item.value }}
                   </td>
                 </template>
               </v-data-table>
@@ -100,10 +100,10 @@
                     {{ props.item.text }}
                   </td>
                   <td v-if="props.item.value !== ''" class="text-xs-left">
-                    {{ props.item.value }}
+                    {{ props.item.value / dailyWorkingHours }}
                   </td>
                   <td v-if="props.item.value !== ''" class="text-xs-left">
-                    {{ props.item.value/dailyWorkingHours }}
+                    {{ props.item.value }}
                   </td>
                 </template>
               </v-data-table>
@@ -125,23 +125,23 @@
       return {
         headers: [
           { text: '', align: 'left', value: 'reported', sortable: false },
-          { text: 'Hours', align: 'left', value: 'hours', sortable: false, class: 'body-1' },
-          { text: 'Days', align: 'left', value: 'days', sortable: false, class: 'body-1' }
+          { text: 'Days', align: 'left', value: 'days', sortable: false, class: 'body-1' },
+          { text: 'Hours', align: 'left', value: 'hours', sortable: false, class: 'body-1' }
         ],
         headersV: [
           { text: 'Vacations', align: 'left', value: 'vacations', sortable: false, class: 'subheading' },
-          { text: 'Hours', align: 'left', value: 'hours', sortable: false, class: 'body-1' },
-          { text: 'Days', align: 'left', value: 'days', sortable: false, class: 'body-1' }
+          { text: 'Days', align: 'left', value: 'days', sortable: false, class: 'body-1' },
+          { text: 'Hours', align: 'left', value: 'hours', sortable: false, class: 'body-1' }
         ],
         headersP: [
           { text: 'Personal Days', align: 'left', value: 'personalDays', sortable: false, class: 'subheading' },
-          { text: 'Hours', align: 'left', value: 'hours', sortable: false, class: 'body-1' },
-          { text: 'Days', align: 'left', value: 'days', sortable: false, class: 'body-1' }
+          { text: 'Days', align: 'left', value: 'days', sortable: false, class: 'body-1' },
+          { text: 'Hours', align: 'left', value: 'hours', sortable: false, class: 'body-1' }
         ],
         headersS: [
           { text: 'Sick Days', align: 'left', value: 'sickDays', sortable: false, class: 'subheading' },
-          { text: 'Hours', align: 'left', value: 'hours', sortable: false, class: 'body-1' },
-          { text: 'Days', align: 'left', value: 'days', sortable: false, class: 'body-1' }
+          { text: 'Days', align: 'left', value: 'days', sortable: false, class: 'body-1' },
+          { text: 'Hours', align: 'left', value: 'hours', sortable: false, class: 'body-1' }
         ]
       }
     },
