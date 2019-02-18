@@ -19,7 +19,7 @@ var (
 var dbCmd = &cobra.Command{
 	Use:   "db",
 	Short: "Initiate, load or backup DB. See timesheet help db",
-	Long: `Initiate, load,or backup DB.
+	Long: `Initiate, load, or backup DB.
 	
 Command first tests connection to DB. If succeeds it will initiate, load or backup db and exit.`,
 	Run: func(cmd *cobra.Command, args []string) {

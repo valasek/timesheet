@@ -8,7 +8,7 @@
 	
 	When filing an issue, make sure to answer these five questions:
 	
-	1. What version of rajce-get are you using (`rajce-get version`)?
+	1. What version of timesheet are you using (UI footer or `timesheet -v`)?
 	2. What operating system and processor architecture are you using?
 	3. What did you do?
 	4. What did you expect to see?
