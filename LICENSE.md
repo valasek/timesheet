@@ -1,1 +1,1 @@
-Copyright (c) 2018-present, Stanislav Valasek
+Copyright (c) 2018-2019, Stanislav Valasek <valasek@gmail.com>

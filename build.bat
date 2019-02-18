@@ -1,3 +1,5 @@
+REM Copyright © 2018-2019 Stanislav Valasek <valasek@gmail.com>
+
 @ECHO OFF
 set zip="C:\Program Files\7-Zip\7z.exe"
 set version="1.0.0"

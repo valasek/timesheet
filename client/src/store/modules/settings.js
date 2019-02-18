@@ -1,3 +1,5 @@
+// Copyright © 2018-2019 Stanislav Valasek <valasek@gmail.com>
+
 import moment from 'moment-timezone'
 import api from '../../api/axiosSettings'
 

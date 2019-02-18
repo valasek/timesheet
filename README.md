@@ -1,5 +1,6 @@
 [![GitHub release](https://img.shields.io/github/release-pre/valasek/timesheet.svg)](https://github.com/valasek/timesheet/releases)
 [![GitHub issues](https://img.shields.io/github/issues/valasek/timesheet.svg)](https://github.com/valasek/timesheet/issues)
+[![Go Report Card](https://goreportcard.com/badge/github.com/valasek/timesheet)](https://goreportcard.com/report/github.com/valasek/timesheet)
 
 
 | **Linux & Mac & Windows** |
@@ -60,7 +61,7 @@ Simple timesheet can be deployed using Docker (server image size 24.9 MB, DB ima
 
 ![Help](screenshots/help.png?raw=true "Help")
 
-# Server Usage
+## Server Commands
 
 ```
 Web based timesheet application with DB persistence.
@@ -138,6 +139,7 @@ go get github.com/valasek/timesheet
 cd $GOPATH/src/github.com/valasek/timesheet
 
 # install Go dependencies (and make sure ports 3000/8080 are open)
+cd ./server
 go get -u ./... 
 go run timesheet.go db --clean
 go run timesheet.go db --load all
@@ -191,3 +193,31 @@ heroku logs --app timesheet-cloud
 
 heroku config
 ```
+
+# TODO/Contributing
+
+I would love your help! Before submitting a PR, please read over the [Contributing](CONTRIBUTING.md) guide.
+
+Here's a couple of areas that could use some love:
+
+    Caching - Evaluation speed could greatly be improved with the help of caching flags/segments/rules/etc in memory.
+    Documentation - Typo? Does something not make sense? Could it be worded better? Please help!
+    Examples - More examples on how to use Flipt.
+    Test Coverage - Would love to get all coverage over 80%.
+    Javascripts - I'm no JS wizz, I'm sure the Javascript code in ui/src could be improved/simplified/tested.
+
+
+# Pro Version
+
+My plan is to soon start working on a Pro Version of Timesheet for enterprise. Along with support, some of the planned features include:
+
+* User management/login
+* Permissions
+* HTTPS
+* Auditing
+* Metrics
+
+If you or your organization would like to help beta test a Pro version of Timesheet, please get in touch with me:
+
+    Twitter: @valasek
+    Email: valasek at gmail.com

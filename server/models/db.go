@@ -1,10 +1,12 @@
+// Copyright © 2018-2019 Stanislav Valasek <valasek@gmail.com>
+
 package models
 
 import (
 	"time"
 
 	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/postgres" // needed becouse of gorm design
+	_ "github.com/jinzhu/gorm/dialects/postgres" // needed because of gorm design
 	// _ "github.com/jinzhu/gorm/dialects/sqlite"
 )
 

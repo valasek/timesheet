@@ -1,3 +1,5 @@
+<!-- Copyright © 2018-2019 Stanislav Valasek <valasek@gmail.com> -->
+
 <template>
   <v-dialog v-model="dialog" :max-width="options.width" :style="{ zIndex: options.zIndex }" @keydown.esc="cancel">
     <v-card>

@@ -1,6 +1,6 @@
 #!/bin/sh
-# ls -la /
-# ls -la /dist/
+# Copyright © 2018-2019 Stanislav Valasek <valasek@gmail.com>
+
 ./timesheet.bin -v
 ./timesheet.bin db --clean
 ./timesheet.bin db --load all

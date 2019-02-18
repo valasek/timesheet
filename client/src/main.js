@@ -1,3 +1,5 @@
+// Copyright © 2018-2019 Stanislav Valasek <valasek@gmail.com>
+
 import 'babel-polyfill'
 import Vue from 'vue'
 import App from './components/App.vue'

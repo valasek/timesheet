@@ -1,3 +1,5 @@
+// Copyright © 2018-2019 Stanislav Valasek <valasek@gmail.com>
+
 import Vue from 'vue'
 import Vuex from 'vuex'
 import settings from './modules/settings'

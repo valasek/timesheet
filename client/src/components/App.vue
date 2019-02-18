@@ -1,3 +1,5 @@
+<!-- Copyright © 2018-2019 Stanislav Valasek <valasek@gmail.com> -->
+
 <template>
   <v-app>
     <v-snackbar v-model="notification" :color="notificationType" :left="true" :timeout="5000">

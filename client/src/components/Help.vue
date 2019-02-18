@@ -1,3 +1,5 @@
+<!-- Copyright © 2018-2019 Stanislav Valasek <valasek@gmail.com> -->
+
 <template>
   <div>
     <h1>Timesheet</h1>
