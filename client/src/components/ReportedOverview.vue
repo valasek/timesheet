@@ -150,20 +150,13 @@
       selectedReportedHoursWeekly () {
         let from = this.dateFrom
         let to = this.dateTo
-        let consultant = this.selectedConsultant
         return this.reportedHours.filter(function (report) {
           let d = new Date(report.date)
-          return (d >= from && d <= to && report.consultant === consultant)
+          return (d >= from && d <= to)
         })
       },
-      // summaryRates () {
-      //   let allowProjects = ['_Public Holiday', '_Personal Day', '_Sick Day']
-      //   return this.reportedHoursSummary.filter(record => {
-      //     return (record.consultant === this.selectedConsultant && allowProjects.includes(record.project))
-      //   })
-      // },
       ...mapState({
-        reportedHours: state => state.reportedHours.all,
+        reportedHours: state => state.reportedHours.consultantMonthly,
         reportedHoursSummary: state => state.reportedHours.summary,
         rates: state => state.rates.all,
         dateFrom: state => state.settings.dateFrom,

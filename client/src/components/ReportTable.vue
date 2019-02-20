@@ -198,10 +198,9 @@
       selectedReportedHours () {
         let from = this.dateFrom
         let to = this.dateTo
-        let consultant = this.selectedConsultant
         return this.reportedHours.filter(function (report) {
           let d = new Date(report.date)
-          return (d >= from && d <= to && report.consultant === consultant)
+          return (d >= from && d <= to)
         })
       },
       reportedThisWeek () {
@@ -223,7 +222,8 @@
         loading: state => state.reportedHours.loading,
         dateFrom: state => state.settings.dateFrom,
         dateTo: state => state.settings.dateTo,
-        reportedHours: state => state.reportedHours.all,
+        selectedMonth: state => state.settings.selectedMonth,
+        reportedHours: state => state.reportedHours.consultantMonthly,
         assignedProjects: state => state.projects.all,
         rates: state => state.rates.all,
         consultants: state => state.consultants,
@@ -233,11 +233,11 @@
       })
     },
 
-    // watch: {
-    //   dialog (val) {
-    //     val || this.close()
-    //   }
-    // },
+    watch: {
+      selectedConsultant (val) {
+        this.$store.dispatch('reportedHours/getMonthlyData', { date: this.selectedMonth, consultant: this.selectedConsultant })
+      }
+    },
 
     created () {
       this.$store.commit('context/SET_PAGE', 'Reported hours')

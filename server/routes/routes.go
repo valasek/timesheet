@@ -68,14 +68,11 @@ func NewRoutes(api *api.API) *mux.Router {
 	a.HandleFunc("/reported", api.ReportedRecordsAddRecord).Methods("POST")
 	a.HandleFunc("/reported", api.ReportedRecordsGetAll).Methods("GET")
 	a.HandleFunc("/reported/summary/{year}", api.ReportedRecordsSummary).Methods("GET")
-	a.HandleFunc("/reported/year/{year}/month/{month}", api.ReportedRecordsInMonth).Methods("GET")
+	a.HandleFunc("/reported/year/{year}/month/{month}/consultant/{consultant}", api.ReportedRecordsInMonth).Methods("GET")
 	a.HandleFunc("/reported/{id}", api.ReportedRecordDelete).Methods("DELETE")
 	a.HandleFunc("/reported/{id}", api.ReportedRecordUpdate).Methods("PUT")
 
 	// handle 404 and due to Vue history mode return home page
-	// mux.NotFoundHandler = http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
-	// 	mux.Handle("/", http.FileServer(http.Dir("./client/dist/"))).Methods("GET")
-	// })
 	mux.NotFoundHandler = http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		http.ServeFile(w, req, path.Join("client", "dist", "index.html"))
 	})

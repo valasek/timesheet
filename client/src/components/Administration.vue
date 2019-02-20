@@ -244,17 +244,6 @@
 
     methods: {
       upload (file) {
-        // const apiClient = axios.create({
-        //   baseURL: 'http://localhost:3000',
-        //   withCredentials: false, // This is the default
-        //   crossDomain: true,
-        //   headers: {
-        //     Accept: 'application/json',
-        //     'Content-Type': 'multipart/form-data'
-        //   },
-        //   timeout: 10000
-        // })
-
         const fr = new FileReader()
         fr.readAsDataURL(file)
         fr.addEventListener('load', () => {
@@ -267,7 +256,6 @@
             .then(response => {
               this.$store.dispatch('context/setNotification', { text: 'Restore successfully completed', type: 'success' })
               this.$store.dispatch('consultants/getConsultants')
-              this.$store.dispatch('reportedHours/getMonthlyData', this.selectedMonth)
               this.$store.dispatch('projects/getProjects')
               this.$store.dispatch('rates/getRates')
               this.$store.dispatch('holidays/getHolidays')

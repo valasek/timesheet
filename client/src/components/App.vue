@@ -115,7 +115,6 @@
     created () {
       this.$store.dispatch('context/resetNotification')
       this.$store.dispatch('consultants/getConsultants')
-      this.$store.dispatch('reportedHours/getMonthlyData', this.selectedMonth)
       this.$store.dispatch('projects/getProjects')
       this.$store.dispatch('rates/getRates')
       this.$store.dispatch('holidays/getHolidays')

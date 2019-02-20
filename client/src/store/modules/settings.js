@@ -62,28 +62,28 @@ const actions = {
         commit('SET_TIME_ZONE', payload)
     },
 
-    changeWeek ({ dispatch, commit }, direction) {
+    changeWeek ({ dispatch, commit, rootState }, direction) {
         let oldDateFrom = state.dateFrom
         let oldDateTo = state.dateTo
         commit('SET_WEEK', direction)
         // read changed month if required
         if (state.dateFrom.isAfter(oldDateFrom, 'month')) {
-            dispatch('reportedHours/getMonthlyData', state.dateFrom, { root: true })
+            dispatch('reportedHours/getMonthlyData', { date: state.dateFrom, consultant: rootState.consultants.selected }, { root: true })
             commit('SET_MONTH', state.dateFrom)
         }
         if (state.dateTo.isBefore(oldDateTo, 'month')) {
-            dispatch('reportedHours/getMonthlyData', state.dateTo, { root: true })
+            dispatch('reportedHours/getMonthlyData', { date: state.dateTo, consultant: rootState.consultants.selected }, { root: true })
             commit('SET_MONTH', state.dateTo)
         }
     },
 
     // monday
-    jumpToWeek ({ commit, dispatch }, payload) {
-        if (payload.month() !== state.selectedMonth.month()) {
-            dispatch('reportedHours/getMonthlyData', payload, { root: true })
-            commit('SET_MONTH', payload)
+    jumpToWeek ({ commit, dispatch, rootState }, day) {
+        if (day.month() !== state.selectedMonth.month()) {
+            dispatch('reportedHours/getMonthlyData', { date: day, consultant: rootState.consultants.selected }, { root: true })
+            commit('SET_MONTH', day)
         }
-        commit('JUMP_TO_WEEK', payload)
+        commit('JUMP_TO_WEEK', day)
     }
 
 }

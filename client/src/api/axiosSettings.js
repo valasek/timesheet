@@ -2,11 +2,16 @@
 
 import axios from 'axios'
 
-const port = process.env.PORT || '3000'
+const debug = process.env.NODE_ENV !== 'production'
+// baseURL: 'https://timesheet-cloud.herokuapp.com:' + port,
+let baseURL = ''
+
+if (debug) {
+  baseURL = 'http://localhost:3000'
+}
 
 const apiClient = axios.create({
-    baseURL: 'http://localhost:3000',
-    // baseURL: 'https://timesheet-cloud.herokuapp.com:' + port,
+    baseURL: baseURL,
     withCredentials: false, // This is the default
     crossDomain: true,
     headers: {
@@ -15,8 +20,6 @@ const apiClient = axios.create({
     },
     timeout: 10000
 })
-
-console.log('PORT:', port) /* eslint-disable-line no-console */
 
 export default {
     apiClient

@@ -32,7 +32,12 @@ func (api *API) ReportedRecordsInMonth(w http.ResponseWriter, req *http.Request)
 		logger.Log.Error("ReportedRecordsInMonth, param 'year' is missing")
 		return
 	}
-	reportedRecords := api.reportedRecords.ReportedRecordsInMonth(year, month)
+	consultant := vars["consultant"]
+	if len(consultant) < 1 {
+		logger.Log.Error("ReportedRecordsInMonth, param 'consultant' is missing")
+		return
+	}
+	reportedRecords := api.reportedRecords.ReportedRecordsInMonth(year, month, consultant)
 	json.NewEncoder(w).Encode(reportedRecords)
 }
 

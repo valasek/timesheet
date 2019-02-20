@@ -80,13 +80,13 @@ func (db *ReportedRecordManager) ReportedRecordsGetAll() []ReportedRecord {
 
 // ReportedRecordsInMonth - return records per month
 // adds days from previous and next month having the same week as month
-func (db *ReportedRecordManager) ReportedRecordsInMonth(year, month string) []ReportedRecord {
+func (db *ReportedRecordManager) ReportedRecordsInMonth(year, month, consultant string) []ReportedRecord {
 	reportedRecords := []ReportedRecord{}
-	if err := db.db.Where("extract(MONTH from date) = ? AND extract(YEAR from date) = ? ", month, year).Find(&reportedRecords); err != nil {
+	if err := db.db.Where("extract(MONTH from date) = ? AND extract(YEAR from date) = ? AND consultant = ?", month, year, consultant).Find(&reportedRecords); err != nil {
 		borderWeeksReportedRecords := []ReportedRecord{}
 		days, err := getborderDays(year, month)
 		if err != nil {
-			logger.Log.Error(fmt.Sprintf("failed - get reported records in month %s, year %s, error: %s", month, year, err))
+			logger.Log.Error(fmt.Sprintf("failed - get reported records for month %s, year %s and consultant %s, error: %s", month, year, consultant, err))
 			return nil
 		}
 		if err := db.db.Where("date(date) in (?)", days).Find(&borderWeeksReportedRecords); err != nil {
@@ -94,7 +94,7 @@ func (db *ReportedRecordManager) ReportedRecordsInMonth(year, month string) []Re
 			return reportedRecords
 		}
 	}
-	logger.Log.Error(fmt.Sprintf("failed - get reported records in month %s, year %s", month, year))
+	logger.Log.Error(fmt.Sprintf("failed - get reported records for month %s, year %s and consultant %s", month, year, consultant))
 	return nil
 }
 
