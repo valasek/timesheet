@@ -3,7 +3,7 @@
 <template>
   <div>
     <v-toolbar flat>
-      <v-toolbar-title>{{ thisYear }}</v-toolbar-title>
+      <v-toolbar-title>Year - {{ thisYear }}</v-toolbar-title>
     </v-toolbar>
     <v-container grid-list-md text-xs-center>
       <v-layout row wrap>
@@ -65,12 +65,29 @@
         <v-flex xs6>
           <v-card>
             <v-toolbar flat>
-              <v-toolbar-title>{{ thisWeek }} </v-toolbar-title>
+              <v-toolbar-title>Week - {{ thisWeek }} </v-toolbar-title>
             </v-toolbar>
           </v-card>
           <v-container grid-list-md text-xs-center>
             <v-card>
-              <v-data-table :headers="headers" :items="weeklyOverview" hide-actions class="elevation-1">
+              <v-data-table :headers="headersNumbers" :items="weeklyWorkingTimeOverview" hide-actions class="elevation-1">
+                <template slot="items" slot-scope="props">
+                  <td v-if="props.item.value !== ''" class="text-xs-left">
+                    {{ props.item.text }}
+                  </td>
+                  <td v-if="props.item.value !== ''" class="text-xs-left">
+                    {{ props.item.value / dailyWorkingHours }}
+                  </td>
+                  <td v-if="props.item.value !== ''" class="text-xs-left">
+                    {{ props.item.value }}
+                  </td>
+                </template>
+              </v-data-table>
+            </v-card>
+          </v-container>
+          <v-container grid-list-md text-xs-center>
+            <v-card>
+              <v-data-table :headers="headersProjects" :items="weeklyProjectsOverview" hide-actions class="elevation-1">
                 <template slot="items" slot-scope="props">
                   <td v-if="props.item.value !== ''" class="text-xs-left">
                     {{ props.item.text }}
@@ -89,12 +106,29 @@
         <v-flex xs6>
           <v-card>
             <v-toolbar flat>
-              <v-toolbar-title>{{ selectedMonth.format('MMMM') }}</v-toolbar-title>
+              <v-toolbar-title>Month - {{ selectedMonth.format('MMMM') }}</v-toolbar-title>
             </v-toolbar>
           </v-card>
           <v-container grid-list-md text-xs-center>
             <v-card>
-              <v-data-table :headers="headers" :items="monthlyOverview" hide-actions class="elevation-1">
+              <v-data-table :headers="headersNumbers" :items="monthlyWorkingTimeOverview" hide-actions class="elevation-1">
+                <template slot="items" slot-scope="props">
+                  <td v-if="props.item.value !== ''" class="text-xs-left">
+                    {{ props.item.text }}
+                  </td>
+                  <td v-if="props.item.value !== ''" class="text-xs-left">
+                    {{ props.item.value / dailyWorkingHours }}
+                  </td>
+                  <td v-if="props.item.value !== ''" class="text-xs-left">
+                    {{ props.item.value }}
+                  </td>
+                </template>
+              </v-data-table>
+            </v-card>
+          </v-container>
+          <v-container grid-list-md text-xs-center>
+            <v-card>
+              <v-data-table :headers="headersProjects" :items="monthlyProjectsOverview" hide-actions class="elevation-1">
                 <template slot="items" slot-scope="props">
                   <td v-if="props.item.value !== ''" class="text-xs-left">
                     {{ props.item.text }}
@@ -123,8 +157,13 @@
 
     data () {
       return {
-        headers: [
-          { text: '', align: 'left', value: 'reported', sortable: false },
+        headersNumbers: [
+          { text: 'Reported time', align: 'left', value: 'reported', sortable: false, class: 'body-1' },
+          { text: 'Days', align: 'left', value: 'days', sortable: false, class: 'body-1' },
+          { text: 'Hours', align: 'left', value: 'hours', sortable: false, class: 'body-1' }
+        ],
+        headersProjects: [
+          { text: 'Reported projects', align: 'left', value: 'reported', sortable: false, class: 'body-1' },
           { text: 'Days', align: 'left', value: 'days', sortable: false, class: 'body-1' },
           { text: 'Hours', align: 'left', value: 'hours', sortable: false, class: 'body-1' }
         ],
@@ -159,6 +198,7 @@
         reportedHours: state => state.reportedHours.consultantMonthly,
         reportedHoursSummary: state => state.reportedHours.summary,
         rates: state => state.rates.all,
+        projects: state => state.projects.all,
         dateFrom: state => state.settings.dateFrom,
         dateTo: state => state.settings.dateTo,
         selectedMonth: state => state.settings.selectedMonth,
@@ -259,13 +299,61 @@
           }
         ]
       },
-      weeklyOverview () {
+      weeklyWorkingTimeOverview () {
+        return this.workingTimeOverview('week')
+      },
+      weeklyProjectsOverview () {
+        return this.projectsOverview('week')
+      },
+      monthlyWorkingTimeOverview () {
+        return this.workingTimeOverview('month')
+      },
+      monthlyProjectsOverview () {
+        return this.projectsOverview('month')
+      }
+    },
+
+    created () {
+      this.$store.commit('context/SET_PAGE', 'Overview of reported hours')
+      this.$store.dispatch('reportedHours/getYearlySummary', this.selectedMonth)
+    },
+
+    methods: {
+      projectsOverview (period) {
+        var summary = {}
+        switch (period) {
+          case 'week':
+            summary = this.getProjectTotalsInWeek(this.selectedReportedHoursWeekly)
+            break
+          case 'month':
+            summary = this.getProjectTotalsInMonth(this.reportedHoursSummary)
+            break
+          default:
+            console.log('workingTimeOverview unknown period:', period) /* eslint-disable-line no-console */
+        }
+        return summary
+      },
+      workingTimeOverview (period) {
         var data = []
-        data.push({
-          text: 'Available working time',
-          value: this.businessWeekly * this.dailyWorkingHours
-        })
-        let summary = this.getTotalsInWeek(this.selectedReportedHoursWeekly)
+        var summary = {}
+        switch (period) {
+          case 'week':
+            summary = this.getTotalsInWeek(this.selectedReportedHoursWeekly)
+            data.push({
+              text: 'Available working time',
+              value: this.businessWeekly * this.dailyWorkingHours
+            })
+            break
+          case 'month':
+            data.push({
+              text: 'Available working time',
+              value: this.businessMonthly * this.dailyWorkingHours
+            })
+            summary = this.getTotalInMonth(this.reportedHoursSummary)
+            break
+          default:
+            console.log('workingTimeOverview unknown period:', period) /* eslint-disable-line no-console */
+        }
         data.push(
           {
             text: 'Reported total',
@@ -285,40 +373,6 @@
         )
         return data
       },
-      monthlyOverview () {
-        var data = []
-        data.push({
-          text: 'Available working time',
-          value: this.businessMonthly * this.dailyWorkingHours
-        })
-        let summary = this.getTotalInMonth(this.reportedHoursSummary)
-        data.push(
-          {
-            text: 'Reported total',
-            value: summary.working + summary.nonWorking
-          },
-          {
-            text: 'Reported working time',
-            value: summary.working
-          },
-          {
-            text: 'Reported non-working time',
-            value: summary.nonWorking
-          }
-          // {
-          //   remaining working time
-          // }
-        )
-        return data
-      }
-    },
-
-    created () {
-      this.$store.commit('context/SET_PAGE', 'Overview of reported hours')
-      this.$store.dispatch('reportedHours/getYearlySummary', this.selectedMonth)
-    },
-
-    methods: {
       getDaysInMonth (month, year) {
         let date = new Date(year, month, 0).getDate()
         return date
@@ -370,6 +424,33 @@
           if (el !== undefined && el.type === this.isNonWorking) { nonWorking += element.hours }
         }, this)
         return { working: working, nonWorking: nonWorking }
+      },
+      getProjectTotalsInWeek (hours) {
+        const projects = this.projects.map(function (project) {
+          return { text: project.name,
+                   value: hours.reduce(
+                     function (total, current) {
+                       let h = 0
+                       current.project === project.name ? h = current.hours : h = 0
+                       return total + h
+                     }, 0) }
+        }).filter(item => item.value > 0)
+        return projects
+      },
+      getProjectTotalsInMonth (hours) {
+        const consultant = this.selectedConsultant
+        const month = this.selectedMonth.format('M')
+        const projects = this.projects.map(function (project) {
+          return { text: project.name,
+                   value: hours.filter(record => (record.consultant === consultant && record.month === month)).reduce(
+                     function (total, current) {
+                       let h = 0
+                       current.project === project.name ? h = current.hours : h = 0
+                       return total + h
+                     }, 0)
+          }
+        }).filter(item => item.value > 0)
+        return projects
       }
     }
   }

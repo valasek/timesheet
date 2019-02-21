@@ -173,6 +173,7 @@
       selectedConsultant: {
         set (newValue) {
           this.$store.dispatch('consultants/setSelected', newValue)
+          this.$store.dispatch('reportedHours/getMonthlyData', { date: this.selectedMonth, consultant: newValue })
         },
         get () {
           return this.$store.state.consultants.selected
@@ -234,7 +235,7 @@
     },
 
     watch: {
-      selectedConsultant (val) {
+      selectedConsultant (newValue, oldValue) {
         this.$store.dispatch('reportedHours/getMonthlyData', { date: this.selectedMonth, consultant: this.selectedConsultant })
       }
     },

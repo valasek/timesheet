@@ -6,7 +6,7 @@ import moment from 'moment'
 // initial state
 const state = {
     consultantMonthly: [], // {id, date, hours, project, description, rate, consultant}
-    summary: [], // {consultant, year, month, rate, hours }
+    summary: [], // {consultant, year, month, project, rate, hours }
     loading: false
 }
 

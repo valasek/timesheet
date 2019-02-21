@@ -36,6 +36,7 @@ type ReportedRecordsSummary struct {
 	Consultant string  `json:"consultant"`
 	Year       string  `json:"year"`
 	Month      string  `json:"month"`
+	Project    string  `json:"project"`
 	Rate       string  `json:"rate"`
 	Hours      float64 `json:"hours"`
 }
@@ -146,8 +147,9 @@ func getborderDays(year, month string) (days []string, err error) {
 // ReportedRecordsSummary - return summary records per selected year
 func (db *ReportedRecordManager) ReportedRecordsSummary(year string) []ReportedRecordsSummary {
 	reportedRecordsSummary := []ReportedRecordsSummary{}
-	sql := fmt.Sprintf("select consultant, DATE_PART('month', date) as month, rate, sum(hours) as hours from reported_records where DATE_PART('year', date) = %s and deleted_at is null group by consultant, DATE_PART('month', date), rate", year)
+	sql := fmt.Sprintf("select consultant, DATE_PART('month', date) as month, project, rate, sum(hours) as hours from reported_records where DATE_PART('year', date) = %s and deleted_at is null group by consultant, DATE_PART('month', date), project, rate", year)
 	if err := db.db.Raw(sql).Scan(&reportedRecordsSummary); err != nil {
+		// fmt.Println(reportedRecordsSummary)
 		return reportedRecordsSummary
 	}
 	logger.Log.Error("unable to retrieve reported records summary")
