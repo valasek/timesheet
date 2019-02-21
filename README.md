@@ -20,6 +20,8 @@ Simple Timesheet is project with its ongoing development made possible entirely 
 
 Self-hosted web application for weekly reporting. Report your consulting hours on projects using selected rates.
 
+![Screencast](screenshots/screencast.gif?raw=true "Screencast")
+
 # Rationale
 
 Reporting and billing process includes three separated steps with well-defined data which flows in between:
@@ -31,18 +33,6 @@ Reporting and billing process includes three separated steps with well-defined d
 * **Exporting reported and billed hours** in the internal accounting system for the invoicing to the clients and consultants - salaries
   * not covered by this app
   * data are available in the DB which can be exported by this app read or exported by any DB tool
-
-# Screenshots
-
-![Home](screenshots/home.png?raw=true "Home")
-
-![Reported Overview](screenshots/reported_overview.png?raw=true "Reported Overview")
-
-![State Holidays](screenshots/holidays.png?raw=true "State Holidays")
-
-![Admnistration](screenshots/administration.png?raw=true "Admnistration")
-
-![Help](screenshots/help.png?raw=true "Help")
 
 # Requirements
 
