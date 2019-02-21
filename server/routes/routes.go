@@ -8,9 +8,9 @@ import (
 	"github.com/valasek/timesheet/server/logger"
 
 	"fmt"
-	"path"
 	"net/http"
 	"os"
+	"path"
 	"reflect"
 	"runtime"
 	"text/tabwriter"
