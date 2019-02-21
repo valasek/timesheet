@@ -406,13 +406,13 @@ table .v-input--is-readonly.theme--light {
 /* remove spacing above table text fields */
 /* html.gr__localhost body div#app.application.theme--light div.application--wrap main.v-content div.v-content__wrap div.container.fluid div div.elevation-1 div.v-table__overflow table.v-datatable.v-table.theme--light tbody tr td.text-xs-left div.v-input.body-1.v-text-field.v-text-field--single-line.v-input--is-label-active.v-input--is-dirty.theme--light {
 html.gr__localhost body div#app.application.theme--light div.application--wrap main.v-content div.v-content__wrap div.container.fluid div div.elevation-1 div.v-table__overflow table.v-datatable.v-table.theme--light tbody tr td.text-xs-left div.v-input.body-1.v-text-field.v-text-field--single-line.theme--light */
-html.gr__localhost body div#app.application.theme--light div.application--wrap main.v-content div.v-content__wrap div.container.fluid div div.elevation-1 div.v-table__overflow table.v-datatable.v-table.theme--light tbody tr td.text-xs-left div.v-input.body-1.v-text-field.v-text-field--single-line {
+html body div#app.application.theme--light div.application--wrap main.v-content div.v-content__wrap div.container.fluid div div.elevation-1 div.v-table__overflow table.v-datatable.v-table.theme--light tbody tr td.text-xs-left div.v-input.body-1.v-text-field.v-text-field--single-line {
   padding-top: 0px !important;
 }
 /* remove spacing above table select field */
 /* html.gr__localhost body div#app.application.theme--light div.application--wrap main.v-content div.v-content__wrap div.container.fluid div div.elevation-1 div.v-table__overflow table.v-datatable.v-table.theme--light tbody tr td.text-xs-left div.v-input.body-1.v-text-field.v-select.v-input--is-label-active.v-input--is-dirty.theme--light {
 html.gr__localhost body div#app.application.theme--light div.application--wrap main.v-content div.v-content__wrap div.container.fluid div div.elevation-1 div.v-table__overflow table.v-datatable.v-table.theme--light tbody tr td.text-xs-left div.v-input.body-1.v-text-field.v-select.v-autocomplete.theme--light */
-html.gr__localhost body div#app.application.theme--light div.application--wrap main.v-content div.v-content__wrap div.container.fluid div div.elevation-1 div.v-table__overflow table.v-datatable.v-table.theme--light tbody tr td.text-xs-left div.v-input.body-1.v-text-field.v-select {
+html body div#app.application.theme--light div.application--wrap main.v-content div.v-content__wrap div.container.fluid div div.elevation-1 div.v-table__overflow table.v-datatable.v-table.theme--light tbody tr td.text-xs-left div.v-input.body-1.v-text-field.v-select {
   padding-top: 0px !important;
 }
 /* .menuable__content__active {
