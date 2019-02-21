@@ -82,9 +82,8 @@ func uploadedFileList() (list map[string]string, err error) {
 		if len(table) > 0 {
 			if _, ok := list[table]; ok {
 				return nil, errors.New("archive contains same data: " + table)
-			} else {
-				list[table] = filepath.Join(".", viper.GetString("uploadFolderTemp"), file.Name())
 			}
+			list[table] = filepath.Join(".", viper.GetString("uploadFolderTemp"), file.Name())
 		} else {
 			logger.Log.Warn(file.Name(), " - ignored")
 		}
@@ -303,24 +302,24 @@ func unzip(src, dest string) error {
 
 		if f.FileInfo().IsDir() {
 			return errors.New("got folder, zip and upload only csv files")
-		} else {
-			os.MkdirAll(filepath.Dir(path), f.Mode())
-			f, err := os.OpenFile(path, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, f.Mode())
-			if err != nil {
-				return err
-			}
-			defer func() {
-				if err := f.Close(); err != nil {
-					logger.Log.Error(err)
-					panic(err)
-				}
-			}()
-
-			_, err = io.Copy(f, rc)
-			if err != nil {
-				return err
-			}
 		}
+		os.MkdirAll(filepath.Dir(path), f.Mode())
+		ff, err := os.OpenFile(path, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, f.Mode())
+		if err != nil {
+			return err
+		}
+		defer func() {
+			if err := ff.Close(); err != nil {
+				logger.Log.Error(err)
+				panic(err)
+			}
+		}()
+
+		_, err = io.Copy(ff, rc)
+		if err != nil {
+			return err
+		}
+	
 		return nil
 	}
 

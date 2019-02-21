@@ -7,20 +7,18 @@
 | :-----------------------: |
 | [![Build Status](https://travis-ci.org/valasek/timesheet.svg?branch=master)](https://travis-ci.org/valasek/timesheet) |
 
+# Simple Timesheet
+
+Self-hosted web application for weekly reporting. Report your consulting hours on projects using selected rates.
+
+![Screencast](screenshots/screencast.gif?raw=true "Screencast")
+
 # Supporting Simple Timesheet
 
 Simple Timesheet is project with its ongoing development made possible entirely by the support of these awesome backers. If you'd like to join them, please consider:
 
 - [Become a backer or sponsor on Patreon](https://www.patreon.com/valasek)
 - [One-time donation via PayPal](https://paypal.me/StanislavValasek)
-
----
-
-# Simple Timesheet
-
-Self-hosted web application for weekly reporting. Report your consulting hours on projects using selected rates.
-
-![Screencast](screenshots/screencast.gif?raw=true "Screencast")
 
 # Rationale
 
