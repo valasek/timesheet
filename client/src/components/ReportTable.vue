@@ -6,12 +6,12 @@
       <v-btn :disabled="isCurrentWeek" class="mb-2" @click="currentWeek">
         today
       </v-btn>
-      <v-btn fab small @click="previousWeek">
+      <v-btn icon @click="previousWeek">
         <v-icon>
           skip_previous
         </v-icon>
       </v-btn>
-      <v-btn fab small @click="nextWeek">
+      <v-btn icon @click="nextWeek">
         <v-icon>
           skip_next
         </v-icon>
@@ -79,34 +79,34 @@
       <template slot="items" slot-scope="props">
         <td>
           <v-menu :close-on-content-click="true" :nudge-right="40" lazy transition="scale-transition" offset-y full-width min-width="290px" @keyup.esc="model = false">
-            <v-text-field slot="activator" :value="props.item.date | formatDate" prepend-icon="today" readonly class="body-1" />
+            <v-text-field slot="activator" :disabled="disabled" :value="props.item.date | formatDate" prepend-icon="today" readonly class="body-1" />
             <v-date-picker first-day-of-week="1" :value="props.item.date" @input="onUpdateDate({id: props.item.id, date: $event})" />
           </v-menu>
         </td>
         <td class="text-xs-left">
-          <v-text-field :value="props.item.hours" :rules="[ruleFloat]"
+          <v-text-field :disabled="disabled" :value="props.item.hours" :rules="[ruleFloat]"
                         type="number" min="0" max="24" step="0.5" maxlength="2"
                         class="body-1" single-line @change="onUpdateHours({id: props.item.id, hours: $event})"
           />
         </td>
         <td class="text-xs-left">
-          <v-autocomplete :value="props.item.project" item-text="name" item-value="name"
+          <v-autocomplete :disabled="disabled" :value="props.item.project" item-text="name" item-value="name"
                           :items="assignedProjects" :dense="true" :hide-selected="false" class="body-1"
                           @change="onUpdateProject({id: props.item.id, project: $event})"
           />
         </td>
         <td class="text-xs-left">
-          <v-text-field slot="input" :value="props.item.description" single-line class="body-1"
+          <v-text-field slot="input" :disabled="disabled" :value="props.item.description" single-line class="body-1"
                         :rules="[ruleMaxChars]" @change="onUpdateDescription({id: props.item.id, description: $event})"
           />
         </td>
         <td class="text-xs-left">
-          <v-autocomplete slot="input" :value="props.item.rate" item-text="name" item-value="name"
+          <v-autocomplete slot="input" :disabled="disabled" :value="props.item.rate" item-text="name" item-value="name"
                           :items="rates" :dense="true" :hide-selected="false" class="body-1"
                           @change="onUpdateRate({id: props.item.id, rate: $event})"
           />
         </td>
-        <td class="text-xs-center px-0">
+        <td v-if="!disabled" class="text-xs-center px-0">
           <v-tooltip bottom>
             <v-icon slot="activator" small class="mr-2" @click="duplicateItem(props.item)">
               file_copy
@@ -185,6 +185,15 @@
           return true
         }
         return false
+      },
+      disabled () {
+        if (this.previousWeeksUnLock) {
+          return false
+        }
+        return !this.isCurrentWeek
+        // else {
+        //   return !this.isCurrentWeek()
+        // }
       },
       btnNewRecordDisabled () {
         if (this.previousWeeksUnLock) {
@@ -268,10 +277,9 @@
         const editedDay = moment(this.selectedReportedHours.filter(item => item.id === itemID)[0].date)
         if (this.previousWeeksUnLock) {
           return true
-        } else {
-          if (editedDay.isBetween(moment.tz({}, this.timeZone).startOf('isoWeek'), moment.tz({}, this.timeZone).endOf('isoWeek'), null, '[]')) {
-            return true
-          }
+        }
+        if (editedDay.isBetween(moment.tz({}, this.timeZone).startOf('isoWeek'), moment.tz({}, this.timeZone).endOf('isoWeek'), null, '[]')) {
+          return true
         }
         this.$refs.confirm.open('Unlock previous weeks?', 'Data might be already reported to the clients. Do you want to unlock editing of previous weeks and repeat the edit?', { color: 'orange lighten-2' })
           .then(confirm => {
@@ -302,14 +310,20 @@
           this.$store.dispatch('reportedHours/updateAttributeValue', payloadRate)
         }
       },
-      onUpdateDate (newValue) {
+      async onUpdateDate (newValue) {
         if (this.editPreviousWeeks(newValue.id)) {
           let payload = {
             id: newValue.id,
             type: 'date',
             value: newValue.date
           }
-          this.$store.dispatch('reportedHours/updateAttributeValue', payload)
+          if (moment.tz(newValue.date, this.timeZone).isBetween(this.dateFrom, this.dateTo, 'day', '[]')) {
+            this.$store.dispatch('reportedHours/updateAttributeValue', payload)
+          } else {
+            if (await this.$refs.confirm.open('Please confirm', 'You selected ' + moment.tz(newValue.date, this.timeZone).format('ddd, MMM Do') + '. The record will be moved to another week. Continue?', { color: 'orange lighten-2' })) {
+              this.$store.dispatch('reportedHours/updateAttributeValue', payload)
+            }
+          }
         }
       },
       onUpdateHours (newValue) {

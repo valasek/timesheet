@@ -652,7 +652,7 @@ func appendFiles(filename string, zipw *zip.Writer) error {
 	}
 	defer file.Close()
 
-	wr, err := zipw.Create(filename)
+	wr, err := zipw.Create(filepath.Base(filename))
 	if err != nil {
 		msg := "failed to create entry for %s in zip file: %s"
 		return fmt.Errorf(msg, filename, err)

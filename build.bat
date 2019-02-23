@@ -2,7 +2,7 @@ REM Copyright © 2018-2019 Stanislav Valasek <valasek@gmail.com>
 
 @ECHO OFF
 set zip="C:\Program Files\7-Zip\7z.exe"
-set version="1.0.1"
+set version="1.0.2"
 REM rem git describe --tags
 
 if "%1" == "demo" (
@@ -49,6 +49,7 @@ if "%1" == "demo" (
     copy .\data\rates_prod.csv .\..\build\data\rates_prod.csv
     copy .\data\reported_records_prod.csv .\..\build\data\reported_records_prod.csv
 )
+
 ECHO MS Windows ...
 set GOOS=windows
 set GOARCH=amd64

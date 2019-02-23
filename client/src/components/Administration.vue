@@ -10,7 +10,7 @@
         <v-card>
           <v-card-text>
             <div class="font-italic">
-              Used on Reported Overview page to show weekly and monthly expected working hours
+              Set minimum and maximum working hours  used on page Report my work to color code total daily work hours
             </div>
           </v-card-text>
           <v-container fluid>
@@ -136,15 +136,21 @@
           Backup & Restore
         </div>
         <v-card>
+          <v-card-text>
+            <div class="font-italic">
+              You can download all reported data in csv format in a zip file. Demo data can be modified, production moved to another instance or used for billing.<br>
+              Upload zipped csv files. Use the same format as downloaded. This will replace all existing data.
+            </div>
+          </v-card-text>
           <v-container fluid>
             <v-layout align-start justify-start row fill-height>
               <v-flex xs6>
                 <v-btn color="primary" @click="download">
                   Download&nbsp;&nbsp;<v-icon>cloud_download</v-icon>
                 </v-btn>
-                <p class="font-italic">
+                <!-- <p class="font-italic">
                   Download all data in csv format.
-                </p>
+                </p> -->
               </v-flex>
               <v-flex xs6>
                 <!-- eslint-disable-next-line vue/attribute-hyphenation -->
@@ -156,9 +162,9 @@
                     </v-icon>
                   </template>
                 </upload-btn>
-                <div class="font-italic">
+                <!-- <div class="font-italic">
                   Upload zipped csv files. Use the same format as downloaded.<br>Existing data will be replaced.
-                </div>
+                </div> -->
               </v-flex>
             </v-layout>
           </v-container>
