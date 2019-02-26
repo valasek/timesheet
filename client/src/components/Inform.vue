@@ -1,7 +1,7 @@
 <!-- Copyright © 2018-2019 Stanislav Valasek <valasek@gmail.com> -->
 
 <template>
-  <v-dialog v-model="dialog" :max-width="options.width" :style="{ zIndex: options.zIndex }" @keydown.esc="cancel" @keydown.enter="agree">
+  <v-dialog v-model="dialog" :max-width="options.width" :style="{ zIndex: options.zIndex }" @keydown.esc="agree" @keydown.enter="agree">
     <v-card>
       <v-toolbar dark :color="options.color" dense flat>
         <v-toolbar-title class="white--text">
@@ -14,10 +14,7 @@
       <v-card-actions class="pt-0">
         <v-spacer />
         <v-btn color="primary darken-1" flat="flat" @click.native="agree">
-          Yes
-        </v-btn>
-        <v-btn color="grey" flat="flat" @click.native="cancel">
-          Cancel
+          OK
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -79,10 +76,6 @@
       },
       agree () {
         this.resolve(true)
-        this.dialog = false
-      },
-      cancel () {
-        this.resolve(false)
         this.dialog = false
       }
     }

@@ -21,7 +21,7 @@
           {{ formatWeek(dateFrom) }} - {{ formatWeek(dateTo) }}
         </v-label>
       </v-flex>
-      <v-autocomplete v-model="selectedConsultant" prepend-icon="person_outline" :dense="true" :items="consultants.all" item-text="name" item-value="name" class="body-1" />
+      <select-consultant />
       <v-spacer />
       <v-toolbar-title>
         <v-text-field v-model="search" clearable append-icon="search" label="Search" single-line />
@@ -75,7 +75,7 @@
         <v-label>Weekend: {{ reportedThisDay(6) + reportedThisDay(7) }} hrs</v-label>
       </v-toolbar-title>
     </v-toolbar>
-    <v-data-table :headers="headers" :items="selectedReportedHours" :search="search" :loading="loading" class="elevation-1" :rows-per-page-items="rowsPerPage">
+    <v-data-table :headers="headers" :items="selectedReportedHours" :search="search" :loading="loading" disable-initial-sort="false" class="elevation-1" :rows-per-page-items="rowsPerPage">
       <template slot="items" slot-scope="props">
         <td>
           <v-menu :close-on-content-click="true" :nudge-right="40" lazy transition="scale-transition" offset-y full-width min-width="290px" @keyup.esc="model = false">
@@ -84,7 +84,7 @@
           </v-menu>
         </td>
         <td class="text-xs-left">
-          <v-text-field :disabled="disabled" :value="props.item.hours" :rules="[ruleFloat]"
+          <v-text-field :disabled="disabled" :value="props.item.hours" :rules="hoursRules"
                         type="number" min="0" max="24" step="0.5" maxlength="2"
                         class="body-1" single-line @change="onUpdateHours({id: props.item.id, hours: $event})"
           />
@@ -97,7 +97,7 @@
         </td>
         <td class="text-xs-left">
           <v-text-field slot="input" :disabled="disabled" :value="props.item.description" single-line class="body-1"
-                        :rules="[ruleMaxChars]" @change="onUpdateDescription({id: props.item.id, description: $event})"
+                        maxlength="200" @change="onUpdateDescription({id: props.item.id, description: $event})"
           />
         </td>
         <td class="text-xs-left">
@@ -129,32 +129,43 @@
     </v-data-table>
     <!-- Dialog to confirm delete and unlock -->
     <confirm ref="confirm" />
+    <inform ref="inform" />
   </div>
 </template>
 
 <script>
   import { mapState } from 'vuex'
   import moment from 'moment-timezone'
-  import confirm from './Confirm'
+  import format from 'date-fns/format'
+  import getISODay from 'date-fns/get_iso_day'
+  import confirm from '../components/Confirm'
+  import inform from '../components/Inform'
+  import selectConsultant from '../components/SelectConsultant'
 
   export default {
 
     components: {
-      'confirm': confirm
+      'confirm': confirm,
+      'inform': inform,
+      'select-consultant': selectConsultant
     },
 
     filters: {
       formatDate: function (date) {
         if (!date) return ''
-        return moment(date).format('ddd, MMM Do')
+        return format(date, 'ddd, MMM Do')
+        // return moment(date).format('ddd, MMM Do'))
       }
     },
 
     data () {
       return {
         search: '',
-        ruleMaxChars: v => v.length <= 80 || v.length + ' / 80',
-        ruleFloat: v => !isNaN(parseFloat(v)) || 'Input should be a muber with one decimal',
+        hoursRules: [
+          (v) => !!v || 'Working hours empty',
+          (v) => (parseFloat(v) <= 24.0) || 'Working hours should be between 0 and 24',
+          (v) => (parseFloat(v) >= 0) || 'Working hours should be between 0 and 24'
+        ],
         repDate: '',
         rowsPerPage: [ 30, 50, { 'text': '$vuetify.dataIterator.rowsPerPageAll', 'value': -1 } ],
         headers: [
@@ -170,15 +181,6 @@
     },
 
     computed: {
-      selectedConsultant: {
-        set (newValue) {
-          this.$store.dispatch('consultants/setSelected', newValue)
-          this.$store.dispatch('reportedHours/getMonthlyData', { date: this.selectedMonth, consultant: newValue })
-        },
-        get () {
-          return this.$store.state.consultants.selected
-        }
-      },
       isCurrentWeek () {
         let today = moment.tz({}, this.timeZone)
         if (today.isBetween(this.dateFrom, this.dateTo, null, '[]')) {
@@ -236,7 +238,7 @@
         reportedHours: state => state.reportedHours.consultantMonthly,
         assignedProjects: state => state.projects.all,
         rates: state => state.rates.all,
-        consultants: state => state.consultants,
+        selectedConsultant: state => state.consultants.selected,
         timeZone: state => state.settings.timeZone,
         dailyWorkingHoursMax: state => state.settings.dailyWorkingHoursMax,
         dailyWorkingHoursMin: state => state.settings.dailyWorkingHoursMin
@@ -264,7 +266,8 @@
       reportedThisDay (weekDay) {
         let rep = 0.0
         for (let i = 0; i < this.selectedReportedHours.length; i++) {
-          if (moment.tz(this.selectedReportedHours[i].date, this.timeZone).weekday() === weekDay) {
+          // if (moment.tz(this.selectedReportedHours[i].date, this.timeZone).weekday() === weekDay) {
+          if (getISODay(this.selectedReportedHours[i].date) === weekDay) {
             rep = rep + this.selectedReportedHours[i].hours
           }
         }
@@ -329,14 +332,15 @@
       onUpdateHours (newValue) {
         if (this.editPreviousWeeks(newValue.id)) {
           const hrs = parseFloat(newValue.hours)
-          if (!isNaN(hrs)) {
-            let payload = {
-              id: newValue.id,
-              type: 'hours',
-              value: parseFloat(newValue.hours)
-            }
-            this.$store.dispatch('reportedHours/updateAttributeValue', payload)
+          let payload = {
+            id: newValue.id,
+            type: 'hours',
+            value: parseFloat(newValue.hours)
           }
+          if (isNaN(hrs) || hrs < 0 || hrs > 24) {
+            payload.value = 0
+          }
+          this.$store.dispatch('reportedHours/updateAttributeValue', payload)
         }
       },
       onUpdateDescription (newValue) {
@@ -377,10 +381,22 @@
       },
       duplicateItem (item) {
         if (this.editPreviousWeeks(item.id)) {
-          let newRecord = Object.assign({}, item)
-          newRecord.id = null
-          newRecord.date = moment.tz(item.date, this.timeZone).format('YYYY-MM-DDTHH:mm:ssZ')
-          this.$store.dispatch('reportedHours/addRecord', newRecord)
+          let totalDailyHours = this.reportedHours.filter(x => x.date === item.date).reduce(
+            function (total, current) {
+              return total + current.hours
+            }, 0)
+          if (typeof (totalDailyHours) === 'object') {
+            totalDailyHours = totalDailyHours.hours
+          }
+          totalDailyHours = totalDailyHours + item.hours
+          if (totalDailyHours > 33) {
+            this.$refs.inform.open('Too many hours per day', 'Attempt to report ' + totalDailyHours + ' hours on ' + format(item.date, 'ddd, MMM Do') + '. Record was not duplicated.', { color: 'orange lighten-2' })
+          } else {
+            let newRecord = Object.assign({}, item)
+            newRecord.id = null
+            newRecord.date = moment.tz(item.date, this.timeZone).format('YYYY-MM-DDTHH:mm:ssZ')
+            this.$store.dispatch('reportedHours/addRecord', newRecord)
+          }
         }
       },
       async deleteItem (item) {

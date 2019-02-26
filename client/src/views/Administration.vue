@@ -195,9 +195,8 @@
 
 <script>
   import { mapState } from 'vuex'
-  import timeZones from './timeZones'
+  import timeZones from '../components/timeZones'
   import api from '../api/axiosSettings'
-  // import axios from 'axios'
   import UploadButton from 'vuetify-upload-button'
 
   export default {

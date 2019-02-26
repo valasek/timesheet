@@ -58,7 +58,7 @@
 </template>
 
 <script>
-  import ReportTable from './ReportTable'
+  import ReportTable from './views/ReportTable'
   import { mapState } from 'vuex'
 
   export default {
