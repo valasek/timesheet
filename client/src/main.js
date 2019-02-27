@@ -13,7 +13,7 @@ import ReportTable from './views/ReportTable'
 import ReportedOverview from './views/ReportedOverview'
 import Holidays from './views/Holidays'
 import Administration from './views/Administration'
-import Help from './views/Help'
+import Help from './views/About'
 
 Vue.use(VueRouter)
 Vue.use(VueAxios, axios)
@@ -45,8 +45,8 @@ let router = new VueRouter({
       component: Administration
     },
     {
-      path: '/help',
-      name: 'help',
+      path: '/about',
+      name: 'about',
       component: Help
     },
     { path: '*', redirect: '/report' }

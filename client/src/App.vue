@@ -26,7 +26,7 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-toolbar color="blue darken-3" dark fixed clipped-left app>
+    <v-toolbar color="blue darken-3" dense dark fixed clipped-left app>
       <v-toolbar-side-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title class="headline">
         Timesheet /
@@ -35,9 +35,9 @@
         <span>{{ page }}</span>
       </v-toolbar-title>
       <v-spacer />
-      <v-btn flat to="help">
+      <v-btn flat to="about">
         <span class="mr-2">
-          Help
+          About
         </span>
       </v-btn>
     </v-toolbar>
@@ -100,8 +100,7 @@
         notificationType: state => state.context.notificationType,
         isCurrentWeek: state => state.context.isCurrentWeek,
         selectedMonth: state => state.settings.selectedMonth,
-        page: state => state.context.page,
-        version: state => state.settings.version
+        page: state => state.context.page
       })
     },
 

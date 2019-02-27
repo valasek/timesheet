@@ -4,7 +4,6 @@
   <div>
     <h1>Timesheet</h1>
     <p>Self-hosted web application for weekly reporting your consulting hours on projects using selected rates.</p>
-    <p>2018 - {{ (new Date()).getFullYear() }} &copy; <strong>Stanislav Valasek</strong> Version {{ version }}</p>
 
     <!-- <p>
       Report an <a href src="https://github.com/valasek/timesheet/issues">
@@ -49,6 +48,7 @@
         PayPal
       </a>.
     </p>
+    <p>2018 - {{ (new Date()).getFullYear() }} &copy; <strong>Stanislav Valasek</strong> Version {{ version }}</p>
     <v-img
       src="./settings-image.jpg"
       class="grey lighten-2 image"
@@ -57,15 +57,23 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex'
+
   export default {
-    name: 'Help',
+
     data () {
       return {
       }
     },
 
+    computed: {
+      ...mapState({
+        version: state => state.settings.version
+      })
+    },
+
     created () {
-      this.$store.commit('context/SET_PAGE', 'Help')
+      this.$store.commit('context/SET_PAGE', 'About')
     }
   }
 </script>

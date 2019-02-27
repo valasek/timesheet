@@ -2,6 +2,9 @@
 
 <template>
   <div>
+    <v-toolbar dense>
+      <v-toolbar-title>Administration & Settings</v-toolbar-title>
+    </v-toolbar>
     <v-expansion-panel>
       <v-expansion-panel-content>
         <div slot="header">

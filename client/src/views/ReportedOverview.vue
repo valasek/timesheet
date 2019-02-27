@@ -2,10 +2,21 @@
 
 <template>
   <div>
-    <v-toolbar flat>
-      <v-toolbar-title>Year - {{ thisYear }}</v-toolbar-title>
+    <v-toolbar>
+      <v-layout align-center justify-center row fill-height>
+        <v-flex xs4>
+          <change-week />
+        </v-flex>
+        <v-flex xs3>
+          <select-consultant />
+        </v-flex>
+        <v-spacer />
+      </v-layout>
     </v-toolbar>
     <v-container grid-list-md text-xs-center>
+      <v-toolbar dense>
+        <v-toolbar-title>Year - {{ thisYear }}</v-toolbar-title>
+      </v-toolbar>
       <v-layout row wrap>
         <v-flex xs4>
           <v-card>
@@ -63,11 +74,9 @@
     <v-container grid-list-md text-xs-center>
       <v-layout row wrap>
         <v-flex xs6>
-          <v-card>
-            <v-toolbar flat>
-              <v-toolbar-title>Week - {{ thisWeek }} </v-toolbar-title>
-            </v-toolbar>
-          </v-card>
+          <v-toolbar dense>
+            <v-toolbar-title>Week - {{ thisWeek }} </v-toolbar-title>
+          </v-toolbar>
           <v-container grid-list-md text-xs-center>
             <v-card>
               <v-data-table :headers="headersNumbers" :items="weeklyWorkingTimeOverview" hide-actions class="elevation-1">
@@ -104,11 +113,9 @@
           </v-container>
         </v-flex>
         <v-flex xs6>
-          <v-card>
-            <v-toolbar flat>
-              <v-toolbar-title>Month - {{ selectedMonth.format('MMMM') }}</v-toolbar-title>
-            </v-toolbar>
-          </v-card>
+          <v-toolbar dense>
+            <v-toolbar-title>Month - {{ selectedMonth.format('MMMM') }}</v-toolbar-title>
+          </v-toolbar>
           <v-container grid-list-md text-xs-center>
             <v-card>
               <v-data-table :headers="headersNumbers" :items="monthlyWorkingTimeOverview" hide-actions class="elevation-1">
@@ -152,8 +159,15 @@
 <script>
   import { mapState } from 'vuex'
   import moment from 'moment-timezone'
+  import selectConsultant from '../components/SelectConsultant'
+  import changeWeek from '../components/ChangeWeek'
 
   export default {
+
+    components: {
+      'select-consultant': selectConsultant,
+      'change-week': changeWeek
+    },
 
     data () {
       return {

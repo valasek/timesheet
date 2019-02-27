@@ -2,7 +2,7 @@
 
 <template>
   <div>
-    <v-toolbar flat>
+    <v-toolbar dense>
       <v-toolbar-title>State holidays</v-toolbar-title>
     </v-toolbar>
     <v-container grid-list-md text-xs-center>

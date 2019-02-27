@@ -1,9 +1,9 @@
 <!-- Copyright © 2018-2019 Stanislav Valasek <valasek@gmail.com> -->
 
 <template>
-  <div>
+  <span>
     <v-autocomplete v-model="selectedConsultant" prepend-icon="person_outline" :dense="true" :items="consultants.all" item-text="name" item-value="name" class="body-1" />
-  </div>
+  </span>
 </template>
 
 <script>

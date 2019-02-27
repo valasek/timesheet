@@ -3,33 +3,26 @@
 <template>
   <div>
     <v-toolbar>
-      <v-btn :disabled="isCurrentWeek" class="mb-2" @click="setToday">
-        today
-      </v-btn>
-      <v-btn icon @click="previousWeek">
-        <v-icon>
-          skip_previous
-        </v-icon>
-      </v-btn>
-      <v-btn icon @click="nextWeek">
-        <v-icon>
-          skip_next
-        </v-icon>
-      </v-btn>
-      <v-flex xs2>
-        <v-label class="text-xs-center">
-          {{ formatWeek(dateFrom) }} - {{ formatWeek(dateTo) }}
-        </v-label>
-      </v-flex>
-      <select-consultant />
-      <v-spacer />
-      <v-toolbar-title>
-        <v-text-field v-model="search" clearable append-icon="search" label="Search" single-line />
-      </v-toolbar-title>
-      <v-spacer />
-      <v-btn color="primary" :disabled="!weekUnlocked" class="mb-2" @click="addItem">
-        new record
-      </v-btn>
+      <v-layout align-center justify-center row fill-height>
+        <v-flex xs4>
+          <change-week />
+        </v-flex>
+        <v-flex xs3>
+          <select-consultant />
+        </v-flex>
+        <v-spacer />
+        <v-flex xs2>
+          <v-toolbar-title>
+            <v-text-field v-model="search" clearable append-icon="search" label="Search" single-line />
+          </v-toolbar-title>
+        </v-flex>
+        <v-spacer />
+        <v-flex xs2>
+          <v-btn color="primary" :disabled="!weekUnlocked" class="mb-2" @click="addItem">
+            new record
+          </v-btn>
+        </v-flex>
+      </v-layout>
     </v-toolbar>
     <v-toolbar dense>
       <v-toolbar-title>
@@ -152,7 +145,7 @@
         </v-alert>
       </template>
     </v-data-table>
-    <!-- Dialog to confirm delete and unlock -->
+    <!-- Dialog to confirm delete and edit date in not current -->
     <confirm ref="confirm" />
     <inform ref="inform" />
   </div>
@@ -166,13 +159,15 @@
   import confirm from '../components/Confirm'
   import inform from '../components/Inform'
   import selectConsultant from '../components/SelectConsultant'
+  import changeWeek from '../components/ChangeWeek'
 
   export default {
 
     components: {
       'confirm': confirm,
       'inform': inform,
-      'select-consultant': selectConsultant
+      'select-consultant': selectConsultant,
+      'change-week': changeWeek
     },
 
     filters: {
@@ -191,7 +186,6 @@
           (v) => (parseFloat(v) <= 24.0) || 'Working hours should be between 0 and 24',
           (v) => (parseFloat(v) >= 0) || 'Working hours should be between 0 and 24'
         ],
-        repDate: '',
         rowsPerPage: [ 30, 50, { 'text': '$vuetify.dataIterator.rowsPerPageAll', 'value': -1 } ],
         headers: [
           { text: 'Date', align: 'left', sortable: true, value: 'date', width: '12%', class: 'body-1' },
@@ -310,9 +304,6 @@
         if (item >= this.dailyWorkingHoursMax) { colorClass = 'orange--text lighten-2' }
         return colorClass
       },
-      setToday () {
-        this.$store.dispatch('settings/jumpToWeek', moment.tz({}, this.timeZone))
-      },
       onUpdateProject (newValue) {
         let payload = {
           id: newValue.id,
@@ -342,6 +333,7 @@
         } else {
           if (await this.$refs.confirm.open('Please confirm', 'You selected ' + moment.tz(newValue.date, this.timeZone).format('ddd, MMM Do') + '. The record will be moved to another week. Continue?', { color: 'orange lighten-2' })) {
             this.$store.dispatch('reportedHours/updateAttributeValue', payload)
+            this.$store.dispatch('settings/jumpToWeek', moment.tz(newValue.date, this.timeZone))
           }
         }
       },
@@ -414,17 +406,6 @@
         } else {
           console.log('canceled record delete') /* eslint-disable-line no-console */
         }
-      },
-      previousWeek () {
-        this.$store.dispatch('settings/changeWeek', 'previous')
-      },
-      nextWeek () {
-        this.$store.dispatch('settings/changeWeek', 'next')
-      },
-      // FIXME move to filter
-      formatWeek (date) {
-        let a = moment.tz(date, 'YYYY-MM-DD', this.timeZone).format('MMM Do')
-        return a
       }
     }
   }
