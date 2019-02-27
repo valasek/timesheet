@@ -48,11 +48,11 @@
         </router-view>
       </v-container>
     </v-content>
-    <v-footer color="blue darken-0" dark fixed app>
+    <!-- <v-footer color="blue darken-0" dark fixed app>
       <v-flex text-xs-center>
         2018 - {{ (new Date()).getFullYear() }} &copy; <strong>Stanislav Valasek</strong> Version {{ version }}
       </v-flex>
-    </v-footer>
+    </v-footer> -->
   </v-app>
 </template>
 
