@@ -15,6 +15,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"github.com/urfave/negroni"
+	// "github.com/phyber/negroni-gzip/gzip"
 )
 
 // serverCmd represents the server command
@@ -37,6 +38,7 @@ projects, rates, consultants and holidays. If succeeds it will start server.`,
 		n := negroni.New()
 		n.Use(negroni.NewRecovery())
 		n.Use(negronilogrus.NewMiddlewareFromLogger(logger.Log, "web"))
+		// n.Use(gzip.Gzip(gzip.DefaultCompression))
 		c := cors.New(cors.Options{
 			AllowedOrigins: []string{"*"},
 			AllowedMethods: []string{"GET", "POST", "PUT", "DELETE"},

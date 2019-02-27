@@ -16,13 +16,13 @@
           <v-container fluid>
             <v-layout align-start justify-start row fill-height>
               <v-flex xs5>
-                <v-text-field :value="dailyWorkingHoursMin" label="Minimum working hours"
+                <v-text-field :value="dailyWorkingHoursMin" label="Minimum working hours" :rules="hoursRules"
                               type="number" min="0" max="24" step="0.5" maxlength="2"
                               class="body-1" style="width: 15em" @input="onUpdateHours({hourType: 'dailyWorkingHoursMin', hourValue: $event})"
                 />
               </v-flex>
               <v-flex xs5>
-                <v-text-field :value="dailyWorkingHoursMax" label="Maximum working hours"
+                <v-text-field :value="dailyWorkingHoursMax" label="Maximum working hours" :rules="hoursRules"
                               type="number" min="0" max="24" step="0.5" maxlength="2"
                               class="body-1" style="width: 15em" @input="onUpdateHours({hourType: 'dailyWorkingHoursMax', hourValue: $event})"
                 />
@@ -56,20 +56,20 @@
             </v-layout>
             <v-layout align-start justify-start row fill-height>
               <v-flex xs4>
-                <v-text-field :value="yearlyVacationDays" label="Vacation days per year"
-                              type="number" min="0" max="24" step="0.5" maxlength="2"
+                <v-text-field :value="yearlyVacationDays" label="Vacation days per year" :rules="daysRules"
+                              type="number" min="0" max="40" step="1" maxlength="2"
                               class="body-1" style="width: 15em" @input="onUpdateDays({dayType: 'yearlyVacationDays', dayValue: $event})"
                 />
               </v-flex>
               <v-flex xs4>
-                <v-text-field :value="yearlyPersonalDays" label="Additional vacation days per year"
-                              type="number" min="0" max="24" step="0.5" maxlength="2"
+                <v-text-field :value="yearlyPersonalDays" label="Additional vacation days per year" :rules="daysRules"
+                              type="number" min="0" max="40" step="1" maxlength="2"
                               class="body-1" style="width: 15em" @input="onUpdateDays({dayType: 'yearlyPersonalDays', dayValue: $event})"
                 />
               </v-flex>
               <v-flex xs4>
-                <v-text-field :value="yearlySickDays" label="Additional vacation days per year"
-                              type="number" min="0" max="24" step="0.5" maxlength="2"
+                <v-text-field :value="yearlySickDays" label="Additional vacation days per year" :rules="daysRules"
+                              type="number" min="0" max="40" step="1" maxlength="2"
                               class="body-1" style="width: 15em" @input="onUpdateDays({dayType: 'yearlySickDays', dayValue: $event})"
                 />
               </v-flex>
@@ -106,7 +106,7 @@
             <p class="font-italic">
               Used for weekly and monthly expected working hours
             </p>
-            <v-text-field :value="dailyWorkingHours" label="Daily working hours"
+            <v-text-field :value="dailyWorkingHours" label="Daily working hours" :rules="hoursRules"
                           type="number" min="0" max="24" step="0.5" maxlength="2"
                           class="body-1" style="width: 10em" @input="onUpdateHours({hourType: 'dailyWorkingHours', hourValue: $event})"
             />
@@ -207,6 +207,17 @@
 
     data () {
       return {
+        hoursRules: [
+          (v) => !isNaN(parseFloat(v)) || 'Enter hours between 0 and 24',
+          (v) => (parseFloat(v) <= 24) || 'Enter number between 0 and 24',
+          (v) => (parseFloat(v) >= 0) || 'Enter number between 0 and 24'
+        ],
+        daysRules: [
+          (v) => !isNaN(parseInt(v)) || 'Enter number of days between 0 and 40',
+          (v) => parseInt(v) === parseFloat(v) || 'Enter full days',
+          (v) => (parseInt(v) <= 40) || 'Enter number between 0 and 40',
+          (v) => (parseInt(v) >= 0) || 'Enter number between 0 and 40'
+        ],
         logLevels: [
           {
             id: 0,
@@ -295,18 +306,22 @@
           })
       },
       onUpdateHours (newValue) {
-        const value = {
-          hourType: newValue.hourType,
-          hourValue: parseFloat(newValue.hourValue)
+        if (!isNaN(parseFloat(newValue.hourValue)) && newValue.hourValue >= 0 && newValue.hourValue <= 24) {
+          const value = {
+            hourType: newValue.hourType,
+            hourValue: parseFloat(newValue.hourValue)
+          }
+          this.$store.dispatch('settings/setHours', value)
         }
-        this.$store.dispatch('settings/setHours', value)
       },
       onUpdateDays (newValue) {
-        const value = {
-          dayType: newValue.dayType,
-          dayValue: parseInt(newValue.dayValue)
+        if (parseInt(newValue.dayValue) === parseFloat(newValue.dayValue) && !isNaN(parseInt(newValue.dayValue)) && newValue.dayValue >= 0 && newValue.dayValue <= 40) {
+          const value = {
+            dayType: newValue.dayType,
+            dayValue: parseInt(newValue.dayValue)
+          }
+          this.$store.dispatch('settings/setDays', value)
         }
-        this.$store.dispatch('settings/setDays', value)
       },
       onUpdateRate (newValue) {
         this.$store.dispatch('settings/setRate', newValue)

@@ -18,8 +18,8 @@ import Help from './views/Help'
 Vue.use(VueRouter)
 Vue.use(VueAxios, axios)
 
-Vue.config.productionTip = false
-Vue.config.performance = true
+// Vue.config.productionTip = false
+// Vue.config.performance = true
 
 let router = new VueRouter({
   mode: 'history',

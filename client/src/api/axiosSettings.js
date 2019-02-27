@@ -17,9 +17,16 @@ const apiClient = axios.create({
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json'
+      // 'Accept-Encoding': 'gzip, deflate, br'
     },
     timeout: 10000
 })
+
+// apiClient.interceptors.response.use(function (response) {
+//   var ctype = response.headers['content-type']
+//   response.data = ctype.includes('charset=GB2312') ? iconv.decode(response.data, 'gb2312') : iconv.decode(response.data, 'utf-8')
+//   return response
+// })
 
 export default {
     apiClient

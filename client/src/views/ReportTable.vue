@@ -38,44 +38,44 @@
       <v-spacer />
       <v-toolbar-title>
         <v-label>
-          Mon: <span :class="textColor(reportedThisDay(1))">
-            {{ reportedThisDay(1) }} hrs
+          Mon: <span :class="textColor(reportedOnMonday)">
+            {{ reportedOnMonday }} hrs
           </span>
         </v-label>
       </v-toolbar-title>
       <v-toolbar-title>
         <v-label>
-          Tue: <span :class="textColor(reportedThisDay(2))">
-            {{ reportedThisDay(2) }} hrs
+          Tue: <span :class="textColor(reportedOnTuesday)">
+            {{ reportedOnTuesday }} hrs
           </span>
         </v-label>
       </v-toolbar-title>
       <v-toolbar-title>
         <v-label>
-          Wed: <span :class="textColor(reportedThisDay(3))">
-            {{ reportedThisDay(3) }} hrs
+          Wed: <span :class="textColor(reportedOnWednesday)">
+            {{ reportedOnWednesday }} hrs
           </span>
         </v-label>
       </v-toolbar-title>
       <v-toolbar-title>
         <v-label>
-          Thu: <span :class="textColor(reportedThisDay(4))">
-            {{ reportedThisDay(4) }} hrs
+          Thu: <span :class="textColor(reportedOnThursday)">
+            {{ reportedOnThursday }} hrs
           </span>
         </v-label>
       </v-toolbar-title>
       <v-toolbar-title>
         <v-label>
-          Fri: <span :class="textColor(reportedThisDay(5))">
-            {{ reportedThisDay(5) }} hrs
+          Fri: <span :class="textColor(reportedOnFriday)">
+            {{ reportedOnFriday }} hrs
           </span>
         </v-label>
       </v-toolbar-title>
       <v-toolbar-title>
-        <v-label>Weekend: {{ reportedThisDay(6) + reportedThisDay(7) }} hrs</v-label>
+        <v-label>Weekend: {{ reportedOnWeekend }} hrs</v-label>
       </v-toolbar-title>
     </v-toolbar>
-    <v-data-table :headers="headers" :items="selectedReportedHours" :search="search" :loading="loading" disable-initial-sort="false" class="elevation-1" :rows-per-page-items="rowsPerPage">
+    <v-data-table :headers="headers" :items="selectedReportedHours" :search="search" :loading="loading" :disable-initial-sort="false" class="elevation-1" :rows-per-page-items="rowsPerPage">
       <template slot="items" slot-scope="props">
         <td>
           <v-menu :close-on-content-click="true" :nudge-right="40" lazy transition="scale-transition" offset-y full-width min-width="290px" @keyup.esc="model = false">
@@ -242,7 +242,61 @@
         timeZone: state => state.settings.timeZone,
         dailyWorkingHoursMax: state => state.settings.dailyWorkingHoursMax,
         dailyWorkingHoursMin: state => state.settings.dailyWorkingHoursMin
-      })
+      }),
+      reportedOnMonday () {
+        let rep = 0.0
+        for (let i = 0; i < this.selectedReportedHours.length; i++) {
+          if (getISODay(this.selectedReportedHours[i].date) === 1) {
+            rep = rep + this.selectedReportedHours[i].hours
+          }
+        }
+        return rep
+      },
+      reportedOnTuesday () {
+        let rep = 0.0
+        for (let i = 0; i < this.selectedReportedHours.length; i++) {
+          if (getISODay(this.selectedReportedHours[i].date) === 2) {
+            rep = rep + this.selectedReportedHours[i].hours
+          }
+        }
+        return rep
+      },
+      reportedOnWednesday () {
+        let rep = 0.0
+        for (let i = 0; i < this.selectedReportedHours.length; i++) {
+          if (getISODay(this.selectedReportedHours[i].date) === 3) {
+            rep = rep + this.selectedReportedHours[i].hours
+          }
+        }
+        return rep
+      },
+      reportedOnThursday () {
+        let rep = 0.0
+        for (let i = 0; i < this.selectedReportedHours.length; i++) {
+          if (getISODay(this.selectedReportedHours[i].date) === 4) {
+            rep = rep + this.selectedReportedHours[i].hours
+          }
+        }
+        return rep
+      },
+      reportedOnFriday () {
+        let rep = 0.0
+        for (let i = 0; i < this.selectedReportedHours.length; i++) {
+          if (getISODay(this.selectedReportedHours[i].date) === 5) {
+            rep = rep + this.selectedReportedHours[i].hours
+          }
+        }
+        return rep
+      },
+      reportedOnWeekend () {
+        let rep = 0.0
+        for (let i = 0; i < this.selectedReportedHours.length; i++) {
+          if (getISODay(this.selectedReportedHours[i].date) === 6 || getISODay(this.selectedReportedHours[i].date) === 7) {
+            rep = rep + this.selectedReportedHours[i].hours
+          }
+        }
+        return rep
+      }
     },
 
     watch: {
@@ -263,16 +317,17 @@
         if (item >= this.dailyWorkingHoursMax) { colorClass = 'orange--text lighten-2' }
         return colorClass
       },
-      reportedThisDay (weekDay) {
-        let rep = 0.0
-        for (let i = 0; i < this.selectedReportedHours.length; i++) {
-          // if (moment.tz(this.selectedReportedHours[i].date, this.timeZone).weekday() === weekDay) {
-          if (getISODay(this.selectedReportedHours[i].date) === weekDay) {
-            rep = rep + this.selectedReportedHours[i].hours
-          }
-        }
-        return rep
-      },
+      // move to computed to use caching
+      // reportedThisDay (weekDay) {
+      //   let rep = 0.0
+      //   for (let i = 0; i < this.selectedReportedHours.length; i++) {
+      //     // if (moment.tz(this.selectedReportedHours[i].date, this.timeZone).weekday() === weekDay) {
+      //     if (getISODay(this.selectedReportedHours[i].date) === weekDay) {
+      //       rep = rep + this.selectedReportedHours[i].hours
+      //     }
+      //   }
+      //   return rep
+      // },
       currentWeek () {
         this.$store.dispatch('settings/jumpToWeek', moment.tz({}, this.timeZone))
       },
