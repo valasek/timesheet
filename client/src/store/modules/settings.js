@@ -75,6 +75,7 @@ const actions = {
             dispatch('reportedHours/getMonthlyData', { date: state.dateTo, consultant: rootState.consultants.selected }, { root: true })
             commit('SET_MONTH', state.dateTo)
         }
+        dispatch('context/setIsCurrentWeek', {}, { root: true })
     },
 
     // monday
@@ -84,6 +85,7 @@ const actions = {
             commit('SET_MONTH', day)
         }
         commit('JUMP_TO_WEEK', day)
+        dispatch('context/setIsCurrentWeek', {}, { root: true })
     }
 
 }

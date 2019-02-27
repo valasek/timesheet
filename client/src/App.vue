@@ -21,7 +21,7 @@
         <v-divider class="menuSettings" />
 
         <v-list-tile class="menuSettings">
-          <v-switch v-model="previousWeeksUnLock" :label="previousWeeksUnLockText" color="error" hide-details class="body-1" />
+          <v-switch v-model="weekUnlocked" :disabled="isCurrentWeek===true" label="Enable editing of this week" color="error" hide-details class="body-1" />
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
@@ -33,7 +33,6 @@
       </v-toolbar-title>
       <v-toolbar-title>
         <span>{{ page }}</span>
-        <!-- <span class="font-weight-light">  management</span> -->
       </v-toolbar-title>
       <v-spacer />
       <v-btn flat to="help">
@@ -88,24 +87,18 @@
           this.$store.dispatch('context/resetNotification')
         }
       },
-      previousWeeksUnLock: {
+      weekUnlocked: {
         get () {
-          return this.$store.state.context.previousWeeksUnLock
+          return this.$store.state.context.weekUnlocked
         },
         set (newValue) {
-          this.$store.dispatch('context/TogglePreviousWeeksUnLock')
-        }
-      },
-      previousWeeksUnLockText () {
-        if (this.$store.state.context.previousWeeksUnLock) {
-          return 'Previous weeks unlocked'
-        } else {
-          return 'Previous weeks locked'
+          this.$store.dispatch('context/setWeekUnlocked', newValue)
         }
       },
       ...mapState({
         notificationText: state => state.context.notificationText,
         notificationType: state => state.context.notificationType,
+        isCurrentWeek: state => state.context.isCurrentWeek,
         selectedMonth: state => state.settings.selectedMonth,
         page: state => state.context.page,
         version: state => state.settings.version
