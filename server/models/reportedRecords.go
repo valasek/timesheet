@@ -100,8 +100,6 @@ func (db *ReportedRecordManager) ReportedRecordsInMonth(year, month, consultant 
 }
 
 func getborderDays(year, month string) (days []string, err error) {
-	// days = append(days, "2018-12-31")
-
 	layout := "2006-1-02"
 	monthStart, err := time.Parse(layout, year+"-"+month+"-01")
 	if err != nil {
@@ -137,10 +135,13 @@ func getborderDays(year, month string) (days []string, err error) {
 		days = append(days, prevYear+"-"+prevMonth+"-"+fmt.Sprintf("%02d", day))
 	}
 
-	for day := 1; day <= sunday.Day(); day++ {
-		days = append(days, nextYear+"-"+nextMonth+"-"+fmt.Sprintf("%02d", day))
+	if (sunday.Month() == monthStart.Month()) {
+		fmt.Println("sunday is also end of the month")
+	} else {
+		for day := 1; day <= sunday.Day(); day++ {
+			days = append(days, nextYear+"-"+nextMonth+"-"+fmt.Sprintf("%02d", day))
+		}
 	}
-
 	return days, nil
 }
 
