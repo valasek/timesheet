@@ -201,8 +201,8 @@
 
     computed: {
       selectedReportedHours () {
-        let from = this.dateFrom
-        let to = this.dateTo
+        const from = this.dateFrom
+        const to = this.dateTo
         return this.reportedHours.filter(function (report) {
           let d = new Date(report.date)
           return (d >= from && d <= to)

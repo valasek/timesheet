@@ -90,7 +90,7 @@ func (db *ReportedRecordManager) ReportedRecordsInMonth(year, month, consultant 
 			logger.Log.Error(fmt.Sprintf("failed - get reported records for month %s, year %s and consultant %s, error: %s", month, year, consultant, err))
 			return nil
 		}
-		if err := db.db.Where("date(date) in (?)", days).Find(&borderWeeksReportedRecords); err != nil {
+		if err := db.db.Where("date(date) in (?) AND consultant = ?", days, consultant).Find(&borderWeeksReportedRecords); err != nil {
 			reportedRecords = append(reportedRecords, borderWeeksReportedRecords...)
 			return reportedRecords
 		}
@@ -136,7 +136,7 @@ func getborderDays(year, month string) (days []string, err error) {
 	}
 
 	if (sunday.Month() == monthStart.Month()) {
-		fmt.Println("sunday is also end of the month")
+		// fmt.Println("sunday is also end of the month")
 	} else {
 		for day := 1; day <= sunday.Day(); day++ {
 			days = append(days, nextYear+"-"+nextMonth+"-"+fmt.Sprintf("%02d", day))
