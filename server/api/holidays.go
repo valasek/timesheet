@@ -3,12 +3,12 @@
 package api
 
 import (
-	"encoding/json"
 	"net/http"
+	"github.com/gin-gonic/gin"
 )
 
 // HolidaysGetAll returns list of all
-func (api *API) HolidaysGetAll(w http.ResponseWriter, req *http.Request) {
+func (api *API) HolidaysGetAll(c *gin.Context) {
 	holidays := api.holidays.HolidaysGetAll()
-	json.NewEncoder(w).Encode(holidays)
+	c.JSON(http.StatusOK, holidays)
 }

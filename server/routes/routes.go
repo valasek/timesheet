@@ -4,117 +4,95 @@ package routes
 
 import (
 	"github.com/valasek/timesheet/server/api"
-	"github.com/valasek/timesheet/server/auth"
-	"github.com/valasek/timesheet/server/logger"
 
 	"fmt"
 	"net/http"
-	"os"
-	"path"
-	"reflect"
-	"runtime"
+	"path/filepath"
 	"text/tabwriter"
+	"strings"
 
-	"github.com/gorilla/mux"
-	"github.com/urfave/negroni"
+	"github.com/gin-gonic/gin"
+	"github.com/gin-contrib/static"
+	"github.com/gin-contrib/cors"
+	// "github.com/thinkerou/favicon"
+	"github.com/mattn/go-colorable"
 )
 
 var w *tabwriter.Writer
 
-// NewRoutes builds the routes for the api
-func NewRoutes(api *api.API) *mux.Router {
+func noRoute(c *gin.Context) {
+	path := strings.Split(c.Request.URL.Path, "/")
+	if (path[1] != "") && (path[1] == "api") {
+		c.JSON(http.StatusNotFound, gin.H{"msg": "no route", "body": nil})
+	} else {
+		c.HTML(http.StatusOK, "index.html", "")
+	}
+}
 
-	mux := mux.NewRouter()
+// SetupRouter builds the routes for the api
+func SetupRouter(api *api.API) *gin.Engine {
 
-	// client static files
-	mux.Handle("/", http.FileServer(http.Dir("./client/dist/"))).Methods("GET")
-	mux.PathPrefix("/js").Handler(http.StripPrefix("/js/", http.FileServer(http.Dir("./client/dist/js/"))))
-	mux.PathPrefix("/css").Handler(http.StripPrefix("/css/", http.FileServer(http.Dir("./client/dist/css/"))))
+	gin.DefaultWriter = colorable.NewColorableStdout()
+	gin.SetMode(gin.ReleaseMode)
 
-	// api
-	a := mux.PathPrefix("/api").Subrouter()
+	router := gin.Default()
+	// router.Use(favicon.New(filepath.Join("..", "client", "dist", "favicon.png")))
 
-	// app settings
-	a.HandleFunc("/settings", api.AppSettings).Methods("GET")
-	// download all data
-	a.HandleFunc("/download/data", api.Download).Methods("GET")
-	// upload all data
-	a.HandleFunc("/upload/data", api.Upload).Methods("POST")
-	// download logs
-	a.HandleFunc("/download/logs/{logLevel}", api.DownloadLogs).Methods("GET")
+	// set CORS
+	router.Use(cors.Default())
 
-	// users
-	u := a.PathPrefix("/user").Subrouter()
-	u.HandleFunc("/signup", api.UserSignup).Methods("POST")
-	u.HandleFunc("/login", api.UserLogin).Methods("POST")
-	u.Handle("/info", negroni.New(
-		negroni.HandlerFunc(auth.JwtMiddleware.HandlerWithNext),
-		negroni.Wrap(http.HandlerFunc(api.UserInfo)),
-	))
+	// no route, bad url
+	router.NoRoute(noRoute)
 
-	// consultants
-	a.HandleFunc("/consultants", api.ConsultantList).Methods("GET")
+	// FIXME
+	// TODO
+	// https://github.com/ndabAP/vue-go-example
+	// https://jonathanmh.com/creating-simple-markdown-blog-go-gin/
 
-	// projects
-	a.HandleFunc("/projects", api.ProjectsGetAll).Methods("GET")
+	router.Use(static.Serve("/", static.LocalFile("./client/dist", true)))
 
-	// rates
-	a.HandleFunc("/rates", api.RatesGetAll).Methods("GET")
+	a := router.Group("/api")
+	{
 
-	// holidays
-	a.HandleFunc("/holidays", api.HolidaysGetAll).Methods("GET")
+		// app settings
+		a.GET("/settings", api.AppSettings)
+		// download all data
+		a.GET("/download/data", api.Download)
+		// upload all data
+		a.POST("/upload/data", api.Upload)
+		// download logs
+		a.GET("/download/logs/:logLevel", api.DownloadLogs)
 
-	// reported records
-	a.HandleFunc("/reported", api.ReportedRecordsAddRecord).Methods("POST")
-	a.HandleFunc("/reported", api.ReportedRecordsGetAll).Methods("GET")
-	a.HandleFunc("/reported/summary/{year}", api.ReportedRecordsSummary).Methods("GET")
-	a.HandleFunc("/reported/year/{year}/month/{month}/consultant/{consultant}", api.ReportedRecordsInMonth).Methods("GET")
-	a.HandleFunc("/reported/{id}", api.ReportedRecordDelete).Methods("DELETE")
-	a.HandleFunc("/reported/{id}", api.ReportedRecordUpdate).Methods("PUT")
+		// consultants
+		a.GET("/consultants", api.ConsultantList)
 
+		// projects
+		a.GET("/projects", api.ProjectsGetAll)
+
+		// rates
+		a.GET("/rates", api.RatesGetAll)
+
+		// holidays
+		a.GET("/holidays", api.HolidaysGetAll)
+
+		// reported records
+		a.POST("/reported", api.ReportedRecordsAddRecord)
+		a.GET("/reported", api.ReportedRecordsGetAll)
+		a.GET("/reported/summary/:year", api.ReportedRecordsSummary)
+		a.GET("/reported/year/:year/month/:month/consultant/:consultant", api.ReportedRecordsInMonth)
+		a.DELETE("/reported/:id", api.ReportedRecordDelete)
+		a.PUT("/reported/:id", api.ReportedRecordUpdate)
+
+	}
 	// handle 404 and due to Vue history mode return home page
-	mux.NotFoundHandler = http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
-		http.ServeFile(w, req, path.Join("client", "dist", "index.html"))
+	router.NoRoute(func(c *gin.Context) {
+		c.File(filepath.Join(".", "client", "dist", "index.html"))
 	})
 
-	// quotes
-	// q := a.PathPrefix("/quote").Subrouter()
-	// q.HandleFunc("/random", api.Quote).Methods("GET")
-	// q.Handle("/protected/random", negroni.New(
-	// 	negroni.HandlerFunc(auth.JwtMiddleware.HandlerWithNext),
-	// 	negroni.Wrap(http.HandlerFunc(api.SecretQuote)),
-	// ))
-
-	return mux
+	return router
 }
 
 // PrintRoutes prints all set routes
-func PrintRoutes(routes *mux.Router) {
-	fmt.Println("Available routes")
-	w = new(tabwriter.Writer)
-	w.Init(os.Stdout, 0, 8, 1, '\t', 0)
-	fmt.Fprintln(w, "[URI]\t[Methods]\t[Handler]")
-	err := routes.Walk(gorillaWalkFn)
-	if err != nil {
-		logger.Log.Error(err)
-		os.Exit(1)
-	}
-	fmt.Fprintln(w)
-	w.Flush()
-}
-
-func gorillaWalkFn(route *mux.Route, router *mux.Router, ancestors []*mux.Route) error {
-	path, err := route.GetPathTemplate()
-	if err != nil {
-		logger.Log.Error(err)
-		return err
-	}
-	methods, _ := route.GetMethods()
-	reflectValue := reflect.ValueOf(route.GetHandler())
-	handler := "sub-router"
-	if reflectValue.IsValid() {
-		handler = runtime.FuncForPC(reflectValue.Pointer()).Name()
-	}
-	fmt.Fprintln(w, path, "\t", methods, "\t", handler)
-	return nil
+func PrintRoutes(c *gin.Engine) {
+	fmt.Println("gin.DebugPrintRouteFunc()")
 }

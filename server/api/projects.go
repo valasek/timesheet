@@ -3,12 +3,12 @@
 package api
 
 import (
-	"encoding/json"
 	"net/http"
+	"github.com/gin-gonic/gin"
 )
 
 // ProjectsGetAll returns list of all projects
-func (api *API) ProjectsGetAll(w http.ResponseWriter, req *http.Request) {
+func (api *API) ProjectsGetAll(c *gin.Context) {
 	projects := api.projects.ProjectsGetAll()
-	json.NewEncoder(w).Encode(projects)
+	c.JSON(http.StatusOK, projects)
 }
