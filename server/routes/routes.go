@@ -4,12 +4,14 @@ package routes
 
 import (
 	"github.com/valasek/timesheet/server/api"
+	"github.com/valasek/timesheet/server/logger"
 
 	"fmt"
 	"net/http"
 	"path/filepath"
 	"text/tabwriter"
 	"strings"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gin-contrib/static"
@@ -29,13 +31,45 @@ func noRoute(c *gin.Context) {
 	}
 }
 
+// Logger provides logrus logger middleware
+func Logger() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		t := time.Now()
+		c.Next()
+		// after request
+		latency := time.Since(t)
+		clientIP := c.ClientIP()
+		method := c.Request.Method
+		statusCode := c.Writer.Status()
+		path := c.Request.URL.Path
+		message := fmt.Sprintf("[server] | %3d | %12v |%s | %-7s %s %s",
+				statusCode,
+				latency,
+				clientIP,
+				method,
+				path,
+				c.Errors.String(),
+		)
+		switch {
+		case statusCode >= 400 && statusCode <= 499:
+			logger.Log.Warning(message)
+		case statusCode >= 500:
+			logger.Log.Error(message)
+		default:
+			logger.Log.Info(message)
+		}
+	}
+}
+
 // SetupRouter builds the routes for the api
 func SetupRouter(api *api.API) *gin.Engine {
 
 	gin.DefaultWriter = colorable.NewColorableStdout()
-	gin.SetMode(gin.ReleaseMode)
+	// gin.SetMode(gin.ReleaseMode)
 
-	router := gin.Default()
+	router := gin.New()
+	router.Use(gin.Recovery())
+	router.Use(Logger())
 	// router.Use(favicon.New(filepath.Join("..", "client", "dist", "favicon.png")))
 
 	// set CORS
@@ -43,11 +77,6 @@ func SetupRouter(api *api.API) *gin.Engine {
 
 	// no route, bad url
 	router.NoRoute(noRoute)
-
-	// FIXME
-	// TODO
-	// https://github.com/ndabAP/vue-go-example
-	// https://jonathanmh.com/creating-simple-markdown-blog-go-gin/
 
 	router.Use(static.Serve("/", static.LocalFile("./client/dist", true)))
 

@@ -303,7 +303,7 @@
       },
       getLogFile (logLevel) {
         const admin = this
-        api.apiClient.get('/api/download/logs/' + logLevel)
+        api.apiClient.get('/api/download/logs/' + logLevel.toString())
           .then(response => {
             admin.logLines = response.data.split(new RegExp('\r?\n', 'g')) /* eslint-disable-line no-control-regex */
           })

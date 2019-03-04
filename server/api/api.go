@@ -353,6 +353,15 @@ func (api *API) DownloadLogs(c *gin.Context) {
 		c.String(http.StatusOK, file+" contains no log entries")
 		return
 	}
+	fi, err := f.Stat()
+	if err != nil {
+		c.String(http.StatusOK, file+" cannot get file size")
+		return
+	}
+	if (fi.Size() == 0) {
+		c.String(http.StatusOK, file+" contains no log entries")
+		return
+	}
 	c.File(fileName)
 }
 
