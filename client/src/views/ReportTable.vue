@@ -395,7 +395,7 @@
         } else {
           let newRecord = Object.assign({}, item)
           newRecord.id = null
-          newRecord.date = moment.tz(item.date, this.timeZone).format('YYYY-MM-DDTHH:mm:ssZ')
+          newRecord.date = moment.tz(item.date, this.timeZone).format('YYYY-MM-DD')
           this.$store.dispatch('reportedHours/addRecord', newRecord)
         }
       },

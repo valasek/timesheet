@@ -16,7 +16,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/gin-contrib/static"
 	"github.com/gin-contrib/cors"
-	// "github.com/thinkerou/favicon"
 	"github.com/mattn/go-colorable"
 )
 
@@ -70,7 +69,6 @@ func SetupRouter(api *api.API) *gin.Engine {
 	router := gin.New()
 	router.Use(gin.Recovery())
 	router.Use(Logger())
-	// router.Use(favicon.New(filepath.Join("..", "client", "dist", "favicon.png")))
 
 	// set CORS
 	router.Use(cors.Default())
