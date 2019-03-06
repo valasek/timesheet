@@ -68,7 +68,7 @@
         <v-label>Weekend: {{ reportedOnWeekend }} hrs</v-label>
       </v-toolbar-title>
     </v-toolbar>
-    <v-data-table :headers="headers" :items="selectedReportedHours" :search="search" :loading="loading" :disable-initial-sort="false" class="elevation-1" :rows-per-page-items="rowsPerPage">
+    <v-data-table :headers="headers" :items="selectedReportedHours" :search="search" :loading="loading" :disable-initial-sort="false" class="elevation-1 fixed-header" :rows-per-page-items="rowsPerPage">
       <template slot="items" slot-scope="props">
         <td>
           <template v-if="!weekUnlocked">
@@ -395,7 +395,7 @@
         } else {
           let newRecord = Object.assign({}, item)
           newRecord.id = null
-          newRecord.date = moment.tz(item.date, this.timeZone).format('YYYY-MM-DD')
+          newRecord.date = moment.tz(item.date, this.timeZone).format('YYYY-MM-DD') + 'T00:00:00Z'
           this.$store.dispatch('reportedHours/addRecord', newRecord)
         }
       },
@@ -411,7 +411,7 @@
   }
 </script>
 
-<style>
+<style lang="stylus">
 /* workaround to decrease spacing of date field using elements v-menu amnd v-text-field */
 table .v-messages.theme--light {
   display: none;
@@ -432,4 +432,8 @@ html body div#app.application.theme--light div.application--wrap main.v-content 
     transform: scale(0.875);
     transform-origin: left;
 } */
+@import '~vuetify-stylus-fixed-table-header';
+.fixed-header {
+  fixed-table-header(65vh)
+}
 </style>
