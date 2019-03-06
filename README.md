@@ -45,6 +45,7 @@ Reporting and billing process includes three separated steps with well-defined d
 Simple timesheet can be also deployed using Docker (server image size 24.9 MB, DB image size 312 MB)
 
 # How to start
+
 `docker-compose -f "docker-compose.yml" up -d --build`
 - Update Application settings , Vacation settings and Warning limits to meet your needs
 - Use Backup & Restore to export demo data. Update csv files and import back your projects, rates, consultants and holidays.
@@ -63,7 +64,12 @@ Here's a couple of areas that could use some love:
 * **Test Coverage** - Would love to get coverage over 80%, fontend and backend.
 
 
-# Pro Version
+# Usage
+
+Free for education and non-commertial usage.
+
+Pay for the commertial usage of the application to support further development and maintenance via
+<a href="https://www.patreon.com/valasek">Patreon</a> or <a href="https://paypal.me/StanislavValasek">PayPal</a>.
 
 My plan is to soon start working on a Pro Version of Timesheet for enterprise. Along with support, some of the planned features include:
 
@@ -72,7 +78,7 @@ My plan is to soon start working on a Pro Version of Timesheet for enterprise. A
 * HTTPS
 * Plugin for import/export 
 * Reporting metrics
-* Onsite and Online option
+* Cloud version
 
 If you or your organization would like to help beta test a Pro version of Timesheet, please get in touch with me:
 
@@ -81,17 +87,16 @@ If you or your organization would like to help beta test a Pro version of Timesh
 
 # Standing on the shoulders of giants
 
-[Go](https://golang.org/), [Gorm](https://gorm.io/), [Vue](https://vuejs.org/), [axios](https://github.com/axios/axios), [Vuetify](https://vuetifyjs.com/en/), [PostgreSQL](https://www.postgresql.org/)
+[Go](https://golang.org/), [Gin web framework](https://github.com/gin-gonic), [Vue](https://vuejs.org/), [Vuetify](https://vuetifyjs.com/en/), [PostgreSQL](https://www.postgresql.org/)
 
-## Backend
+## Go Backend
 
-- Middleware: [Negroni](https://github.com/urfave/negroni)
-- Router: [Gorilla](https://github.com/gorilla/mux)
-- Orm: [Gorm](https://github.com/jinzhu/gorm) (with [PostgreSQL](https://www.postgresql.org/) persistence)
-- Jwt authentication: [jwt-go](https://github.com/dgrijalva/jwt-go) and [go-jwt-middleware](https://github.com/auth0/go-jwt-middleware)
-- User management
+- [Gin web framework](https://github.com/gin-gonic)
+- [Gorm](https://github.com/jinzhu/gorm) (with [PostgreSQL](https://www.postgresql.org/) persistence)
+- [Logrus](https://github.com/sirupsen/logrus), [Cobra](https://github.com/spf13/cobra), [Viper](https://github.com/spf13/viper), [Now](https://github.com/jinzhu/now), [lumberjackrus](https://github.com/orandin/lumberjackrus), [Cron](https://github.com/robfig/cron)
 
-## Frontend
+## JS Frontend
 
 - [Vue.js](https://vuejs.org/) spa client with webpack
 - [Vuetify](https://vuetifyjs.com/en/) - light theme
+- [Axios](https://github.com/axios/axios), [moment.js](http://momentjs.com/), [date-fns](https://date-fns.org/)

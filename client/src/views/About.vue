@@ -40,9 +40,9 @@
         </li>
       </ol>
     </p>
-    <h2>Commercial usage</h2>
+    <h2>Usage</h2>
     <p>
-      Pay for the commertial usage of the application to support further development and maintenance via <a href="https://www.patreon.com/valasek">
+      Free for education and non-commertial use. Pay for the commertial usage of the application to support further development and maintenance via <a href="https://www.patreon.com/valasek">
         Patreon
       </a> or <a href="https://paypal.me/StanislavValasek">
         PayPal
