@@ -20,7 +20,7 @@ Command first tests connection to DB. If succeeds it will print routes.`,
 		db := api.ConnectDB()
 		defer db.Close()
 		api := api.NewAPI(db)
-		r := routes.NewRoutes(api)
+		r := routes.SetupRouter(api)
 
 		routes.PrintRoutes(r)
 	},

@@ -4,18 +4,21 @@ package cmd
 
 import (
 	"fmt"
+	"os"
+	"os/signal"
+	"net/http"
+	"context"
+	"syscall"
+	"time"
+
 	"github.com/valasek/timesheet/server/api"
 	"github.com/valasek/timesheet/server/logger"
 	"github.com/valasek/timesheet/server/routes"
 
 	"github.com/robfig/cron"
 
-	"github.com/meatballhat/negroni-logrus"
-	"github.com/rs/cors"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"github.com/urfave/negroni"
-	// "github.com/phyber/negroni-gzip/gzip"
 )
 
 // serverCmd represents the server command
@@ -34,17 +37,8 @@ projects, rates, consultants and holidays. If succeeds it will start server.`,
 		db := api.ConnectDB()
 		defer db.Close()
 		apiInst := api.CheckAndInitAPI(db)
-		r := routes.NewRoutes(apiInst)
-		n := negroni.New()
-		n.Use(negroni.NewRecovery())
-		n.Use(negronilogrus.NewMiddlewareFromLogger(logger.Log, "web"))
-		// n.Use(gzip.Gzip(gzip.DefaultCompression))
-		c := cors.New(cors.Options{
-			AllowedOrigins: []string{"*"},
-			AllowedMethods: []string{"GET", "POST", "PUT", "DELETE"},
-		})
-		n.Use(c)
-		n.UseHandler(r)
+
+		r := routes.SetupRouter(apiInst)
 
 		// schedule DB backups
 		interval := viper.GetString("backup.interval")
@@ -69,8 +63,41 @@ projects, rates, consultants and holidays. If succeeds it will start server.`,
 		logger.Log.Info(fmt.Sprintf("DB backups scheduled %s, %d backups back kept in location %s", interval, rotation, location))
 
 		// run the server
-		n.Run(url + ":" + port)
-	},
+		srv := &http.Server{
+			Addr:    url + ":" + port,
+			Handler: r,
+		}
+
+		// run the server with gracefull shutdown
+		go func() {
+			// service connections
+			if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+				logger.Log.Error(fmt.Sprintf("listen: %s", err))
+			}
+		}()
+	
+		// Wait for interrupt signal to gracefully shutdown the server with
+		// a timeout of 5 seconds.
+		quit := make(chan os.Signal)
+		// kill (no param) default send syscanll.SIGTERM
+		// kill -2 is syscall.SIGINT
+		// kill -9 is syscall. SIGKILL but can"t be catch, so don't need add it
+		signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
+		<-quit
+		logger.Log.Info("Shutdown Server ...")
+	
+		ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
+		defer cancel()
+		if err := srv.Shutdown(ctx); err != nil {
+			logger.Log.Error("server Shutdown:", err)
+		}
+		// catching ctx.Done(). timeout of 1 seconds.
+		select {
+		case <-ctx.Done():
+			logger.Log.Info("timeout of 1 second")
+		}
+		logger.Log.Info("Server exiting")
+		},
 }
 
 func init() {

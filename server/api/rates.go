@@ -3,12 +3,12 @@
 package api
 
 import (
-	"encoding/json"
 	"net/http"
+	"github.com/gin-gonic/gin"
 )
 
 // RatesGetAll returns list of all rates
-func (api *API) RatesGetAll(w http.ResponseWriter, req *http.Request) {
+func (api *API) RatesGetAll(c *gin.Context) {
 	rates := api.rates.RatesGetAll()
-	json.NewEncoder(w).Encode(rates)
+	c.JSON(http.StatusOK, rates)
 }

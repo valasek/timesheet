@@ -3,13 +3,12 @@
 package api
 
 import (
-	"encoding/json"
 	"net/http"
+	"github.com/gin-gonic/gin"
 )
 
 // ConsultantList returns list of all consultants
-func (api *API) ConsultantList(w http.ResponseWriter, req *http.Request) {
+func (api *API) ConsultantList(c *gin.Context) {
 	consultants := api.consultants.ConsultantList()
-	json.NewEncoder(w).Encode(consultants)
-	//w.Write([]byte(consultants))
+	c.JSON(http.StatusOK, consultants)
 }
