@@ -21,7 +21,7 @@ Simple Timesheet is project with its ongoing development made possible entirely 
 
 # Documentation
 
-Read full [documentation](./server/documentation/Documentation.md).
+Read full [documentation](./server/documentation/documentation.md).
 
 # Rationale
 
