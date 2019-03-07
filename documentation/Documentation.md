@@ -21,7 +21,7 @@ Enjoy. You are good to go ...
 
 Below is default and commented `timesheet.yaml` configuration file shipped with a product. Selected variables can be changed on Administration page.
 
-![Administration](images/administration.png?raw=true "Administration")
+![Administration](./images/administration.png?raw=true "Administration")
 
 ```
 ### Default configuration file
@@ -154,7 +154,7 @@ Global Flags:
 All data can be downloaded locally as a zip file including csv files.
 Files can be modified and imported back. This action will replace all existing data.
 
-![Backup & Restore](images/backup_restore.png?raw=true "Backup & Restore")
+![Backup & Restore](./images/backup_restore.png?raw=true "Backup & Restore")
 
 Check log files using Administration / Logs. Error log should not contain any errors or wardnings.
 
