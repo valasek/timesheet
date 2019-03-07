@@ -1,6 +1,6 @@
 {
   "name": "timesheet",
-  "version": "1.1.0",
+  "version": "1.1.2",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -18,7 +18,7 @@
     "vue-markdown": "^2.2.4",
     "vue-router": "^3.0.2",
     "vuetify": "^1.5.5",
-    "vuetify-stylus-fixed-table-header": "^1.0.0",
+    "vuetify-stylus-fixed-table-header": "^1.1.0",
     "vuetify-upload-button": "^1.2.2",
     "vuex": "^3.1.0"
   },

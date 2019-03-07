@@ -1,35 +1,42 @@
 ### Default configuration file
 
 ######################
-# User configuration #
+# Reporting settings #
 
 # Set your timezone. Supported timezones: https://github.com/moment/moment-timezone/blob/develop/data/packed/latest.json
 timeZone: "Europe/Prague"
 
-dailyWorkingHours: 8 # Used for weekly and monthly expected working hours
-dailyWorkingHoursMin: 8 # Used to highlight if reported less
-dailyWorkingHoursMax: 12 # Used to highlight if reported more
+dailyWorkingHours: 8 # Used to calculate weekly and monthly expected working hours, can be changed in UI
+dailyWorkingHoursMin: 8 # Used to highlight if reported less, can be changed in UI
+dailyWorkingHoursMax: 12 # Used to highlight if reported more, can be changed in UI
 
 # Rate used for vacations
 vacation: "Vacation"
-yearlyVacationDays: 20 # Used for  weekly and monthly expected working hours
+yearlyVacationDays: 20 # Used to calculate weekly and monthly expected working hours, can be changed in UI
 
-# Rate for additonal vacations. If not used, leave blank "" and set yearlyPersonalDays: 0
+# Rate for additonal vacations. If not used, leave blank "" and set yearlyPersonalDays: 0, can be changed in UI
 vacationPersonal: "Vacation Personal"
-yearlyPersonalDays: 3 # Used for  weekly and monthly expected working hours
+yearlyPersonalDays: 3 # Used to calculate weekly and monthly expected working hours, can be changed in UI
 
-# Rate used for additonal vacation intended for sick day. If not used, leave blank "" and set yearlySickDays: 0
+# Rate used for additonal vacation intended for sick day. If not used, leave blank "" and set yearlySickDays: 0, can be changed in UI
 vacationSick: "Vacation Sick"
-yearlySickDays: 2 # Used for  weekly and monthly expected working hours
+yearlySickDays: 2 # Used to calculate weekly and monthly expected working hours, can be changed in UI
 
-# Categorize all rates into one of these types
-isWorking: "work" # when consultant works
-isNonWorking: "not-work" # when consultant dows not work, examples: vacation, sick, personal day, public holiday, vacation, unpaid leave, ...
+# Categorize all rates into one of these types used on Reported Overview page
+isWorking: "work" # when consultant works, can be changed in UI
+isNonWorking: "not-work" # when consultant dows not work, examples: vacation, sick, personal day, public holiday, vacation, unpaid leave, ..., can be changed in UI
 
 ########################
 # Application settings #
 url: "" # URL on which application is running
 PORT: "3000"     # port on which application is running
+
+# DB type
+dbType: "postgresql"
+
+# Production URL - will be read from production environment config variable
+# If set, Database settings section variables will be ignored
+DATABASE_URL: ""
 
 # Log folder, relative to timesheet folder
 logFolder: "logs"
@@ -38,17 +45,25 @@ logFolder: "logs"
 uploadFolder: "data/uploaded"
 uploadFolderTemp: "data/uploaded/temp"
 
-# DB type
-dbType: "postgresql" # DB type
+# csv data files which are loaded via command "timesheet db --load all"
+data:
+  consultants: "consultants_demo.csv"
+  rates: "rates_demo.csv"
+  projects: "projects_demo.csv"
+  reportedRecords: "reported_records_demo.csv"
+  holidays: "holidays_us_2019.csv"
+
+export:
+  location: "data/exported" # select an empty and an existing folder
+
+#####################
+# Database settings #
 
 # DB backup settings - backuped data can be imported directly by a command "timesheet db --load all"
 backup:
   location: "data/backups" # select an empty and an existing folder relative to timesheet/data folder
   rotation: 14             # how many backups back will be kept
   interval: "daily"        # daily or weekly - how ofter the DB backup should be done
-
-export:
-  location: "data/exported" # select an empty and an existing folder
 
 # DB credentials
 # used for development and testing. Ignored if DATABASE_URL is set
@@ -60,15 +75,3 @@ postgresql:
   user: "timesheet"
   password: "timesheet"
   sslMode: "disable"
-
-# Production URL - will be read from heroku config variables
-# If set, above mentioned postgresql: settings are ignored
-DATABASE_URL: ""
-
-# initial DB data files which are loaded via command "timesheet db --load all"
-data:
-  consultants: "consultants_demo.csv"
-  rates: "rates_demo.csv"
-  projects: "projects_demo.csv"
-  reportedRecords: "reported_records_demo.csv"
-  holidays: "holidays_us_2019.csv"
