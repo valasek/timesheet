@@ -52,6 +52,10 @@
           .then(response => {
             comp.docs = response.data
           })
+          .catch(function (e) {
+            comp.$store.dispatch('context/setNotification', { text: 'Couldn\'t find documentation: ' + e.response.data, type: 'error' }, { root: true })
+            console.log(e, e.response) /* eslint-disable-line no-console */
+          })
       }
     }
   }

@@ -21,7 +21,7 @@ Enjoy. You are good to go ...
 
 Below is default and commented `timesheet.yaml` configuration file shipped with a product. Selected variables can be changed on Administration page.
 
-![Administration](./images/administration.png?raw=true "Administration")
+![Administration](./administration.png?raw=true "Administration")
 
 ```
 ### Default configuration file
@@ -154,7 +154,7 @@ Global Flags:
 All data can be downloaded locally as a zip file including csv files.
 Files can be modified and imported back. This action will replace all existing data.
 
-![Backup & Restore](./images/backup_restore.png?raw=true "Backup & Restore")
+![Backup & Restore](./backup_restore.png?raw=true "Backup & Restore")
 
 Check log files using Administration / Logs. Error log should not contain any errors or warnings.
 
@@ -222,7 +222,7 @@ Follow these steps to upgrade:
 Free for education and non-commertial usage. Pay for the commertial usage of the application to support further development and maintenance via
 <a href="https://www.patreon.com/valasek">Patreon</a> or <a href="https://paypal.me/StanislavValasek">PayPal</a>.
 
-My plan is to soon start working on a Pro Version of Timesheet for enterprise. Along with support, some of the planned features include:
+Currently I am working on a Pro Version of Timesheet for enterprise. Along with support, some of the planned features include:
 
 * User management/login
 * Permissions

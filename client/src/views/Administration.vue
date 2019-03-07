@@ -307,6 +307,10 @@
           .then(response => {
             admin.logLines = response.data.split(new RegExp('\r?\n', 'g')) /* eslint-disable-line no-control-regex */
           })
+          .catch(function (e) {
+            admin.$store.dispatch('context/setNotification', { text: 'Couldn\'t download log file: ' + e.response.data, type: 'error' }, { root: true })
+            console.log(e, e.response) /* eslint-disable-line no-console */
+          })
       },
       onUpdateHours (newValue) {
         if (!isNaN(parseFloat(newValue.hourValue)) && newValue.hourValue >= 0 && newValue.hourValue <= 24) {

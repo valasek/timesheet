@@ -36,11 +36,12 @@
         full documentation.
       </router-link>
     </p>
-    <p>2018 - {{ (new Date()).getFullYear() }} &copy; <strong>Stanislav Valasek</strong> Version {{ version }}</p>
     <v-img
       src="./settings-image.jpg"
       class="grey lighten-2 image"
     />
+    <br>
+    <p>2018 - {{ (new Date()).getFullYear() }} &copy; <strong><a href="https://valasek.wordpress.com/">Stanislav Valasek</a></strong> Version {{ version }}</p>
   </div>
 </template>
 
