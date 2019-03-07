@@ -26,7 +26,7 @@ var rootCmd = &cobra.Command{
 	Short:   "Web based timesheet application with DB persistence",
 	Long: `Web based timesheet application with DB persistence.
 	
-Application reads DB and server configuration from config.toml, loads default data if DB is empty and launch web GUI.`,
+Application reads DB and server configuration from timesheet.toml, loads default data if DB is empty and launch web GUI.`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	//	Run: func(cmd *cobra.Command, args []string) { },
