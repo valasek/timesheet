@@ -60,7 +60,7 @@ PORT: "3000"     # port on which application is running
 # DB type
 dbType: "postgresql"
 
-# Production URL - will be read from production environemnt config variable
+# Production URL - will be read from production environment config variable
 # If set, Database settings section variables will be ignored
 DATABASE_URL: ""
 
@@ -156,7 +156,7 @@ Files can be modified and imported back. This action will replace all existing d
 
 ![Backup & Restore](./images/backup_restore.png?raw=true "Backup & Restore")
 
-Check log files using Administration / Logs. Error log should not contain any errors or wardnings.
+Check log files using Administration / Logs. Error log should not contain any errors or warnings.
 
 ## Description of Data Files
 
@@ -191,7 +191,7 @@ created_at,name,type
 "2019-01-14 00:00:00","Vacation","not-work"
 ```
 
-# projects.csv
+### projects.csv
 
 Contains projects on which consultants can report the work and default project rate.
 ```
@@ -200,9 +200,9 @@ created_at,name,rate
 "2019-01-14 00:00:00","Vue","Off-site"
 ```
 
-# reported_records.csv
+### reported_records.csv
 
-Contains all reported hours. Hours (N.N) can be decimal number between 0 and 24. Project, rate and consultant are names of existing records from corresponding csv files.
+Contains all reported hours. Hours (N.N) can be a decimal number between 0 and 24. Project, rate and consultant are names of existing records from corresponding csv files.
 ```
 created_at,date,hours,project,description,rate,consultant
 YYYY-MM-DD HH:MM:SS,YYYY-MM-DD,N.N,project name,description of the work,rate name,project name
@@ -212,9 +212,9 @@ YYYY-MM-DD HH:MM:SS,YYYY-MM-DD,N.N,project name,description of the work,rate nam
 # Upgrade
 
 Follow these steps to upgrade:
-* Export your data as described in Backup & Restore
+* Export your data as described in Backup & Restore chapter
 * Replace `timesheet` folder with a new version
-* Import saved data as described in Backup & Restore
+* Import saved data as described in Backup & Restore chapter
 
 
 # License
@@ -257,6 +257,6 @@ Released on March 7, 2019
 * Backup archive contains exported csv files without subfolders
 
 ## Version 1.0.0
-Released on December, 2018
+Released on December 2018
 
 The first publicly released version

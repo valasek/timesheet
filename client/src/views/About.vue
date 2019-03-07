@@ -5,16 +5,7 @@
     <h1>Timesheet</h1>
     <p>Self-hosted web application for weekly reporting your consulting hours on projects using selected rates.</p>
 
-    <!-- <p>
-      Report an <a href src="https://github.com/valasek/timesheet/issues">
-        issue
-      </a> or request a <a href src="https://github.com/valasek/timesheet/issues">
-        new feature
-      </a>.
-    </p> -->
-
-    <h2>How to Start</h2>
-
+    <h2>Quick Start</h2>
     <p>
       <ol>
         <li>
@@ -30,23 +21,20 @@
           Use <router-link to="/administration">
             Backup & Restore
           </router-link>
-
           to export demo data. Update csv files and import back your projects, rates, consultants and holidays.
         </li>
         <li>
-          You are <router-link to="/">
+          Enjoy. You are <router-link to="/">
             good to go
           </router-link>
         </li>
       </ol>
     </p>
-    <h2>Usage</h2>
+    <h2>Documentation</h2>
     <p>
-      Free for education and non-commertial use. Pay for the commertial usage of the application to support further development and maintenance via <a href="https://www.patreon.com/valasek">
-        Patreon
-      </a> or <a href="https://paypal.me/StanislavValasek">
-        PayPal
-      </a>.
+      Read <router-link to="/documentation">
+        full documentation.
+      </router-link>
     </p>
     <p>2018 - {{ (new Date()).getFullYear() }} &copy; <strong>Stanislav Valasek</strong> Version {{ version }}</p>
     <v-img

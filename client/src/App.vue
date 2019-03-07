@@ -29,7 +29,9 @@
     <v-toolbar color="blue darken-3" dense dark fixed clipped-left app>
       <v-toolbar-side-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title class="headline">
-        Timesheet /
+        <router-link to="/" class="my_title">
+          Timesheet
+        </router-link> /
       </v-toolbar-title>
       <v-toolbar-title>
         <span>{{ page }}</span>
@@ -125,4 +127,8 @@
   padding-bottom: 1px !important;
 }
 
+.my_title {
+  text-decoration: none !important;
+  color: white;
+}
 </style>

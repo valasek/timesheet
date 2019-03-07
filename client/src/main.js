@@ -14,6 +14,7 @@ import ReportedOverview from './views/ReportedOverview'
 import Holidays from './views/Holidays'
 import Administration from './views/Administration'
 import Help from './views/About'
+import Documentation from './views/Documentation'
 
 Vue.use(VueRouter)
 Vue.use(VueAxios, axios)
@@ -48,6 +49,11 @@ let router = new VueRouter({
       path: '/about',
       name: 'about',
       component: Help
+    },
+    {
+      path: '/documentation',
+      name: 'documentation',
+      component: Documentation
     },
     { path: '*', redirect: '/report' }
   ]

@@ -327,6 +327,28 @@ func randToken(len int) string {
 	return fmt.Sprintf("%x", b)
 }
 
+// DownloadDocs -
+func (api *API) DownloadDocs(c *gin.Context) {
+
+	fileName := filepath.Join("documentation", "documentation.md")
+	f, err := os.Open(fileName)
+	defer f.Close()
+	if err != nil {
+		c.String(http.StatusOK, fileName+" does not exist")
+		return
+	}
+	fi, err := f.Stat()
+	if err != nil {
+		c.String(http.StatusOK, fileName+" cannot get file size")
+		return
+	}
+	if (fi.Size() == 0) {
+		c.String(http.StatusOK, fileName+" does not exist")
+		return
+	}
+	c.File(fileName)
+}
+
 // DownloadLogs -
 func (api *API) DownloadLogs(c *gin.Context) {
 

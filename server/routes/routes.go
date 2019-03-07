@@ -89,6 +89,8 @@ func SetupRouter(api *api.API) *gin.Engine {
 		a.POST("/upload/data", api.Upload)
 		// download logs
 		a.GET("/download/logs/:logLevel", api.DownloadLogs)
+		// download docs
+		a.GET("/download/docs", api.DownloadDocs)
 
 		// consultants
 		a.GET("/consultants", api.ConsultantList)
