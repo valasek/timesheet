@@ -1,6 +1,5 @@
 // Copyright © 2018-2019 Stanislav Valasek <valasek@gmail.com>
-
-import moment from 'moment-timezone'
+import { isWithinInterval } from 'date-fns'
 
 const defaultNotificationType = 'info'
 
@@ -28,8 +27,8 @@ const actions = {
         commit('SET_WEEK_UNLOCKED', payload)
     },
     setIsCurrentWeek ({ commit, rootState }) {
-        let today = moment.tz({}, this.timeZone)
-        if (today.isBetween(rootState.settings.dateFrom, rootState.settings.dateTo, null, '[]')) {
+        let today = new Date()
+        if (isWithinInterval(today, { start: rootState.settings.dateFrom, end: rootState.settings.dateTo })) {
             commit('SET_IS_CURRENT_WEEK', true)
             commit('SET_WEEK_UNLOCKED', true)
         } else {

@@ -104,7 +104,8 @@ func (db *HolidayManager) HolidayBackup(filePath string) (int, error) {
 	holidayCSV := []*HolidayCSV{}
 	for _, r := range holidays {
 		createdAt := DateTime{r.CreatedAt}
-		item := HolidayCSV{CreatedAt: createdAt, Description: r.Description}
+		date := Date{r.Date}
+		item := HolidayCSV{CreatedAt: createdAt, Date: date, Description: r.Description}
 		holidayCSV = append(holidayCSV, &item)
 	}
 

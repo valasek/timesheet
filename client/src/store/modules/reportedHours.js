@@ -1,7 +1,7 @@
 // Copyright © 2018-2019 Stanislav Valasek <valasek@gmail.com>
 
 import api from '../../api/axiosSettings'
-import moment from 'moment'
+import { format, getYear, parseISO } from 'date-fns'
 
 // initial state
 const state = {
@@ -16,10 +16,9 @@ const actions = {
     // get monthly data
     getMonthlyData ({ commit, dispatch }, payload) {
         commit('SET_LOADING', true)
-        api.apiClient.get('/api/reported/year/' + payload.date.year() + '/month/' + payload.date.format('MM') + '/consultant/' + payload.consultant)
+        api.apiClient.get('/api/reported/year/' + getYear(payload.date) + '/month/' + format(payload.date, 'MM') + '/consultant/' + payload.consultant)
             .then(response => {
                 commit('SET_REPORTED_HOURS', response.data)
-                // dispatch('context/setNotification', { text: month.format('MMMM') + ' ' + month.year() + ' data', type: '' }, { root: true })
             })
             .catch(e => {
                 dispatch('context/setNotification', { text: 'Couldn\'t read reported records from server. \n' + e.toString(), type: 'error' }, { root: true })
@@ -28,7 +27,7 @@ const actions = {
     },
     // get yearly summary
     getYearlySummary ({ commit, dispatch }, date) {
-        api.apiClient.get('/api/reported/summary/' + date.year())
+        api.apiClient.get('/api/reported/summary/' + getYear(date))
             .then(response => {
                 commit('SET_REPORTED_HOURS_SUMMARY', response.data)
             })
@@ -52,7 +51,7 @@ const actions = {
         api.apiClient.post('/api/reported', payload)
                 .then(response => {
                     // format date for Vuetify which works with ISO format
-                    payload.date = moment(payload.date).format('YYYY-MM-DD')
+                    payload.date = format(parseISO(payload.date), 'yyyy-MM-dd')
                     payload.id = response.data.id
                     commit('ADD_RECORD', payload)
                 })

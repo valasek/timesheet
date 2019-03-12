@@ -114,7 +114,7 @@
         </v-flex>
         <v-flex xs6>
           <v-toolbar dense>
-            <v-toolbar-title>Month - {{ selectedMonth.format('MMMM') }}</v-toolbar-title>
+            <v-toolbar-title>Month - {{ selectedMonth | formatMonth }}</v-toolbar-title>
           </v-toolbar>
           <v-container grid-list-md text-xs-center>
             <v-card>
@@ -158,7 +158,7 @@
 
 <script>
   import { mapState } from 'vuex'
-  import moment from 'moment-timezone'
+  import { format, lightFormat, getYear, getDaysInMonth, eachWeekendOfMonth } from 'date-fns'
   import selectConsultant from '../components/SelectConsultant'
   import changeWeek from '../components/ChangeWeek'
 
@@ -167,6 +167,13 @@
     components: {
       'select-consultant': selectConsultant,
       'change-week': changeWeek
+    },
+
+    filters: {
+      formatMonth: function (date) {
+        if (!date) return ''
+        return format(date, 'MMMM')
+      }
     },
 
     data () {
@@ -216,7 +223,6 @@
         dateFrom: state => state.settings.dateFrom,
         dateTo: state => state.settings.dateTo,
         selectedMonth: state => state.settings.selectedMonth,
-        timeZone: state => state.settings.timeZone,
         selectedConsultant: state => state.consultants.selected,
         dailyWorkingHours: state => state.settings.dailyWorkingHours,
         yearlyVacationDays: state => state.settings.yearlyVacationDays,
@@ -228,38 +234,13 @@
         isWorking: state => state.settings.isWorking,
         isNonWorking: state => state.settings.isNonWorking
       }),
-      thisYear () { return this.selectedMonth.year() },
+      thisYear () { return getYear(this.selectedMonth) },
       thisWeek () {
-        return moment.tz(this.dateFrom, this.timeZone).format('MMM D') + ' - ' + moment(this.dateTo).format('MMM D')
+        return format(this.dateFrom, 'MMM d') + ' - ' + format(this.dateTo, 'MMM d')
       },
       // FIXME - subtract state holidays
       businessMonthly () {
-        var param = moment.tz(this.selectedMonth, this.timeZone).startOf('month')
-        var param1 = moment.tz(this.selectedMonth, this.timeZone).endOf('month')
-        var signal = param.unix() < param1.unix() ? 1 : -1
-        var start = moment.min(param, param1).clone()
-        var end = moment.max(param, param1).clone()
-        var startOffset = start.day() - 7
-        var endOffset = end.day()
-
-        var endSunday = end.clone().subtract(endOffset, 'd')
-        var startSunday = start.clone().subtract(startOffset, 'd')
-        var weeks = endSunday.diff(startSunday, 'days') / 7
-
-        startOffset = Math.abs(startOffset)
-        if (startOffset === 7) {
-          startOffset = 5
-        } else {
-          if (startOffset === 1) {
-            startOffset = 0
-          } else {
-            startOffset -= 2
-          }
-        }
-        if (endOffset === 6) {
-          endOffset--
-        }
-        return signal * (weeks * 5 + startOffset + endOffset)
+        return getDaysInMonth(this.selectedMonth) - (eachWeekendOfMonth(this.selectedMonth).length)
       },
       // FIXME - subtract state holidays
       businessWeekly () {
@@ -419,7 +400,7 @@
         let working = 0
         let nonWorking = 0
         const consultant = this.selectedConsultant
-        const month = this.selectedMonth.format('M')
+        const month = lightFormat(this.selectedMonth, 'M')
         hours.forEach(function (element) {
           if (element.month === month && element.consultant === consultant) {
             var el = this.rates.find(o => o.name === element.rate)
@@ -453,7 +434,7 @@
       },
       getProjectTotalsInMonth (hours) {
         const consultant = this.selectedConsultant
-        const month = this.selectedMonth.format('M')
+        const month = lightFormat(this.selectedMonth, 'M')
         const projects = this.projects.map(function (project) {
           return { text: project.name,
                    value: hours.filter(record => (record.consultant === consultant && record.month === month)).reduce(

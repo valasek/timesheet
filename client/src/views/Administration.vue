@@ -114,13 +114,6 @@
                           class="body-1" style="width: 10em" @input="onUpdateHours({hourType: 'dailyWorkingHours', hourValue: $event})"
             />
             <p class="font-italic">
-              When changed all dates will be save using this timezone. Allready saved dates will not be updated.
-            </p>
-            <v-autocomplete :value="timeZone" style="width: 15em" label="Timezone"
-                            :items="timeZones" :dense="true" :hide-selected="false" class="body-1"
-                            @change="onUpdateTimeZone"
-            />
-            <p class="font-italic">
               Used on Reported Overview page to show working and non-working time
             </p>
             <v-autocomplete :value="isWorking" style="width: 15em" label="Working rate type"
@@ -198,7 +191,6 @@
 
 <script>
   import { mapState } from 'vuex'
-  import timeZones from '../components/timeZones'
   import api from '../api/axiosSettings'
   import UploadButton from 'vuetify-upload-button'
 
@@ -232,14 +224,12 @@
           }
         ],
         logLines: ['select desired log level ...'],
-        timeZones: timeZones,
         uploadFile: {}
       }
     },
 
     computed: {
       ...mapState({
-        timeZone: state => state.settings.timeZone,
         dailyWorkingHours: state => state.settings.dailyWorkingHours,
         dailyWorkingHoursMin: state => state.settings.dailyWorkingHoursMin,
         dailyWorkingHoursMax: state => state.settings.dailyWorkingHoursMax,
@@ -335,9 +325,6 @@
       },
       onUpdateRateType (newValue) {
         this.$store.dispatch('settings/setRateType', newValue)
-      },
-      onUpdateTimeZone (newValue) {
-        this.$store.dispatch('settings/setTimeZone', newValue)
       }
     }
   }

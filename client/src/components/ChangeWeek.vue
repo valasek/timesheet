@@ -23,14 +23,13 @@
 
 <script>
   import { mapState } from 'vuex'
-  import moment from 'moment-timezone'
+  import { format } from 'date-fns'
 
   export default {
 
     computed: {
       ...mapState({
         isCurrentWeek: state => state.context.isCurrentWeek,
-        timeZone: state => state.settings.timeZone,
         dateFrom: state => state.settings.dateFrom,
         dateTo: state => state.settings.dateTo
       })
@@ -45,11 +44,10 @@
       },
       // FIXME move to filter
       formatWeek (date) {
-        let a = moment.tz(date, 'YYYY-MM-DD', this.timeZone).format('MMM Do')
-        return a
+        return format(date, 'MMM do')
       },
       setToday () {
-        this.$store.dispatch('settings/jumpToWeek', moment.tz({}, this.timeZone))
+        this.$store.dispatch('settings/jumpToWeek', new Date())
       }
     }
 

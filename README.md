@@ -60,4 +60,4 @@ Here's a couple of areas that could use some love:
 
 - [Vue.js](https://vuejs.org/) spa client with webpack
 - [Vuetify](https://vuetifyjs.com/en/) - light theme
-- [Axios](https://github.com/axios/axios), [moment.js](http://momentjs.com/), [date-fns](https://date-fns.org/)
+- [Axios](https://github.com/axios/axios), [date-fns](https://date-fns.org/)

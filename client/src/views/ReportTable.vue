@@ -153,9 +153,7 @@
 
 <script>
   import { mapState } from 'vuex'
-  import moment from 'moment-timezone'
-  import format from 'date-fns/format'
-  import getISODay from 'date-fns/get_iso_day'
+  import { format, isWithinInterval, getISODay, parseISO } from 'date-fns'
   import confirm from '../components/Confirm'
   import inform from '../components/Inform'
   import selectConsultant from '../components/SelectConsultant'
@@ -173,8 +171,7 @@
     filters: {
       formatDate: function (date) {
         if (!date) return ''
-        return format(date, 'ddd, MMM Do')
-        // return moment(date).format('ddd, MMM Do'))
+        return format(parseISO(date), 'iii, MMM do')
       }
     },
 
@@ -226,14 +223,13 @@
         assignedProjects: state => state.projects.all,
         rates: state => state.rates.all,
         selectedConsultant: state => state.consultants.selected,
-        timeZone: state => state.settings.timeZone,
         dailyWorkingHoursMax: state => state.settings.dailyWorkingHoursMax,
         dailyWorkingHoursMin: state => state.settings.dailyWorkingHoursMin
       }),
       reportedOnMonday () {
         let rep = 0.0
         for (let i = 0; i < this.selectedReportedHours.length; i++) {
-          if (getISODay(this.selectedReportedHours[i].date) === 1) {
+          if (getISODay(parseISO(this.selectedReportedHours[i].date)) === 1) {
             rep = rep + this.selectedReportedHours[i].hours
           }
         }
@@ -242,7 +238,7 @@
       reportedOnTuesday () {
         let rep = 0.0
         for (let i = 0; i < this.selectedReportedHours.length; i++) {
-          if (getISODay(this.selectedReportedHours[i].date) === 2) {
+          if (getISODay(parseISO(this.selectedReportedHours[i].date)) === 2) {
             rep = rep + this.selectedReportedHours[i].hours
           }
         }
@@ -251,7 +247,7 @@
       reportedOnWednesday () {
         let rep = 0.0
         for (let i = 0; i < this.selectedReportedHours.length; i++) {
-          if (getISODay(this.selectedReportedHours[i].date) === 3) {
+          if (getISODay(parseISO(this.selectedReportedHours[i].date)) === 3) {
             rep = rep + this.selectedReportedHours[i].hours
           }
         }
@@ -260,7 +256,7 @@
       reportedOnThursday () {
         let rep = 0.0
         for (let i = 0; i < this.selectedReportedHours.length; i++) {
-          if (getISODay(this.selectedReportedHours[i].date) === 4) {
+          if (getISODay(parseISO(this.selectedReportedHours[i].date)) === 4) {
             rep = rep + this.selectedReportedHours[i].hours
           }
         }
@@ -269,7 +265,7 @@
       reportedOnFriday () {
         let rep = 0.0
         for (let i = 0; i < this.selectedReportedHours.length; i++) {
-          if (getISODay(this.selectedReportedHours[i].date) === 5) {
+          if (getISODay(parseISO(this.selectedReportedHours[i].date)) === 5) {
             rep = rep + this.selectedReportedHours[i].hours
           }
         }
@@ -278,7 +274,7 @@
       reportedOnWeekend () {
         let rep = 0.0
         for (let i = 0; i < this.selectedReportedHours.length; i++) {
-          if (getISODay(this.selectedReportedHours[i].date) === 6 || getISODay(this.selectedReportedHours[i].date) === 7) {
+          if (getISODay(parseISO(this.selectedReportedHours[i].date)) === 6 || getISODay(parseISO(this.selectedReportedHours[i].date)) === 7) {
             rep = rep + this.selectedReportedHours[i].hours
           }
         }
@@ -328,12 +324,12 @@
           type: 'date',
           value: newValue.date
         }
-        if (moment.tz(newValue.date, this.timeZone).isBetween(this.dateFrom, this.dateTo, 'day', '[]')) {
+        if (isWithinInterval(parseISO(newValue.date), { start: this.dateFrom, end: this.dateTo })) {
           this.$store.dispatch('reportedHours/updateAttributeValue', payload)
         } else {
-          if (await this.$refs.confirm.open('Please confirm', 'You selected ' + moment.tz(newValue.date, this.timeZone).format('ddd, MMM Do') + '. The record will be moved to another week. Continue?', { color: 'orange lighten-2' })) {
+          if (await this.$refs.confirm.open('Please confirm', 'You selected ' + format(parseISO(newValue.date), 'iiii, MMM do') + '. The record will be moved to another week. Continue?', { color: 'orange lighten-2' })) {
             this.$store.dispatch('reportedHours/updateAttributeValue', payload)
-            this.$store.dispatch('settings/jumpToWeek', moment.tz(newValue.date, this.timeZone))
+            this.$store.dispatch('settings/jumpToWeek', parseISO(newValue.date))
           }
         }
       },
@@ -366,14 +362,14 @@
         this.$store.dispatch('reportedHours/updateAttributeValue', payload)
       },
       addItem (item) {
-        let d = moment.tz({}, this.timeZone)
-        if (!d.isBetween(this.dateFrom, this.dateTo, '[]')) {
+        let d = new Date()
+        if (!isWithinInterval(d, { start: this.dateFrom, end: this.dateTo })) {
           d = this.dateFrom
         }
         const newRecord = {
           id: null,
           consultant: this.selectedConsultant,
-          date: d.format('YYYY-MM-DDTHH:mm:ssZ'),
+          date: format(d, "yyyy-MM-dd'T'HH:mm:ssXXX"),
           hours: 8,
           rate: '',
           description: '',
@@ -391,11 +387,11 @@
         }
         totalDailyHours = totalDailyHours + item.hours
         if (totalDailyHours > 33) {
-          this.$refs.inform.open('Too many hours per day', 'Attempt to report ' + totalDailyHours + ' hours on ' + format(item.date, 'ddd, MMM Do') + '. Record was not duplicated.', { color: 'orange lighten-2' })
+          this.$refs.inform.open('Too many hours per day', 'Attempt to report ' + totalDailyHours + ' hours on ' + format(parseISO(item.date), 'ddd, MMM do') + '. Record was not duplicated.', { color: 'orange lighten-2' })
         } else {
           let newRecord = Object.assign({}, item)
           newRecord.id = null
-          newRecord.date = moment.tz(item.date, this.timeZone).format('YYYY-MM-DD') + 'T00:00:00Z'
+          newRecord.date = format(parseISO(item.date), 'yyyy-MM-dd') + 'T00:00:00Z'
           this.$store.dispatch('reportedHours/addRecord', newRecord)
         }
       },

@@ -26,12 +26,6 @@ Below is default and commented `timesheet.yaml` configuration file shipped with 
 ```
 ### Default configuration file
 
-######################
-# Reporting settings #
-
-# Set your timezone. Supported timezones: https://github.com/moment/moment-timezone/blob/develop/data/packed/latest.json
-timeZone: "Europe/Prague"
-
 dailyWorkingHours: 8 # Used to calculate weekly and monthly expected working hours, can be changed in UI
 dailyWorkingHoursMin: 8 # Used to highlight if reported less, can be changed in UI
 dailyWorkingHoursMax: 12 # Used to highlight if reported more, can be changed in UI

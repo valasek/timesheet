@@ -36,7 +36,6 @@ type API struct {
 // AppSettings -
 type AppSettings struct {
 	Version              string  `json:"version"`
-	TimeZone             string  `json:"timeZone"`
 	DailyWorkingHours    float64 `json:"dailyWorkingHours"`
 	DailyWorkingHoursMin float64 `json:"dailyWorkingHoursMin"`
 	DailyWorkingHoursMax float64 `json:"dailyWorkingHoursMax"`
@@ -109,7 +108,6 @@ func tableFromFilename(file string) string {
 func (api *API) AppSettings(c *gin.Context) {
 	settings := AppSettings{
 		Version:              version.Version,
-		TimeZone:             viper.GetString("timeZone"),
 		DailyWorkingHours:    viper.GetFloat64("dailyWorkingHours"),
 		DailyWorkingHoursMin: viper.GetFloat64("dailyWorkingHoursMin"),
 		DailyWorkingHoursMax: viper.GetFloat64("dailyWorkingHoursMax"),

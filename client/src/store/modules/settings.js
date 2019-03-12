@@ -1,12 +1,11 @@
 // Copyright © 2018-2019 Stanislav Valasek <valasek@gmail.com>
 
-import moment from 'moment-timezone'
 import api from '../../api/axiosSettings'
+import { subDays, addDays, startOfWeek, endOfWeek, getMonth, parseISO } from 'date-fns'
 
 // initial state, updated from configuration file
 const state = {
     version: 'dev', // application version
-    timeZone: 'Europe/Prague', // time zone for all dates
     dailyWorkingHours: 8, // Used for weekly and monthly expected working hours
     dailyWorkingHoursMin: 8, // Used to highlight if reported less
     dailyWorkingHoursMax: 12, // Used to highlight if reported more
@@ -18,9 +17,9 @@ const state = {
     vacationSick: 'Vacation Sick', // Rate for additonal vacations as sick days
     isWorking: 'work', // all rates are categorized ising one of this two rates used on Overview page
     isNonWorking: 'not-work', // all rates are categorized ising one of this two rates used on Overview page
-    selectedMonth: moment.tz({}, 'Europe/Prague'),
-    dateFrom: moment.tz({}, 'Europe/Prague').startOf('isoWeek'),
-    dateTo: moment.tz({}, 'Europe/Prague').endOf('isoWeek')
+    selectedMonth: new Date(),
+    dateFrom: startOfWeek(new Date(), { weekStartsOn: 1 }),
+    dateTo: endOfWeek(new Date(), { weekStartsOn: 1 })
 }
 
 const getters = {}
@@ -31,8 +30,8 @@ const actions = {
         api.apiClient.get(`/api/settings`, { port: 3000, crossDomain: true })
             .then(response => {
                 commit('SET_SETTINGS', response.data)
-                // update selectedMonth, dateFrom, dateTo usingrespecting retrieved timezone
-                const today = moment.tz({}, state.timeZone)
+                // update selectedMonth, dateFrom, dateTo
+                const today = new Date()
                 commit('SET_MONTH', today)
                 commit('JUMP_TO_WEEK', today)
             })
@@ -58,20 +57,16 @@ const actions = {
         commit('SET_RATE_TYPE', payload)
     },
 
-    setTimeZone ({ commit }, payload) {
-        commit('SET_TIME_ZONE', payload)
-    },
-
     changeWeek ({ dispatch, commit, rootState }, direction) {
         let oldDateFrom = state.dateFrom
         let oldDateTo = state.dateTo
         commit('SET_WEEK', direction)
         // read changed month if required
-        if (state.dateFrom.isAfter(oldDateFrom, 'month')) {
+        if (getMonth(state.dateFrom) > getMonth(oldDateFrom)) {
             dispatch('reportedHours/getMonthlyData', { date: state.dateFrom, consultant: rootState.consultants.selected }, { root: true })
             commit('SET_MONTH', state.dateFrom)
         }
-        if (state.dateTo.isBefore(oldDateTo, 'month')) {
+        if (getMonth(state.dateTo) < getMonth(oldDateTo)) {
             dispatch('reportedHours/getMonthlyData', { date: state.dateTo, consultant: rootState.consultants.selected }, { root: true })
             commit('SET_MONTH', state.dateTo)
         }
@@ -80,7 +75,7 @@ const actions = {
 
     // monday
     jumpToWeek ({ commit, dispatch, rootState }, day) {
-        if (day.month() !== state.selectedMonth.month()) {
+        if (getMonth(parseISO(day)) !== getMonth(state.selectedMonth)) {
             dispatch('reportedHours/getMonthlyData', { date: day, consultant: rootState.consultants.selected }, { root: true })
             commit('SET_MONTH', day)
         }
@@ -96,7 +91,6 @@ const mutations = {
         state.version = payload.version
         state.dailyWorkingHoursMax = payload.dailyWorkingHoursMax
         state.dailyWorkingHoursMin = payload.dailyWorkingHoursMin
-        state.timeZone = payload.timeZone
         state.dailyWorkingHours = payload.dailyWorkingHours
         state.yearlyVacationDays = payload.yearlyVacationDays
         state.vacation = payload.vacation
@@ -167,25 +161,22 @@ const mutations = {
     SET_MONTH (state, month) {
         state.selectedMonth = month
     },
-    SET_TIME_ZONE (state, timeZone) {
-        state.timeZone = timeZone
-    },
     SET_WEEK (state, direction) {
         switch (direction) {
             case 'previous':
-                state.dateFrom = moment(state.dateFrom).subtract(7, 'days')
-                state.dateTo = moment(state.dateTo).subtract(7, 'days')
+                state.dateFrom = subDays(state.dateFrom, 7)
+                state.dateTo = subDays(state.dateTo, 7)
                 break
             case 'next':
-                state.dateFrom = moment(state.dateFrom).add(7, 'days')
-                state.dateTo = moment(state.dateTo).add(7, 'days')
+                state.dateFrom = addDays(state.dateFrom, 7)
+                state.dateTo = addDays(state.dateTo, 7)
                 break
         }
     },
     // payload is any day within a week
     JUMP_TO_WEEK (state, date) {
-        state.dateFrom = moment(date).startOf('isoWeek')
-        state.dateTo = moment(date).endOf('isoWeek')
+        state.dateFrom = startOfWeek(date, { weekStartsOn: 1 })
+        state.dateTo = endOfWeek(date, { weekStartsOn: 1 })
     }
 
 }
