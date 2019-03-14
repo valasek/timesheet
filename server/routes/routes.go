@@ -17,6 +17,7 @@ import (
 	"github.com/gin-contrib/static"
 	"github.com/gin-contrib/cors"
 	"github.com/mattn/go-colorable"
+	"github.com/spf13/viper"
 )
 
 var w *tabwriter.Writer
@@ -64,7 +65,9 @@ func Logger() gin.HandlerFunc {
 func SetupRouter(api *api.API) *gin.Engine {
 
 	gin.DefaultWriter = colorable.NewColorableStdout()
-	// gin.SetMode(gin.ReleaseMode)
+	if (viper.GetString("GIN_MODE") == "release") {
+		gin.SetMode(gin.ReleaseMode)
+	}
 
 	router := gin.New()
 	router.Use(gin.Recovery())

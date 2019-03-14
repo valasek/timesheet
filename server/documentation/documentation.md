@@ -232,6 +232,28 @@ If you or your organization would like to help beta test a Pro version of Timesh
 
 # Release Notes
 
+## Version 1.2.0
+Released on March 14, 2019
+
+### Usability
+
+* Documentation created
+* Scollable data table
+* Faster responses on user interface
+* Show message if log file is empty
+
+### Fixes
+
+* State holidays export contains dates
+
+### Technical
+
+* Replaced backend GO negroni and gorilla mux with gin
+* Replaced moments.js with date-fns
+* Update to Vuetify 1.5.6
+* Update Travis configuration on Go 1.12
+* Added deploy shell script
+
 ## Version 1.1.1
 Released on March 7, 2019
 

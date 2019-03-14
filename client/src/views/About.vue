@@ -36,6 +36,11 @@
         full documentation.
       </router-link>
     </p>
+    <h2>Request New Feature</h2>
+    <p>
+      Do you like what you see but mising an important feature? <a href="mailto:valasek@gmail.com">Describe your need</a>
+      and next business day we will let you know if and when it will be available.
+    </p>
     <v-img
       src="./settings-image.jpg"
       class="grey lighten-2 image"

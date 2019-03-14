@@ -44,11 +44,17 @@ general.log
 *.sw* 
 
 # temporary build artifacts
-build/client/*.*
-build/client/dist/*
-build/data/*.*
-build/data/backups/*.*
 build/*.*
+build/client/*.*
+build/client/dist/*.*
+build/client/dist/js/*.*
+build/client/dist/css/*.*
+build/data/*.*
+build/data/exported/*.*
+build/data/backups/*.*
+build/data/uploaded/*.*
+build/documentation/*.*
+build/logs/*.*
 
 # backup and log files
 server/data/backups/*

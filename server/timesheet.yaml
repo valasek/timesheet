@@ -25,8 +25,9 @@ isNonWorking: "not-work" # when consultant dows not work, examples: vacation, si
 
 ########################
 # Application settings #
-url: "" # URL on which application is running
-PORT: "3000"     # port on which application is running
+GIN_MODE: "release" # "debug" or "release" - switch server app mode
+url: ""           # URL on which application is running
+PORT: "3000"      # port on which application is running
 
 # DB type
 dbType: "postgresql"

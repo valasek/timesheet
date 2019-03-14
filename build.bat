@@ -21,8 +21,10 @@ IF EXIST .\build\timesheet-prod.yaml del .\build\timesheet-prod.yaml
 IF EXIST .\build\MS_Windows_64bit.zip del .\build\MS_Windows_64bit.zip
 IF EXIST .\build\Linux_64bit.zip del .\build\Linux_64bit.zip
 IF EXIST .\build\Mac_OS_X_64bit.zip del .\build\Mac_OS_X_64bit.zip
+IF EXIST .\build\documentation\documentation.md del .\build\documentation\documentation.md
+IF EXIST .\build\logs\error.log del .\build\logs\error.log
+IF EXIST .\build\logs\info.log del .\build\logs\info.log
 IF EXIST .\build\client\dist\ @RD /S /Q .\build\client\dist
-IF EXIST .\build\logs\ @RD /S /Q .\build\logs
 del .\build\data\*.csv /F /Q
 
 ECHO ======================
