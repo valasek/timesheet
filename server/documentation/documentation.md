@@ -19,9 +19,11 @@ Enjoy. You are good to go ...
 
 # Configuration
 
-Below is default and commented `timesheet.yaml` configuration file shipped with a product. Selected variables can be changed on Administration page.
+Is accessible on Administration page:
 
 ![Administration](./administration.png?raw=true "Administration")
+
+Below is default and commented `timesheet.yaml` configuration file shipped with a product. 
 
 ```
 ### Default configuration file
@@ -48,8 +50,9 @@ isNonWorking: "not-work" # when consultant dows not work, examples: vacation, si
 
 ########################
 # Application settings #
-url: "" # URL on which application is running
-PORT: "3000"     # port on which application is running
+GIN_MODE: "release" # "debug" or "release" - switch server app mode
+url: ""             # URL on which application is running
+PORT: "3000"        # port on which application is running
 
 # DB type
 dbType: "postgresql"
@@ -99,7 +102,7 @@ postgresql:
 
 ## Command Line Options
 
-`.\timesheet.exe` or `.\timesheet.bin` or `.\timesheet.app`
+`.\timesheet.exe` or `./timesheet.bin` or `./timesheet.app`
 ```
 Web based timesheet application with DB persistence.
 
@@ -122,7 +125,7 @@ Flags:
 Use "timesheet [command] --help" for more information about a command.
 ```
 
-`.\timesheet.exe help db` or `.\timesheet.bin  help db` or `.\timesheet.app  help db`
+`.\timesheet.exe help db` or `./timesheet.bin  help db` or `./timesheet.app  help db`
 ```
 Initiate, load, or backup DB.
 
@@ -207,9 +210,8 @@ YYYY-MM-DD HH:MM:SS,YYYY-MM-DD,N.N,project name,description of the work,rate nam
 
 Follow these steps to upgrade:
 * Export your data as described in Backup & Restore chapter
-* Replace `timesheet` folder with a new version
+* Stop running timesheet binary, replace `timesheet` folder with a new version and start new timesheet binary. Optionally configure and use one click `./deploy.sh` upgrade script.
 * Import saved data as described in Backup & Restore chapter
-
 
 # License
 
@@ -227,8 +229,8 @@ Currently I am working on a Pro Version of Timesheet for enterprise. Along with 
 
 If you or your organization would like to help beta test a Pro version of Timesheet, please get in touch with me:
 
-    Twitter: @valasek
-    Email: valasek at gmail.com
+  Twitter: [@valasek](https://twitter.com/valasek)
+  Email: [valasek@gmail.com](mailto:valasek@gmail.com)
 
 # Release Notes
 
