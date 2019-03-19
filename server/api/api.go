@@ -147,7 +147,7 @@ func (api *API) Download(c *gin.Context) {
 	FileContentType := http.DetectContentType(FileHeader)
 
 	//Get the file size
-	FileStat, _ := file.Stat()                         //Get info from file
+	FileStat, _ := file.Stat()  //Get info from file
 	FileSize := FileStat.Size() //Get file size
 
 	//Send the headers
@@ -340,7 +340,7 @@ func (api *API) DownloadDocs(c *gin.Context) {
 		c.String(http.StatusOK, fileName+" cannot get file size")
 		return
 	}
-	if (fi.Size() == 0) {
+	if fi.Size() == 0 {
 		c.String(http.StatusOK, fileName+" does not exist")
 		return
 	}
@@ -378,7 +378,7 @@ func (api *API) DownloadLogs(c *gin.Context) {
 		c.String(http.StatusOK, file+" cannot get file size")
 		return
 	}
-	if (fi.Size() == 0) {
+	if fi.Size() == 0 {
 		c.String(http.StatusOK, file+" contains no log entries")
 		return
 	}
@@ -615,9 +615,22 @@ func ConnectDB() (db *models.DB) {
 		db = models.NewPostgresDB(dbURL)
 		// fmt.Println("connected to DB:  ", connectionString)
 		logger.Log.Info("connected to DB ", dbURL)
-		// fmt.Println("")
+	case "mysql":
+		dbURL := viper.GetString("DATABASE_URL")
+
+		if len(dbURL) == 0 {
+			dbURL = viper.GetString("mysql.user") +
+				":" + viper.GetString("mysql.password") +
+				"@/" + viper.GetString("mysql.dbname") +
+				"?charset=utf8&parseTime=True&loc=Local"
+		}
+		// gorm.Open("mysql", "user:password@/dbname?charset=utf8&parseTime=True&loc=Local")
+		logger.Log.Info("connecting to DB ", dbURL)
+		db = models.NewMySQLDB(dbURL)
+		// fmt.Println("connected to DB:  ", connectionString)
+		logger.Log.Info("connected to DB ", dbURL)
 	default:
-		logger.Log.Error("not able to connect to DB, supported DB types (postgresql), set: ", DBType)
+		logger.Log.Error("not able to connect to DB, supported DB types (postgresql, mysql), set: ", DBType)
 		os.Exit(1)
 	}
 	return db

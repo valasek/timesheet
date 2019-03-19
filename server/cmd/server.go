@@ -3,11 +3,11 @@
 package cmd
 
 import (
+	"context"
 	"fmt"
+	"net/http"
 	"os"
 	"os/signal"
-	"net/http"
-	"context"
 	"syscall"
 	"time"
 
@@ -75,7 +75,7 @@ projects, rates, consultants and holidays. If succeeds it will start server.`,
 				logger.Log.Error(fmt.Sprintf("listen: %s", err))
 			}
 		}()
-	
+
 		// Wait for interrupt signal to gracefully shutdown the server with
 		// a timeout of 5 seconds.
 		quit := make(chan os.Signal)
@@ -85,7 +85,7 @@ projects, rates, consultants and holidays. If succeeds it will start server.`,
 		signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 		<-quit
 		logger.Log.Info("Shutdown Server ...")
-	
+
 		ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
 		defer cancel()
 		if err := srv.Shutdown(ctx); err != nil {
@@ -97,7 +97,7 @@ projects, rates, consultants and holidays. If succeeds it will start server.`,
 			logger.Log.Info("timeout of 1 second")
 		}
 		logger.Log.Info("Server exiting")
-		},
+	},
 }
 
 func init() {

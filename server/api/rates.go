@@ -3,8 +3,8 @@
 package api
 
 import (
-	"net/http"
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 // RatesGetAll returns list of all rates

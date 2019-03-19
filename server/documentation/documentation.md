@@ -8,7 +8,7 @@ Application can run in [Docker containers](https://hub.docker.com/search/?type=e
 
 If you are running it directly, supported is:
 - Linux, Windows or MacOS
-- PostgreSQL DB
+- PostgreSQL DB or MySQL
 
 # Quick start
 
@@ -55,7 +55,7 @@ url: ""             # URL on which application is running
 PORT: "3000"        # port on which application is running
 
 # DB type
-dbType: "postgresql"
+dbType: "postgresql" # allowed types postgresql or mysql
 
 # Production URL - will be read from production environment config variable
 # If set, Database settings section variables will be ignored
@@ -91,13 +91,17 @@ backup:
 # DB credentials
 # used for development and testing. Ignored if DATABASE_URL is set
 postgresql:
-# host: "db" #
-  host: "127.0.0.1" #
+  host: "127.0.0.1"
   port: "5432"
   name: "timesheet"
   user: "timesheet"
   password: "timesheet"
   sslMode: "disable"
+
+mysql:
+  user: "timesheet"
+  password: "timesheet"
+  dbname: "timesheet"
 ```
 
 ## Command Line Options

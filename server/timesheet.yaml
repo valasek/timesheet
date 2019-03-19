@@ -20,17 +20,17 @@ vacationSick: "Vacation Sick"
 yearlySickDays: 2 # Used to calculate weekly and monthly expected working hours, can be changed in UI
 
 # Categorize all rates into one of these types used on Reported Overview page
-isWorking: "work" # when consultant works, can be changed in UI
-isNonWorking: "not-work" # when consultant dows not work, examples: vacation, sick, personal day, public holiday, vacation, unpaid leave, ..., can be changed in UI
+isWorking: "work"         # when consultant works, can be changed in UI
+isNonWorking: "not-work"  # when consultant dows not work, examples: vacation, sick, personal day, public holiday, vacation, unpaid leave, ..., can be changed in UI
 
 ########################
 # Application settings #
-GIN_MODE: "release" # "debug" or "release" - switch server app mode
-url: ""           # URL on which application is running
-PORT: "3000"      # port on which application is running
+GIN_MODE: "release"   # "debug" or "release" - switch server app mode
+url: ""               # URL on which application is running
+PORT: "3000"          # port on which application is running
 
 # DB type
-dbType: "postgresql"
+dbType: "mysql"  # allowed types postgresql or mysql
 
 # Production URL - will be read from production environment config variable
 # If set, Database settings section variables will be ignored
@@ -73,3 +73,8 @@ postgresql:
   user: "timesheet"
   password: "timesheet"
   sslMode: "disable"
+
+mysql:
+  user: "timesheet"
+  password: "timesheet"
+  dbname: "timesheet"

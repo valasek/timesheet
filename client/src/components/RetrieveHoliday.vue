@@ -60,7 +60,7 @@
             rr.$store.dispatch('context/setNotification', { text: 'Couldn\'t upload file: ' + e.response.data, type: 'error' }, { root: true })
             console.log(e, e.response) /* eslint-disable-line no-console */
           })
-        this.$store.dispatch('holidays/getMonthlyData', { date: this.selectedMonth, consultant: newValue })
+        // this.$store.dispatch('holidays/getMonthlyData', { date: this.selectedMonth, consultant: newValue })
       }
     }
 

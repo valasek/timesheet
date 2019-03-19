@@ -1,6 +1,6 @@
 {
   "name": "timesheet",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -12,7 +12,7 @@
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
     "date-fns": "^v2.0.0-alpha.27",
-    "vue": "^2.6.8",
+    "vue": "^2.6.9",
     "vue-axios": "^2.1.4",
     "vue-markdown": "^2.2.4",
     "vue-router": "^3.0.2",
@@ -26,14 +26,14 @@
     "@vue/cli-plugin-eslint": "^3.5.1",
     "@vue/cli-service": "^3.5.1",
     "babel-eslint": "^10.0.1",
-    "eslint": "^5.15.1",
+    "eslint": "^5.15.3",
     "eslint-config-vuetify": "^0.2.0",
     "eslint-plugin-vue": "^5.2.2",
     "npm-check": "^5.9.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",
     "vue-cli-plugin-vuetify": "^0.4.6",
-    "vue-template-compiler": "^2.6.8",
+    "vue-template-compiler": "^2.6.9",
     "vuetify-loader": "^1.2.1"
   },
   "eslintConfig": {

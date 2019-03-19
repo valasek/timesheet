@@ -46,7 +46,7 @@
       class="grey lighten-2 image"
     />
     <br>
-    <p>2018 - {{ (new Date()).getFullYear() }} &copy; <strong><a href="https://valasek.wordpress.com/">Stanislav Valasek</a></strong> Version {{ version }}</p>
+    <p>2018 - {{ (new Date()).getFullYear() }} &copy; <strong><a href="https://valasek.wordpress.com/">Stanislav Valasek</a></strong> Version {{ version }}, server: {{ url }}:{{ port }}</p>
   </div>
 </template>
 
@@ -57,6 +57,8 @@
 
     data () {
       return {
+        url: process.env.VUE_APP_URL,
+        port: process.env.VUE_APP_PORT
       }
     },
 

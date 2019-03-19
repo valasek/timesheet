@@ -6,8 +6,8 @@ import (
 	"time"
 
 	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/mysql"    // needed because of gorm design
 	_ "github.com/jinzhu/gorm/dialects/postgres" // needed because of gorm design
-	// _ "github.com/jinzhu/gorm/dialects/sqlite"
 )
 
 // DB abstraction
@@ -71,19 +71,19 @@ func NewPostgresDB(dataSourceName string) *DB {
 	return &DB{db}
 }
 
-// NewSqliteDB - sqlite database
-// func NewSqliteDB(dataSourceName string) *DB {
+// NewMySQLDB - mysql database
+func NewMySQLDB(dataSourceName string) *DB {
 
-// 	db, err := gorm.Open("sqlite3", dataSourceName)
-// 	if err != nil {
-// 		panic(err)
-// 	}
+	db, err := gorm.Open("mysql", dataSourceName)
+	if err != nil {
+		panic(err)
+	}
 
-// 	if err = db.DB().Ping(); err != nil {
-// 		panic(err)
-// 	}
+	if err = db.DB().Ping(); err != nil {
+		panic(err)
+	}
 
-// 	// db.LogMode(true)
+	// db.LogMode(true)
 
-// 	return &DB{db}
-//   }
+	return &DB{db}
+}

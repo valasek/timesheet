@@ -72,7 +72,7 @@ func (api *API) ReportedRecordDelete(c *gin.Context) {
 // ReportedRecordUpdate updates record
 func (api *API) ReportedRecordUpdate(c *gin.Context) {
 	var updatedValue models.UpdatedValue
-	if err := c.ShouldBindJSON(&updatedValue); err !=nil {
+	if err := c.ShouldBindJSON(&updatedValue); err != nil {
 		logger.Log.Error(fmt.Sprintf("unable to decode reported record, error: %s", err))
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -85,7 +85,7 @@ func (api *API) ReportedRecordUpdate(c *gin.Context) {
 func (api *API) ReportedRecordsAddRecord(c *gin.Context) {
 	// decoder := json.NewDecoder(req.Body)
 	var reportedRecord models.ReportedRecord
-	if err := c.ShouldBindJSON(&reportedRecord); err !=nil {
+	if err := c.ShouldBindJSON(&reportedRecord); err != nil {
 		logger.Log.Error("unable to decode reported record, error: ", err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

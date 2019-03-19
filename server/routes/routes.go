@@ -9,13 +9,13 @@ import (
 	"fmt"
 	"net/http"
 	"path/filepath"
-	"text/tabwriter"
 	"strings"
+	"text/tabwriter"
 	"time"
 
-	"github.com/gin-gonic/gin"
-	"github.com/gin-contrib/static"
 	"github.com/gin-contrib/cors"
+	"github.com/gin-contrib/static"
+	"github.com/gin-gonic/gin"
 	"github.com/mattn/go-colorable"
 	"github.com/spf13/viper"
 )
@@ -43,12 +43,12 @@ func Logger() gin.HandlerFunc {
 		statusCode := c.Writer.Status()
 		path := c.Request.URL.Path
 		message := fmt.Sprintf("[server] | %3d | %12v |%s | %-7s %s %s",
-				statusCode,
-				latency,
-				clientIP,
-				method,
-				path,
-				c.Errors.String(),
+			statusCode,
+			latency,
+			clientIP,
+			method,
+			path,
+			c.Errors.String(),
 		)
 		switch {
 		case statusCode >= 400 && statusCode <= 499:
@@ -65,7 +65,7 @@ func Logger() gin.HandlerFunc {
 func SetupRouter(api *api.API) *gin.Engine {
 
 	gin.DefaultWriter = colorable.NewColorableStdout()
-	if (viper.GetString("GIN_MODE") == "release") {
+	if viper.GetString("GIN_MODE") == "release" {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
