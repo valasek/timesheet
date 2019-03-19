@@ -3,7 +3,10 @@
 package models
 
 import (
+	"os"
 	"time"
+
+	"github.com/valasek/timesheet/server/logger"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"    // needed because of gorm design
@@ -59,11 +62,13 @@ func NewPostgresDB(dataSourceName string) *DB {
 
 	db, err := gorm.Open("postgres", dataSourceName)
 	if err != nil {
-		panic(err)
+		logger.Log.Error("cannot open postgres connection, error: ", err)
+		os.Exit(1)
 	}
 
 	if err = db.DB().Ping(); err != nil {
-		panic(err)
+		logger.Log.Error("cannot ping postgres, error: ", err)
+		os.Exit(1)
 	}
 
 	// db.LogMode(true)
@@ -76,11 +81,14 @@ func NewMySQLDB(dataSourceName string) *DB {
 
 	db, err := gorm.Open("mysql", dataSourceName)
 	if err != nil {
-		panic(err)
+		logger.Log.Error("cannot open mysql connection, error: ", err)
+		os.Exit(1)
 	}
 
 	if err = db.DB().Ping(); err != nil {
-		panic(err)
+		// panic("ping", err)
+		logger.Log.Error("cannot ping mysql, error: ", err)
+		os.Exit(1)
 	}
 
 	// db.LogMode(true)

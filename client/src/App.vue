@@ -1,7 +1,7 @@
 <!-- Copyright © 2018-2019 Stanislav Valasek <valasek@gmail.com> -->
 
 <template>
-  <v-app>
+  <v-app :dark="goDark">
     <v-snackbar v-model="notification" :color="notificationType" :left="true" :timeout="5000">
       {{ notificationText }}
     </v-snackbar>
@@ -21,7 +21,10 @@
         <v-divider class="menuSettings" />
 
         <v-list-tile class="menuSettings">
-          <v-switch v-model="weekUnlocked" :disabled="isCurrentWeek===true" label="Enable editing of this week" color="error" hide-details class="body-1" />
+          <v-switch v-model="weekUnlocked" :disabled="isCurrentWeek===true" label="Enable editing of this week" color="info" hide-details class="body-1" />
+        </v-list-tile>
+        <v-list-tile class="menuSettings">
+          <v-switch v-model="goDark" label="Enable dark mode" color="info" hide-details class="body-1" />
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
@@ -69,6 +72,7 @@
 
     data () {
       return {
+        goDark: false,
         drawer: true,
         items: [
           { title: 'Report my work', icon: 'work_outline', route: 'report' },

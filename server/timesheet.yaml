@@ -30,7 +30,7 @@ url: ""               # URL on which application is running
 PORT: "3000"          # port on which application is running
 
 # DB type
-dbType: "mysql"  # allowed types postgresql or mysql
+dbType: "postgresql"  # allowed types postgresql or mysql
 
 # Production URL - will be read from production environment config variable
 # If set, Database settings section variables will be ignored
