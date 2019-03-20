@@ -134,8 +134,8 @@
         <v-card>
           <v-card-text>
             <div class="font-italic">
-              You can download all reported data in csv format in a zip file. Demo data can be modified, production moved to another instance or used for billing.<br>
-              Upload zipped csv files. Use the same format as downloaded. This will replace all existing data.
+              You can download all reported data in csv format as a zip file. Demo data can be modified, production moved to another instance or exported data used for billing.<br>
+              You can upload modified zipped csv files. Use the same format as downloaded archive. Import will delete and replace all existing data.
             </div>
           </v-card-text>
           <v-container fluid>

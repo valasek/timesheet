@@ -152,8 +152,8 @@ Global Flags:
 
 # Backup & Restore
 
-All data can be downloaded locally as a zip file including csv files.
-Files can be modified and imported back. This action will replace all existing data.
+All data can be downloaded locally in CSV format.
+CSV files can be modified and imported back. Import will delete and replace all existing data.
 
 ![Backup & Restore](./backup_restore.png?raw=true "Backup & Restore")
 
