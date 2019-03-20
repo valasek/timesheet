@@ -238,6 +238,24 @@ If you or your organization would like to help beta test a Pro version of Timesh
 
 # Release Notes
 
+## Version 1.2.1
+Released on March 20, 2019
+
+### New Features
+* MySQL support
+
+### Usability
+* Dark / Light mode theme switch
+
+### Fixes
+* DB not available - log human error instead of an exception
+* Documentation typos
+
+### Technical Changes
+* Upgrade to Vuetify 1.5.7
+* Build with Go 1.12.1
+* Show server name and port on About page
+
 ## Version 1.2.0
 Released on March 14, 2019
 
