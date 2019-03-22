@@ -2,7 +2,7 @@ REM Copyright © 2018-2019 Stanislav Valasek <valasek@gmail.com>
 
 @ECHO OFF
 set zip="C:\Program Files\7-Zip\7z.exe"
-set version="1.2.1"
+set version="1.2.2"
 REM rem git describe --tags
 
 if "%1" == "demo" (
@@ -16,10 +16,12 @@ ECHO Removing aftifacts from the previous build ...
 IF EXIST .\build\timesheet.exe del .\build\timesheet.exe
 IF EXIST .\build\timesheet.app del .\build\timesheet.app
 IF EXIST .\build\timesheet.bin del .\build\timesheet.bin
+IF EXIST .\build\timesheet_arm.bin del .\build\timesheet_arm.bin
 IF EXIST .\build\timesheet.yaml del .\build\timesheet.yaml
 IF EXIST .\build\timesheet-prod.yaml del .\build\timesheet-prod.yaml
 IF EXIST .\build\MS_Windows_64bit.zip del .\build\MS_Windows_64bit.zip
 IF EXIST .\build\Linux_64bit.zip del .\build\Linux_64bit.zip
+IF EXIST .\build\Raspberry_Pi.zip del .\build\Raspberry_Pi.zip
 IF EXIST .\build\Mac_OS_X_64bit.zip del .\build\Mac_OS_X_64bit.zip
 IF EXIST .\build\documentation\documentation.md del .\build\documentation\documentation.md
 IF EXIST .\build\logs\error.log del .\build\logs\error.log
@@ -54,15 +56,20 @@ if "%1" == "demo" (
 )
 copy .\documentation\documentation.md .\..\build\documentation\documentation.md
 
-ECHO MS Windows ...
+ECHO MS Windows, 64-bit ...
 set GOOS=windows
 set GOARCH=amd64
 go build -ldflags "-X github.com/valasek/timesheet/server/version.Version=%version%" -o .\..\build\timesheet.exe .\timesheet.go
-ECHO Linux ...
+ECHO Linux, 64-bit...
 set GOOS=linux
 set GOARCH=amd64
 go build -ldflags "-X github.com/valasek/timesheet/server/version.Version=%version%" -o .\..\build\timesheet.bin .\timesheet.go
-ECHO MAC OS X ...
+ECHO Raspberry Pi, ARM 5 ...
+set GOOS=linux
+set GOARCH=arm
+set GOARM=5
+go build -ldflags "-X github.com/valasek/timesheet/server/version.Version=%version%" -o .\..\build\timesheet_arm.bin .\timesheet.go
+ECHO MAC OS X, 64-bit ...
 set GOOS=darwin
 set GOARCH=amd64
 go build -ldflags "-X github.com/valasek/timesheet/server/version.Version=%version%" -o .\..\build\timesheet.app .\timesheet.go
@@ -73,6 +80,7 @@ ECHO Compressing artifacts ...
 cd .\build
 call %zip% a -r MS_Windows_64bit.zip timesheet.exe timesheet.yaml client/ data/ logs/ documentation/
 call %zip% a -r Linux_64bit.zip ./timesheet.bin ./timesheet.yaml client/ data/ logs/ documentation/
+call %zip% a -r Raspberry_Pi.zip ./timesheet_arm.bin ./timesheet.yaml client/ data/ logs/ documentation/
 call %zip% a -r Mac_OS_X_64bit.zip ./timesheet.app ./timesheet.yaml client/ data/ logs/ documentation/
 cd ..
 

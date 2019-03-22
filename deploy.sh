@@ -1,21 +1,27 @@
 #!/bin/bash
 
+# set based on your environment
+DOMAIN=your.domain.com
+SOURCE_FOLDER=./timesheet
+TARGET_FOLDER=/opt/timesheet
+
+# deploy script
 echo cleaning up previous installation ...
 pkill timesheet.bin
-rm /opt/timesheet/client/dist/css/*
-rm /opt/timesheet/client/dist/js/*
-rm /opt/timesheet/data/*.csv
-rm /opt/timesheet/logs/*.log
-rm /opt/timesheet/timesheet.bin
+rm $TARGET_FOLDER/client/dist/css/*
+rm $TARGET_FOLDER/client/dist/js/*
+rm $TARGET_FOLDER/data/*.csv
+rm $TARGET_FOLDER/logs/*.log
+rm $TARGET_FOLDER/timesheet.bin
 
 echo deploing new version ...
-cp -r ./Pictures/* /opt/timesheet/
+cp -r $SOURCE_FOLDER/* $TARGET_FOLDER/
 chmod +x /opt/timesheet/timesheet.bin
-sed -i -e 's/localhost/your.domain.com/g' /opt/timesheet/client/dist/js/app.*.js
-sed -i -e 's/localhost/your.domain.com/g' /opt/timesheet/client/dist/js/app.*.js.map
+sed -i -e 's/localhost/$DOMAIN/g' $TARGET_FOLDER/client/dist/js/app.*.js
+sed -i -e 's/localhost/$DOMAIN/g' $TARGET_FOLDER/client/dist/js/app.*.js.map
 
 echo initializing and starting timesheet ...
-cd /opt/timesheet
+cd $TARGET_FOLDER
 ./timesheet.bin db --clean
 ./timesheet.bin db --load all
 nohup ./timesheet.bin server
