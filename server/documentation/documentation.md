@@ -239,6 +239,20 @@ If you or your organization would like to help beta test a Pro version of Timesh
 
 # Release Notes
 
+## Version 1.2.2
+Released on March 30, 2019
+
+### Usability
+* Add release 1.2.1 in docs
+* Import/Export text clarification 
+
+### Fixes
+* Consultant cannot report > 24 hours 
+
+### Technical
+* HTTPS support
+* Update to Vuetify 1.5.8 
+
 ## Version 1.2.1
 Released on March 20, 2019
 
