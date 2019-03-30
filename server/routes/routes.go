@@ -75,6 +75,9 @@ func SetupRouter(api *api.API) *gin.Engine {
 
 	// set CORS
 	router.Use(cors.Default())
+	// config := cors.DefaultConfig()
+	// config.AllowOrigins = []string{"*"}
+	// router.Use(cors.New(config))
 
 	// no route, bad url
 	router.NoRoute(noRoute)

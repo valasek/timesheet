@@ -2,10 +2,9 @@
 
 import axios from 'axios'
 
-const debug = process.env.NODE_ENV !== 'production'
-// baseURL: 'https://timesheet-cloud.herokuapp.com:' + port,
-let baseURL = ''
+var baseURL = ''
 
+const debug = process.env.NODE_ENV !== 'production'
 if (debug) {
   baseURL = 'http://localhost:3000'
 }

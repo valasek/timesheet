@@ -8,6 +8,7 @@ require (
 	github.com/gin-contrib/cors v0.0.0-20190301062745-f9e10995c85a
 	github.com/gin-contrib/sse v0.0.0-20190301062529-5545eab6dad3 // indirect
 	github.com/gin-contrib/static v0.0.0-20190301062546-ed515893e96b
+	github.com/gin-gonic/autotls v0.0.0-20190119125636-0b5f4fc15768
 	github.com/gin-gonic/gin v1.3.0
 	github.com/go-sql-driver/mysql v1.4.1 // indirect
 	github.com/gocarina/gocsv v0.0.0-20190131101517-2a8c07cdf701
@@ -26,9 +27,7 @@ require (
 	github.com/spf13/afero v1.2.1 // indirect
 	github.com/spf13/cobra v0.0.3
 	github.com/spf13/viper v1.3.1
-	github.com/stretchr/testify v1.3.0 // indirect
 	golang.org/x/crypto v0.0.0-20190211182817-74369b46fc67 // indirect
-	golang.org/x/net v0.0.0-20190110200230-915654e7eabc // indirect
 	google.golang.org/appengine v1.4.0 // indirect
 	gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect

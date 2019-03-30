@@ -5,10 +5,14 @@ set zip="C:\Program Files\7-Zip\7z.exe"
 set version="1.2.2"
 REM rem git describe --tags
 
-if "%1" == "demo" (
-    echo building demo build
+if "%1" == "cloud" (
+    echo building cloud build
+    copy .\client\.env.production.cloud .\client\.env.production.local
+    copy .\server\timesheet-cloud.yaml .\server\timesheet-prod.yaml
 ) else (
-    echo building production build
+    echo building DataArch build
+    copy .\client\.env.production.dataarch.local .\client\.env.production.local
+    copy .\server\timesheet-dataarch.yaml .\server\timesheet-prod.yaml
 )
 
 ECHO ==============================================
@@ -39,20 +43,20 @@ cd ..
 ECHO =====================
 ECHO Compiling backend ...
 cd .\server
-if "%1" == "demo" (
-    copy .\timesheet.yaml .\..\build\timesheet.yaml
-    copy .\data\consultants_demo.csv .\..\build\data\consultants_demo.csv
+if "%1" == "cloud" (
+    copy .\timesheet-cloud.yaml .\..\build\timesheet.yaml
+    copy .\data\consultants_cloud.csv .\..\build\data\consultants_cloud.csv
     copy .\data\holidays_us_2019.csv .\..\build\data\holidays_us_2019.csv
-    copy .\data\projects_demo.csv .\..\build\data\projects_demo.csv
-    copy .\data\rates_demo.csv .\..\build\data\rates_demo.csv
-    copy .\data\reported_records_demo.csv .\..\build\data\reported_records_demo.csv
+    copy .\data\projects_cloud.csv .\..\build\data\projects_cloud.csv
+    copy .\data\rates_cloud.csv .\..\build\data\rates_cloud.csv
+    copy .\data\reported_records_cloud.csv .\..\build\data\reported_records_cloud.csv
 ) else (
-    copy .\timesheet-prod.yaml .\..\build\timesheet.yaml
-    copy .\data\consultants_prod.csv .\..\build\data\consultants_prod.csv
+    copy .\timesheet-dataarch.yaml .\..\build\timesheet.yaml
+    copy .\data\consultants_dataarch.csv .\..\build\data\consultants_dataarch.csv
     copy .\data\holidays_cz_2019.csv .\..\build\data\holidays_cz_2019.csv
-    copy .\data\projects_prod.csv .\..\build\data\projects_prod.csv
-    copy .\data\rates_prod.csv .\..\build\data\rates_prod.csv
-    copy .\data\reported_records_prod.csv .\..\build\data\reported_records_prod.csv
+    copy .\data\projects_dataarch.csv .\..\build\data\projects_dataarch.csv
+    copy .\data\rates_dataarch.csv .\..\build\data\rates_dataarch.csv
+    copy .\data\reported_records_dataarch.csv .\..\build\data\reported_records_dataarch.csv
 )
 copy .\documentation\documentation.md .\..\build\documentation\documentation.md
 

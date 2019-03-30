@@ -66,5 +66,7 @@ logs/*
 # private seed data
 timesheet-data.xlsx
 ~$timesheet-data.xlsx
-*_prod.csv
-*-prod.yaml
+*_dataarch.csv
+*-dataarch.yaml
+timesheet-prod.yaml
+timesheet-prod.dataarch.yaml

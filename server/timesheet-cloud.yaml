@@ -25,10 +25,10 @@ isNonWorking: "not-work"  # when consultant dows not work, examples: vacation, s
 
 ########################
 # Application settings #
-SSL: false                # true/false, if server has SSL certificate set to true to use HTTPS, false = HTTP
-GIN_MODE: "release"       # "debug" or "release" - switch server app mode
-url: "localhost"          # URL on which application is running
-PORT: "3000"              # port on which application is running
+SSL: true                     # true/false, if server has SSL certificate set to true to use HTTPS, false = HTTP
+GIN_MODE: "release"           # "debug" or "release" - switch server app mode
+url: "timesheet.simplesw.net" # URL on which application is running
+PORT: "443"                   # port on which application is running
 
 # DB type
 dbType: "postgresql"  # allowed types postgresql or mysql
@@ -67,7 +67,7 @@ backup:
 # DB credentials
 # used for development and testing. Ignored if DATABASE_URL is set
 postgresql:
-  # host: "db" #
+# host: "db" #
   host: "127.0.0.1" #
   port: "5432"
   name: "timesheet"

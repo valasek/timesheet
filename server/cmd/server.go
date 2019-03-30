@@ -16,9 +16,9 @@ import (
 	"github.com/valasek/timesheet/server/routes"
 
 	"github.com/robfig/cron"
-
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	"github.com/gin-gonic/autotls"
 )
 
 // serverCmd represents the server command
@@ -32,6 +32,7 @@ projects, rates, consultants and holidays. If succeeds it will start server.`,
 	Run: func(cmd *cobra.Command, args []string) {
 
 		// prepare the server
+		ssl := viper.GetBool("ssl")
 		url := viper.GetString("url")
 		port := viper.GetString("port")
 		db := api.ConnectDB()
@@ -63,16 +64,27 @@ projects, rates, consultants and holidays. If succeeds it will start server.`,
 		logger.Log.Info(fmt.Sprintf("DB backups scheduled %s, %d backups back kept in location %s", interval, rotation, location))
 
 		// run the server
+		var address = url
+		if (len(port) > 0) {
+			address =  address + ":" + port
+		}
 		srv := &http.Server{
-			Addr:    url + ":" + port,
+			Addr:    address,
 			Handler: r,
 		}
 
 		// run the server with gracefull shutdown
 		go func() {
-			// service connections
-			if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-				logger.Log.Error(fmt.Sprintf("listen: %s", err))
+			if (ssl == true ) {
+				logger.Log.Info("starting server on: https://", address)
+				if err := autotls.Run(r, url) ; err != nil && err != http.ErrServerClosed {
+					logger.Log.Error(fmt.Sprintf("listen: %s", err))
+				}
+			} else {
+				logger.Log.Info("starting server on: http://", address)
+				if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+					logger.Log.Error(fmt.Sprintf("listen: %s", err))
+				}
 			}
 		}()
 

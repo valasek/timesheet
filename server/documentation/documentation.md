@@ -7,7 +7,7 @@ Timesheet can be installed using pre-build docker images or as a binary.
 Application can run in [Docker containers](https://hub.docker.com/search/?type=edition&offering=community). Server image size 24.9 MB, DB image size 312 MB.
 
 If you are running it directly, supported is:
-- Linux, Windows or MacOS
+- Linux, Windows, MacOS, Raspberry Pi
 - PostgreSQL DB or MySQL
 
 # Quick start
@@ -50,6 +50,7 @@ isNonWorking: "not-work" # when consultant dows not work, examples: vacation, si
 
 ########################
 # Application settings #
+SSL: false          # true/false, if server has SSL certificate set to true to use HTTPS, false = HTTP
 GIN_MODE: "release" # "debug" or "release" - switch server app mode
 url: ""             # URL on which application is running
 PORT: "3000"        # port on which application is running
