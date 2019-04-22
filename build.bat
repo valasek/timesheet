@@ -2,7 +2,7 @@ REM Copyright © 2018-2019 Stanislav Valasek <valasek@gmail.com>
 
 @ECHO OFF
 set zip="C:\Program Files\7-Zip\7z.exe"
-set version="1.2.2"
+set version="1.2.3"
 REM rem git describe --tags
 
 if "%1" == "cloud" (
@@ -26,7 +26,7 @@ IF EXIST .\build\timesheet-prod.yaml del .\build\timesheet-prod.yaml
 IF EXIST .\build\MS_Windows_64bit.zip del .\build\MS_Windows_64bit.zip
 IF EXIST .\build\Linux_64bit.zip del .\build\Linux_64bit.zip
 IF EXIST .\build\Raspberry_Pi.zip del .\build\Raspberry_Pi.zip
-IF EXIST .\build\Mac_OS_X_64bit.zip del .\build\Mac_OS_X_64bit.zip
+IF EXIST .\build\macOS_64bit.zip del .\build\macOS_64bit.zip
 IF EXIST .\build\documentation\documentation.md del .\build\documentation\documentation.md
 IF EXIST .\build\logs\error.log del .\build\logs\error.log
 IF EXIST .\build\logs\info.log del .\build\logs\info.log
@@ -73,7 +73,7 @@ set GOOS=linux
 set GOARCH=arm
 set GOARM=5
 go build -ldflags "-X github.com/valasek/timesheet/server/version.Version=%version%" -o .\..\build\timesheet_arm.bin .\timesheet.go
-ECHO MAC OS X, 64-bit ...
+ECHO macOS, 64-bit ...
 set GOOS=darwin
 set GOARCH=amd64
 go build -ldflags "-X github.com/valasek/timesheet/server/version.Version=%version%" -o .\..\build\timesheet.app .\timesheet.go
@@ -85,7 +85,7 @@ cd .\build
 call %zip% a -r MS_Windows_64bit.zip timesheet.exe timesheet.yaml client/ data/ logs/ documentation/
 call %zip% a -r Linux_64bit.zip ./timesheet.bin ./timesheet.yaml client/ data/ logs/ documentation/
 call %zip% a -r Raspberry_Pi.zip ./timesheet_arm.bin ./timesheet.yaml client/ data/ logs/ documentation/
-call %zip% a -r Mac_OS_X_64bit.zip ./timesheet.app ./timesheet.yaml client/ data/ logs/ documentation/
+call %zip% a -r macOS_64bit.zip ./timesheet.app ./timesheet.yaml client/ data/ logs/ documentation/
 cd ..
 
 ECHO ===========

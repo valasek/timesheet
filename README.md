@@ -2,7 +2,7 @@
 [![GitHub issues](https://img.shields.io/github/issues/valasek/timesheet.svg)](https://github.com/valasek/timesheet/issues)
 [![Go Report Card](https://goreportcard.com/badge/github.com/valasek/timesheet)](https://goreportcard.com/report/github.com/valasek/timesheet)
 
-| **Linux & Mac & Windows** |
+| **Linux & macOS & MS Windows & Raspberry PI** |
 | :-----------------------: |
 | [![Build Status](https://travis-ci.org/valasek/timesheet.svg?branch=master)](https://travis-ci.org/valasek/timesheet) |
 

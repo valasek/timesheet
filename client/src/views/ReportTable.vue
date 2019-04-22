@@ -11,15 +11,17 @@
           <select-consultant />
         </v-flex>
         <v-spacer />
-        <v-flex xs2>
+        <v-flex xs3>
           <v-toolbar-title>
             <v-text-field v-model="search" clearable append-icon="search" label="Search" single-line />
           </v-toolbar-title>
         </v-flex>
         <v-spacer />
-        <v-flex xs2>
-          <v-btn color="primary" :disabled="!weekUnlocked" class="mb-2" @click="addItem">
-            new record
+        <v-flex xs1>
+          <v-btn color="primary" :disabled="!weekUnlocked" round class="mb-2" @click="addItem">
+            <v-icon dark>
+              add
+            </v-icon>&nbsp;new&nbsp;
           </v-btn>
         </v-flex>
       </v-layout>
@@ -70,74 +72,76 @@
     </v-toolbar>
     <v-data-table :headers="headers" :items="selectedReportedHours" :search="search" :loading="loading" :disable-initial-sort="false" class="elevation-1 fixed-header" :rows-per-page-items="rowsPerPage">
       <template slot="items" slot-scope="props">
-        <td>
-          <template v-if="!weekUnlocked">
-            <label class="body-1">{{ props.item.date | formatDate }}</label>
-          </template>
-          <template v-else>
-            <v-menu :close-on-content-click="true" :nudge-right="40" lazy transition="scale-transition" offset-y full-width min-width="290px" @keyup.esc="model = false">
-              <v-text-field slot="activator" :value="props.item.date | formatDate" readonly class="body-1" />
-              <v-date-picker first-day-of-week="1" :value="props.item.date" @input="onUpdateDate({id: props.item.id, date: $event})" />
-            </v-menu>
-          </template>
-        </td>
-        <td class="text-xs-left">
-          <template v-if="!weekUnlocked">
-            <label class="body-1">{{ props.item.hours }}</label>
-          </template>
-          <template v-else>
-            <v-text-field :value="props.item.hours" :rules="hoursRules"
-                          type="number" min="0" max="24" step="0.5" maxlength="2"
-                          class="body-1" single-line @change="onUpdateHours({id: props.item.id, hours: $event})"
-            />
-          </template>
-        </td>
-        <td class="text-xs-left">
-          <template v-if="!weekUnlocked">
-            <label class="body-1">{{ props.item.project }}</label>
-          </template>
-          <template v-else>
-            <v-autocomplete :value="props.item.project" item-text="name" item-value="name"
-                            :items="assignedProjects" :dense="true" :hide-selected="false" class="body-1"
-                            @change="onUpdateProject({id: props.item.id, project: $event})"
-            />
-          </template>
-        </td>
-        <td class="text-xs-left">
-          <template v-if="!weekUnlocked">
-            <label class="body-1">{{ props.item.description }}</label>
-          </template>
-          <template v-else>
-            <v-text-field slot="input" :value="props.item.description" single-line class="body-1"
-                          maxlength="200" @change="onUpdateDescription({id: props.item.id, description: $event})"
-            />
-          </template>
-        </td>
-        <td class="text-xs-left">
-          <template v-if="!weekUnlocked">
-            <label class="body-1">{{ props.item.rate }}</label>
-          </template>
-          <template v-else>
-            <v-autocomplete slot="input" :value="props.item.rate" item-text="name" item-value="name"
-                            :items="rates" :dense="true" :hide-selected="false" class="body-1"
-                            @change="onUpdateRate({id: props.item.id, rate: $event})"
-            />
-          </template>
-        </td>
-        <td v-if="weekUnlocked" class="text-xs-center px-0">
-          <v-tooltip bottom>
-            <v-icon slot="activator" small class="mr-2" @click="duplicateItem(props.item)">
-              file_copy
-            </v-icon>
-            <span>Duplicate record</span>
-          </v-tooltip>
-          <v-tooltip bottom>
-            <v-icon slot="activator" small @click="deleteItem(props.item)">
-              delete
-            </v-icon>
-            <span>Remove record</span>
-          </v-tooltip>
-        </td>
+        <tr>
+          <td>
+            <template v-if="!weekUnlocked">
+              <label class="body-1">{{ props.item.date | formatDate }}</label>
+            </template>
+            <template v-else>
+              <v-menu :close-on-content-click="true" :nudge-right="40" lazy transition="scale-transition" offset-y full-width min-width="290px" @keyup.esc="model = false">
+                <v-text-field slot="activator" :value="props.item.date | formatDate" readonly class="body-1" />
+                <v-date-picker first-day-of-week="1" :value="props.item.date" @input="onUpdateDate({id: props.item.id, date: $event})" />
+              </v-menu>
+            </template>
+          </td>
+          <td class="text-xs-left">
+            <template v-if="!weekUnlocked">
+              <label class="body-1">{{ props.item.hours }}</label>
+            </template>
+            <template v-else>
+              <v-text-field :value="props.item.hours" :rules="hoursRules"
+                            type="number" min="0" max="24" step="0.5" maxlength="2"
+                            class="body-1" single-line @change="onUpdateHours({id: props.item.id, hours: $event})"
+              />
+            </template>
+          </td>
+          <td class="text-xs-left">
+            <template v-if="!weekUnlocked">
+              <label class="body-1">{{ props.item.project }}</label>
+            </template>
+            <template v-else>
+              <v-autocomplete :value="props.item.project" item-text="name" item-value="name"
+                              :items="assignedProjects" :dense="true" :hide-selected="false" class="body-1"
+                              @change="onUpdateProject({id: props.item.id, project: $event})"
+              />
+            </template>
+          </td>
+          <td class="text-xs-left">
+            <template v-if="!weekUnlocked">
+              <label class="body-1">{{ props.item.description }}</label>
+            </template>
+            <template v-else>
+              <v-text-field slot="input" :value="props.item.description" single-line class="body-1"
+                            maxlength="200" @change="onUpdateDescription({id: props.item.id, description: $event})"
+              />
+            </template>
+          </td>
+          <td class="text-xs-left">
+            <template v-if="!weekUnlocked">
+              <label class="body-1">{{ props.item.rate }}</label>
+            </template>
+            <template v-else>
+              <v-autocomplete slot="input" :value="props.item.rate" item-text="name" item-value="name"
+                              :items="rates" :dense="true" :hide-selected="false" class="body-1"
+                              @change="onUpdateRate({id: props.item.id, rate: $event})"
+              />
+            </template>
+          </td>
+          <td v-if="weekUnlocked" class="text-xs-center px-0">
+            <v-tooltip bottom>
+              <v-icon slot="activator" small class="mr-2" @click="duplicateItem(props.item)">
+                file_copy
+              </v-icon>
+              <span>Duplicate record</span>
+            </v-tooltip>
+            <v-tooltip bottom>
+              <v-icon slot="activator" small @click="deleteItem(props.item)">
+                delete
+              </v-icon>
+              <span>Remove record</span>
+            </v-tooltip>
+          </td>
+        </tr>
       </template>
       <template slot="no-data">
         <v-alert :value="true" color="info" icon="info">

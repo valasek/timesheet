@@ -42,7 +42,7 @@
       <v-spacer />
       <v-btn flat to="about">
         <span class="mr-2">
-          About
+          Help & About
         </span>
       </v-btn>
     </v-toolbar>

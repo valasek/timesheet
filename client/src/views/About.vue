@@ -30,7 +30,6 @@
         </li>
       </ol>
     </p>
-    <h2>Documentation</h2>
     <p>
       Read <router-link to="/documentation">
         full documentation.
@@ -38,8 +37,13 @@
     </p>
     <h2>Request New Feature</h2>
     <p>
-      Do you like what you see but mising an important feature? <a href="mailto:valasek@gmail.com">Describe your need</a>
+      Do you like what you see but mising an important feature? <a href="https://docs.google.com/forms/d/e/1FAIpQLSeh5Gw8iH9DlLQN3tjF66rrDLn5dkPnbi3V6vSjKAu0QPXnag/viewform?usp=sf_link">Describe your need</a>
       and next business day we will let you know if and when it will be available.
+    </p>
+    <h2>Report a Bug</h2>
+    <p>
+      Did you find an issue? <a href="https://docs.google.com/forms/d/e/1FAIpQLSfExGW2_D3YI4SjQ3-7SC7gys-b1AwywY-TBmITlDX644-Upg/viewform?usp=sf_link">Report it</a>
+      and next business day we will let you know when the fix will be available.
     </p>
     <v-img
       src="./settings-image.jpg"
