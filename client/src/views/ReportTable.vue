@@ -157,7 +157,7 @@
 
 <script>
   import { mapState } from 'vuex'
-  import { format, isWithinInterval, getISODay, parseISO } from 'date-fns'
+  import { format, isWithinInterval, getISODay, parseISO, addDays } from 'date-fns'
   import confirm from '../components/Confirm'
   import inform from '../components/Inform'
   import selectConsultant from '../components/SelectConsultant'
@@ -302,6 +302,7 @@
         let colorClass = ''
         if (item < this.dailyWorkingHoursMin) { colorClass = 'red--text lighten-2' }
         if (item >= this.dailyWorkingHoursMax) { colorClass = 'orange--text lighten-2' }
+        if (item >= 24) { colorClass = 'red--text lighten-2' }
         return colorClass
       },
       onUpdateProject (newValue) {
@@ -414,7 +415,7 @@
           let newRecord = Object.assign({}, item)
           newRecord.id = null
           newRecord.hours = newHrs
-          newRecord.date = format(parseISO(item.date), 'yyyy-MM-dd') + 'T00:00:00Z'
+          newRecord.date = format(addDays(parseISO(item.date), 1), 'yyyy-MM-dd') + 'T00:00:00Z'
           this.$store.dispatch('reportedHours/addRecord', newRecord)
         }
       },

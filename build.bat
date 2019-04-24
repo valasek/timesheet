@@ -2,21 +2,21 @@ REM Copyright © 2018-2019 Stanislav Valasek <valasek@gmail.com>
 
 @ECHO OFF
 set zip="C:\Program Files\7-Zip\7z.exe"
-set version="1.2.2"
+set version="1.2.3"
 REM rem git describe --tags
 
 if "%1" == "cloud" (
-    echo building cloud build
+    echo building *** cloud *** build, version %version%
     copy .\client\.env.production.cloud .\client\.env.production.local
     copy .\server\timesheet-cloud.yaml .\server\timesheet-prod.yaml
 ) else (
-    echo building DataArch build
+    echo building *** DataArch *** build, version %version%
     copy .\client\.env.production.dataarch.local .\client\.env.production.local
     copy .\server\timesheet-dataarch.yaml .\server\timesheet-prod.yaml
 )
 
 ECHO ==============================================
-ECHO Removing aftifacts from the previous build ...
+ECHO Removing artifacts from the previous build ...
 IF EXIST .\build\timesheet.exe del .\build\timesheet.exe
 IF EXIST .\build\timesheet.app del .\build\timesheet.app
 IF EXIST .\build\timesheet.bin del .\build\timesheet.bin

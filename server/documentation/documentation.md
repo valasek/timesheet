@@ -6,7 +6,7 @@ Timesheet can be installed using pre-build docker images or as a binary.
 
 Application can run in [Docker containers](https://hub.docker.com/search/?type=edition&offering=community). Server image size 24.9 MB, DB image size 312 MB.
 
-If you are running it directly, supported is:
+If you are hosting it, supported platforms are:
 - Linux, MS Windows, macOS, Raspberry Pi
 - PostgreSQL DB or MySQL
 
@@ -37,11 +37,11 @@ vacation: "Vacation"
 yearlyVacationDays: 20 # Used to calculate weekly and monthly expected working hours, can be changed in UI
 
 # Rate for additonal vacations. If not used, leave blank "" and set yearlyPersonalDays: 0, can be changed in UI
-vacationPersonal: "Vacation Personal"
+vacationPersonal: "Personal Day"
 yearlyPersonalDays: 3 # Used to calculate weekly and monthly expected working hours, can be changed in UI
 
 # Rate used for additonal vacation intended for sick day. If not used, leave blank "" and set yearlySickDays: 0, can be changed in UI
-vacationSick: "Vacation Sick"
+vacationSick: "Sick Day"
 yearlySickDays: 2 # Used to calculate weekly and monthly expected working hours, can be changed in UI
 
 # Categorize all rates into one of these types used on Reported Overview page
@@ -189,7 +189,7 @@ Rates are categorized into working *work* and *non-working*. Category names can 
 ```
 created_at,name,type
 "YYYY-MM-DD HH:MM:SS","rate name","work or non-work"
-"2019-01-14 00:00:00","On-site","work"
+"2019-01-14 00:00:00","Standard","work"
 "2019-01-14 00:00:00","Vacation","not-work"
 ```
 
@@ -199,7 +199,7 @@ Contains projects on which consultants can report the work and default project r
 ```
 created_at,name,rate
 "YYYY-MM-DD HH:MM:SS","project name","rate name"
-"2019-01-14 00:00:00","Vue","Off-site"
+"2019-01-14 00:00:00","Vue","Standard"
 ```
 
 ### reported_records.csv
@@ -238,6 +238,17 @@ If you or your organization would like to help beta test a Pro version of Timesh
   Email: [valasek@gmail.com](mailto:valasek@gmail.com)
 
 # Release Notes
+
+## Version 1.2.3
+Released on April 24, 2019
+
+### Usability
+* Help page contains links to new feature and bug report forms
+* Duplicate record will create new record on the next day
+* Daily hours shown red in weekly overview if was reported more than 24 hours per day
+
+### Technical:
+* Update to Vuetify 1.5.13, GO 1.12.4 and latest 3rd party GO packages
 
 ## Version 1.2.2
 Released on March 30, 2019

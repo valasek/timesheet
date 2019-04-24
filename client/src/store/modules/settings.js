@@ -12,9 +12,9 @@ const state = {
     yearlyVacationDays: 20, // Used for  weekly and monthly expected working hours
     vacation: 'Vacation', // Rate for vacations
     yearlyPersonalDays: 3, // Used for  weekly and monthly expected working hours
-    vacationPersonal: 'Vacation Personal', // Rate for additonal vacations
+    vacationPersonal: 'Personal Day', // Rate for additonal vacations
     yearlySickDays: 2, // Used for  weekly and monthly expected working hours
-    vacationSick: 'Vacation Sick', // Rate for additonal vacations as sick days
+    vacationSick: 'Sick Day', // Rate for additonal vacations as sick days
     isWorking: 'work', // all rates are categorized ising one of this two rates used on Overview page
     isNonWorking: 'not-work', // all rates are categorized ising one of this two rates used on Overview page
     selectedMonth: new Date(),

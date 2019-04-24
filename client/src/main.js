@@ -15,7 +15,6 @@ import Holidays from './views/Holidays'
 import Administration from './views/Administration'
 import Help from './views/About'
 import Documentation from './views/Documentation'
-import { i18n } from './i18n'
 
 Vue.use(VueRouter)
 Vue.use(VueAxios, axios)
@@ -64,6 +63,5 @@ new Vue({ // eslint-disable-line no-new
   el: '#app',
   store,
   router,
-  i18n,
   render: h => h(App)
 })
