@@ -2,7 +2,7 @@ REM Copyright © 2018-2019 Stanislav Valasek <valasek@gmail.com>
 
 @ECHO OFF
 set zip="C:\Program Files\7-Zip\7z.exe"
-set version="1.2.3"
+set version="1.2.2"
 REM rem git describe --tags
 
 if "%1" == "cloud" (
@@ -26,7 +26,7 @@ IF EXIST .\build\timesheet-prod.yaml del .\build\timesheet-prod.yaml
 IF EXIST .\build\MS_Windows_64bit.zip del .\build\MS_Windows_64bit.zip
 IF EXIST .\build\Linux_64bit.zip del .\build\Linux_64bit.zip
 IF EXIST .\build\Raspberry_Pi.zip del .\build\Raspberry_Pi.zip
-IF EXIST .\build\macOS_64bit.zip del .\build\macOS_64bit.zip
+IF EXIST .\build\Mac_OS_X_64bit.zip del .\build\Mac_OS_X_64bit.zip
 IF EXIST .\build\documentation\documentation.md del .\build\documentation\documentation.md
 IF EXIST .\build\logs\error.log del .\build\logs\error.log
 IF EXIST .\build\logs\info.log del .\build\logs\info.log

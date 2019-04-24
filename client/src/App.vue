@@ -42,7 +42,7 @@
       <v-spacer />
       <v-btn flat to="about">
         <span class="mr-2">
-          {{ $t("menu.help") }}
+          Help
         </span>
       </v-btn>
     </v-toolbar>
