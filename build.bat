@@ -60,33 +60,33 @@ if "%1" == "cloud" (
 )
 copy .\documentation\documentation.md .\..\build\documentation\documentation.md
 
-ECHO MS Windows, 64-bit ...
-set GOOS=windows
-set GOARCH=amd64
-go build -ldflags "-X github.com/valasek/timesheet/server/version.Version=%version%" -o .\..\build\timesheet.exe .\timesheet.go
+REM ECHO MS Windows, 64-bit ...
+REM set GOOS=windows
+REM set GOARCH=amd64
+REM go build -ldflags "-X github.com/valasek/timesheet/server/version.Version=%version%" -o .\..\build\timesheet.exe .\timesheet.go
 ECHO Linux, 64-bit...
 set GOOS=linux
 set GOARCH=amd64
 go build -ldflags "-X github.com/valasek/timesheet/server/version.Version=%version%" -o .\..\build\timesheet.bin .\timesheet.go
-ECHO Raspberry Pi, ARM 5 ...
-set GOOS=linux
-set GOARCH=arm
-set GOARM=5
-go build -ldflags "-X github.com/valasek/timesheet/server/version.Version=%version%" -o .\..\build\timesheet_arm.bin .\timesheet.go
-ECHO macOS, 64-bit ...
-set GOOS=darwin
-set GOARCH=amd64
-go build -ldflags "-X github.com/valasek/timesheet/server/version.Version=%version%" -o .\..\build\timesheet.app .\timesheet.go
+REM ECHO Raspberry Pi, ARM 5 ...
+REM set GOOS=linux
+REM set GOARCH=arm
+REM set GOARM=5
+REM go build -ldflags "-X github.com/valasek/timesheet/server/version.Version=%version%" -o .\..\build\timesheet_arm.bin .\timesheet.go
+REM ECHO macOS, 64-bit ...
+REM set GOOS=darwin
+REM set GOARCH=amd64
+REM go build -ldflags "-X github.com/valasek/timesheet/server/version.Version=%version%" -o .\..\build\timesheet.app .\timesheet.go
 cd ..
 
-ECHO =========================
-ECHO Compressing artifacts ...
-cd .\build
-call %zip% a -r MS_Windows_64bit.zip timesheet.exe timesheet.yaml client/ data/ logs/ documentation/
-call %zip% a -r Linux_64bit.zip ./timesheet.bin ./timesheet.yaml client/ data/ logs/ documentation/
-call %zip% a -r Raspberry_Pi.zip ./timesheet_arm.bin ./timesheet.yaml client/ data/ logs/ documentation/
-call %zip% a -r macOS_64bit.zip ./timesheet.app ./timesheet.yaml client/ data/ logs/ documentation/
-cd ..
+REM ECHO =========================
+REM ECHO Compressing artifacts ...
+REM cd .\build
+REM call %zip% a -r MS_Windows_64bit.zip timesheet.exe timesheet.yaml client/ data/ logs/ documentation/
+REM call %zip% a -r Linux_64bit.zip ./timesheet.bin ./timesheet.yaml client/ data/ logs/ documentation/
+REM call %zip% a -r Raspberry_Pi.zip ./timesheet_arm.bin ./timesheet.yaml client/ data/ logs/ documentation/
+REM call %zip% a -r macOS_64bit.zip ./timesheet.app ./timesheet.yaml client/ data/ logs/ documentation/
+REM cd ..
 
 ECHO ===========
 ECHO Builds are ready

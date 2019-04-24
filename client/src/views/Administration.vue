@@ -107,6 +107,12 @@
         <v-card>
           <v-card-text>
             <p class="font-italic">
+              {{ $t("message.switchlanguage") }}
+            </p>
+            <v-select v-model="selectedLocale" :items="locales" item-text="name" item-value="id" label="Language"
+                      :dense="true" class="body-1" style="width: 10em" @change="onUpdateLocale"
+            />
+            <p class="font-italic">
               Used for weekly and monthly expected working hours
             </p>
             <v-text-field :value="dailyWorkingHours" label="Daily working hours" :rules="hoursRules"
@@ -193,6 +199,7 @@
   import { mapState } from 'vuex'
   import api from '../api/axiosSettings'
   import UploadButton from 'vuetify-upload-button'
+  import { i18n } from '../i18n'
 
   export default {
 
@@ -202,6 +209,11 @@
 
     data () {
       return {
+        selectedLocale: { id: i18n.locale, name: '' },
+        locales: [
+          { id: 'en', name: 'English' },
+          { id: 'cz', name: 'Czech' }
+        ],
         hoursRules: [
           (v) => !isNaN(parseFloat(v)) || 'Enter hours between 0 and 24',
           (v) => (parseFloat(v) <= 24) || 'Enter number between 0 and 24',
@@ -248,7 +260,7 @@
     },
 
     created () {
-      this.$store.commit('context/SET_PAGE', 'Administration')
+      this.$store.commit('context/SET_PAGE', this.$i18n.t('menu.administration'))
     },
 
     methods: {
@@ -301,6 +313,11 @@
             admin.$store.dispatch('context/setNotification', { text: 'Couldn\'t download log file: ' + e.response.data, type: 'error' }, { root: true })
             console.log(e, e.response) /* eslint-disable-line no-console */
           })
+      },
+      onUpdateLocale (newValue) {
+        i18n.locale = newValue
+        localStorage.setItem('selectedLocales', newValue)
+        this.$store.dispatch('context/setNotification', { text: 'Language changed to ' + this.locales.find(x => x.id === newValue).name, type: 'success' }, { root: true })
       },
       onUpdateHours (newValue) {
         if (!isNaN(parseFloat(newValue.hourValue)) && newValue.hourValue >= 0 && newValue.hourValue <= 24) {

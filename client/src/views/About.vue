@@ -3,7 +3,7 @@
 <template>
   <div>
     <h1>Timesheet</h1>
-    <p>Self-hosted web application for weekly reporting your consulting hours on projects using selected rates.</p>
+    <p>{{ $t("message.hello") }}</p>
 
     <h2>Quick Start</h2>
     <p>

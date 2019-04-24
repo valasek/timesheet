@@ -21,10 +21,10 @@
         <v-divider class="menuSettings" />
 
         <v-list-tile class="menuSettings">
-          <v-switch v-model="weekUnlocked" :disabled="isCurrentWeek===true" label="Enable editing of this week" color="info" hide-details class="body-1" />
+          <v-switch v-model="weekUnlocked" :disabled="isCurrentWeek===true" :label="$t('menu.editthisweek')" color="info" hide-details class="body-1" />
         </v-list-tile>
         <v-list-tile class="menuSettings">
-          <v-switch v-model="goDark" label="Enable dark mode" color="info" hide-details class="body-1" />
+          <v-switch v-model="goDark" :label="$t('menu.darkmode')" color="info" hide-details class="body-1" />
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
@@ -42,7 +42,7 @@
       <v-spacer />
       <v-btn flat to="about">
         <span class="mr-2">
-          Help & About
+          {{ $t("menu.help") }}
         </span>
       </v-btn>
     </v-toolbar>
@@ -64,6 +64,7 @@
 <script>
   import ReportTable from './views/ReportTable'
   import { mapState } from 'vuex'
+  import { i18n, loadLanguageAsync } from './i18n'
 
   export default {
     components: {
@@ -75,10 +76,10 @@
         goDark: false,
         drawer: true,
         items: [
-          { title: 'Report my work', icon: 'work_outline', route: 'report' },
-          { title: 'Reported overview', icon: 'show_chart', route: 'overview' },
-          { title: 'State holidays', icon: 'event', route: 'holidays' },
-          { title: 'Administration', icon: 'settings', route: 'administration' }
+          { title: this.$i18n.t('menu.report'), icon: 'work_outline', route: 'report' },
+          { title: this.$i18n.t('menu.overview'), icon: 'show_chart', route: 'overview' },
+          { title: this.$i18n.t('menu.holiday'), icon: 'event', route: 'holidays' },
+          { title: this.$i18n.t('menu.administration'), icon: 'settings', route: 'administration' }
         ],
         right: null
       }
@@ -111,6 +112,11 @@
     },
 
     created () {
+      const l = localStorage.getItem('selectedLocales')
+      if (l && l.length > 0) {
+        i18n.locale = l
+      }
+      loadLanguageAsync(l).then(() => console.log('loaded language: ' + l)) /* eslint-disable-line no-console */
       this.$store.dispatch('context/resetNotification')
       this.$store.dispatch('consultants/getConsultants')
       this.$store.dispatch('projects/getProjects')

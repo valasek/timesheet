@@ -1,0 +1,15 @@
+{
+  "message": {
+    "hello": "XXX Self-hosted web application for weekly reporting your consulting hours on projects using selected rates.",
+    "switchlanguage": "Switch language"
+  },
+  "menu": {
+    "report": "Report my work",
+    "overview": "Reported Overview",
+    "holiday": "State Holidays",
+    "administration": "Administration",
+    "editthisweek": "Enable editing of this week",
+    "darkmode": "Enable dark mode",
+    "help": "Help"
+  }
+}
