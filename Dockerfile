@@ -29,6 +29,8 @@ COPY ./server/go.mod ./go.mod
 RUN go mod download
 ADD ./server/data/ /data
 RUN chmod -R ug+rw /data
+ADD ./server/documentation/ /documentation
+RUN chmod -R ug+rw /documentation
 ADD ./server/logs/ /logs
 RUN chmod -R ug+rwx /logs
 COPY ./docker-entrypoint.sh /docker-entrypoint.sh
@@ -87,6 +89,8 @@ COPY --from=backend /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --from=backend /timesheet.bin /timesheet.bin
 # Copy data folder
 COPY --from=backend /data /data
+# Copy documentation folder
+COPY --from=backend /documentation /documentation
 # Copy log folder
 COPY --from=backend /logs /logs
 # Copy compiled frontend files
