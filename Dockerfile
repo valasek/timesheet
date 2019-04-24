@@ -34,7 +34,7 @@ RUN chmod -R ug+rw /documentation
 ADD ./server/logs/ /logs
 RUN chmod -R ug+rwx /logs
 COPY ./docker-entrypoint.sh /docker-entrypoint.sh
-COPY ./server/timesheet.yaml /timesheet.yaml
+COPY ./server/timesheet-dataarch.yaml /timesheet.yaml
 RUN chmod +x /docker-entrypoint.sh
 
 # Import the code from the context.
