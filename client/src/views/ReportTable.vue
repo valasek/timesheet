@@ -366,27 +366,31 @@
         }
         this.$store.dispatch('reportedHours/updateAttributeValue', payload)
       },
-      remainingHoursDaily (item) {
-        let totalDailyHours = this.reportedHours.filter(x => x.date === item.date).reduce(
+      remainingHoursDaily (date, hours) {
+        let totalDailyHours = this.reportedHours.filter(x => x.date === date).reduce(
           function (total, current) {
             return total + current.hours
           }, 0)
         if (typeof (totalDailyHours) === 'object') {
           totalDailyHours = totalDailyHours.hours
         }
-        const totalDailyHoursNew = totalDailyHours + item.hours
+        const totalDailyHoursNew = totalDailyHours + hours
         if (totalDailyHoursNew <= 24) {
-          return item.hours
+          return hours
         }
-        if (totalDailyHours >= 24) {
-          this.$store.dispatch('context/setNotification', { text: totalDailyHours + ' hours reported on ' + format(parseISO(item.date), 'EEEE') + ' and you want to add additional ' + item.hours + ' hours. Record was not created.', type: 'error' })
+        if (totalDailyHoursNew < 48) {
+          this.$store.dispatch('context/setNotification', { text: 'Over 24 hours reported on ' + format(parseISO(date), 'EEEE'), type: 'warning' })
+          return hours
+        }
+        if (totalDailyHours >= 48) {
+          this.$store.dispatch('context/setNotification', { text: totalDailyHours + ' hours reported on ' + format(parseISO(date), 'EEEE') + ' and you want to add additional ' + hours + ' hours. Record was not created.', type: 'error' })
           return -1
         }
-        if (totalDailyHoursNew > 24) {
-          this.$store.dispatch('context/setNotification', { text: 'Only ' + (24 - totalDailyHours).toString() + ' hours added on ' + format(parseISO(item.date), 'EEEE') + '. You wanted to add ' + item.hours + ' to already reported ' + totalDailyHours + ' hours.', type: 'warning' })
-          return 24 - totalDailyHours
+        if (totalDailyHoursNew > 48) {
+          this.$store.dispatch('context/setNotification', { text: 'Only ' + (48 - totalDailyHours).toString() + ' hours added on ' + format(parseISO(date), 'EEEE') + '. You wanted to add ' + hours + ' to already reported ' + totalDailyHours + ' hours.', type: 'warning' })
+          return 48 - totalDailyHours
         }
-        return item.hours
+        return hours
       },
       addItem (item) {
         let d = new Date()
@@ -402,7 +406,7 @@
           description: '',
           project: ''
         }
-        const newHrs = this.remainingHoursDaily(newRecord)
+        const newHrs = this.remainingHoursDaily(newRecord.date, newRecord.hours)
         if (newHrs > 0 && newHrs <= newRecord.hours) {
           newRecord.date = format(d, "yyyy-MM-dd'T'HH:mm:ssXXX")
           newRecord.hours = newHrs
@@ -410,12 +414,13 @@
         }
       },
       duplicateItem (item) {
-        const newHrs = this.remainingHoursDaily(item)
+        const nextDay = format(addDays(parseISO(item.date), 1), 'yyyy-MM-dd')
+        const newHrs = this.remainingHoursDaily(nextDay, item.hours)
         if (newHrs > 0 && newHrs <= item.hours) {
           let newRecord = Object.assign({}, item)
           newRecord.id = null
           newRecord.hours = newHrs
-          newRecord.date = format(addDays(parseISO(item.date), 1), 'yyyy-MM-dd') + 'T00:00:00Z'
+          newRecord.date = nextDay + 'T00:00:00Z'
           this.$store.dispatch('reportedHours/addRecord', newRecord)
         }
       },

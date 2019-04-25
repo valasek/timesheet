@@ -15,10 +15,10 @@ import (
 	"github.com/valasek/timesheet/server/logger"
 	"github.com/valasek/timesheet/server/routes"
 
+	"github.com/gin-gonic/autotls"
 	"github.com/robfig/cron"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"github.com/gin-gonic/autotls"
 )
 
 // serverCmd represents the server command
@@ -65,8 +65,8 @@ projects, rates, consultants and holidays. If succeeds it will start server.`,
 
 		// run the server
 		var address = url
-		if (len(port) > 0) {
-			address =  address + ":" + port
+		if len(port) > 0 {
+			address = address + ":" + port
 		}
 		srv := &http.Server{
 			Addr:    address,
@@ -75,9 +75,9 @@ projects, rates, consultants and holidays. If succeeds it will start server.`,
 
 		// run the server with gracefull shutdown
 		go func() {
-			if (ssl == true ) {
+			if ssl == true {
 				logger.Log.Info("starting server on: https://", address)
-				if err := autotls.Run(r, url) ; err != nil && err != http.ErrServerClosed {
+				if err := autotls.Run(r, url); err != nil && err != http.ErrServerClosed {
 					logger.Log.Error(fmt.Sprintf("listen: %s", err))
 				}
 			} else {
