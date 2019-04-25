@@ -246,9 +246,11 @@ Released on April 24, 2019
 * Help page contains links to new feature and bug report forms
 * Duplicate record will create new record on the next day
 * Daily hours shown red in weekly overview if was reported more than 24 hours per day
+* Allow to report with a warning more than 24 hours per day
 
 ### Technical:
 * Update to Vuetify 1.5.13, GO 1.12.4 and latest 3rd party GO packages
+* README cleanup and code refactoring
 
 ## Version 1.2.2
 Released on March 30, 2019
