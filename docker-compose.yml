@@ -1,5 +1,5 @@
   # Copyright © 2018-2019 Stanislav Valasek <valasek@gmail.com>
-  version: '3.3'
+  version: "3.3"
   
   services:
     server:
