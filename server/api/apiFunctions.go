@@ -21,31 +21,6 @@ import (
 	"github.com/spf13/viper"
 )
 
-// // API -
-// type API struct {
-// 	consultants     *models.ConsultantManager
-// 	reportedRecords *models.ReportedRecordManager
-// 	projects        *models.ProjectManager
-// 	rates           *models.RateManager
-// 	holidays        *models.HolidayManager
-// }
-
-// // AppSettings -
-// type AppSettings struct {
-// 	Version              string  `json:"version"`
-// 	DailyWorkingHours    float64 `json:"dailyWorkingHours"`
-// 	DailyWorkingHoursMin float64 `json:"dailyWorkingHoursMin"`
-// 	DailyWorkingHoursMax float64 `json:"dailyWorkingHoursMax"`
-// 	Vacation             string  `json:"vacation"`
-// 	YearlyVacationDays   int64   `json:"yearlyVacationDays"`
-// 	VacationPersonal     string  `json:"vacationPersonal"`
-// 	YearlyPersonalDays   int64   `json:"yearlyPersonalDays"`
-// 	VacationSick         string  `json:"vacationSick"`
-// 	YearlySickDays       int64   `json:"yearlySickDays"`
-// 	IsWorking            string  `json:"isWorking"`
-// 	IsNonWorking         string  `json:"isNonWorking"`
-// }
-
 // FileList returs map tables and input file for initial seeding
 func FileList() map[string]string {
 	list := map[string]string{

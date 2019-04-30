@@ -44,12 +44,12 @@ type ReportedRecordsSummary struct {
 // ReportedRecordCSV csv struct
 type ReportedRecordCSV struct {
 	CreatedAt   DateTime `csv:"created_at"`
+	Consultant  string   `csv:"consultant"`
 	Date        Date     `csv:"date"`
-	Hours       float64  `csv:"hours"`
 	Project     string   `csv:"project"`
+	Hours       float64  `csv:"hours"`
 	Description string   `csv:"description"`
 	Rate        string   `csv:"rate"`
-	Consultant  string   `csv:"consultant"`
 }
 
 // ReportedRecordManager struct
@@ -260,7 +260,7 @@ func (db *ReportedRecordManager) ReportedRecordBackup(filePath string) (int, err
 	for _, r := range reportedRecords {
 		createdAt := DateTime{r.CreatedAt}
 		date := Date{r.Date}
-		item := ReportedRecordCSV{CreatedAt: createdAt, Date: date, Hours: r.Hours, Project: r.Project, Description: r.Description, Rate: r.Rate, Consultant: r.Consultant}
+		item := ReportedRecordCSV{CreatedAt: createdAt, Consultant: r.Consultant, Date: date, Project: r.Project, Hours: r.Hours, Description: r.Description, Rate: r.Rate}
 		projectCSV = append(projectCSV, &item)
 	}
 
