@@ -228,7 +228,7 @@ func (db *ReportedRecordManager) ReportedRecordSeed(file string) int {
 		logger.Log.Error(err)
 	}
 	for _, r := range recordsCSV {
-		newR := ReportedRecord{CreatedAt: r.CreatedAt.Time, Date: r.Date.Time, Hours: r.Hours, Project: r.Project, Description: r.Description, Rate: r.Rate, Consultant: r.Consultant}
+		newR := ReportedRecord{CreatedAt: r.CreatedAt.Time, Consultant: r.Consultant, Date: r.Date.Time, Hours: r.Hours, Project: r.Project, Description: r.Description, Rate: r.Rate}
 		db.db.Create(&newR)
 	}
 
