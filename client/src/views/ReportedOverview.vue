@@ -158,7 +158,7 @@
 
 <script>
   import { mapState } from 'vuex'
-  import { format, lightFormat, getYear, getDaysInMonth, eachWeekendOfMonth } from 'date-fns'
+  import { format, lightFormat, getYear, getDaysInMonth, eachWeekendOfMonth, parseISO } from 'date-fns'
   import selectConsultant from '../components/SelectConsultant'
   import changeWeek from '../components/ChangeWeek'
 
@@ -232,7 +232,8 @@
         yearlySickDays: state => state.settings.yearlySickDays,
         vacationSick: state => state.settings.vacationSick,
         isWorking: state => state.settings.isWorking,
-        isNonWorking: state => state.settings.isNonWorking
+        isNonWorking: state => state.settings.isNonWorking,
+        holidays: state => state.holidays.all
       }),
       thisYear () { return getYear(this.selectedMonth) },
       thisWeek () {
@@ -331,18 +332,20 @@
       workingTimeOverview (period) {
         var data = []
         var summary = {}
+        var weeklyHolidays = this.getHolidays('week')
+        var monthlyHolidays = this.getHolidays('month')
         switch (period) {
           case 'week':
             summary = this.getTotalsInWeek(this.selectedReportedHoursWeekly)
             data.push({
               text: 'Available working time',
-              value: this.businessWeekly * this.dailyWorkingHours
+              value: this.businessWeekly * this.dailyWorkingHours - weeklyHolidays
             })
             break
           case 'month':
             data.push({
               text: 'Available working time',
-              value: this.businessMonthly * this.dailyWorkingHours
+              value: this.businessMonthly * this.dailyWorkingHours - monthlyHolidays
             })
             summary = this.getTotalInMonth(this.reportedHoursSummary)
             break
@@ -355,18 +358,42 @@
             value: summary.working + summary.nonWorking
           },
           {
-            text: 'Reported working time',
+            text: '- Reported working time',
             value: summary.working
           },
           {
-            text: 'Reported non-working time',
+            text: '- Reported non-working time',
             value: summary.nonWorking
           }
-          // {
-          //   remaining working time
-          // }
         )
+        switch (period) {
+          case 'week':
+            data.push({
+              text: 'Remaining total',
+              value: this.businessWeekly * this.dailyWorkingHours - summary.working + summary.nonWorking - weeklyHolidays
+            })
+            break
+          case 'month':
+            data.push({
+              text: 'Remaining total',
+              value: this.businessMonthly * this.dailyWorkingHours - summary.working + summary.nonWorking - monthlyHolidays
+            })
+            break
+          default:
+            console.log('workingTimeOverview unknown period:', period) /* eslint-disable-line no-console */
+        }
         return data
+      },
+      getHolidays (period) {
+        var m = this.selectedMonth.getMonth()
+        switch (period) {
+          case 'week':
+            return this.holidays.filter(d => parseISO(d.date) > this.dateFrom && parseISO(d.date) < this.dateTo).length * 8
+          case 'month':
+            return this.holidays.filter(d => parseISO(d.date).getMonth() === m).length * 8
+          default:
+            console.log('workingTimeOverview unknown period:', period) /* eslint-disable-line no-console */
+        }
       },
       getDaysInMonth (month, year) {
         let date = new Date(year, month, 0).getDate()

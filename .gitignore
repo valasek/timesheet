@@ -41,7 +41,9 @@ general.log
 *.ntvs*
 *.njsproj
 *.sln
-*.sw* 
+*.sw*
+go.mod 
+go.sum
 
 # temporary build artifacts
 build/*.*
