@@ -192,12 +192,13 @@
 <script>
   import { mapState } from 'vuex'
   import api from '../api/axiosSettings'
-  import UploadButton from 'vuetify-upload-button'
+  // import UploadButton from 'vuetify-upload-button'
 
   export default {
 
     components: {
-      'upload-btn': UploadButton
+      /* webpackChunkName: "admin" */
+      'upload-btn': () => import('vuetify-upload-button')
     },
 
     data () {

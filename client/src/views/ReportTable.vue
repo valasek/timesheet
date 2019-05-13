@@ -158,24 +158,27 @@
 <script>
   import { mapState } from 'vuex'
   import { format, isWithinInterval, getISODay, parseISO, addDays } from 'date-fns'
-  import confirm from '../components/Confirm'
-  import inform from '../components/Inform'
-  import selectConsultant from '../components/SelectConsultant'
-  import changeWeek from '../components/ChangeWeek'
+  // import confirm from '../components/Confirm'
+  // import inform from '../components/Inform'
+  // import changeWeek from '../components/ChangeWeek'
 
   export default {
 
     components: {
-      'confirm': confirm,
-      'inform': inform,
-      'select-consultant': selectConsultant,
-      'change-week': changeWeek
+      /* webpackChunkName: "core" */
+      'confirm': () => import('@/components/Confirm'),
+      /* webpackChunkName: "core" */
+      'inform': () => import('@/components/Inform'),
+      /* webpackChunkName: "core" */
+      'select-consultant': () => import('@/components/SelectConsultant'),
+      /* webpackChunkName: "core" */
+      'change-week': () => import('@/components/ChangeWeek')
     },
 
     filters: {
       formatDate: function (date) {
         if (!date) return ''
-        return format(parseISO(date), 'iii, MMM do')
+        return format(parseISO(date), 'iii, M/d')
       }
     },
 
@@ -457,8 +460,4 @@ html body div#app.application.theme--light div.application--wrap main.v-content 
     transform: scale(0.875);
     transform-origin: left;
 } */
-@import '~vuetify-stylus-fixed-table-header';
-.fixed-header {
-  fixed-table-header(65vh)
-}
 </style>

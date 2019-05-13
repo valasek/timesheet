@@ -159,14 +159,16 @@
 <script>
   import { mapState } from 'vuex'
   import { format, lightFormat, getYear, getDaysInMonth, eachWeekendOfMonth, parseISO } from 'date-fns'
-  import selectConsultant from '../components/SelectConsultant'
-  import changeWeek from '../components/ChangeWeek'
+  // import selectConsultant from '../components/SelectConsultant'
+  // import changeWeek from '../components/ChangeWeek'
 
   export default {
 
     components: {
-      'select-consultant': selectConsultant,
-      'change-week': changeWeek
+      /* webpackChunkName: "core" */
+      'select-consultant': () => import('@/components/SelectConsultant'),
+      /* webpackChunkName: "core" */
+      'change-week': () => import('@/components/ChangeWeek')
     },
 
     filters: {
@@ -358,11 +360,11 @@
             value: summary.working + summary.nonWorking
           },
           {
-            text: '- Reported working time',
+            text: ' — Reported working time',
             value: summary.working
           },
           {
-            text: '- Reported non-working time',
+            text: ' — Reported non-working time',
             value: summary.nonWorking
           }
         )

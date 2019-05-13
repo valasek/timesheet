@@ -62,12 +62,12 @@
 </template>
 
 <script>
-  import ReportTable from './views/ReportTable'
   import { mapState } from 'vuex'
 
   export default {
     components: {
-      ReportTable
+      /* webpackChunkName: "core" */
+      ReportTable: () => import('@/views/ReportTable')
     },
 
     data () {

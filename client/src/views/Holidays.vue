@@ -58,7 +58,7 @@
     methods: {
       formatDate (date) {
         if (!date) return null
-        return format(parseISO(date), 'MMM do, yyyy')
+        return format(parseISO(date), 'MMM d, yyyy')
       },
       formatDay (date) {
         if (!date) return null

@@ -44,7 +44,7 @@
       },
       // FIXME move to filter
       formatWeek (date) {
-        return format(date, 'MMM do')
+        return format(date, 'MMM d')
       },
       setToday () {
         this.$store.dispatch('settings/jumpToWeek', new Date())
