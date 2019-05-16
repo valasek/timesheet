@@ -1,5 +1,5 @@
-created_at,name
-"2019-01-14 00:00:00","Stanislav Valasek"
-"2019-01-14 00:00:00","Evan You"
-"2019-01-14 00:00:00","John Leider"
-"2019-01-14 00:00:00","Russ Cox"
+created_at,name,allocation
+"2019-01-14 00:00:00","Stanislav Valasek","1"
+"2019-01-14 00:00:00","Evan You","1"
+"2019-01-14 00:00:00","John Leider","1"
+"2019-01-14 00:00:00","Russ Cox","0.5"

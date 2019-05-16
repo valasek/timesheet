@@ -4,8 +4,9 @@ import api from '../../api/axiosSettings'
 
 // initial state
 const state = {
-    all: [],
-    selected: ''
+    all: [], // id, name, allocation
+    selected: '',
+    selectedAllocation: 1
 }
 
 const getters = {}
@@ -36,13 +37,16 @@ const mutations = {
         let c = localStorage.getItem('selectedConsultant')
         if (c && c.length > 0) {
             state.selected = c
+            state.selectedAllocation = state.all.find(cc => cc.name === c).allocation
         } else {
             state.selected = consultants[0].name
+            state.selectedAllocation = consultants[0].allocation
         }
     },
 
     SET_SELECTED (state, selectedConsultant) {
         state.selected = selectedConsultant
+        state.selectedAllocation = state.all.find(cc => cc.name === selectedConsultant).allocation
         localStorage.setItem('selectedConsultant', selectedConsultant)
     }
 

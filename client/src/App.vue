@@ -21,10 +21,10 @@
         <v-divider class="menuSettings" />
 
         <v-list-tile class="menuSettings">
-          <v-switch v-model="weekUnlocked" :disabled="isCurrentWeek===true" label="Enable editing of this week" color="info" hide-details class="body-1" />
+          <v-switch v-model="weekUnlocked" :disabled="isCurrentWeek===true" label="Edit this week" color="info" hide-details class="body-1" />
         </v-list-tile>
         <v-list-tile class="menuSettings">
-          <v-switch v-model="goDark" label="Enable dark mode" color="info" hide-details class="body-1" />
+          <v-switch v-model="goDark" label="Dark mode" color="info" hide-details class="body-1" />
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>

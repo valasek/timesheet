@@ -6,7 +6,7 @@ import { format, getYear, parseISO } from 'date-fns'
 // initial state
 const state = {
     consultantMonthly: [], // {id, date, hours, project, description, rate, consultant}
-    summary: [], // {consultant, year, month, project, rate, hours }
+    summary: [], // {consultant, year, month, project, rate, hours}
     loading: false
 }
 

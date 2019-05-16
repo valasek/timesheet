@@ -15,17 +15,19 @@ import (
 
 // Consultant struct
 type Consultant struct {
-	ID        uint64     `gorm:"primary_key" json:"id"`
-	CreatedAt time.Time  `json:"-"`
-	UpdatedAt time.Time  `json:"-"`
-	DeletedAt *time.Time `json:"-"`
-	Name      string     `gorm:"not null;unique" json:"name"`
+	ID         uint64     `gorm:"primary_key" json:"id"`
+	CreatedAt  time.Time  `json:"-"`
+	UpdatedAt  time.Time  `json:"-"`
+	DeletedAt  *time.Time `json:"-"`
+	Name       string     `gorm:"not null;unique" json:"name"`
+	Allocation float64    `gorm:"not null" json:"allocation"`
 }
 
 // ConsultantCSV csv struct
 type ConsultantCSV struct {
-	CreatedAt DateTime `csv:"created_at"`
-	Name      string   `csv:"name"`
+	CreatedAt  DateTime `csv:"created_at"`
+	Name       string   `csv:"name"`
+	Allocation float64  `csv:"allocation"`
 }
 
 // ConsultantManager struct
@@ -69,7 +71,7 @@ func (db *ConsultantManager) ConsultantSeed(file string) int {
 		logger.Log.Error(err)
 	}
 	for _, c := range consultantsCSV {
-		newC := Consultant{CreatedAt: c.CreatedAt.Time, Name: c.Name}
+		newC := Consultant{CreatedAt: c.CreatedAt.Time, Name: c.Name, Allocation: c.Allocation}
 		db.db.Create(&newC)
 	}
 
@@ -100,7 +102,7 @@ func (db *ConsultantManager) ConsultantBackup(filePath string) (int, error) {
 	projectCSV := []*ConsultantCSV{}
 	for _, r := range consultants {
 		createdAt := DateTime{r.CreatedAt}
-		item := ConsultantCSV{CreatedAt: createdAt, Name: r.Name}
+		item := ConsultantCSV{CreatedAt: createdAt, Name: r.Name, Allocation: r.Allocation}
 		projectCSV = append(projectCSV, &item)
 	}
 

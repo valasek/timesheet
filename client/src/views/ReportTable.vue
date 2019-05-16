@@ -28,7 +28,11 @@
     </v-toolbar>
     <v-toolbar dense>
       <v-toolbar-title>
-        <v-label>Weekly: {{ reportedThisWeek }} hrs</v-label>
+        <v-label>
+          Weekly: <span :class="textColorWeek(reportedThisWeek)">
+            {{ reportedThisWeek }} hrs
+          </span>
+        </v-label>
       </v-toolbar-title>
       <v-spacer />
       <v-toolbar-title>
@@ -129,16 +133,22 @@
           </td>
           <td v-if="weekUnlocked" class="text-xs-center px-0">
             <v-tooltip bottom>
-              <v-icon slot="activator" small class="mr-2" @click="duplicateItem(props.item)">
-                file_copy
+              <v-icon slot="activator" small color="blue lighten-2" class="mr-2" @click="duplicateItem(props.item, 'same')">
+                insert_drive_file
               </v-icon>
-              <span>Duplicate record</span>
+              <span>Duplicate on the same day</span>
             </v-tooltip>
             <v-tooltip bottom>
-              <v-icon slot="activator" small @click="deleteItem(props.item)">
+              <v-icon slot="activator" small color="blue darken-2" class="mr-2" @click="duplicateItem(props.item, 'next')">
+                file_copy
+              </v-icon>
+              <span>Duplicate to the next day</span>
+            </v-tooltip>
+            <v-tooltip bottom>
+              <v-icon slot="activator" small color="red darken-2" @click="deleteItem(props.item)">
                 delete
               </v-icon>
-              <span>Remove record</span>
+              <span>Delete</span>
             </v-tooltip>
           </td>
         </tr>
@@ -158,6 +168,7 @@
 <script>
   import { mapState } from 'vuex'
   import { format, isWithinInterval, getISODay, parseISO, addDays } from 'date-fns'
+  import { workHoursMixin } from '../mixins/workHoursMixin'
   // import confirm from '../components/Confirm'
   // import inform from '../components/Inform'
   // import changeWeek from '../components/ChangeWeek'
@@ -182,6 +193,8 @@
       }
     },
 
+    mixins: [ workHoursMixin ],
+
     data () {
       return {
         search: '',
@@ -204,6 +217,9 @@
     },
 
     computed: {
+      weeklyHolidays () {
+        return this.getHolidays(this.dateFrom, this.dateTo) * this.dailyWorkingHours
+      },
       selectedReportedHours () {
         const from = this.dateFrom
         const to = this.dateTo
@@ -230,8 +246,11 @@
         assignedProjects: state => state.projects.all,
         rates: state => state.rates.all,
         selectedConsultant: state => state.consultants.selected,
+        selectedAllocation: state => state.consultants.selectedAllocation,
+        dailyWorkingHours: state => state.settings.dailyWorkingHours,
         dailyWorkingHoursMax: state => state.settings.dailyWorkingHoursMax,
-        dailyWorkingHoursMin: state => state.settings.dailyWorkingHoursMin
+        dailyWorkingHoursMin: state => state.settings.dailyWorkingHoursMin,
+        holidays: state => state.holidays.all
       }),
       reportedOnMonday () {
         let rep = 0.0
@@ -303,9 +322,14 @@
       // FIXME return green of this day is holiday
       textColor (item) {
         let colorClass = ''
-        if (item < this.dailyWorkingHoursMin) { colorClass = 'red--text lighten-2' }
+        if (item < this.dailyWorkingHoursMin * this.selectedAllocation) { colorClass = 'red--text lighten-2' }
         if (item >= this.dailyWorkingHoursMax) { colorClass = 'orange--text lighten-2' }
         if (item >= 24) { colorClass = 'red--text lighten-2' }
+        return colorClass
+      },
+      textColorWeek (item) {
+        let colorClass = ''
+        if (item < (this.dailyWorkingHours * this.selectedAllocation * 5 - this.weeklyHolidays)) { colorClass = 'red--text lighten-2' }
         return colorClass
       },
       onUpdateProject (newValue) {
@@ -416,8 +440,14 @@
           this.$store.dispatch('reportedHours/addRecord', newRecord)
         }
       },
-      duplicateItem (item) {
-        const nextDay = format(addDays(parseISO(item.date), 1), 'yyyy-MM-dd')
+      duplicateItem (item, day) {
+        let nextDay = ''
+        if (day === 'same') {
+          nextDay = format(parseISO(item.date), 'yyyy-MM-dd')
+        } else {
+          nextDay = format(addDays(parseISO(item.date), 1), 'yyyy-MM-dd')
+        }
+        // const nextDay = format(addDays(parseISO(item.date), 1), 'yyyy-MM-dd')
         const newHrs = this.remainingHoursDaily(nextDay, item.hours)
         if (newHrs > 0 && newHrs <= item.hours) {
           let newRecord = Object.assign({}, item)
