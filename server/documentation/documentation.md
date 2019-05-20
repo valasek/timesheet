@@ -243,19 +243,19 @@ If you or your organization would like to help beta test a Pro version of Timesh
 Released on May 20, 2019
 
 ## New Features
-* Consultant can have allocation assigned
+* Consultant can have time allocation
 * Copy record to the same and to the next day
 * Show remaining weekly and monthly hours/days on Overview page  
 
 ### Usability
 * Highlight new or duplicate row
-* weekly hours shown in red if below expected hours
+* Weekly hours shown in red if below expected hours
 * Changed date formats
 * Removed fixed table header and scrollbar on reported records
 
 ### Technical
 * Update to Go 1.12.5 and Vuetify 1.5.14, dynamically application split into chunks and loaded dynamically
-* column reorder in imported and exported csv files
+* Column reordered in imported and exported csv files
 
 ## Version 1.2.3
 Released on April 24, 2019
