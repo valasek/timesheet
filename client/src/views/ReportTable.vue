@@ -76,7 +76,7 @@
     </v-toolbar>
     <v-data-table :headers="headers" :items="selectedReportedHours" :search="search" :loading="loading" :disable-initial-sort="false" class="elevation-1 fixed-header" :rows-per-page-items="rowsPerPage">
       <template slot="items" slot-scope="props">
-        <tr>
+        <tr :class="{'new-row': weekUnlocked && isActive(props.item.id)}">
           <td>
             <template v-if="!weekUnlocked">
               <label class="body-1">{{ props.item.date | formatDate }}</label>
@@ -197,6 +197,7 @@
 
     data () {
       return {
+        lastMaxID: 0,
         search: '',
         hoursRules: [
           (v) => !!v || 'Working hours empty',
@@ -305,6 +306,9 @@
           }
         }
         return rep
+      },
+      maxID () {
+        return Math.max.apply(Math, this.reportedHours.map(function (o) { return o.id }))
       }
     },
 
@@ -319,6 +323,13 @@
     },
 
     methods: {
+      isActive (id) {
+        if (this.lastMaxID === 0 || id === this.lastMaxID + 1) {
+          return true
+        } else {
+          return false
+        }
+      },
       // FIXME return green of this day is holiday
       textColor (item) {
         let colorClass = ''
@@ -435,9 +446,10 @@
         }
         const newHrs = this.remainingHoursDaily(newRecord.date, newRecord.hours)
         if (newHrs > 0 && newHrs <= newRecord.hours) {
-          newRecord.date = format(d, "yyyy-MM-dd'T'HH:mm:ssXXX")
+          newRecord.date = format(d, 'yyyy-MM-dd') + 'T00:00:00Z'
           newRecord.hours = newHrs
           this.$store.dispatch('reportedHours/addRecord', newRecord)
+          this.lastMaxID = this.maxID
         }
       },
       duplicateItem (item, day) {
@@ -447,7 +459,6 @@
         } else {
           nextDay = format(addDays(parseISO(item.date), 1), 'yyyy-MM-dd')
         }
-        // const nextDay = format(addDays(parseISO(item.date), 1), 'yyyy-MM-dd')
         const newHrs = this.remainingHoursDaily(nextDay, item.hours)
         if (newHrs > 0 && newHrs <= item.hours) {
           let newRecord = Object.assign({}, item)
@@ -455,14 +466,16 @@
           newRecord.hours = newHrs
           newRecord.date = nextDay + 'T00:00:00Z'
           this.$store.dispatch('reportedHours/addRecord', newRecord)
+          this.lastMaxID = this.maxID
         }
       },
       async deleteItem (item) {
         if (await this.$refs.confirm.open('Please confirm', 'Are you sure you want to delete the record?', { color: 'orange lighten-2' })) {
           this.$store.dispatch('reportedHours/removeRecord', parseInt(item.id, 10))
           this.$store.dispatch('context/setNotification', { text: this.$options.filters.formatDate(item.date) + ', ' + item.hours + ' hrs - record deleted', type: 'success' })
+          this.lastMaxID = this.maxID
         } else {
-          console.log('canceled record delete') /* eslint-disable-line no-console */
+          // console.log('canceled record delete') /* eslint-disable-line no-console */
         }
       }
     }
@@ -490,4 +503,28 @@ html body div#app.application.theme--light div.application--wrap main.v-content 
     transform: scale(0.875);
     transform-origin: left;
 } */
+
+/* highlight new row */
+@keyframes rowfadein {
+  from {
+    background: transparent;
+  }
+  to {
+    background: #80CBC4;
+  }
+}
+
+@keyframes rowfadeout {
+  from {
+    background: #80CBC4;
+  }
+  to {
+    background: transparent;
+  }
+}
+
+.new-row {
+  animation: rowfadein 5s;
+  animation: rowfadeout 5s;
+}
 </style>
