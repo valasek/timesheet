@@ -168,9 +168,9 @@ Use ISO format YYYY-MM-DD HH:MM:SS for all date fields.
 
 Contains all consultants which can report hours.
 ```
-created_at,name
-"YYYY-MM-DD HH:MM:SS","consultant name"
-"2019-01-01 00:00:00","Evan You"
+created_at,name,allocation
+"YYYY-MM-DD HH:MM:SS","consultant name","allocation"
+"2019-01-01 00:00:00","Evan You",0.5
 ```
 
 ### holidays.csv
@@ -238,6 +238,24 @@ If you or your organization would like to help beta test a Pro version of Timesh
   Email: [valasek@gmail.com](mailto:valasek@gmail.com)
 
 # Release Notes
+
+## Version 1.2.4
+Released on May 20, 2019
+
+## New Features
+* Consultant can have allocation assigned
+* Copy record to the same and to the next day
+* Show remaining weekly and monthly hours/days on Overview page  
+
+### Usability
+* Highlight new or duplicate row
+* weekly hours shown in red if below expected hours
+* Changed date formats
+* Removed fixed table header and scrollbar on reported records
+
+### Technical
+* Update to Go 1.12.5 and Vuetify 1.5.14, dynamically application split into chunks and loaded dynamically
+* column reorder in imported and exported csv files
 
 ## Version 1.2.3
 Released on April 24, 2019
