@@ -40,7 +40,7 @@
         <span>{{ page }}</span>
       </v-toolbar-title>
       <v-spacer />
-      <v-btn flat to="about">
+      <v-btn flat to="help">
         <span class="mr-2">
           Help
         </span>
@@ -49,7 +49,7 @@
     <v-content>
       <v-container fluid>
         <router-view>
-          <report-table />
+          <report />
         </router-view>
       </v-container>
     </v-content>
@@ -67,7 +67,7 @@
   export default {
     components: {
       /* webpackChunkName: "core" */
-      ReportTable: () => import('@/views/ReportTable')
+      Report: () => import('@/views/Report')
     },
 
     data () {

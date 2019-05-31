@@ -9,11 +9,11 @@ import VueAxios from 'vue-axios'
 import VueRouter from 'vue-router'
 import './plugins/vuetify'
 
-import ReportTable from './views/ReportTable'
-import ReportedOverview from './views/ReportedOverview'
+import Report from './views/Report'
+import Overview from './views/Overview'
 import Holidays from './views/Holidays'
 import Administration from './views/Administration'
-import Help from './views/About'
+import Help from './views/Help'
 import Documentation from './views/Documentation'
 
 Vue.use(VueRouter)
@@ -28,12 +28,12 @@ let router = new VueRouter({
     {
       path: '/report',
       name: 'report',
-      component: ReportTable
+      component: Report
     },
     {
       path: '/overview',
       name: 'overview',
-      component: ReportedOverview
+      component: Overview
     },
     {
       path: '/holidays',
@@ -46,8 +46,8 @@ let router = new VueRouter({
       component: Administration
     },
     {
-      path: '/about',
-      name: 'about',
+      path: '/help',
+      name: 'help',
       component: Help
     },
     {
