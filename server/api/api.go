@@ -106,7 +106,7 @@ func (api *API) Download(c *gin.Context) {
 func (api *API) Upload(c *gin.Context) {
 
 	// parse and validate file and post parameters
-	ffile, err := c.FormFile("uploadFile")
+	ffile, err := c.FormFile("timesheet-backup.zip")
 	if err != nil {
 		logger.Log.Error("unable to upload file, INVALID_FILE: ", err)
 		c.String(http.StatusBadRequest, "INVALID_FILE: "+err.Error())

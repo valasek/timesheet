@@ -99,6 +99,17 @@ func (db *ReportedRecordManager) ReportedRecordsInMonth(year, month, consultant 
 	return nil
 }
 
+// ReportedRecordsInPeriod returns reported records for all consultants for selected period
+// border date is included
+func (db *ReportedRecordManager) ReportedRecordsInPeriod(from, to string) []ReportedRecord {
+	reportedRecords := []ReportedRecord{}
+	if err := db.db.Where("date(date) >= ? and date(date) <= ?", from, to).Find(&reportedRecords); err != nil {
+		return reportedRecords
+	}
+	logger.Log.Error(fmt.Sprintf("failed - get reported records in period: %s - %s", from, to))
+	return nil
+}
+
 func getborderDays(year, month string) (days []string, err error) {
 	layout := "2006-1-02"
 	monthStart, err := time.Parse(layout, year+"-"+month+"-01")

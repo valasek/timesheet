@@ -13,18 +13,30 @@ import createLogger from 'vuex/dist/logger'
 
 Vue.use(Vuex)
 
+/*
+ * If not building with SSR mode, you can
+ * directly export the Store instantiation
+ */
+
 const debug = process.env.NODE_ENV !== 'production'
 
-export default new Vuex.Store({
+export default function (/* { ssrContext } */) {
+  const Store = new Vuex.Store({
     modules: {
-        settings,
-        reportedHours,
-        consultants,
-        context,
-        projects,
-        rates,
-        holidays
+      settings,
+      reportedHours,
+      consultants,
+      context,
+      projects,
+      rates,
+      holidays
     },
+
+    // enable strict mode (adds overhead!)
+    // for dev mode only
     strict: debug,
     plugins: debug ? [createLogger()] : []
-})
+  })
+
+  return Store
+}

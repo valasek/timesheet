@@ -1,76 +1,47 @@
 {
-  "name": "timesheet",
-  "version": "1.2.4",
+  "name": "timesheet-q",
+  "version": "0.0.1",
+  "description": "Self-hosted application to manage project reporting",
+  "productName": "Timesheet",
+  "cordovaId": "timesheet.simplesw.net",
+  "author": "Stanislav Valasek <valasek@gmail.com>",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build --modern",
-    "lint": "vue-cli-service lint",
-    "upgrade-interactive": "npm-check --update"
+    "lint": "eslint --ext .js,.vue src",
+    "test": "echo \"No test specified\" && exit 0",
+    "serve:test:lighthouse": "quasar serve test/lighthouse/reports/ --port 8789",
+    "audit:snyk": "snyk test --json > ./test/audits/snyk.json",
+    "audit:node_modules": "yarn audit --json > ./test/audits/node_modules_audit.json",
+    "audit:licenses": "nlf --summary detail > ./test/audits/licenses.txt",
+    "audit:lighthouse": "lighthouse http://localhost:3000 view --output-path=./test/lighthouse/reports/index.html --config-path=./test/lighthouse/configs/full-config.js"
   },
   "dependencies": {
+    "@quasar/extras": "^1.0.0",
     "axios": "^0.19.0",
-    "babel-polyfill": "^6.26.0",
-    "date-fns": "^v2.0.0-alpha.27",
-    "vue": "^2.6.10",
-    "vue-axios": "^2.1.4",
-    "vue-markdown": "^2.2.4",
-    "vue-router": "^3.0.6",
-    "vuetify": "^1.5.14",
-    "vuetify-upload-button": "^1.2.2",
-    "vuex": "^3.1.1"
+    "date-fns": "^2.0.0-alpha.31",
+    "quasar": "^1.0.0-rc.4"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.8.0",
-    "@vue/cli-plugin-eslint": "^3.8.0",
-    "@vue/cli-service": "^3.8.0",
+    "@quasar/app": "^1.0.0-rc.6",
+    "@quasar/quasar-app-extension-icon-factory": "^1.0.0-rc.4",
+    "@quasar/quasar-app-extension-qmarkdown": "^1.0.0-beta.11",
+    "@quasar/quasar-app-extension-testing-quality": "^1.0.0-beta.8",
+    "@vue/eslint-config-standard": "^4.0.0",
     "babel-eslint": "^10.0.1",
-    "css-loader": "^2.1.1",
-    "eslint": "^5.16.0",
-    "eslint-config-vuetify": "^0.2.0",
-    "eslint-plugin-vue": "^5.2.2",
-    "npm-check": "^5.9.0",
-    "style-loader": "^0.23.1",
-    "stylus": "^0.54.5",
-    "stylus-loader": "^3.0.2",
-    "vue-cli-plugin-vuetify": "^0.5.0",
-    "vue-template-compiler": "^2.6.10",
-    "vuetify-loader": "^1.2.2"
+    "eslint": "^5.10.0",
+    "eslint-loader": "^2.1.1",
+    "eslint-plugin-vue": "^5.0.0",
+    "strip-ansi": "=3.0.1"
   },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/recommended",
-      "eslint:recommended",
-      "vuetify"
-    ],
-    "rules": {
-      "vue/max-attributes-per-line": [
-        "error",
-        {
-          "singleline": 10,
-          "multiline": {
-            "max": 5,
-            "allowFirstLine": true
-          }
-        }
-      ]
-    },
-    "parserOptions": {
-      "parser": "babel-eslint"
-    }
-  },
-  "postcss": {
-    "plugins": {
-      "autoprefixer": {}
-    }
+  "engines": {
+    "node": ">= 8.9.0",
+    "npm": ">= 5.6.0",
+    "yarn": ">= 1.6.0"
   },
   "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 8"
-  ]
+    "last 1 version, not dead, ie >= 11"
+  ],
+  "resolutions": {
+    "ajv": "6.8.1"
+  }
 }

@@ -10,15 +10,15 @@ if (debug) {
 }
 
 const apiClient = axios.create({
-    baseURL: baseURL,
-    withCredentials: false, // This is the default
-    crossDomain: true,
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json'
-      // 'Accept-Encoding': 'gzip, deflate, br'
-    },
-    timeout: 10000
+  baseURL: baseURL,
+  withCredentials: false, // This is the default
+  crossDomain: true,
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json'
+    // 'Accept-Encoding': 'gzip, deflate, br'
+  },
+  timeout: 10000
 })
 
 // apiClient.interceptors.response.use(function (response) {
@@ -28,5 +28,5 @@ const apiClient = axios.create({
 // })
 
 export default {
-    apiClient
+  apiClient
 }

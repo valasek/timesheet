@@ -74,10 +74,10 @@ func SetupRouter(api *api.API) *gin.Engine {
 	router.Use(Logger())
 
 	// set CORS
-	router.Use(cors.Default())
-	// config := cors.DefaultConfig()
-	// config.AllowOrigins = []string{"*"}
-	// router.Use(cors.New(config))
+	// router.Use(cors.Default())
+	config := cors.DefaultConfig()
+	config.AllowOrigins = []string{"*"}
+	router.Use(cors.New(config))
 
 	// no route, bad url
 	router.NoRoute(noRoute)
@@ -115,6 +115,7 @@ func SetupRouter(api *api.API) *gin.Engine {
 		a.GET("/reported", api.ReportedRecordsGetAll)
 		a.GET("/reported/summary/:year", api.ReportedRecordsSummary)
 		a.GET("/reported/year/:year/month/:month/consultant/:consultant", api.ReportedRecordsInMonth)
+		a.GET("/reported/from/:from/to/:to", api.ReportedRecordsInPeriod)
 		a.DELETE("/reported/:id", api.ReportedRecordDelete)
 		a.PUT("/reported/:id", api.ReportedRecordUpdate)
 

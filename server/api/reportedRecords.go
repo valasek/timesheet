@@ -43,6 +43,25 @@ func (api *API) ReportedRecordsInMonth(c *gin.Context) {
 	c.JSON(http.StatusOK, reportedRecords)
 }
 
+// ReportedRecordsInPeriod returns list of all
+func (api *API) ReportedRecordsInPeriod(c *gin.Context) {
+	from := c.Param("from")
+	if len(from) < 1 {
+		logger.Log.Error("ReportedRecordsInMonth, param 'from' is missing")
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ReportedRecordsInMonth, param 'from' is missing"})
+		return
+	}
+	to := c.Param("to")
+	if len(to) < 1 {
+		logger.Log.Error("ReportedRecordsInMonth, param 'to' is missing")
+		c.JSON(http.StatusBadRequest, gin.H{"error": "ReportedRecordsInMonth, param 'to' is missing"})
+		return
+	}
+	reportedRecords := api.reportedRecords.ReportedRecordsInPeriod(from, to)
+	c.JSON(http.StatusOK, reportedRecords)
+}
+
+
 // ReportedRecordsSummary returns list of all
 func (api *API) ReportedRecordsSummary(c *gin.Context) {
 	year := c.Param("year")

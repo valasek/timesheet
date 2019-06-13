@@ -1,1 +1,0 @@
-web: ./docker-entrypoint.sh
