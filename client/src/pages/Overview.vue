@@ -77,7 +77,9 @@
         <div class="row">
         <q-card flat>
           <q-card-section>
-            <q-table :columns="headersNumbers" :data="weeklyWorkingTimeOverview" hide-bottom>
+            <q-table :columns="headersNumbers" :data="weeklyWorkingTimeOverview" :pagination.sync="myPagination"
+              hide-bottom
+            >
               <template slot="items" slot-scope="props">
                 <td v-if="props.item.value !== ''" class="text-xs-left">
                   {{ props.item.text }}
@@ -96,7 +98,9 @@
         <div class="row">
           <q-card flat>
             <q-card-section>
-              <q-table :columns="headersProjects" :data="weeklyProjectsOverview" hide-bottom>
+              <q-table :columns="headersProjects" :data="weeklyProjectsOverview" :pagination.sync="myPagination"
+                hide-bottom
+              >
                 <template slot="items" slot-scope="props">
                   <td v-if="props.item.value !== ''" class="text-xs-left">
                     {{ props.item.text }}
@@ -120,7 +124,9 @@
         <div class="row">
           <q-card flat>
             <q-card-section>
-              <q-table :columns="headersNumbers" :data="monthlyWorkingTimeOverview" hide-bottom>
+              <q-table :columns="headersNumbers" :data="monthlyWorkingTimeOverview" :pagination.sync="myPagination"
+                hide-bottom
+              >
                 <template slot="items" slot-scope="props">
                   <td v-if="props.item.value !== ''" class="text-xs-left">
                     {{ props.item.text }}
@@ -139,7 +145,9 @@
         <div class="row">
           <q-card flat>
             <q-card-section>
-              <q-table :columns="headersProjects" :data="monthlyProjectsOverview" hide-bottom>
+              <q-table :columns="headersProjects" :data="monthlyProjectsOverview" :pagination.sync="myPagination"
+                hide-bottom
+              >
                 <template slot="items" slot-scope="props">
                   <td v-if="props.item.value !== ''" class="text-xs-left">
                     {{ props.item.text }}
@@ -202,6 +210,7 @@ export default {
     return {
       balancePeriod: '',
       filter: '',
+      myPagination: { 'rowsPerPage': 50 },
       headersNumbers: [
         { label: 'Reported time', align: 'left', field: 'text', sortable: false },
         { label: 'Days', align: 'left', field: 'value', format: val => `${val}` / this.dailyWorkingHours, sortable: false },
@@ -314,6 +323,7 @@ export default {
       return this.workingTimeOverview('week')
     },
     weeklyProjectsOverview () {
+      console.log(this.workingTimeOverview('month'))
       return this.projectsOverview('week')
     },
     monthlyWorkingTimeOverview () {
