@@ -151,6 +151,14 @@ Global Flags:
       --config string   config file (default is ./timesheet.yaml)
 ```
 
+# API
+
+To retrieve reported records per selected period use HTTP GET request on ```<domain>/api/reported/from/<from>/to/<to>``` where
+* \<domain\> - is your domain name
+* \<from\>, \<to\> - dates in format YYYY-MM-DD
+
+Example: ```http://localhost:3000/api/reported/from/2019-04-13/to/2019-04-30```
+
 # Backup & Restore
 
 All data can be downloaded locally in CSV format.
@@ -238,6 +246,23 @@ If you or your organization would like to help beta test a Pro version of Timesh
   Email: [valasek@gmail.com](mailto:valasek@gmail.com)
 
 # Release Notes
+
+## Version 1.3.0
+Released on June 14, 2019
+
+### Features
+* API to retrieve reported records in selected period
+
+### Usability
+* Update to Material Design 2.0. Technical: UI migrated to Quasar
+
+### Fixes
+* Axios security bug
+* Overview - table pagination added, shows all records
+
+### Technical
+* UI migrated to Quasar
+* Refactor component names 
 
 ## Version 1.2.3
 Released on April 24, 2019

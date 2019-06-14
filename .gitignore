@@ -51,11 +51,15 @@ build/client/*.*
 build/client/dist/*.*
 build/client/dist/js/*.*
 build/client/dist/css/*.*
+build/client/dist/fonts/*.*
+build/client/dist/statics/*.*
+build/client/dist/statics/icons/*.*
 build/data/*.*
 build/data/exported/*.*
 build/data/backups/*.*
 build/data/uploaded/*.*
 build/documentation/*.*
+build/documentation/statics/*.*
 build/logs/*.*
 
 # backup and log files

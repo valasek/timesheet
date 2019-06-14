@@ -1,6 +1,6 @@
 {
-  "name": "timesheet-q",
-  "version": "0.0.1",
+  "name": "timesheet",
+  "version": "1.3.0",
   "description": "Self-hosted application to manage project reporting",
   "productName": "Timesheet",
   "cordovaId": "timesheet.simplesw.net",
