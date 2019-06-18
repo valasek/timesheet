@@ -243,6 +243,7 @@ export default {
 
   created () {
     this.$store.commit('context/SET_PAGE', 'Administration')
+    this.$store.commit('context/SET_PAGE_ICON', 'settings')
   },
 
   methods: {

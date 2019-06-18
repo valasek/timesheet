@@ -69,6 +69,7 @@ export default {
 
   created () {
     this.$store.commit('context/SET_PAGE', 'State holiday')
+    this.$store.commit('context/SET_PAGE_ICON', 'event')
   },
 
   methods: {

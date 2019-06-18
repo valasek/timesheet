@@ -74,6 +74,7 @@ export default {
 
   created () {
     this.$store.commit('context/SET_PAGE', 'Help')
+    this.$store.commit('context/SET_PAGE_ICON', 'help_outline')
   }
 }
 </script>

@@ -6,15 +6,20 @@
       <change-week />
       <div class="q-gutter-x-md">
         <select-consultant class="q-gutter-x-md"/>
-        </div>
-          <q-toolbar-title>
-            <q-input v-model="filter" dense clearable label="Search" single-line>
-              <template v-slot:append>
-                <q-icon name="search" />
-              </template>
-            </q-input>
-          </q-toolbar-title>
-        <q-btn color="primary" :disabled="!weekUnlocked" rounded label="new" icon="add" @click="addItem" />
+      </div>
+      <q-toolbar-title>
+        <q-input v-model="filter" dense clearable label="Search" single-line>
+          <template v-slot:append>
+            <q-icon name="search" />
+          </template>
+        </q-input>
+      </q-toolbar-title>
+      <q-toggle v-model="weekUnlocked" :disable="isCurrentWeek===true">
+        <q-tooltip>
+          Edit this week
+        </q-tooltip>
+      </q-toggle>
+      <q-btn color="primary" :disabled="!weekUnlocked" rounded label="new" icon="add" @click="addItem" />
     </q-toolbar>
     <q-toolbar class="q-pa-md bg-grey-2">
       <span class="text-subtitle1 ">
@@ -54,7 +59,7 @@
     </q-toolbar>
     <q-table :columns="headers" row-key="name" :data="selectedReportedHours" :filter="filter" :loading="loading"
       no-data-label="No hours reported this week" :pagination.sync="myPagination" :rows-per-page-options="[30,50,0]"
-      binary-state-sort>
+      binary-state-sort dense bordered>
       <template v-slot:body="props">
         <q-tr :props="props">
           <q-td key="date" :props="props">
@@ -82,7 +87,7 @@
               {{props.row.hours}}
             </span>
             <span v-else>
-              <q-input :value="props.row.hours" type="number" step="0.1" dense
+              <q-input :value="props.row.hours" type="number" step="0.5" dense
                 @change="val => onUpdateHours({id: props.row.id, hours: val.target.value})"
               />
             </span>
@@ -178,11 +183,6 @@ export default {
   data () {
     return {
       filter: '',
-      hoursRules: [
-        (v) => !!v || 'Working hours empty',
-        (v) => (parseFloat(v) <= 24.0) || 'Working hours should be between 0 and 24',
-        (v) => (parseFloat(v) >= 0) || 'Working hours should be between 0 and 24'
-      ],
       myPagination: { 'rowsPerPage': 30, 'sortBy': 'date', 'descending': false },
       headers: [
         { name: 'date', label: 'Date', align: 'left', sortable: true, field: 'date', style: 'width: 20%' },
@@ -198,6 +198,14 @@ export default {
   },
 
   computed: {
+    weekUnlocked: {
+      get () {
+        return this.$store.state.context.weekUnlocked
+      },
+      set (newValue) {
+        this.$store.dispatch('context/setWeekUnlocked', newValue)
+      }
+    },
     weeklyHolidays () {
       return this.getHolidays(this.dateFrom, this.dateTo) * this.dailyWorkingHours
     },
@@ -219,7 +227,6 @@ export default {
     ...mapState({
       loading: state => state.reportedHours.loading,
       isCurrentWeek: state => state.context.isCurrentWeek,
-      weekUnlocked: state => state.context.weekUnlocked,
       dateFrom: state => state.settings.dateFrom,
       dateTo: state => state.settings.dateTo,
       selectedMonth: state => state.settings.selectedMonth,
@@ -297,6 +304,7 @@ export default {
 
   created () {
     this.$store.commit('context/SET_PAGE', 'Reported hours')
+    this.$store.commit('context/SET_PAGE_ICON', 'work_outline')
   },
 
   methods: {
@@ -320,7 +328,6 @@ export default {
       })
     },
     onUpdateProject (newValue) {
-      console.log('onUpdateProject', newValue)
       let payload = {
         id: newValue.id,
         type: 'project',
@@ -339,7 +346,6 @@ export default {
       this.$store.dispatch('reportedHours/updateAttributeValue', payloadRate)
     },
     async onUpdateDate (id, date) {
-      console.log('onDate', id, date)
       this.$refs.qDateProxy.hide()
       let payload = {
         id: id,
@@ -434,7 +440,8 @@ export default {
       }
       const newHrs = this.remainingHoursDaily(newRecord.date, newRecord.hours)
       if (newHrs > 0 && newHrs <= newRecord.hours) {
-        newRecord.date = format(d, "yyyy-MM-dd'T'HH:mm:ssXXX")
+        // newRecord.date = format(d, "yyyy-MM-dd'T'HH:mm:ssXXX")
+        newRecord.date = format(d, "yyyy-MM-dd'T'00:00:00XXX")
         newRecord.hours = newHrs
         this.$store.dispatch('reportedHours/addRecord', newRecord)
       }
@@ -446,11 +453,8 @@ export default {
       } else {
         nextDay = format(addDays(parseISO(item.date), 1), 'yyyy-MM-dd')
       }
-      console.log(item, day)
-      // const nextDay = format(addDays(parseISO(item.date), 1), 'yyyy-MM-dd')
       const newHrs = this.remainingHoursDaily(nextDay, item.hours)
       if (newHrs > 0 && newHrs <= item.hours) {
-        // let newRecord = Object.assign({}, item)
         const newRecord = {
           id: null,
           date: nextDay + 'T00:00:00Z',
@@ -482,6 +486,7 @@ export default {
 </script>
 
 <style lang="stylus">
+/* add space between days on reported hours weekly row */
 .my-hours {
   margin-left: 1em !important;
 }

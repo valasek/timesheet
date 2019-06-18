@@ -4,6 +4,7 @@ import { isWithinInterval } from 'date-fns'
 // initial state
 const state = {
   page: 'Timesheet',
+  pageIcon: 'Home',
   isCurrentWeek: true,
   weekUnlocked: true
 }
@@ -31,6 +32,10 @@ const mutations = {
 
   SET_PAGE (state, page) {
     state.page = page
+  },
+
+  SET_PAGE_ICON (state, pageIcon) {
+    state.pageIcon = pageIcon
   },
 
   SET_IS_CURRENT_WEEK (state, payload) {

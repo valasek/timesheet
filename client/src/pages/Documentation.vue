@@ -22,6 +22,7 @@ export default {
 
   created () {
     this.$store.commit('context/SET_PAGE', 'Documentation')
+    this.$store.commit('context/SET_PAGE_ICON', 'help_outline')
     this.getDocumentation()
   },
 

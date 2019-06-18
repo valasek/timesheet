@@ -288,6 +288,7 @@ export default {
       ]
     },
     personalDays () {
+      console.log(this.reportedHoursSummary, this.vacationPersonal, this.getTotalsForRate(this.reportedHoursSummary, this.vacationPersonal))
       return [
         {
           text: 'Total',
@@ -323,7 +324,6 @@ export default {
       return this.workingTimeOverview('week')
     },
     weeklyProjectsOverview () {
-      console.log(this.workingTimeOverview('month'))
       return this.projectsOverview('week')
     },
     monthlyWorkingTimeOverview () {
@@ -342,6 +342,7 @@ export default {
 
   created () {
     this.$store.commit('context/SET_PAGE', 'Overview of reported hours')
+    this.$store.commit('context/SET_PAGE_ICON', 'show_chart')
     this.$store.dispatch('reportedHours/getYearlySummary', this.selectedMonth)
   },
 
