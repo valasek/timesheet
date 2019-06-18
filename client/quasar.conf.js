@@ -62,7 +62,8 @@ module.exports = function (ctx) {
         'QDate',
         'QPopupProxy',
         'QBreadcrumbs',
-        'QBreadcrumbsEl'
+        'QBreadcrumbsEl',
+        'QFooter'
       ],
 
       directives: [

@@ -6,7 +6,7 @@ import { Notify } from 'quasar'
 
 // initial state, updated from configuration file
 const state = {
-  version: 'dev', // application version
+  version: process.env.NODE_ENV, // application version
   dailyWorkingHours: 8, // Used for weekly and monthly expected working hours
   dailyWorkingHoursMin: 8, // Used to highlight if reported less
   dailyWorkingHoursMax: 12, // Used to highlight if reported more

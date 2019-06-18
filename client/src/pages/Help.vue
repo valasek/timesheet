@@ -49,27 +49,23 @@
       src='statics/settings-image.jpg'
       class="image"
     />
-    <br>
-    <p>2018 - {{ (new Date()).getFullYear() }} &copy; <strong><a href="https://valasek.wordpress.com/">Stanislav Valasek</a></strong> Version {{ version }}, server: {{ url }}:{{ port }}</p>
+    <my-footer/>
   </q-page>
 </template>
 
 <script>
-import { mapState } from 'vuex'
 
 export default {
 
+  components: {
+    /* webpackChunkName: "core" */
+    'my-footer': () => import('components/MyFooter')
+  },
+
   data () {
-    return {
-      url: process.env.VUE_APP_URL,
-      port: process.env.VUE_APP_PORT
-    }
   },
 
   computed: {
-    ...mapState({
-      version: state => state.settings.version
-    })
   },
 
   created () {
