@@ -305,6 +305,9 @@ export default {
   created () {
     this.$store.commit('context/SET_PAGE', 'Reported hours')
     this.$store.commit('context/SET_PAGE_ICON', 'work_outline')
+    if (this.reportedHours.length === 0) {
+      this.$store.dispatch('reportedHours/getMonthlyData', { date: this.selectedMonth, consultant: this.selectedConsultant })
+    }
   },
 
   methods: {
