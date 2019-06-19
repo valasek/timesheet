@@ -7,11 +7,9 @@ REM rem git describe --tags
 
 if "%1" == "cloud" (
     echo building *** cloud *** build, version %version%
-    copy .\client\.env.production.cloud .\client\.env.production.local
     copy .\server\timesheet-cloud.yaml .\server\timesheet-prod.yaml
 ) else (
     echo building *** DataArch *** build, version %version%
-    copy .\client\.env.production.dataarch.local .\client\.env.production.local
     copy .\server\timesheet-dataarch.yaml .\server\timesheet-prod.yaml
 )
 
@@ -37,7 +35,11 @@ del .\build\data\*.csv /F /Q
 ECHO ======================
 ECHO Compiling frontend ...
 cd .\client
-call quasar build
+if "%1" == "cloud" (
+    call npm run build-cloud
+) else (
+    call npm run build-da
+)
 xcopy .\dist\spa .\..\build\client\dist\ /s /e
 cd ..
 

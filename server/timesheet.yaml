@@ -12,11 +12,11 @@ vacation: "Vacation"
 yearlyVacationDays: 20 # Used to calculate weekly and monthly expected working hours, can be changed in UI
 
 # Rate for additonal vacations. If not used, leave blank "" and set yearlyPersonalDays: 0, can be changed in UI
-vacationPersonal: "Vacation Personal"
+vacationPersonal: "Personal Day"
 yearlyPersonalDays: 3 # Used to calculate weekly and monthly expected working hours, can be changed in UI
 
 # Rate used for additonal vacation intended for sick day. If not used, leave blank "" and set yearlySickDays: 0, can be changed in UI
-vacationSick: "Vacation Sick"
+vacationSick: "Sick Day"
 yearlySickDays: 2 # Used to calculate weekly and monthly expected working hours, can be changed in UI
 
 # Categorize all rates into one of these types used on Reported Overview page

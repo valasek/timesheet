@@ -32,7 +32,8 @@
         </q-card-section>
         <q-card-section>
           Report your consulting hours on projects with further segmentation via rates.<br/>
-          You can download all data in csv format, modify as required and import modified data.
+          You can download all data in csv format, modify as required and import modified data.<br/>
+          Timesheet provides API to automate data exports.
         </q-card-section>
       </q-card>
 

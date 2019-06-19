@@ -3,7 +3,7 @@
 <template>
   <q-footer elevated>
     <q-toolbar class="glossy">
-      2018 - {{ (new Date()).getFullYear() }} &copy;&nbsp;Stanislav Valasek <q-space/>Version: {{ version }}, running on {{ url }}
+      2018 - {{ (new Date()).getFullYear() }} &copy;&nbsp;Stanislav Valasek <q-space/>Version: {{ version === "" ? "dev" : version }}, running on {{ url }}:{{ port }}
     </q-toolbar>
   </q-footer>
 </template>
@@ -15,7 +15,8 @@ export default {
 
   data () {
     return {
-      url: process.env.APP_URL
+      url: process.env.ENV_APP_URL,
+      port: process.env.ENV_APP_PORT
     }
   },
 
@@ -23,9 +24,6 @@ export default {
     ...mapState({
       version: state => state.settings.version
     })
-  },
-
-  methods: {
   }
 
 }

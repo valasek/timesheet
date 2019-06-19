@@ -161,7 +161,7 @@ Example: ```http://localhost:3000/api/reported/from/2019-04-13/to/2019-04-30```
 
 # Backup & Restore
 
-All data can be downloaded locally in CSV format.
+All data can be downloaded locally in CSV format, encoded in UTF-8.
 CSV files can be modified and imported back. Import will delete and replace all existing data.
 
 ![Backup & Restore](./statics/backup_restore.png?raw=true "Backup & Restore")
@@ -170,7 +170,7 @@ Check log files using Administration / Logs. Error log should not contain any er
 
 ## Description of Data Files
 
-Use ISO format YYYY-MM-DD HH:MM:SS for all date fields.
+When editing CSV files, save the file using UTF-8 encoding. Compress all into one zip archive before uploading.
 
 ### consultants.csv
 

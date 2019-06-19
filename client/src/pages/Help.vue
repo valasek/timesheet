@@ -62,12 +62,6 @@ export default {
     'my-footer': () => import('components/MyFooter')
   },
 
-  data () {
-  },
-
-  computed: {
-  },
-
   created () {
     this.$store.commit('context/SET_PAGE', 'Help')
     this.$store.commit('context/SET_PAGE_ICON', 'help_outline')

@@ -288,7 +288,6 @@ export default {
       ]
     },
     personalDays () {
-      console.log(this.reportedHoursSummary, this.vacationPersonal, this.getTotalsForRate(this.reportedHoursSummary, this.vacationPersonal))
       return [
         {
           text: 'Total',
