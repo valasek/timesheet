@@ -12,6 +12,12 @@
         <q-card-section>
           <q-table :columns="columns" :data="topProjects" :pagination="myPagination" hide-bottom dense flat />
         </q-card-section>
+        <q-card-section>
+          <q-btn flat icon="skip_previous" @click="previousMonth" />
+            {{ month }}
+          <q-btn flat icon="skip_next" @click="nextMonth" />
+          {{ year }}
+        </q-card-section>
       </q-card>
       <q-card flat>
         <q-card-section>
@@ -44,7 +50,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import { format } from 'date-fns'
+import { format, addMonths, subMonths } from 'date-fns'
 
 export default {
 
@@ -78,6 +84,9 @@ export default {
     month () {
       return format(this.selectedMonth, 'MMMM')
     },
+    year () {
+      return format(this.selectedMonth, 'yyyy')
+    },
     topProjects () {
       var allProjects = this.reportedHoursSummary.map(record => ({ project: record.project, month: record.month, hours: parseFloat(record.hours) }))
       const m = format(this.selectedMonth, 'M')
@@ -103,6 +112,17 @@ export default {
     this.$store.commit('context/SET_PAGE', 'Timesheet')
     this.$store.commit('context/SET_PAGE_ICON', 'home')
     this.$store.dispatch('reportedHours/getYearlySummary', this.selectedMonth)
+  },
+
+  methods: {
+    previousMonth () {
+      const d = subMonths(this.selectedMonth, 1)
+      this.$store.dispatch('settings/jumpToWeek', d)
+    },
+    nextMonth () {
+      const d = addMonths(this.selectedMonth, 1)
+      this.$store.dispatch('settings/jumpToWeek', d)
+    }
   }
 
 }

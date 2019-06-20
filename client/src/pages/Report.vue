@@ -61,7 +61,7 @@
       no-data-label="No hours reported this week" :pagination.sync="myPagination" :rows-per-page-options="[30,50,0]"
       binary-state-sort dense bordered>
       <template v-slot:body="props">
-        <q-tr :props="props">
+        <q-tr :props="props" :class="{'new-row': weekUnlocked && isActive(props.row.id)}">
           <q-td key="date" :props="props">
             <span  v-if="!weekUnlocked">
               {{ props.row.date | formatDate }}
@@ -70,9 +70,11 @@
               <q-input :value="props.row.date | formatDate" dense
                 @input="val => onUpdateDate({id: props.row.id, date: val.name})"
               >
-                <template v-slot:prepend>
+                <template v-slot:append>
                   <q-icon name="event" class="cursor-pointer">
-                    <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
+                    <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale"
+                      fit anchor="bottom left" self="top left"
+                    >
                       <q-date :value="props.row.date" @input="(val) => onDate(props.row.id, val)"
                         mask="YYYY-MM-DD" :rules="['date']" first-day-of-week="1"
                       />
@@ -182,6 +184,7 @@ export default {
 
   data () {
     return {
+      lastMaxID: 0,
       filter: '',
       myPagination: { 'rowsPerPage': 30, 'sortBy': 'date', 'descending': false },
       headers: [
@@ -293,6 +296,9 @@ export default {
         }
       }
       return rep
+    },
+    maxID () {
+      return Math.max.apply(Math, this.reportedHours.map(function (o) { return o.id }))
     }
   },
 
@@ -305,12 +311,19 @@ export default {
   created () {
     this.$store.commit('context/SET_PAGE', 'Reported hours')
     this.$store.commit('context/SET_PAGE_ICON', 'work_outline')
-    if (this.reportedHours.length === 0) {
+    if (this.reportedHours.length === 0 && this.selectedConsultant !== '') {
       this.$store.dispatch('reportedHours/getMonthlyData', { date: this.selectedMonth, consultant: this.selectedConsultant })
     }
   },
 
   methods: {
+    isActive (id) {
+      if (this.lastMaxID === 0 || id === this.lastMaxID + 1) {
+        return true
+      } else {
+        return false
+      }
+    },
     // FIXME return green of this day is holiday
     textColor (item) {
       let colorClass = ''
@@ -447,6 +460,7 @@ export default {
         newRecord.date = format(d, "yyyy-MM-dd'T'00:00:00XXX")
         newRecord.hours = newHrs
         this.$store.dispatch('reportedHours/addRecord', newRecord)
+        this.lastMaxID = this.maxID
       }
     },
     duplicateItem (item, day) {
@@ -467,10 +481,8 @@ export default {
           rate: item.rate,
           consultant: item.consultant
         }
-        console.log('creating', newRecord)
         this.$store.dispatch('reportedHours/addRecord', newRecord)
-      } else {
-        console.log('skipping record', newHrs, item.hours)
+        this.lastMaxID = this.maxID
       }
     },
     async deleteItem (item) {
@@ -480,8 +492,9 @@ export default {
           message: this.$options.filters.formatDate(item.date) + ', ' + item.hours + ' hrs - record deleted',
           color: 'teal'
         })
+        this.lastMaxID = this.maxID
       } else {
-        console.log('canceled record delete') /* eslint-disable-line no-console */
+        // console.log('canceled record delete') /* eslint-disable-line no-console */
       }
     }
   }
@@ -489,8 +502,33 @@ export default {
 </script>
 
 <style lang="stylus">
+
 /* add space between days on reported hours weekly row */
 .my-hours {
   margin-left: 1em !important;
+}
+
+/* highlight new row */
+@keyframes rowfadein {
+  from {
+    background: transparent;
+  }
+  to {
+    background: #80CBC4;
+  }
+}
+
+@keyframes rowfadeout {
+  from {
+    background: #80CBC4;
+  }
+  to {
+    background: transparent;
+  }
+}
+
+.new-row {
+  animation: rowfadein 5s;
+  animation: rowfadeout 5s;
 }
 </style>
