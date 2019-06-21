@@ -53,6 +53,8 @@ RUN GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build \
 ##############################################
 # Second stage: build the frontend executable.
 FROM node:lts-alpine AS frontend
+# fix due to optipng-bin in icon-factory - https://github.com/imagemin/optipng-bin/issues/84
+RUN apk --no-cache add pkgconfig autoconf automake libtool nasm build-base zlib-dev
 
 # make the 'client' folder the current working directory
 WORKDIR /client
@@ -62,9 +64,9 @@ COPY ./client/package*.json ./
 COPY ./client/ ./
 
 # install project dependencies
+RUN npm install
 RUN npm install -g @quasar/cli
 RUN quasar upgrade -i
-RUN npm install
 
 # copy project files and folders to the current working directory (i.e. 'app' folder)
 COPY ./client/ ./

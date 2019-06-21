@@ -1,0 +1,2 @@
+# fix due to optipng-bin in icon-factory - https://github.com/imagemin/optipng-bin/issues/84
+./client/node_modules
