@@ -8,7 +8,7 @@
   "private": true,
   "scripts": {
     "dev": "cross-env QENV=development quasar dev",
-    "build-da": "cross-env QENV=production-da quasar build",
+    "build-da": "cross-env QENV=production-dataarch quasar build",
     "build-cloud": "cross-env QENV=production-cloud quasar build",
     "build": "cross-env QENV=production quasar build",
     "lint": "eslint --ext .js,.vue src",
@@ -22,7 +22,7 @@
   "dependencies": {
     "@quasar/extras": "^1.1.3",
     "axios": "^0.19.0",
-    "date-fns": "^2.0.0-alpha.34",
+    "date-fns": "^2.0.0-alpha.35",
     "quasar": "^1.0.0-rc.5"
   },
   "devDependencies": {

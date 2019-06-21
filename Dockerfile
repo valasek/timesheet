@@ -30,6 +30,7 @@ RUN go mod download
 ADD ./server/data/ /data
 RUN chmod -R ug+rw /data
 ADD ./server/documentation/ /documentation
+ADD ./server/documentation/ /documentation/statics
 RUN chmod -R ug+rw /documentation
 ADD ./server/logs/ /logs
 RUN chmod -R ug+rwx /logs
@@ -45,7 +46,7 @@ COPY ./server/ ./
 #     -installsuffix 'static' \
 #     -o /app .
 RUN GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build \
--ldflags "-X github.com/valasek/timesheet/server/version.Version=1.2.4" \
+-ldflags "-X github.com/valasek/timesheet/server/version.Version=1.4.0" \
 -installsuffix 'static' -o /timesheet.bin .
 # RUN ls -la .
 
@@ -53,20 +54,23 @@ RUN GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build \
 # Second stage: build the frontend executable.
 FROM node:lts-alpine AS frontend
 
-# make the 'app' folder the current working directory
+# make the 'client' folder the current working directory
 WORKDIR /client
 
 # copy both 'package.json' and 'package-lock.json' (if available)
 COPY ./client/package*.json ./
+COPY ./client/ ./
 
 # install project dependencies
+RUN npm install -g @quasar/cli
+RUN quasar upgrade -i
 RUN npm install
 
 # copy project files and folders to the current working directory (i.e. 'app' folder)
 COPY ./client/ ./
 
 # build app for production with minification
-RUN npm run build
+RUN npm run build-da
 # RUN ls -la ./
 # RUN ls -la ./dist
 # RUN chmod -R ug+rw ./dist
