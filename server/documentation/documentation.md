@@ -4,7 +4,7 @@ Timesheet can be installed using pre-build docker images or as a binary.
 
 ## Requirements
 
-Application can run in [Docker containers](https://hub.docker.com/search/?type=edition&offering=community). Server image size 39 MB, DB image size 312 MB.
+Application can run in [Docker containers](https://hub.docker.com/search/?type=edition&offering=community). Server image size 31 MB, DB image size 320 MB.
 
 If you are hosting it, supported platforms are:
 - Linux, MS Windows, macOS, Raspberry Pi

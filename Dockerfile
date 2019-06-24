@@ -69,7 +69,7 @@ RUN npm install -g @quasar/cli
 RUN quasar upgrade -i
 
 # copy project files and folders to the current working directory (i.e. 'app' folder)
-COPY ./client/ ./
+COPY ./client ./
 
 # build app for production with minification
 RUN npm run build-da
@@ -100,7 +100,7 @@ COPY --from=backend /documentation /documentation
 # Copy log folder
 COPY --from=backend /logs /logs
 # Copy compiled frontend files
-COPY --from=frontend /client/dist /client/dist
+COPY --from=frontend /client/dist/spa /client/dist
 
 # Declare the port on which the webbackend will be exposed.
 # As we're going to run the executable as an unprivileged user, we can't bind
