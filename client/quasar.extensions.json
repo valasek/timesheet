@@ -1,25 +1,4 @@
 {
-  "@quasar/icon-factory": {
-    "minify_dev": "pngquant",
-    "minify_build": "optipng",
-    "cordova": {
-      "background_color": "#000074",
-      "splashscreen_type": "pure"
-    },
-    "build_always": false,
-    "__internal": {
-      "dev": {
-        "spa": {
-          "iconHash": "5ce127cfecf60df0bb229f7d910e307b"
-        }
-      },
-      "build": {
-        "spa": {
-          "iconHash": "5ce127cfecf60df0bb229f7d910e307b"
-        }
-      }
-    }
-  },
   "@quasar/qmarkdown": {},
   "@quasar/testing-quality": {
     "options": [
@@ -29,5 +8,22 @@
   "@quasar/qenv": {
     "common_root_object": "none",
     "add_qenv_to_gitignore": true
+  },
+  "@quasar/icon-genie": {
+    "minify_dev": "pngquant",
+    "minify_build": "zopfli",
+    "cordova": {
+      "background_color": "#000074",
+      "splashscreen_type": "pure"
+    },
+    "build_always": false,
+    "__internal": {
+      "dev": {
+        "spa": {
+          "iconHash": "b848a1d8cb9da278b6566a947faca0b7"
+        }
+      },
+      "build": {}
+    }
   }
 }
