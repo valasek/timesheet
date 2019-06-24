@@ -146,10 +146,11 @@
                 </q-btn>
               </div>
               <div class="column">
+                <!-- url="http://localhost:3000/api/upload/data" -->
                 <q-uploader
                   label="Upload"
                   accept=".zip"
-                  url="http://localhost:3000/api/upload/data"
+                  url="http://192.168.1.102:8080/api/upload/data"
                   auto-upload
                   style="max-width: 250px"
                 />

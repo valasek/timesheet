@@ -67,15 +67,13 @@
               {{ props.row.date | formatDate }}
             </span>
             <span v-else>
-              <q-input :value="props.row.date | formatDate" dense
-                @input="val => onUpdateDate({id: props.row.id, date: val.name})"
-              >
+              <q-input :value="props.row.date | formatDate" dense >
                 <template v-slot:append>
                   <q-icon name="event" class="cursor-pointer">
                     <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale"
                       fit anchor="bottom left" self="top left"
                     >
-                      <q-date :value="props.row.date" @input="(val) => onDate(props.row.id, val)"
+                      <q-date :value="props.row.date" @input="(val) => onUpdateDate({id: props.row.id, date: val})"
                         mask="YYYY-MM-DD" :rules="['date']" first-day-of-week="1"
                       />
                     </q-popup-proxy>
@@ -159,7 +157,8 @@
 
 <script>
 import { mapState } from 'vuex'
-import { format, isWithinInterval, getISODay, parseISO, addDays } from 'date-fns'
+import { isWithinInterval, getISODay, parseISO, addDays } from 'date-fns'
+import { format } from 'date-fns-tz'
 import { workHoursMixin } from '../mixins/workHoursMixin'
 
 export default {
@@ -176,7 +175,7 @@ export default {
   filters: {
     formatDate: function (date) {
       if (!date) return ''
-      return format(parseISO(date), 'iii, M/d')
+      return format(parseISO(date), 'iii, M/d', Intl.DateTimeFormat().resolvedOptions().timeZone)
     }
   },
 
@@ -184,6 +183,7 @@ export default {
 
   data () {
     return {
+      utcTimeZone: 'UTC',
       lastMaxID: 0,
       filter: '',
       myPagination: { 'rowsPerPage': 30, 'sortBy': 'date', 'descending': false },
@@ -361,19 +361,19 @@ export default {
       }
       this.$store.dispatch('reportedHours/updateAttributeValue', payloadRate)
     },
-    async onUpdateDate (id, date) {
+    async onUpdateDate (newValue) {
       this.$refs.qDateProxy.hide()
       let payload = {
-        id: id,
+        id: newValue.id,
         type: 'date',
-        value: date
+        value: newValue.date
       }
-      if (isWithinInterval(parseISO(date), { start: this.dateFrom, end: this.dateTo })) {
+      if (isWithinInterval(parseISO(newValue.date), { start: this.dateFrom, end: this.dateTo })) {
         this.$store.dispatch('reportedHours/updateAttributeValue', payload)
       } else {
-        if (await this.$refs.confirm.open('Please confirm', 'You selected ' + format(parseISO(date), 'iiii, MMM do') + '. The record will be moved to another week. Continue?', { color: 'bg-warning' })) {
+        if (await this.$refs.confirm.open('Please confirm', 'You selected ' + format(parseISO(newValue.date), 'iiii, MMM do', Intl.DateTimeFormat().resolvedOptions().timeZone) + '. The record will be moved to another week. Continue?', { color: 'bg-warning' })) {
           this.$store.dispatch('reportedHours/updateAttributeValue', payload)
-          this.$store.dispatch('settings/jumpToWeek', parseISO(date))
+          this.$store.dispatch('settings/jumpToWeek', parseISO(newValue.date))
         }
       }
     },
@@ -419,21 +419,21 @@ export default {
       }
       if (totalDailyHoursNew < 48) {
         this.$q.notify({
-          message: 'Over 24 hours reported on ' + format(parseISO(date), 'EEEE'),
+          message: 'Over 24 hours reported on ' + format(parseISO(date), 'EEEE', Intl.DateTimeFormat().resolvedOptions().timeZone),
           icon: 'warning'
         })
         return hours
       }
       if (totalDailyHours >= 48) {
         this.$q.notify({
-          message: totalDailyHours + ' hours reported on ' + format(parseISO(date), 'EEEE') + ' and you want to add additional ' + hours + ' hours. Record was not created.',
+          message: totalDailyHours + ' hours reported on ' + format(parseISO(date), 'EEEE', Intl.DateTimeFormat().resolvedOptions().timeZone) + ' and you want to add additional ' + hours + ' hours. Record was not created.',
           icon: 'report_problem'
         })
         return -1
       }
       if (totalDailyHoursNew > 48) {
         this.$q.notify({
-          message: 'Only ' + (48 - totalDailyHours).toString() + ' hours added on ' + format(parseISO(date), 'EEEE') + '. You wanted to add ' + hours + ' to already reported ' + totalDailyHours + ' hours.',
+          message: 'Only ' + (48 - totalDailyHours).toString() + ' hours added on ' + format(parseISO(date), 'EEEE', Intl.DateTimeFormat().resolvedOptions().timeZone) + '. You wanted to add ' + hours + ' to already reported ' + totalDailyHours + ' hours.',
           icon: 'warning'
         })
         return 48 - totalDailyHours
@@ -448,7 +448,7 @@ export default {
       const newRecord = {
         id: null,
         consultant: this.selectedConsultant,
-        date: format(d, 'yyyy-MM-dd'),
+        date: format(d, 'yyyy-MM-dd', { timeZone: this.utcTimeZone }),
         hours: 8,
         rate: '',
         description: '',
@@ -457,7 +457,7 @@ export default {
       const newHrs = this.remainingHoursDaily(newRecord.date, newRecord.hours)
       if (newHrs > 0 && newHrs <= newRecord.hours) {
         // newRecord.date = format(d, "yyyy-MM-dd'T'HH:mm:ssXXX")
-        newRecord.date = format(d, "yyyy-MM-dd'T'00:00:00XXX")
+        newRecord.date = format(d, "yyyy-MM-dd'T'00:00:00XXX", { timeZone: this.utcTimeZone })
         newRecord.hours = newHrs
         this.$store.dispatch('reportedHours/addRecord', newRecord)
         this.lastMaxID = this.maxID
@@ -466,9 +466,9 @@ export default {
     duplicateItem (item, day) {
       let nextDay = ''
       if (day === 'same') {
-        nextDay = format(parseISO(item.date), 'yyyy-MM-dd')
+        nextDay = format(parseISO(item.date), 'yyyy-MM-dd', { timeZone: this.utcTimeZone })
       } else {
-        nextDay = format(addDays(parseISO(item.date), 1), 'yyyy-MM-dd')
+        nextDay = format(addDays(parseISO(item.date), 1), 'yyyy-MM-dd', { timeZone: this.utcTimeZone })
       }
       const newHrs = this.remainingHoursDaily(nextDay, item.hours)
       if (newHrs > 0 && newHrs <= item.hours) {

@@ -57,5 +57,5 @@ Here's a couple of areas that could use some love:
 ## JS Frontend
 
 - [Vue.js](https://vuejs.org/) spa client with webpack
-- [Vuetify](https://vuetifyjs.com/en/) - light theme
+- [Quasar](https://quasar.dev/)
 - [Axios](https://github.com/axios/axios), [date-fns](https://date-fns.org/)
