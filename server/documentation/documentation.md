@@ -247,22 +247,28 @@ If you or your organization would like to help beta test a Pro version of Timesh
 
 # Release Notes
 
-## Version 1.3.0
-Released on June 14, 2019
+## Version 1.4.0
+Released on June 24, 2019
 
 ### Features
 * API to retrieve reported records in selected period
+* Home page listing top 10 projects
+* Footer showing app version and server name
 
 ### Usability
-* Update to Material Design 2.0. Technical: UI migrated to Quasar
+* Material Design 2.0
+* Documentation contains API description, mentions UTF-8 for exported files
+* Week unlock button moved on Reporting page
+* Breadcrumbs added
 
 ### Fixes
 * Axios security bug
 * Overview - table pagination added, shows all records
+* Record dates saved in UTC
 
 ### Technical
-* UI migrated to Quasar
-* Refactor component names 
+* UI migrated from Vuetify to Quasar framework
+* Refactor component names
 
 ## Version 1.2.3
 Released on April 24, 2019
