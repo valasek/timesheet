@@ -75,7 +75,7 @@
                     <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale"
                       fit anchor="bottom left" self="top left"
                     >
-                      <q-date :value="props.row.date" @input="(val) => onDate(props.row.id, val)"
+                      <q-date :value="props.row.date" @input="(val) => onUpdateDate(props.row.id, val)"
                         mask="YYYY-MM-DD" :rules="['date']" first-day-of-week="1"
                       />
                     </q-popup-proxy>
