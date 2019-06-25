@@ -3,32 +3,6 @@
 <template>
   <q-page padding>
     <div class="q-pa-md row items-start q-gutter-md">
-    </div>
-    <div class="q-pa-md row items-start q-gutter-md">
-      <q-card flat>
-        <q-card-section>
-          <div class="text-h6">Top 10 projects in {{ month }}</div>
-        </q-card-section>
-        <q-card-section>
-          <q-table :columns="columns" :data="topProjects" :pagination="myPagination" hide-bottom dense flat />
-        </q-card-section>
-        <q-card-section>
-          <q-btn flat icon="skip_previous" @click="previousMonth" />
-            {{ month }}
-          <q-btn flat icon="skip_next" @click="nextMonth" />
-          {{ year }}
-        </q-card-section>
-      </q-card>
-      <q-card flat>
-        <q-card-section>
-          <div class="text-h6">Managed data</div>
-        </q-card-section>
-        <q-card-section>
-          {{ consultants.length }} consultants<br/>
-          {{ rates.length }} rates<br/>
-          {{ projects.length }} projects<br/>
-        </q-card-section>
-      </q-card>
       <q-card
         class="text-white"
         style="background: radial-gradient(circle, #35a2ff 0%, #014a88 100%)">
@@ -42,7 +16,33 @@
           Timesheet provides API to automate data exports.
         </q-card-section>
       </q-card>
-
+    </div>
+    <div class="text-h6">
+      Top 10 projects in {{ month }} {{ year }}
+      <q-btn flat icon="skip_previous" @click="previousMonth" />
+      <q-btn flat icon="skip_next" @click="nextMonth" />
+    </div>
+    <div class="row items-top">
+      <div class="col-6">
+        <project-chart :chartData="projectChart" :options="projectChartOptions"></project-chart>
+      </div>
+      <q-card flat>
+        <q-card-section>
+          <q-table :columns="columns" :data="topProjects" :pagination="myPagination" hide-bottom dense flat/>
+        </q-card-section>
+      </q-card>
+    </div>
+    <div class="row items-center">
+      <div class="col-4">
+        <q-card flat>
+          <q-card-section>
+            <div class="text-h6">Managed data</div>
+          </q-card-section>
+          <q-card-section>
+            <project-chart :chartData="dataChart" :options="projectChartOptions"></project-chart>
+          </q-card-section>
+        </q-card>
+      </div>
     </div>
     <my-footer/>
   </q-page>
@@ -56,7 +56,8 @@ export default {
 
   components: {
     /* webpackChunkName: "core" */
-    'my-footer': () => import('components/MyFooter')
+    'my-footer': () => import('components/MyFooter'),
+    'project-chart': () => import('components/ProjectChart')
   },
 
   data () {
@@ -81,6 +82,50 @@ export default {
       reportedHoursSummary: state => state.reportedHours.summary,
       assignedProjects: state => state.projects.all
     }),
+    projectChart () {
+      return {
+        labels: this.topProjects.map(p => p.project),
+        datasets: [
+          {
+            label: 'Total reported hours',
+            backgroundColor: '#66BB6A',
+            data: this.topProjects.map(p => p.hours)
+          }
+        ]
+      }
+    },
+    projectChartOptions () {
+      return {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          xAxes: [{
+            gridLines: {
+              display: false
+            }
+          }]
+        },
+        plugins: {
+          datalabels: {
+            color: '#FFFFFF',
+            anchor: 'center',
+            clamp: true
+          }
+        }
+      }
+    },
+    dataChart () {
+      return {
+        labels: ['Projects', 'Rates', 'Consultants'],
+        datasets: [
+          {
+            label: '# of managed records',
+            backgroundColor: '#66BB6A',
+            data: [this.assignedProjects.length, this.rates.length, this.consultants.length]
+          }
+        ]
+      }
+    },
     month () {
       return format(this.selectedMonth, 'MMMM')
     },

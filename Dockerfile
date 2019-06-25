@@ -46,7 +46,7 @@ COPY ./server/ ./
 #     -installsuffix 'static' \
 #     -o /app .
 RUN GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build \
--ldflags "-X github.com/valasek/timesheet/server/version.Version=1.4.0" \
+-ldflags "-X github.com/valasek/timesheet/server/version.Version=1.4.1" \
 -installsuffix 'static' -o /timesheet.bin .
 # RUN ls -la .
 
