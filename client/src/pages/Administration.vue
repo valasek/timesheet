@@ -150,7 +150,7 @@
                 <q-uploader
                   label="Upload"
                   accept=".zip"
-                  url="http://192.168.1.102:8080/api/upload/data"
+                  url="http://localhost:8080/api/upload/data"
                   auto-upload
                   style="max-width: 250px"
                 />
