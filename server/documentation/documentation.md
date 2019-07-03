@@ -247,6 +247,21 @@ If you or your organization would like to help beta test a Pro version of Timesh
 
 # Release Notes
 
+## Version 1.4.2
+Released on July 03, 2019
+
+### usability
+* more space on table for locked previous weeks
+
+### Fixes
+* selects now show alphabetically sorted consultants, projects and rates
+* added filter by year on Home page
+* show correct available working time
+* upload file takes read url and port from boot config file and file name is parsed dynamically
+
+### technical
+* Upgrade to Quasar 1.0.2 and Go 1.12.6, npm replaced with yarn
+
 ## Version 1.4.0
 Released on June 24, 2019
 
