@@ -46,7 +46,7 @@ Here's a couple of areas that could use some love:
 
 # Standing on the shoulders of giants
 
-[Go](https://golang.org/), [Gin web framework](https://github.com/gin-gonic), [Vue](https://vuejs.org/), [Vuetify](https://vuetifyjs.com/en/), [PostgreSQL](https://www.postgresql.org/) and [MySQL](https://www.mysql.com/)
+[Go](https://golang.org/), [Gin web framework](https://github.com/gin-gonic), [Vue](https://vuejs.org/), [Quasar](https://quasar.dev/), [PostgreSQL](https://www.postgresql.org/) and [MySQL](https://www.mysql.com/)
 
 ## Go Backend
 

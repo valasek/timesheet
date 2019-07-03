@@ -38,7 +38,17 @@ const actions = {
 const mutations = {
 
   SET_CONSULTANTS (state, consultants) {
-    state.all = consultants
+    state.all = consultants.sort(function (a, b) {
+      var nameA = a.name.toUpperCase()
+      var nameB = b.name.toUpperCase()
+      if (nameA < nameB) {
+        return -1
+      }
+      if (nameA > nameB) {
+        return 1
+      }
+      return 0
+    })
     let c = localStorage.getItem('selectedConsultant')
     if (c && c.length > 0) {
       state.selected = c

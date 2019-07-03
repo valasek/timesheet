@@ -59,7 +59,7 @@
     </q-toolbar>
     <q-table :columns="headers" row-key="name" :data="selectedReportedHours" :filter="filter" :loading="loading"
       no-data-label="No hours reported this week" :pagination.sync="myPagination" :rows-per-page-options="[30,50,0]"
-      binary-state-sort dense bordered>
+      binary-state-sort :dense="weekUnlocked" bordered>
       <template v-slot:body="props">
         <q-tr :props="props" :class="{'new-row': weekUnlocked && isActive(props.row.id)}">
           <q-td key="date" :props="props">

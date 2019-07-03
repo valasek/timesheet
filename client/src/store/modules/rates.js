@@ -34,10 +34,17 @@ const actions = {
 const mutations = {
 
   SET_RATES (state, rates) {
-    state.all = rates
-    // state.rates = rates.map(function (obj) {
-    //     return obj.name
-    // })
+    state.all = rates.sort(function (a, b) {
+      var nameA = a.name.toUpperCase()
+      var nameB = b.name.toUpperCase()
+      if (nameA < nameB) {
+        return -1
+      }
+      if (nameA > nameB) {
+        return 1
+      }
+      return 0
+    })
     state.types = [...new Set(rates.map(function (obj) {
       return obj.type
     }))]

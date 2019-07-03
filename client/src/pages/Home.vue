@@ -133,10 +133,11 @@ export default {
       return format(this.selectedMonth, 'yyyy')
     },
     topProjects () {
-      var allProjects = this.reportedHoursSummary.map(record => ({ project: record.project, month: record.month, hours: parseFloat(record.hours) }))
+      var allProjects = this.reportedHoursSummary.map(record => ({ project: record.project, month: record.month, year: record.year, hours: parseFloat(record.hours) }))
       const m = format(this.selectedMonth, 'M')
+      const y = format(this.selectedMonth, 'yyyy')
       var inputProjects = allProjects.filter(function (obj) {
-        return obj.month === m
+        return obj.month === m && obj.year === y
       })
       var projectTotal = []
       this.assignedProjects.forEach(function (p) {

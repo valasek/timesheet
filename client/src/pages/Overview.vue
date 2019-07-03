@@ -58,7 +58,7 @@
         </q-table>
       </q-card-section>
     </q-card>
-    <div class="row">
+    <!-- <div class="row">
       <q-toolbar class="q-pa-md bg-grey-3">
         <q-toolbar-title>Available minus reported hours in {{ selectedMonth | formatMonth }}: {{ balancePeriod }}</q-toolbar-title>
       </q-toolbar>
@@ -68,7 +68,7 @@
               {{ getBalance() | pluralizeHour }}</span>
         </q-card-section>
       </q-card>
-    </div>
+    </div> -->
     <div class="row justify-around items-baseline">
       <div class="column">
         <q-toolbar class="q-pa-md bg-grey-3">
@@ -170,7 +170,7 @@
 
 <script>
 import { mapState } from 'vuex'
-import { format, lightFormat, getYear, differenceInDays, eachWeekendOfInterval, addDays, startOfMonth, endOfMonth } from 'date-fns'
+import { format, lightFormat, getYear, differenceInBusinessDays, addDays, startOfMonth, endOfMonth } from 'date-fns'
 import { workHoursMixin } from '../mixins/workHoursMixin'
 // import selectConsultant from '../components/SelectConsultant'
 // import changeWeek from '../components/ChangeWeek'
@@ -363,7 +363,9 @@ export default {
       return (worked.working + worked.nonWorking - available * this.dailyWorkingHours) * this.selectedAllocation
     },
     workingDaysInPeriod (dFrom, dTo) {
-      return (differenceInDays(dFrom, dTo) - 1) * -1 - eachWeekendOfInterval({ start: dFrom, end: dTo }).length - this.getHolidays(dFrom, dTo)
+      const diff = differenceInBusinessDays(dTo, dFrom) + 1
+      const holidays = this.getHolidays(dFrom, dTo)
+      return (diff - holidays)
     },
     selectedReportedHoursInPeriod (from, to) {
       return this.reportedHours.filter(function (report) {

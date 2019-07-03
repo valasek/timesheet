@@ -159,7 +159,7 @@ func getborderDays(year, month string) (days []string, err error) {
 // ReportedRecordsSummary - return summary records per selected year
 func (db *ReportedRecordManager) ReportedRecordsSummary(year string) []ReportedRecordsSummary {
 	reportedRecordsSummary := []ReportedRecordsSummary{}
-	sql := fmt.Sprintf("select consultant, extract(MONTH from date) as month, project, rate, sum(hours) as hours from reported_records where extract(YEAR from date) = %s and deleted_at is null group by consultant, extract(MONTH from date), project, rate", year)
+	sql := fmt.Sprintf("select consultant, extract(YEAR from date) as year, extract(MONTH from date) as month, project, rate, sum(hours) as hours from reported_records where extract(YEAR from date) = %s and deleted_at is null group by consultant, extract(YEAR from date), extract(MONTH from date), project, rate", year)
 	if err := db.db.Raw(sql).Scan(&reportedRecordsSummary); err != nil {
 		// fmt.Println(reportedRecordsSummary)
 		return reportedRecordsSummary

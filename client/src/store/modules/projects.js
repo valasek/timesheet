@@ -32,7 +32,17 @@ const actions = {
 const mutations = {
 
   SET_PROJECTS (state, projects) {
-    state.all = projects
+    state.all = projects.sort(function (a, b) {
+      var nameA = a.name.toUpperCase()
+      var nameB = b.name.toUpperCase()
+      if (nameA < nameB) {
+        return -1
+      }
+      if (nameA > nameB) {
+        return 1
+      }
+      return 0
+    })
   }
 
 }

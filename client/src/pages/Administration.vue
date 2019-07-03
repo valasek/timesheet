@@ -146,11 +146,10 @@
                 </q-btn>
               </div>
               <div class="column">
-                <!-- url="http://localhost:3000/api/upload/data" -->
                 <q-uploader
                   label="Upload"
                   accept=".zip"
-                  url="http://localhost:8080/api/upload/data"
+                  :url=uploaderUrl
                   auto-upload
                   style="max-width: 250px"
                 />
@@ -195,6 +194,8 @@ export default {
 
   data () {
     return {
+      // url="http://localhost:3000/api/upload/data"
+      uploaderUrl: process.env.ENV_APP_URL + ':' + process.env.ENV_SVR_PORT + '/api/upload/data',
       hoursRules: [
         (v) => !isNaN(parseFloat(v)) || 'Enter hours between 0 and 24',
         (v) => (parseFloat(v) <= 24) || 'Enter number between 0 and 24',
