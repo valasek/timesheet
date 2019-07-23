@@ -2,7 +2,7 @@
 
 <template>
   <q-page padding>
-    <q-toolbar class="q-pa-md bg-grey-3">
+    <q-toolbar class="q-pa-md bg-primary text-secondary">
       <q-toolbar-title>Administration & Settings</q-toolbar-title>
     </q-toolbar>
     <q-expansion-item

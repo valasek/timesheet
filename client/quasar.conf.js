@@ -23,56 +23,66 @@ module.exports = function (ctx) {
 
     framework: {
       // all: true, // --- includes everything; for dev only!
+      config: {
+        brand: {
+          primary: '#5fc3ad',
+          secondary: '#2d3092',
+          accent: '#5fc3ad'
+          // positive: '#7a60c3',
+          // negative: 'color-red-3',
+          // info: '#6077c3',
+          // warning: '#c360a9'
+        }
+      },
 
       components: [
-        'QLayout',
-        'QHeader',
-        'QDrawer',
-        'QPageContainer',
-        'QPage',
-        'QToolbar',
-        'QToolbarTitle',
-        'QBtn',
-        'QIcon',
-        'QList',
-        'QItem',
-        'QItemSection',
-        'QItemLabel',
-
-        'QTable',
-        'QTd',
-        'QTr',
-        'QImg',
-
-        'QCardSection',
-        'QCardActions',
-        'QCard',
-        'QCardSection',
-        'QSeparator',
-        'QInput',
-        'QSelect',
-        'QCheckbox',
-        'QExpansionItem',
-        'QScrollArea',
-        'QUploader',
-        'QSpace',
-        'QToggle',
-        'QDialog',
-        'QTooltip',
-        'QDate',
-        'QPopupProxy',
+        'QAvatar',
         'QBreadcrumbs',
         'QBreadcrumbsEl',
-        'QFooter'
+        'QBtn',
+        'QCard',
+        'QCardActions',
+        'QCardSection',
+        'QCheckbox',
+        'QDate',
+        'QDialog',
+        'QDrawer',
+        'QExpansionItem',
+        'QFooter',
+        'QHeader',
+        'QIcon',
+        'QImg',
+        'QInput',
+        'QItem',
+        'QItemLabel',
+        'QItemSection',
+        'QLayout',
+        'QList',
+        'QPage',
+        'QPageContainer',
+        'QPopupProxy',
+        'QScrollArea',
+        'QSelect',
+        'QSeparator',
+        'QSpace',
+        'QTable',
+        'QTd',
+        'QToolbar',
+        'QToolbarTitle',
+        'QTooltip',
+        'QTr',
+        'QUploader'
       ],
 
       directives: [
-        'Ripple',
-        'ClosePopup'
+        'ClosePopup',
+        'Ripple'
       ],
 
       // Quasar plugins
       plugins: [
+        'Dialog',
+        'Loading',
         'Notify'
       ]
 

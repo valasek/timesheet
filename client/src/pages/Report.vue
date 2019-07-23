@@ -2,24 +2,28 @@
 
 <template>
   <q-page padding>
-    <q-toolbar class="q-pa-md bg-grey-3">
+    <q-toolbar class="q-pa-md bg-primary">
       <change-week />
       <div class="q-gutter-x-md">
         <select-consultant class="q-gutter-x-md"/>
       </div>
       <q-toolbar-title>
-        <q-input v-model="filter" dense clearable label="Search" single-line>
+        <q-input v-model="filter" dense label="Search" single-line
+          @keyup.esc="filter = ''"
+          color="secondary"
+          >
           <template v-slot:append>
-            <q-icon name="search" />
+            <q-icon v-if="filter !== ''" name="close" @click="filter = ''" class="cursor-pointer" />
+            <q-icon class="text-secondary" name="search" />
           </template>
         </q-input>
       </q-toolbar-title>
-      <q-toggle v-model="weekUnlocked" :disable="isCurrentWeek===true">
+      <q-checkbox color="secondary" v-model="weekUnlocked" :disable="isCurrentWeek===true">
         <q-tooltip>
           Edit this week
         </q-tooltip>
-      </q-toggle>
-      <q-btn color="primary" :disabled="!weekUnlocked" rounded label="new" icon="add" @click="addItem" />
+      </q-checkbox>
+      <q-btn class="bg-secondary text-primary" :disabled="!weekUnlocked" rounded label="new" icon="add" @click="addItem" />
     </q-toolbar>
     <q-toolbar class="q-pa-md bg-grey-2">
       <span class="text-subtitle1 ">
@@ -67,13 +71,13 @@
               {{ props.row.date | formatDate }}
             </span>
             <span v-else>
-              <q-input :value="props.row.date | formatDate" dense >
+              <q-input :value="props.row.date | formatDate" dense>
                 <template v-slot:append>
                   <q-icon name="event" class="cursor-pointer">
                     <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale"
                       fit anchor="bottom left" self="top left"
                     >
-                      <q-date :value="props.row.date" @input="(val) => onUpdateDate({id: props.row.id, date: val})"
+                    <q-date :value="props.row.date" @input="(val) => onUpdateDate({id: props.row.id, date: val})"
                         mask="YYYY-MM-DD" :rules="['date']" first-day-of-week="1"
                       />
                     </q-popup-proxy>
@@ -361,8 +365,13 @@ export default {
       }
       this.$store.dispatch('reportedHours/updateAttributeValue', payloadRate)
     },
-    async onUpdateDate (newValue) {
-      this.$refs.qDateProxy.hide()
+    confirmDiffrentWeek (d) {
+      return Promise.new(this.$refs.confirm.open('Please confirm', 'You selected ' + format(parseISO(d), 'iiii, MMM do', Intl.DateTimeFormat().resolvedOptions().timeZone) + '. The record will be moved to another week. Continue?', { color: 'bg-warning' }))
+    },
+    onUpdateDate (newValue) {
+      this.$nextTick(function () {
+        this.$refs.qDateProxy.hide()
+      })
       let payload = {
         id: newValue.id,
         type: 'date',
@@ -371,7 +380,7 @@ export default {
       if (isWithinInterval(parseISO(newValue.date), { start: this.dateFrom, end: this.dateTo })) {
         this.$store.dispatch('reportedHours/updateAttributeValue', payload)
       } else {
-        if (await this.$refs.confirm.open('Please confirm', 'You selected ' + format(parseISO(newValue.date), 'iiii, MMM do', Intl.DateTimeFormat().resolvedOptions().timeZone) + '. The record will be moved to another week. Continue?', { color: 'bg-warning' })) {
+        if (this.confirmDiffrentWeek(newValue.date)) {
           this.$store.dispatch('reportedHours/updateAttributeValue', payload)
           this.$store.dispatch('settings/jumpToWeek', parseISO(newValue.date))
         }

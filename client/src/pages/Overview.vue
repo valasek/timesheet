@@ -2,13 +2,13 @@
 
 <template>
   <q-page padding>
-    <q-toolbar class="q-pa-md bg-grey-3">
+    <q-toolbar class="q-pa-md bg-primary">
       <change-week />
       <div class="q-gutter-x-md">
         <select-consultant class="q-gutter-x-md"/>
         </div>
     </q-toolbar>
-    <q-toolbar class="my-toolbar q-pa-md bg-grey-3">
+    <q-toolbar class="my-toolbar q-pa-md bg-primary text-secondary">
       <q-toolbar-title>Year - {{ thisYear }}</q-toolbar-title>
     </q-toolbar>
     <q-card flat class="row justify-around items-baseline">
@@ -71,7 +71,7 @@
     </div> -->
     <div class="row justify-around items-baseline">
       <div class="column">
-        <q-toolbar class="q-pa-md bg-grey-3">
+        <q-toolbar class="q-pa-md bg-primary text-secondary">
           <q-toolbar-title>Week - {{ thisWeek }} </q-toolbar-title>
         </q-toolbar>
         <div class="row">
@@ -118,7 +118,7 @@
         </div>
       </div>
       <div class="column">
-        <q-toolbar class="q-pa-md bg-grey-3">
+        <q-toolbar class="q-pa-md bg-primary text-secondary">
           <q-toolbar-title>Month - {{ selectedMonth | formatMonth }}</q-toolbar-title>
         </q-toolbar>
         <div class="row">

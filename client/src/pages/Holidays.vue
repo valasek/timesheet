@@ -2,7 +2,7 @@
 
 <template>
   <q-page padding>
-    <q-toolbar class="q-pa-md bg-grey-3">
+    <q-toolbar class="q-pa-md bg-primary text-secondary">
       <q-toolbar-title>State Holidays</q-toolbar-title>
     </q-toolbar>
     <q-layout row wrap class="q-pa-y-md">

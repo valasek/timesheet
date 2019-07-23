@@ -36,17 +36,17 @@ dailyWorkingHoursMax: 12 # Used to highlight if reported more, can be changed in
 vacation: "Vacation"
 yearlyVacationDays: 20 # Used to calculate weekly and monthly expected working hours, can be changed in UI
 
-# Rate for additonal vacations. If not used, leave blank "" and set yearlyPersonalDays: 0, can be changed in UI
+# Rate for additional vacations. If not used, leave blank "" and set yearlyPersonalDays: 0, can be changed in UI
 vacationPersonal: "Personal Day"
 yearlyPersonalDays: 3 # Used to calculate weekly and monthly expected working hours, can be changed in UI
 
-# Rate used for additonal vacation intended for sick day. If not used, leave blank "" and set yearlySickDays: 0, can be changed in UI
+# Rate used for additional vacation intended for sick day. If not used, leave blank "" and set yearlySickDays: 0, can be changed in UI
 vacationSick: "Sick Day"
 yearlySickDays: 2 # Used to calculate weekly and monthly expected working hours, can be changed in UI
 
 # Categorize all rates into one of these types used on Reported Overview page
 isWorking: "work" # when consultant works, can be changed in UI
-isNonWorking: "not-work" # when consultant dows not work, examples: vacation, sick, personal day, public holiday, vacation, unpaid leave, ..., can be changed in UI
+isNonWorking: "not-work" # when consultant does not work, examples: vacation, sick, personal day, public holiday, vacation, unpaid leave, ..., can be changed in UI
 
 ########################
 # Application settings #
@@ -83,11 +83,11 @@ export:
 #####################
 # Database settings #
 
-# DB backup settings - backuped data can be imported directly by a command "timesheet db --load all"
+# DB backup settings - backup data can be imported directly by a command "timesheet db --load all"
 backup:
   location: "data/backups" # select an empty and an existing folder relative to timesheet/data folder
   rotation: 14             # how many backups back will be kept
-  interval: "daily"        # daily or weekly - how ofter the DB backup should be done
+  interval: "daily"        # daily or weekly - how often the DB backup should be done
 
 # DB credentials
 # used for development and testing. Ignored if DATABASE_URL is set
@@ -228,8 +228,8 @@ Follow these steps to upgrade:
 
 # License
 
-Free for education and non-commertial usage. Pay for the commertial usage of the application to support further development and maintenance via
-<a href="https://www.patreon.com/valasek">Patreon</a> or <a href="https://paypal.me/StanislavValasek">PayPal</a>.
+Free for education and non-commercial usage. Pay for the commercial usage of the application to support further development and maintenance via
+<a href="https://paypal.me/StanislavValasek">PayPal</a>.
 
 Currently I am working on a Pro Version of Timesheet for enterprise. Along with support, some of the planned features include:
 
@@ -240,27 +240,35 @@ Currently I am working on a Pro Version of Timesheet for enterprise. Along with 
 * Reporting metrics
 * Cloud version
 
-If you or your organization would like to help beta test a Pro version of Timesheet, please get in touch with me:
-
-  Twitter: [@valasek](https://twitter.com/valasek)
-  Email: [valasek@gmail.com](mailto:valasek@gmail.com)
+If you or your organization would like to help beta test a Pro version of Timesheet, please get in touch with us via email: [timesheet.simplesw@gmail.com](mailto:timesheet.simplesw@gmail.com)
 
 # Release Notes
+
+## Version 1.4.3
+Released on July 23, 2019
+
+### Usability
+* Styling and logo
+* New breadcrumbs
+* ESC on search deletes the text, prepend delete search text icon
+
+### Technical
+* Use Go 1.12.7 and Quasar 1.0.5
 
 ## Version 1.4.2
 Released on July 03, 2019
 
-### usability
-* more space on table for locked previous weeks
+### Usability
+* Table on previous weeks contains more space
 
 ### Fixes
-* selects now show alphabetically sorted consultants, projects and rates
-* added filter by year on Home page
-* show correct available working time
-* upload file takes read url and port from boot config file and file name is parsed dynamically
+* Consultants, projects, and rates selects are sorted alphabetically
+* Home page graph - added filter by year
+* Available working time computation fixed
+* Administration / upload - parametrized url and port, uploaded file name is parsed on the fly
 
-### technical
-* Upgrade to Quasar 1.0.2 and Go 1.12.6, npm replaced with yarn
+### Technical
+* Upgrade to Quasar 1.0.2, Go 1.12.6, npm replaced with yarn
 
 ## Version 1.4.0
 Released on June 24, 2019
@@ -336,7 +344,7 @@ Released on March 14, 2019
 ### Usability
 
 * Documentation created
-* Scollable data table
+* Scrollable data table
 * Faster responses on user interface
 * Show message if log file is empty
 
@@ -357,7 +365,7 @@ Released on March 7, 2019
 
 ### Usability
 
-* Previous weeks are loaded laster
+* Previous weeks are loaded faster
 * Weeks and consultants can be changed directly on the Overview page
 * Removed footer, main toolbar takes less space
 * Disable all fields in previous weeks unless editing is enabled

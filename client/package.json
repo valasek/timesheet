@@ -1,6 +1,6 @@
 {
   "name": "timesheet",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "Self-hosted application to manage project reporting",
   "productName": "Timesheet",
   "cordovaId": "timesheet.simplesw.net",
@@ -20,18 +20,19 @@
     "audit:lighthouse": "lighthouse http://localhost:3000 view --output-path=./test/lighthouse/reports/index.html --config-path=./test/lighthouse/configs/full-config.js"
   },
   "dependencies": {
-    "@quasar/extras": "^1.1.4",
+    "@quasar/extras": "^1.2.0",
+    "ajv": "^6.10.1",
     "axios": "^0.19.0",
     "chart.js": "^2.8.0",
     "chartjs-plugin-datalabels": "^0.6.0",
     "date-fns": "^2.0.0-beta.2",
     "date-fns-tz": "^1.0.7",
-    "quasar": "^1.0.2",
+    "quasar": "^1.0.5",
     "vue-chartjs": "^3.4.2"
   },
   "devDependencies": {
-    "@quasar/app": "^1.0.0",
-    "@quasar/quasar-app-extension-icon-genie": "^1.0.0",
+    "@quasar/app": "^1.0.4",
+    "@quasar/quasar-app-extension-icon-genie": "^1.0.1",
     "@quasar/quasar-app-extension-qenv": "^1.0.0-beta.1",
     "@quasar/quasar-app-extension-qmarkdown": "^1.0.0-beta.13",
     "@quasar/quasar-app-extension-testing-quality": "^1.0.0-beta.8",
@@ -41,7 +42,8 @@
     "eslint": "^5.10.0",
     "eslint-loader": "^2.1.1",
     "eslint-plugin-vue": "^5.2.3",
-    "strip-ansi": "=3.0.1",
+    "quasar-app-extension-qautomate": "^1.0.0-alpha.5",
+    "strip-ansi": "^5.2.0",
     "webpack-bundle-analyzer": "^3.3.2"
   },
   "engines": {
@@ -53,6 +55,6 @@
     "last 1 version, not dead, ie >= 11"
   ],
   "resolutions": {
-    "ajv": "6.8.1"
+    "ajv": "^6.10.1"
   }
 }

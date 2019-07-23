@@ -5,7 +5,7 @@
     <div class="q-pa-md row items-start q-gutter-md">
       <q-card
         class="text-white"
-        style="background: radial-gradient(circle, #35a2ff 0%, #014a88 100%)">
+        :style="cardStyle">
         <q-card-section>
           <div class="text-h6">Timesheet</div>
           <div class="text-subtitle2">Self-hosted web application for weekly reporting</div>
@@ -51,6 +51,7 @@
 <script>
 import { mapState } from 'vuex'
 import { format, addMonths, subMonths } from 'date-fns'
+import { colors } from 'quasar'
 
 export default {
 
@@ -62,6 +63,7 @@ export default {
 
   data () {
     return {
+      cardStyle: 'background: radial-gradient(circle, ' + colors.getBrand('secondary') + ' 0%, ' + colors.getBrand('primary') + ' 100%)',
       url: process.env.VUE_APP_URL,
       port: process.env.VUE_APP_PORT,
       columns: [
@@ -88,7 +90,7 @@ export default {
         datasets: [
           {
             label: 'Total reported hours',
-            backgroundColor: '#66BB6A',
+            backgroundColor: colors.getBrand('accent'),
             data: this.topProjects.map(p => p.hours)
           }
         ]
@@ -120,7 +122,7 @@ export default {
         datasets: [
           {
             label: '# of managed records',
-            backgroundColor: '#66BB6A',
+            backgroundColor: colors.getBrand('accent'),
             data: [this.assignedProjects.length, this.rates.length, this.consultants.length]
           }
         ]

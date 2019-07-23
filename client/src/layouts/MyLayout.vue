@@ -1,7 +1,7 @@
 <template>
-  <q-layout view="hHh lpR LFf">
-    <q-header elevated class="bg-primary text-white">
-      <q-toolbar class="glossy" >
+  <q-layout view="hHh lpR fFf">
+    <q-header elevated class="bg-primary text-secondary">
+      <q-toolbar>
           <q-btn
             flat
             dense
@@ -10,15 +10,24 @@
             @click="drawer = !drawer"
           >
           </q-btn>
-          <q-breadcrumbs class="q-pa-sm text-grey" active-color="white" style="font-size: 16px">
-            <q-breadcrumbs-el label="Timesheet" icon="home" to="/" />
+          <img src="statics/logo.png" />
+          <q-toolbar-title/>
+          <q-breadcrumbs class="q-pa-sm text-secondary absolute-center" active-color="white" style="font-size: 16px">
+            <template v-slot:separator>
+              <q-icon
+                v-show="subPage"
+                size="1.2em"
+                name="arrow_forward"
+                color="secondary"
+              />
+            </template>
+            <q-breadcrumbs-el label="Timesheet" icon="home" to="/" class="text-secondary" />
             <q-breadcrumbs-el v-show="subPage" :label="page" :icon="pageIcon" :to="page" />
           </q-breadcrumbs>
-        <q-toolbar-title/>
         <q-btn flat to="/help">Help</q-btn>
       </q-toolbar>
     </q-header>
-    <q-drawer v-model="drawer" side="left" bordered>
+    <q-drawer v-model="drawer" side="left" bordered :width=220 content-class="text-secondary">
       <q-list>
         <q-item v-for="item in items" :key="item.title" :to="item.route" exact>
           <q-item-section avatar>

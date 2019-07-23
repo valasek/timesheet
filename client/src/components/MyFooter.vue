@@ -1,8 +1,8 @@
 <!-- Copyright © 2018-2019 Stanislav Valasek <valasek@gmail.com> -->
 
 <template>
-  <q-footer elevated>
-    <q-toolbar class="glossy">
+  <q-footer elevated class="bg-primary text-secondary">
+    <q-toolbar>
       2018 - {{ (new Date()).getFullYear() }} &copy;&nbsp;Stanislav Valasek <q-space/>Version: {{ version === "" ? "dev" : version }}, running on {{ url }}:{{ port }}
     </q-toolbar>
   </q-footer>
