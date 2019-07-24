@@ -8,75 +8,15 @@
         <select-consultant class="q-gutter-x-md"/>
         </div>
     </q-toolbar>
-    <q-toolbar class="my-toolbar q-pa-md bg-primary text-secondary">
-      <q-toolbar-title>Year - {{ thisYear }}</q-toolbar-title>
-    </q-toolbar>
-    <q-card flat class="row justify-around items-baseline">
-      <q-card-section>
-        <q-table :columns="headersV" :data="vacations" hide-bottom>
-          <template slot="items" slot-scope="props">
-            <td class="text-xs-left">
-              {{ props.item.text }}
-            </td>
-            <td class="text-xs-left">
-              {{ props.item.value  }}
-            </td>
-            <td class="text-xs-left">
-              {{ props.item.value }}
-            </td>
-          </template>
-        </q-table>
-      </q-card-section>
-      <q-card-section>
-        <q-table :columns="headersP" :data="personalDays" hide-bottom>
-          <template slot="items" slot-scope="props">
-            <td class="text-xs-left">
-              {{ props.item.text }}
-            </td>
-            <td class="text-xs-left">
-              {{ props.item.value / dailyWorkingHours }}
-            </td>
-            <td class="text-xs-left">
-              {{ props.item.value }}
-            </td>
-          </template>
-        </q-table>
-      </q-card-section>
-      <q-card-section>
-        <q-table :columns="headersS" :data="sickDays" hide-bottom>
-          <template slot="items" slot-scope="props">
-            <td class="text-xs-left">
-              {{ props.item.text }}
-            </td>
-            <td class="text-xs-left">
-              {{ props.item.value }}
-            </td>
-            <td class="text-xs-left">
-              {{ props.item.value }}
-            </td>
-          </template>
-        </q-table>
-      </q-card-section>
-    </q-card>
-    <!-- <div class="row">
-      <q-toolbar class="q-pa-md bg-grey-3">
-        <q-toolbar-title>Available minus reported hours in {{ selectedMonth | formatMonth }}: {{ balancePeriod }}</q-toolbar-title>
-      </q-toolbar>
-      <q-card flat>
-        <q-card-section>
-            Balance: <span :class="textColor(getBalance())">
-              {{ getBalance() | pluralizeHour }}</span>
-        </q-card-section>
-      </q-card>
-    </div> -->
-    <div class="row justify-around items-baseline">
-      <div class="column">
-        <q-toolbar class="q-pa-md bg-primary text-secondary">
+    <div class="row items-baseline">
+      <div class="column q-pa-md ">
+        <q-toolbar class="bg-primary text-secondary">
           <q-toolbar-title>Week - {{ thisWeek }} </q-toolbar-title>
         </q-toolbar>
         <div class="row">
         <q-card flat>
           <q-card-section>
+            <div class="text-subtitle1">Reported Time</div>
             <q-table :columns="headersNumbers" :data="weeklyWorkingTimeOverview" :pagination.sync="myPagination"
               hide-bottom
             >
@@ -98,6 +38,7 @@
         <div class="row">
           <q-card flat>
             <q-card-section>
+              <div class="text-subtitle1">Reported Projects</div>
               <q-table :columns="headersProjects" :data="weeklyProjectsOverview" :pagination.sync="myPagination"
                 hide-bottom
               >
@@ -117,13 +58,14 @@
           </q-card>
         </div>
       </div>
-      <div class="column">
-        <q-toolbar class="q-pa-md bg-primary text-secondary">
+      <div class="column q-pa-md ">
+        <q-toolbar class="bg-primary text-secondary">
           <q-toolbar-title>Month - {{ selectedMonth | formatMonth }}</q-toolbar-title>
         </q-toolbar>
         <div class="row">
           <q-card flat>
             <q-card-section>
+              <div class="text-subtitle1">Reported Time</div>
               <q-table :columns="headersNumbers" :data="monthlyWorkingTimeOverview" :pagination.sync="myPagination"
                 hide-bottom
               >
@@ -145,6 +87,7 @@
         <div class="row">
           <q-card flat>
             <q-card-section>
+              <div class="text-subtitle1">Reported Projects</div>
               <q-table :columns="headersProjects" :data="monthlyProjectsOverview" :pagination.sync="myPagination"
                 hide-bottom
               >
@@ -164,6 +107,73 @@
           </q-card>
         </div>
       </div>
+
+      <div class="column q-pa-md">
+        <!-- <q-card flat class="row q-pa-md items-baseline"> -->
+        <q-toolbar class="my-toolbar bg-primary text-secondary">
+          <q-toolbar-title>Year - {{ thisYear }}</q-toolbar-title>
+        </q-toolbar>
+        <q-card-section>
+          <div class="text-subtitle1">Vacations</div>
+          <q-table :columns="headersV" :data="vacations" hide-bottom>
+            <template slot="items" slot-scope="props">
+              <td class="text-xs-left">
+                {{ props.item.text }}
+              </td>
+              <td class="text-xs-left">
+                {{ props.item.value  }}
+              </td>
+              <td class="text-xs-left">
+                {{ props.item.value }}
+              </td>
+            </template>
+          </q-table>
+        </q-card-section>
+        <q-card-section>
+          <div class="text-subtitle1">Personal Days</div>
+          <q-table :columns="headersP" :data="personalDays" hide-bottom>
+            <template slot="items" slot-scope="props">
+              <td class="text-xs-left">
+                {{ props.item.text }}
+              </td>
+              <td class="text-xs-left">
+                {{ props.item.value / dailyWorkingHours }}
+              </td>
+              <td class="text-xs-left">
+                {{ props.item.value }}
+              </td>
+            </template>
+          </q-table>
+        </q-card-section>
+        <q-card-section>
+          <div class="text-subtitle1">Sick Days</div>
+          <q-table :columns="headersS" :data="sickDays" hide-bottom>
+            <template slot="items" slot-scope="props">
+              <td class="text-xs-left">
+                {{ props.item.text }}
+              </td>
+              <td class="text-xs-left">
+                {{ props.item.value }}
+              </td>
+              <td class="text-xs-left">
+                {{ props.item.value }}
+              </td>
+            </template>
+          </q-table>
+        </q-card-section>
+      <!-- </q-card> -->
+      </div>
+    <!-- <div class="row">
+      <q-toolbar class="q-pa-md bg-grey-3">
+        <q-toolbar-title>Available minus reported hours in {{ selectedMonth | formatMonth }}: {{ balancePeriod }}</q-toolbar-title>
+      </q-toolbar>
+      <q-card flat>
+        <q-card-section>
+            Balance: <span :class="textColor(getBalance())">
+              {{ getBalance() | pluralizeHour }}</span>
+        </q-card-section>
+      </q-card>
+    </div> -->
     </div>
   </q-page>
 </template>
@@ -212,27 +222,27 @@ export default {
       filter: '',
       myPagination: { 'rowsPerPage': 50 },
       headersNumbers: [
-        { label: 'Reported time', align: 'left', field: 'text', sortable: false },
+        { label: '', align: 'left', field: 'text', sortable: false },
         { label: 'Days', align: 'left', field: 'value', format: val => `${val}` / this.dailyWorkingHours, sortable: false },
         { label: 'Hours', align: 'left', field: 'value', sortable: false }
       ],
       headersProjects: [
-        { label: 'Reported projects', align: 'left', field: 'text', sortable: false },
+        { label: '', align: 'left', field: 'text', sortable: false },
         { label: 'Days', align: 'left', field: 'value', format: val => `${val}` / this.dailyWorkingHours, sortable: false },
         { label: 'Hours', align: 'left', field: 'value', sortable: false }
       ],
       headersV: [
-        { label: 'Vacations', field: 'text', sortable: false },
+        { label: '', field: 'text', sortable: false },
         { label: 'Days', align: 'left', field: 'value', format: val => `${val}` / this.dailyWorkingHours, sortable: false },
         { label: 'Hours', align: 'left', field: 'value', sortable: false }
       ],
       headersP: [
-        { label: 'Personal Days', field: 'text', sortable: false },
+        { label: '', field: 'text', sortable: false },
         { label: 'Days', align: 'left', field: 'value', format: val => `${val}` / this.dailyWorkingHours, sortable: false },
         { label: 'Hours', align: 'left', field: 'value', sortable: false }
       ],
       headersS: [
-        { label: 'Sick Days', field: 'text', sortable: false },
+        { label: '', field: 'text', sortable: false },
         { label: 'Days', align: 'left', field: 'value', format: val => `${val}` / this.dailyWorkingHours, sortable: false },
         { label: 'Hours', align: 'left', field: 'value', sortable: false }
       ]
@@ -424,15 +434,16 @@ export default {
       )
       switch (period) {
         case 'week':
+          console.log('this.workingDaysInPeriod(this.dateFrom, this.dateTo) * this.dailyWorkingHours - summary.working + summary.nonWorking', this.workingDaysInPeriod(this.dateFrom, this.dateTo), '*', this.dailyWorkingHours, '-', summary.working, '+', summary.nonWorking)
           data.push({
             text: 'Remaining total',
-            value: this.workingDaysInPeriod(this.dateFrom, this.dateTo) * this.dailyWorkingHours - summary.working + summary.nonWorking
+            value: this.workingDaysInPeriod(this.dateFrom, this.dateTo) * this.dailyWorkingHours - (summary.working + summary.nonWorking)
           })
           break
         case 'month':
           data.push({
             text: 'Remaining total',
-            value: this.workingDaysInPeriod(startOfMonth(this.selectedMonth), endOfMonth(this.selectedMonth)) * this.dailyWorkingHours - summary.working + summary.nonWorking
+            value: this.workingDaysInPeriod(startOfMonth(this.selectedMonth), endOfMonth(this.selectedMonth)) * this.dailyWorkingHours - (summary.working + summary.nonWorking)
           })
           break
         default:
