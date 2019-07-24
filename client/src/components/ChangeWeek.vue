@@ -2,7 +2,7 @@
 
 <template>
   <span>
-    <q-btn :disabled="isCurrentWeek" @click="setToday" class="bg-secondary text-primary">
+    <q-btn :disabled="isCurrentWeek" @click="setToday" rounded class="bg-secondary text-primary">
       today
     </q-btn>
     <q-btn flat icon="skip_previous" @click="previousWeek" />
