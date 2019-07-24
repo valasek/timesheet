@@ -251,6 +251,10 @@ Released on July 23, 2019
 * Styling and logo
 * New breadcrumbs
 * ESC on search deletes the text, prepend delete search text icon
+* Overview page elements rearranged
+
+### Fixes
+* Fixed remaining weekly and monthly total remaining time
 
 ### Technical
 * Use Go 1.12.7 and Quasar 1.0.5
