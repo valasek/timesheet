@@ -10,7 +10,7 @@
             @click="drawer = !drawer"
           >
           </q-btn>
-          <img src="statics/logo.png" />
+          <img src="statics/logo-custom.png" />
           <q-toolbar-title/>
           <q-breadcrumbs class="q-pa-sm text-secondary absolute-center" active-color="white" style="font-size: 16px">
             <template v-slot:separator>

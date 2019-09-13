@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# set based on your environment
-DOMAIN=your.domain.com
+# CHANGE HERE - set based on your environment
+# DOMAIN=your.domain.com
 SOURCE_FOLDER=./timesheet
-TARGET_FOLDER=/opt/timesheet
+TARGET_FOLDER=/opt/www/timesheet.simplesw.net-app
 
-# deploy script
+# DO NOT CHANGE - deploy script
 echo cleaning up previous installation ...
 pkill timesheet.bin
 rm $TARGET_FOLDER/client/dist/css/*
@@ -16,9 +16,9 @@ rm $TARGET_FOLDER/timesheet.bin
 
 echo deploing new version ...
 cp -r $SOURCE_FOLDER/* $TARGET_FOLDER/
-chmod +x /opt/timesheet/timesheet.bin
-sed -i -e 's/localhost/$DOMAIN/g' $TARGET_FOLDER/client/dist/js/app.*.js
-sed -i -e 's/localhost/$DOMAIN/g' $TARGET_FOLDER/client/dist/js/app.*.js.map
+chmod +x $TARGET_FOLDER/timesheet.bin
+# sed -i -e 's/localhost/$DOMAIN/g' $TARGET_FOLDER/client/dist/js/app.*.js
+# sed -i -e 's/localhost/$DOMAIN/g' $TARGET_FOLDER/client/dist/js/app.*.js.map
 
 echo initializing and starting timesheet ...
 cd $TARGET_FOLDER

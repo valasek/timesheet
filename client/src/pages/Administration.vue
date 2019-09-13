@@ -7,6 +7,118 @@
     </q-toolbar>
     <q-expansion-item
       expand-separator
+      label="Manage Consultants & Projects">
+      <q-card>
+        <q-card-section>
+          <div class="row justify-around">
+            <div class="column">
+              <div class="column q-gutter-md">
+                <div class="row q-gutter-x-md">
+                  <q-input :value="newConsultant" label="Consultant name"
+                            class="body-1" style="width: 15em"/>
+                  <q-btn color="primary" @click="addConsultant">Add Consultant</q-btn>
+                </div>
+                <div class="row q-gutter-x-md">
+                  <q-table :columns="columnsConsultants" row-key="name" :data="consultants"
+                    no-data-label="No consultants" :pagination.sync="consultantsPagination" :rows-per-page-options="[30,50,0]"
+                    binary-state-sort bordered>
+                    <template v-slot:body="props">
+                      <q-tr :props="props">
+                        <q-td key="name" :props="props">
+                          {{ props.row.name }}
+                        </q-td>
+                        <q-td key="allocation" :props="props">
+                          {{ props.row.allocation }}
+                        </q-td>
+                        <q-td key="actions" :props="props" class="q-gutter-x-sm">
+                          <q-icon name="person_add" small color="green" size="1.5em" @click="deleteItem(props.row)">
+                            <q-tooltip>Disable</q-tooltip>
+                          </q-icon>
+                          <q-icon name="person_add_disabled" small color="orange" size="1.5em" @click="deleteItem(props.row)">
+                            <q-tooltip>Disable</q-tooltip>
+                          </q-icon>
+                          <q-icon name="delete" small color="red" size="1.5em" @click="deleteItem(props.row)">
+                            <q-tooltip>Delete</q-tooltip>
+                          </q-icon>
+                        </q-td>
+                      </q-tr>
+                    </template>
+                  </q-table>
+                </div>
+              </div>
+            </div>
+            <div class="column q-gutter-md">
+              <div class="row q-gutter-x-md">
+                <q-input :value="newProject" label="Project name"
+                          class="body-1" style="width: 15em"/>
+                <q-btn color="primary" @click="addProject">Add Project</q-btn>
+              </div>
+              <div class="row q-gutter-x-md">
+                <q-table :columns="columnsProjects" row-key="name" :data="projects"
+                    no-data-label="No projects" :pagination.sync="projectsPagination" :rows-per-page-options="[30,50,0]"
+                    binary-state-sort bordered>
+                                    <template v-slot:body="props">
+                      <q-tr :props="props">
+                        <q-td key="name" :props="props">
+                          {{ props.row.name }}
+                        </q-td>
+                        <q-td key="allocation" :props="props">
+                          {{ props.row.allocation }}
+                        </q-td>
+                        <q-td key="actions" :props="props" class="q-gutter-x-sm">
+                          <q-icon name="person_add" small color="green" size="1.5em" @click="deleteItem(props.row)">
+                            <q-tooltip>Disable</q-tooltip>
+                          </q-icon>
+                          <q-icon name="person_add_disabled" small color="orange" size="1.5em" @click="deleteItem(props.row)">
+                            <q-tooltip>Disable</q-tooltip>
+                          </q-icon>
+                          <q-icon name="delete" small color="red" size="1.5em" @click="deleteItem(props.row)">
+                            <q-tooltip>Delete</q-tooltip>
+                          </q-icon>
+                        </q-td>
+                      </q-tr>
+                    </template>
+                    </q-table>
+              </div>
+            </div>
+          </div>
+        </q-card-section>
+      </q-card>
+    </q-expansion-item>
+    <q-separator />
+    <q-expansion-item
+      expand-separator
+      label="Backup & Restore">
+      <q-card>
+        <q-card-section>
+          <div class="font-italic">
+            You can download all  data in csv format as a zip file. Demo data can be modified, production moved to another instance or exported data used for billing.<br>
+            You can upload modified zipped csv files. Use the same format as downloaded archive. Import will delete and replace all existing data.
+          </div>
+          <q-card-section>
+            <div class="row justify-left q-gutter-x-md">
+              <div class="column">
+                <q-btn color="primary" @click="download">
+                  Download&nbsp;&nbsp;<q-icon name="cloud_download"></q-icon>
+                </q-btn>
+              </div>
+              <div class="column">
+                <q-uploader
+                  label="Upload"
+                  accept=".zip"
+                  :url=uploaderUrl
+                  auto-upload
+                  style="max-width: 250px"
+                />
+              </div>
+            </div>
+          </q-card-section>
+        </q-card-section>
+      </q-card>
+    </q-expansion-item>
+    <q-separator />
+    <q-expansion-item
+      expand-separator
       label="Warning Limits">
       <q-card>
         <q-card-section>
@@ -131,37 +243,6 @@
     <q-separator />
     <q-expansion-item
       expand-separator
-      label="Backup & Restore">
-      <q-card>
-        <q-card-section>
-          <div class="font-italic">
-            You can download all  data in csv format as a zip file. Demo data can be modified, production moved to another instance or exported data used for billing.<br>
-            You can upload modified zipped csv files. Use the same format as downloaded archive. Import will delete and replace all existing data.
-          </div>
-          <q-card-section>
-            <div class="row justify-left q-gutter-x-md">
-              <div class="column">
-                <q-btn color="primary" @click="download">
-                  Download&nbsp;&nbsp;<q-icon name="cloud_download"></q-icon>
-                </q-btn>
-              </div>
-              <div class="column">
-                <q-uploader
-                  label="Upload"
-                  accept=".zip"
-                  :url=uploaderUrl
-                  auto-upload
-                  style="max-width: 250px"
-                />
-              </div>
-            </div>
-          </q-card-section>
-        </q-card-section>
-      </q-card>
-    </q-expansion-item>
-    <q-separator />
-    <q-expansion-item
-      expand-separator
       label="View Application Logs">
       <q-card>
         <q-card-section>
@@ -196,6 +277,19 @@ export default {
     return {
       // url="http://localhost:3000/api/upload/data"
       uploaderUrl: process.env.ENV_APP_URL + ':' + process.env.ENV_SVR_PORT + '/api/upload/data',
+      newConsultant: '',
+      newProject: '',
+      columnsConsultants: [
+        { name: 'name', label: 'Name', align: 'left', sortable: true, field: 'name', style: 'width: 20%' },
+        { name: 'allocation', label: 'Allocation in %', align: 'left', sortable: true, field: 'allocation', style: 'width: 5%' },
+        { name: 'actions', label: 'Action', align: 'left', sortable: true, field: 'action', style: 'width: 5%' }
+      ],
+      columnsProjects: [
+        { name: 'name', label: 'Name', align: 'left', sortable: true, field: 'name', style: 'width: 20%' },
+        { name: 'rate', label: 'Default Rate', align: 'left', sortable: true, field: 'rate', style: 'width: 5%' }
+      ],
+      consultanrsPagination: { 'rowsPerPage': 10, 'sortBy': 'name', 'descending': false },
+      projectsPagination: { 'rowsPerPage': 10, 'sortBy': 'name', 'descending': false },
       hoursRules: [
         (v) => !isNaN(parseFloat(v)) || 'Enter hours between 0 and 24',
         (v) => (parseFloat(v) <= 24) || 'Enter number between 0 and 24',
@@ -239,6 +333,8 @@ export default {
       isNonWorking: state => state.settings.isNonWorking,
       rates: state => state.rates.all,
       types: state => state.rates.types,
+      consultants: state => state.consultants.all,
+      projects: state => state.projects.all,
       selectedMonth: state => state.settings.selectedMonth
     })
   },
