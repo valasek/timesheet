@@ -6,7 +6,7 @@
 
 # Simple Timesheet
 
-Self-hosted web application for weekly reporting. Report your consulting hours on projects using selected rates.
+User-friendly, fast, and reliable web application for weekly / monthly reporting. Report consulting hours on selected projects with further segmentation via rates.
 
 ![Screencast](screenshots/screencast.gif?raw=true "Screencast")
 
