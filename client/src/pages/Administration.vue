@@ -276,7 +276,7 @@ export default {
   data () {
     return {
       // url="http://localhost:3000/api/upload/data"
-      uploaderUrl: process.env.ENV_APP_URL + ':' + process.env.ENV_SVR_PORT + '/api/upload/data',
+      uploaderUrl: process.env.ENV_APP_URL + ':' + process.env.ENV_APP_PORT + '/api/upload/data',
       newConsultant: '',
       newProject: '',
       columnsConsultants: [
@@ -288,7 +288,7 @@ export default {
         { name: 'name', label: 'Name', align: 'left', sortable: true, field: 'name', style: 'width: 20%' },
         { name: 'rate', label: 'Default Rate', align: 'left', sortable: true, field: 'rate', style: 'width: 5%' }
       ],
-      consultanrsPagination: { 'rowsPerPage': 10, 'sortBy': 'name', 'descending': false },
+      consultantsPagination: { 'rowsPerPage': 10, 'sortBy': 'name', 'descending': false },
       projectsPagination: { 'rowsPerPage': 10, 'sortBy': 'name', 'descending': false },
       hoursRules: [
         (v) => !isNaN(parseFloat(v)) || 'Enter hours between 0 and 24',
@@ -432,7 +432,8 @@ export default {
     },
     onUpdateRateType (newValue) {
       this.$store.dispatch('settings/setRateType', newValue)
-    }
+    },
+    
   }
 }
 </script>
