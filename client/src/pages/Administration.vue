@@ -2,7 +2,7 @@
 
 <template>
   <q-page padding>
-    <q-toolbar class="q-pa-md bg-primary text-secondary">
+    <q-toolbar class="q-pa-md bg-red-3 text-secondary">
       <q-toolbar-title>Administration & Settings</q-toolbar-title>
     </q-toolbar>
     <q-expansion-item
@@ -14,9 +14,9 @@
             <div class="column">
               <div class="column q-gutter-md">
                 <div class="row q-gutter-x-md">
-                  <q-input :value="newConsultant" label="Consultant name"
-                            class="body-1" style="width: 15em"/>
-                  <q-btn color="primary" @click="addConsultant">Add Consultant</q-btn>
+                  <q-input v-model="newConsultant" label="Consultant name"
+                           class="body-1" style="width: 15em"/>
+                  <q-btn color="primary" @click="createConsultant">Add Consultant</q-btn>
                 </div>
                 <div class="row q-gutter-x-md">
                   <q-table :columns="columnsConsultants" row-key="name" :data="consultants"
@@ -31,13 +31,13 @@
                           {{ props.row.allocation }}
                         </q-td>
                         <q-td key="actions" :props="props" class="q-gutter-x-sm">
-                          <q-icon name="person_add" small color="green" size="1.5em" @click="deleteItem(props.row)">
+                          <q-icon name="person_add" small color="green" size="1.5em" @click="enableConsultant(props.row)">
+                            <q-tooltip>Enable</q-tooltip>
+                          </q-icon>
+                          <q-icon name="person_add_disabled" small color="orange" size="1.5em" @click="disableConsultant(props.row)">
                             <q-tooltip>Disable</q-tooltip>
                           </q-icon>
-                          <q-icon name="person_add_disabled" small color="orange" size="1.5em" @click="deleteItem(props.row)">
-                            <q-tooltip>Disable</q-tooltip>
-                          </q-icon>
-                          <q-icon name="delete" small color="red" size="1.5em" @click="deleteItem(props.row)">
+                          <q-icon name="delete" small color="red" size="1.5em" @click="deleteConsultant(props.row)">
                             <q-tooltip>Delete</q-tooltip>
                           </q-icon>
                         </q-td>
@@ -49,30 +49,30 @@
             </div>
             <div class="column q-gutter-md">
               <div class="row q-gutter-x-md">
-                <q-input :value="newProject" label="Project name"
-                          class="body-1" style="width: 15em"/>
-                <q-btn color="primary" @click="addProject">Add Project</q-btn>
+                <q-input v-model="newProject" label="Project name"
+                         class="body-1" style="width: 15em"/>
+                <q-btn color="primary" @click="createProject">Add Project</q-btn>
               </div>
               <div class="row q-gutter-x-md">
                 <q-table :columns="columnsProjects" row-key="name" :data="projects"
                     no-data-label="No projects" :pagination.sync="projectsPagination" :rows-per-page-options="[30,50,0]"
                     binary-state-sort bordered>
-                                    <template v-slot:body="props">
+                    <template v-slot:body="props">
                       <q-tr :props="props">
                         <q-td key="name" :props="props">
                           {{ props.row.name }}
                         </q-td>
-                        <q-td key="allocation" :props="props">
-                          {{ props.row.allocation }}
+                        <q-td key="rate" :props="props">
+                          {{ props.row.rate }}
                         </q-td>
                         <q-td key="actions" :props="props" class="q-gutter-x-sm">
-                          <q-icon name="person_add" small color="green" size="1.5em" @click="deleteItem(props.row)">
+                          <q-icon name="domain" small color="green" size="1.5em" @click="enableProject(props.row)">
+                            <q-tooltip>Enable</q-tooltip>
+                          </q-icon>
+                          <q-icon name="domain_disabled" small color="orange" size="1.5em" @click="disableProject(props.row)">
                             <q-tooltip>Disable</q-tooltip>
                           </q-icon>
-                          <q-icon name="person_add_disabled" small color="orange" size="1.5em" @click="deleteItem(props.row)">
-                            <q-tooltip>Disable</q-tooltip>
-                          </q-icon>
-                          <q-icon name="delete" small color="red" size="1.5em" @click="deleteItem(props.row)">
+                          <q-icon name="delete" small color="red" size="1.5em" @click="deleteProject(props.row)">
                             <q-tooltip>Delete</q-tooltip>
                           </q-icon>
                         </q-td>
@@ -286,9 +286,10 @@ export default {
       ],
       columnsProjects: [
         { name: 'name', label: 'Name', align: 'left', sortable: true, field: 'name', style: 'width: 20%' },
-        { name: 'rate', label: 'Default Rate', align: 'left', sortable: true, field: 'rate', style: 'width: 5%' }
+        { name: 'rate', label: 'Default Rate', align: 'left', sortable: true, field: 'rate', style: 'width: 5%' },
+        { name: 'actions', label: 'Action', align: 'left', sortable: true, field: 'action', style: 'width: 5%' }
       ],
-      consultanrsPagination: { 'rowsPerPage': 10, 'sortBy': 'name', 'descending': false },
+      consultantsPagination: { 'rowsPerPage': 10, 'sortBy': 'name', 'descending': false },
       projectsPagination: { 'rowsPerPage': 10, 'sortBy': 'name', 'descending': false },
       hoursRules: [
         (v) => !isNaN(parseFloat(v)) || 'Enter hours between 0 and 24',
@@ -342,6 +343,7 @@ export default {
   created () {
     this.$store.commit('context/SET_PAGE', 'Administration')
     this.$store.commit('context/SET_PAGE_ICON', 'settings')
+    // this.$store.dispatch('projects/getProjects')
   },
 
   methods: {
@@ -408,6 +410,33 @@ export default {
           })
           console.log(e, e.response) /* eslint-disable-line no-console */
         })
+    },
+    createProject (projectName) {
+      console.log('project created', this.newProject)
+      this.$store.dispatch('projects/createProject', projectName)
+    },
+    enableProject (projectID) {
+      console.log('project enabled')
+      this.$store.dispatch('projects/toggleProject', projectID, true)
+    },
+    disableProject (projectID) {
+      console.log('project disabled')
+      this.$store.dispatch('projects/toggleProject', projectID, false)
+    },
+    deleteProject () {
+      console.log('project deleted')
+    },
+    createConsultant () {
+      console.log('Consultant created', this.newConsultant)
+    },
+    enableConsultant () {
+      console.log('Consultant enabled')
+    },
+    disableConsultant () {
+      console.log('Consultant disabled')
+    },
+    deleteConsultant () {
+      console.log('Consultant deleted')
     },
     onUpdateHours (newValue) {
       if (!isNaN(parseFloat(newValue.hourValue)) && newValue.hourValue >= 0 && newValue.hourValue <= 24) {
