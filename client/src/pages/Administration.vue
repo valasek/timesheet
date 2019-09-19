@@ -14,10 +14,10 @@
             <div class="column">
               <div class="column q-gutter-md">
                 <div class="row q-gutter-x-md">
-                  <q-input v-model="newConsultant" label="Consultant name"
-                           class="body-1" style="width: 15em"/>
+                  <q-input v-model="newConsultant" label="Consultant name" dense class="body-1" style="width: 15em"/>
                   <q-btn color="primary" @click="createConsultant">Add Consultant</q-btn>
                 </div>
+                <p align="center">{{defaultAllocationLabel}}</p>
                 <div class="row q-gutter-x-md">
                   <q-table :columns="columnsConsultants" row-key="name" :data="consultants"
                     no-data-label="No consultants" :pagination.sync="consultantsPagination" :rows-per-page-options="[30,50,0]"
@@ -31,14 +31,11 @@
                           {{ props.row.allocation }}
                         </q-td>
                         <q-td key="actions" :props="props" class="q-gutter-x-sm">
-                          <q-icon name="person_add" small color="green" size="1.5em" @click="enableConsultant(props.row)">
-                            <q-tooltip>Enable</q-tooltip>
-                          </q-icon>
-                          <q-icon name="person_add_disabled" small color="orange" size="1.5em" @click="disableConsultant(props.row)">
-                            <q-tooltip>Disable</q-tooltip>
+                          <q-icon name="remove_red_eye" small :color="setColor(props.row.disabled)" size="1.5em" @click="toggleConsultant(props.row)">
+                            <q-tooltip>Hide / Unhide the consultant</q-tooltip>
                           </q-icon>
                           <q-icon name="delete" small color="red" size="1.5em" @click="deleteConsultant(props.row)">
-                            <q-tooltip>Delete</q-tooltip>
+                            <q-tooltip>Permanently delete the consultant and all associated reported records</q-tooltip>
                           </q-icon>
                         </q-td>
                       </q-tr>
@@ -47,11 +44,13 @@
                 </div>
               </div>
             </div>
-            <div class="column q-gutter-md">
-              <div class="row q-gutter-x-md">
-                <q-input v-model="newProject" label="Project name"
-                         class="body-1" style="width: 15em"/>
-                <q-btn color="primary" @click="createProject">Add Project</q-btn>
+            <div class="column">
+              <div class="column q-gutter-md">
+                <div class="row q-gutter-x-md">
+                  <q-input v-model="newProject" label="Project name" dense class="body-1" style="width: 15em"/>
+                  <q-btn color="primary" @click="createProject">Add Project</q-btn>
+                </div>
+                <p align="center">{{defaultRateLabel}}</p>
               </div>
               <div class="row q-gutter-x-md">
                 <q-table :columns="columnsProjects" row-key="name" :data="projects"
@@ -66,14 +65,12 @@
                           {{ props.row.rate }}
                         </q-td>
                         <q-td key="actions" :props="props" class="q-gutter-x-sm">
-                          <q-icon name="domain" small color="green" size="1.5em" @click="enableProject(props.row)">
-                            <q-tooltip>Enable</q-tooltip>
+                          <q-icon name="remove_red_eye" small :color="setColor(props.row.disabled)" size="1.5em" @click="toggleProject(props.row)">
+                            <q-tooltip>Hide / Unhide the project</q-tooltip>
                           </q-icon>
-                          <q-icon name="domain_disabled" small color="orange" size="1.5em" @click="disableProject(props.row)">
-                            <q-tooltip>Disable</q-tooltip>
-                          </q-icon>
+                          <!-- {{ props.row }} -->
                           <q-icon name="delete" small color="red" size="1.5em" @click="deleteProject(props.row)">
-                            <q-tooltip>Delete</q-tooltip>
+                            <q-tooltip>Permanently delete the project and all associated reported records</q-tooltip>
                           </q-icon>
                         </q-td>
                       </q-tr>
@@ -82,6 +79,23 @@
               </div>
             </div>
           </div>
+        </q-card-section>
+      </q-card>
+    </q-expansion-item>
+    <q-separator />
+    <q-expansion-item
+      expand-separator
+      label="Managed Data Statistics">
+      <q-card>
+        <q-card-section>
+          <div class="row q-gutter-x-md">
+            <q-table :columns="columnsEntityOverview" row-key="name" :data="entityOverview"
+              no-data-label="Table statistics are not available" hide-bottom bordered
+              :pagination.sync="entityOverviewPagination" />
+          </div>
+        </q-card-section>
+        <q-card-section>
+          <p>Timesheet internally does soft deletes and all such records are displayed in the column "# of soft-deleted records".</p>
         </q-card-section>
       </q-card>
     </q-expansion-item>
@@ -261,6 +275,8 @@
       </q-card>
     </q-expansion-item>
     <q-separator />
+    <!-- Dialog to confirm delete Project and Consultant -->
+    <confirm ref="confirm" />
   </q-page>
 </template>
 
@@ -271,26 +287,38 @@ import api from '../api/axiosSettings'
 export default {
 
   components: {
+    /* webpackChunkName: "core" */
+    'confirm': () => import('components/Confirm')
   },
 
   data () {
     return {
       // url="http://localhost:3000/api/upload/data"
-      uploaderUrl: process.env.ENV_APP_URL + ':' + process.env.ENV_APP_PORT + '/api/upload/data',
+      uploaderUrl: 'http://' + process.env.APP_DOMAIN + ':' + process.env.APP_PORT + '/api/upload/data',
       newConsultant: '',
       newProject: '',
+      defaultAllocation: 1,
+      defaultRate: 'Standard',
       columnsConsultants: [
         { name: 'name', label: 'Name', align: 'left', sortable: true, field: 'name', style: 'width: 20%' },
         { name: 'allocation', label: 'Allocation in %', align: 'left', sortable: true, field: 'allocation', style: 'width: 5%' },
-        { name: 'actions', label: 'Action', align: 'left', sortable: true, field: 'action', style: 'width: 5%' }
+        { name: 'actions', label: 'Action', align: 'left', field: 'action', style: 'width: 5%' }
       ],
+      consultantsPagination: { 'rowsPerPage': 10, 'sortBy': 'name', 'descending': false },
       columnsProjects: [
         { name: 'name', label: 'Name', align: 'left', sortable: true, field: 'name', style: 'width: 20%' },
         { name: 'rate', label: 'Default Rate', align: 'left', sortable: true, field: 'rate', style: 'width: 5%' },
-        { name: 'actions', label: 'Action', align: 'left', sortable: true, field: 'action', style: 'width: 5%' }
+        { name: 'actions', label: 'Action', align: 'left', field: 'action', style: 'width: 5%' }
       ],
-      consultantsPagination: { 'rowsPerPage': 10, 'sortBy': 'name', 'descending': false },
       projectsPagination: { 'rowsPerPage': 10, 'sortBy': 'name', 'descending': false },
+      columnsEntityOverview: [
+        { name: 'name', label: 'Table', align: 'left', sortable: true, field: 'name', style: 'width: 20%' },
+        { name: 'total', label: '# of total records', align: 'left', sortable: true, field: 'total', style: 'width: 5%' },
+        { name: 'active', label: '# of active records', align: 'left', field: 'active', style: 'width: 5%' },
+        { name: 'disabled', label: '# of disabled out of active records', align: 'left', field: 'disabled', style: 'width: 5%' },
+        { name: 'deleted', label: '# of soft-deleted records', align: 'left', field: 'deleted', style: 'width: 5%' }
+      ],
+      entityOverviewPagination: { 'rowsPerPage': 0, 'sortBy': 'total', 'descending': true },
       hoursRules: [
         (v) => !isNaN(parseFloat(v)) || 'Enter hours between 0 and 24',
         (v) => (parseFloat(v) <= 24) || 'Enter number between 0 and 24',
@@ -320,6 +348,12 @@ export default {
   },
 
   computed: {
+    defaultAllocationLabel () {
+      return 'Default allocation for new consultant will be ' + this.defaultAllocation * 100 + '%'
+    },
+    defaultRateLabel () {
+      return 'Default rate for new project will be ' + this.defaultRate
+    },
     ...mapState({
       dailyWorkingHours: state => state.settings.dailyWorkingHours,
       dailyWorkingHoursMin: state => state.settings.dailyWorkingHoursMin,
@@ -332,6 +366,7 @@ export default {
       vacationSick: state => state.settings.vacationSick,
       isWorking: state => state.settings.isWorking,
       isNonWorking: state => state.settings.isNonWorking,
+      entityOverview: state => state.settings.entityOverview,
       rates: state => state.rates.all,
       types: state => state.rates.types,
       consultants: state => state.consultants.all,
@@ -343,32 +378,34 @@ export default {
   created () {
     this.$store.commit('context/SET_PAGE', 'Administration')
     this.$store.commit('context/SET_PAGE_ICON', 'settings')
-    // this.$store.dispatch('projects/getProjects')
+    this.$store.dispatch('settings/getEntityOverview')
+    this.$store.dispatch('projects/getProjects')
   },
 
   methods: {
     upload (file) {
       const fr = new FileReader()
       fr.readAsDataURL(file)
+      const admin = this
       fr.addEventListener('load', () => {
-        this.uploadedImage = fr.result
-        this.uploadFile = file
+        admin.uploadedImage = fr.result
+        admin.uploadFile = file
         const formData = new FormData()
-        formData.append('uploadFile', this.uploadFile)
+        formData.append('uploadFile', admin.uploadFile)
         api.apiClient.post('/api/upload/data', formData)
           .then(response => {
-            this.$q.notify({
+            admin.$q.notify({
               message: 'Restore successfully completed',
               color: 'teal'
             })
-            this.$store.dispatch('consultants/getConsultants')
-            this.$store.dispatch('projects/getProjects')
-            this.$store.dispatch('rates/getRates')
-            this.$store.dispatch('holidays/getHolidays')
+            admin.$store.dispatch('consultants/getConsultants')
+            admin.$store.dispatch('projects/getProjects')
+            admin.$store.dispatch('rates/getRates')
+            admin.$store.dispatch('holidays/getHolidays')
           })
           .catch(function (e) {
-            this.$q.notify({
-              message: 'Restore successfully completed',
+            admin.$q.notify({
+              message: 'Restore failed, error: ' + e.toString(),
               color: 'negative',
               icon: 'report_problem'
             })
@@ -377,6 +414,7 @@ export default {
       })
     },
     download () {
+      const admin = this
       api.apiClient.get('/api/download/data', { responseType: 'blob' })
         .then(response => {
           const url = window.URL.createObjectURL(new Blob([response.data]))
@@ -387,7 +425,7 @@ export default {
           link.click()
         })
         .catch(function (e) {
-          this.$q.notify({
+          admin.$q.notify({
             message: 'Couldn\'t download data\n' + e.toString(),
             color: 'negative',
             icon: 'report_problem'
@@ -403,7 +441,7 @@ export default {
           admin.logLines = response.data.split(new RegExp('\r?\n', 'g')) /* eslint-disable-line no-control-regex */
         })
         .catch(function (e) {
-          this.$q.notify({
+          admin.$q.notify({
             message: 'Couldn\'t download log file: ' + e.response.data,
             color: 'negative',
             icon: 'report_problem'
@@ -411,29 +449,36 @@ export default {
           console.log(e, e.response) /* eslint-disable-line no-console */
         })
     },
+    setColor (disabled) {
+      if (disabled) {
+        return 'orange'
+      } else {
+        return 'green'
+      }
+    },
     createProject (projectName) {
-      console.log('project created', this.newProject)
       this.$store.dispatch('projects/createProject', projectName)
     },
-    enableProject (projectID) {
-      console.log('project enabled')
-      this.$store.dispatch('projects/toggleProject', projectID, true)
+    toggleProject (project) {
+      this.$store.dispatch('projects/toggleProject', parseInt(project.id, 10))
     },
-    disableProject (projectID) {
-      console.log('project disabled')
-      this.$store.dispatch('projects/toggleProject', projectID, false)
-    },
-    deleteProject () {
-      console.log('project deleted')
+    async deleteProject () {
+      if (await this.$refs.confirm.open('Wait a sec, this cannot be undone!', 'Are you sure you want to delete the project <b>' + this.newProject + '</b><br/>and all relevant reported records?', 'cancel', { color: 'bg-negative' })) {
+        this.$store.dispatch('projects/removeProject', this.projectName)
+        this.$q.notify({
+          message: 'Project' + this.newProject + ' deleted',
+          color: 'teal'
+        })
+        // REFRESH projects and reported records
+      } else {
+        console.log('canceled project delete')
+      }
     },
     createConsultant () {
       console.log('Consultant created', this.newConsultant)
     },
-    enableConsultant () {
-      console.log('Consultant enabled')
-    },
-    disableConsultant () {
-      console.log('Consultant disabled')
+    toggleConsultant (consultant) {
+      this.$store.dispatch('consultants/toggleConsultant', parseInt(consultant.id, 10))
     },
     deleteConsultant () {
       console.log('Consultant deleted')
@@ -461,8 +506,7 @@ export default {
     },
     onUpdateRateType (newValue) {
       this.$store.dispatch('settings/setRateType', newValue)
-    },
-    
+    }
   }
 }
 </script>

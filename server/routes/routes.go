@@ -93,6 +93,8 @@ func SetupRouter(api *api.API) *gin.Engine {
 		a.GET("/download/data", api.Download)
 		// upload all data
 		a.POST("/upload/data", api.Upload)
+		// download table statistics
+		a.GET("/download/data/statistics", api.TableStatistics)
 		// download logs
 		a.GET("/download/logs/:logLevel", api.DownloadLogs)
 		// download docs
@@ -100,9 +102,11 @@ func SetupRouter(api *api.API) *gin.Engine {
 
 		// consultants
 		a.GET("/consultants", api.ConsultantList)
+		a.POST("/consultants/toggle/:id", api.ConsultantToggle)
 
 		// projects
 		a.GET("/projects", api.ProjectsGetAll)
+		a.POST("/projects/toggle/:id", api.ProjectToggle)
 
 		// rates
 		a.GET("/rates", api.RatesGetAll)

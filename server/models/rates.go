@@ -3,6 +3,8 @@
 package models
 
 import (
+	"strings"
+
 	"github.com/valasek/timesheet/server/logger"
 
 	"os"
@@ -57,6 +59,18 @@ func (db *RateManager) RatesGetAll() []Rate {
 	}
 	logger.Log.Error("unable to retrieve all rates")
 	return nil
+}
+
+// RatesGetStatistics - returns table statistics
+func (db *RateManager) RatesGetStatistics() EntityOverview {
+	table := "rates"
+	var total, active int
+	if err := db.db.Unscoped().Table("rates").Count(&total); err != nil {
+		active = db.RateCount()
+	} else {
+		logger.Log.Error("failed to retrieve from DB statistics for table ", table)
+	}
+	return EntityOverview{Name: strings.Title(table), Total: total, Active: active, Disabled: 0, Deleted: total - active}
 }
 
 // RateCount - return all records of Rates

@@ -64,8 +64,6 @@ export default {
   data () {
     return {
       cardStyle: 'background: radial-gradient(circle, ' + colors.getBrand('secondary') + ' 0%, ' + colors.getBrand('primary') + ' 100%)',
-      url: process.env.VUE_APP_URL,
-      port: process.env.VUE_APP_PORT,
       columns: [
         { label: 'Project', align: 'left', field: 'project', sortable: false },
         { label: 'Hours', align: 'left', field: 'hours', sortable: false }

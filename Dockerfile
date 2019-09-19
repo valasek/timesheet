@@ -72,7 +72,7 @@ RUN quasar upgrade -i
 COPY ./client ./
 
 # build app for production with minification
-RUN npm run build-da
+RUN yarn run build-da
 # RUN ls -la ./
 # RUN ls -la ./dist
 # RUN chmod -R ug+rw ./dist

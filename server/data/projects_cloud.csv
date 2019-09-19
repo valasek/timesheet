@@ -1,15 +1,17 @@
-created_at,name,rate
-"2019-01-14 00:00:00","Vue","Standard"
-"2019-01-14 00:00:00","Google","Standard"
-"2019-01-14 00:00:00","Spotify","Standard"
-"2019-01-14 00:00:00","Vuetify","Standard"
-"2019-01-14 00:00:00","_Training","Standard"
-"2019-01-14 00:00:00","_Marketing and Sales","Standard"
-"2019-01-14 00:00:00","_People mgmt & hiring","Standard"
-"2019-01-14 00:00:00","_Travel Time","Standard"
-"2019-01-14 00:00:00","_Vacation","Vacation"
-"2019-01-14 00:00:00","_Sick","Sick"
-"2019-01-14 00:00:00","_Unpaid Leave","Unpaid Leave"
-"2019-01-14 00:00:00","_Project management","Standard"
-"2019-01-14 00:00:00","_Sick Day","Sick Day"
-"2019-01-14 00:00:00","_Personal Day","Personal Day"
+created_at,name,rate,disabled
+"2019-01-14 00:00:00","Vue","Standard",false
+"2019-01-14 00:00:00","Google","Standard",false
+"2019-01-14 00:00:00","Spotify","Standard",false
+"2019-01-14 00:00:00","Quasar","Standard",false
+"2019-01-14 00:00:00","Python","Standard",false
+"2019-01-14 00:00:00","Ruby on Rails","Standard",false
+"2019-01-14 00:00:00","_Training","Standard",false
+"2019-01-14 00:00:00","_Marketing and Sales","Standard",false
+"2019-01-14 00:00:00","_People mgmt & hiring","Standard",false
+"2019-01-14 00:00:00","_Travel Time","Standard",false
+"2019-01-14 00:00:00","_Vacation","Vacation",false
+"2019-01-14 00:00:00","_Sick","Sick",false
+"2019-01-14 00:00:00","_Unpaid Leave","Unpaid Leave",false
+"2019-01-14 00:00:00","_Project management","Standard",false
+"2019-01-14 00:00:00","_Sick Day","Sick Day",false
+"2019-01-14 00:00:00","_Personal Day","Personal Day",false

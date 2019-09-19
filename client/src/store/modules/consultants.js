@@ -5,7 +5,7 @@ import { Notify } from 'quasar'
 
 // initial state
 const state = {
-  all: [], // id, name, allocation
+  all: [], // id, name, allocation, disabled
   selected: '',
   selectedAllocation: 1
 }
@@ -22,6 +22,26 @@ const actions = {
       .catch(e => {
         Notify.create({
           message: 'Couldn\'t read consultants from server. \n' + e.toString(),
+          color: 'negative',
+          icon: 'report_problem'
+        })
+        console.log(e) /* eslint-disable-line no-console */
+      })
+  },
+
+  toggleConsultant ({ commit }, payload) {
+    api.apiClient.post(`/api/consultants/toggle/` + payload, { crossDomain: true })
+      .then(response => {
+        commit('TOGGLE_CONSULTANT', response.data.id)
+        Notify.create({
+          message: 'Consultant visibility switched',
+          color: 'teal',
+          icon: ''
+        })
+      })
+      .catch(e => {
+        Notify.create({
+          message: 'Couldn\'t change consultant visibitity on server. \n' + e.toString(),
           color: 'negative',
           icon: 'report_problem'
         })
@@ -56,6 +76,14 @@ const mutations = {
     } else {
       state.selected = consultants[0].name
       state.selectedAllocation = consultants[0].allocation
+    }
+  },
+
+  TOGGLE_CONSULTANT (state, id) {
+    for (let i = 0; i < state.all.length; ++i) {
+      if (state.all[i].id === id) {
+        state.all[i].disabled = !state.all[i].disabled
+      }
     }
   },
 

@@ -101,7 +101,7 @@
               {{ props.row.project }}
             </span>
             <span v-else>
-              <q-select :value="props.row.project" :options="filteredProjects" option-name="name" option-label="name"
+              <q-select :value="props.row.project" :options="filteredProjects" option-name="name" option-label="name" option-disable="disabled"
                 @filter="filterProject" dense options-dense use-input hide-selected fill-input input-debounce="0"
                 @input="val => onUpdateProject({id: props.row.id, project: val.name})"
               >
@@ -366,7 +366,7 @@ export default {
       this.$store.dispatch('reportedHours/updateAttributeValue', payloadRate)
     },
     confirmDiffrentWeek (d) {
-      return Promise.new(this.$refs.confirm.open('Please confirm', 'You selected ' + format(parseISO(d), 'iiii, MMM do', Intl.DateTimeFormat().resolvedOptions().timeZone) + '. The record will be moved to another week. Continue?', { color: 'bg-warning' }))
+      return Promise.new(this.$refs.confirm.open('Please confirm', 'You selected ' + format(parseISO(d), 'iiii, MMM do', Intl.DateTimeFormat().resolvedOptions().timeZone) + '. The record will be moved to another week. Continue?', 'agree', { color: 'bg-warning' }))
     },
     onUpdateDate (newValue) {
       this.$nextTick(function () {
@@ -495,7 +495,7 @@ export default {
       }
     },
     async deleteItem (item) {
-      if (await this.$refs.confirm.open('Please confirm', 'Are you sure you want to delete the record?', { color: 'bg-warning' })) {
+      if (await this.$refs.confirm.open('Please confirm', 'Are you sure you want to delete the record?', 'agree', { color: 'bg-warning' })) {
         this.$store.dispatch('reportedHours/removeRecord', parseInt(item.id, 10))
         this.$q.notify({
           message: this.$options.filters.formatDate(item.date) + ', ' + item.hours + ' hrs - record deleted',

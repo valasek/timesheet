@@ -5,7 +5,7 @@ import { Notify } from 'quasar'
 
 // initial state
 const state = {
-  all: [ '' ] // id, name, rate
+  all: [] // id, name, rate, disabled
 }
 
 const getters = {}
@@ -39,7 +39,7 @@ const actions = {
       })
       .catch(e => {
         Notify.create({
-          message: 'Couldn\'t create project on server. \n' + e.toString(),
+          message: 'Couldn\'t create project on server. ' + e.toString(),
           color: 'negative',
           icon: 'report_problem'
         })
@@ -68,22 +68,18 @@ const actions = {
   },
 
   toggleProject ({ commit }, payload) {
-    api.apiClient.delete(`/api/projects/toggle/` + payload, { crossDomain: true })
+    api.apiClient.post(`/api/projects/toggle/` + payload, { crossDomain: true })
       .then(response => {
-        commit('TOGGLE_PROJECT', response.data)
-        var toggleText = ''
-        payload === true ? toggleText = ' enabled' : toggleText = ' disabled'
+        commit('TOGGLE_PROJECT', response.data.id)
         Notify.create({
-          message: 'Project ' + payload + toggleText,
-          color: 'positive',
-          icon: 'report_problem'
+          message: 'Project visibility switched',
+          color: 'teal',
+          icon: ''
         })
       })
       .catch(e => {
-        var toggleText = ''
-        payload === true ? toggleText = ' enable' : toggleText = ' disable'
         Notify.create({
-          message: 'Couldn\'t ' + toggleText + ' project on server. \n' + e.toString(),
+          message: 'Couldn\'t change project visibitity on server. \n' + e.toString(),
           color: 'negative',
           icon: 'report_problem'
         })
@@ -107,6 +103,14 @@ const mutations = {
       }
       return 0
     })
+  },
+
+  TOGGLE_PROJECT (state, id) {
+    for (let i = 0; i < state.all.length; ++i) {
+      if (state.all[i].id === id) {
+        state.all[i].disabled = !state.all[i].disabled
+      }
+    }
   }
 
 }

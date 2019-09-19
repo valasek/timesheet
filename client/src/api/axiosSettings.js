@@ -2,12 +2,12 @@
 
 import axios from 'axios'
 
-var baseURL = ''
+var baseURL = 'http://' + process.env.APP_DOMAIN + ':' + process.env.APP_PORT
 
-const debug = process.env.NODE_ENV !== 'production'
-if (debug) {
-  baseURL = 'http://localhost:3000'
-}
+// const debug = !process.env.NODE_ENV.startsWith('production')
+// if (debug) {
+//   baseURL = 'http://localhost:3000'
+// }
 
 const apiClient = axios.create({
   baseURL: baseURL,

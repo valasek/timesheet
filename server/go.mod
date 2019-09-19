@@ -1,6 +1,6 @@
 module github.com/valasek/timesheet/server
 
-go 1.12
+go 1.13
 
 require (
 	github.com/antonfisher/nested-logrus-formatter v1.0.2

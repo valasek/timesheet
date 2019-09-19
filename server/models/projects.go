@@ -3,6 +3,8 @@
 package models
 
 import (
+	"strings"
+
 	"github.com/valasek/timesheet/server/logger"
 
 	"os"
@@ -15,20 +17,21 @@ import (
 
 // Project struct
 type Project struct {
-	ID        uint64     `gorm:"primary_key" json:"id"`
-	CreatedAt time.Time  `json:"-"`
-	UpdatedAt time.Time  `json:"-"`
-	DeletedAt *time.Time `json:"-"`
-	Name      string     `gorm:"not null" json:"name"`
-	Rate      string     `gorm:"not null" json:"rate"`
-	// add reference to a client
+	ID         uint64     `gorm:"primary_key" json:"id"`
+	CreatedAt  time.Time  `json:"-"`
+	UpdatedAt  time.Time  `json:"-"`
+	DeletedAt  *time.Time `json:"-"`
+	Name       string     `gorm:"not null" json:"name"`
+	Rate       string     `gorm:"not null" json:"rate"`
+	Disabled bool       `gorm:"not null" json:"disabled"`
 }
 
 // ProjectCSV csv struct
 type ProjectCSV struct {
-	CreatedAt DateTime `csv:"created_at"`
-	Name      string   `csv:"name"`
-	Rate      string   `csv:"rate"`
+	CreatedAt  DateTime `csv:"created_at"`
+	Name       string   `csv:"name"`
+	Rate       string   `csv:"rate"`
+	Disabled bool     `csv:"disabled"`
 }
 
 // ProjectManager struct
@@ -59,6 +62,33 @@ func (db *ProjectManager) ProjectsGetAll() []Project {
 	return nil
 }
 
+// ProjectToggle - return all records of Rates
+func (db *ProjectManager) ProjectToggle(id uint64) Project {
+	project := Project{}
+	if err := db.db.First(&project, id); err != nil {
+		project.Disabled = !project.Disabled
+		db.db.Save(&project)
+		return project
+	}
+	logger.Log.Error("unable to toggle project id", id)
+	return project
+}
+
+// ProjectsGetStatistics - returns table statistics
+func (db *ProjectManager) ProjectsGetStatistics() EntityOverview {
+	table := "projects"
+	var total, active, disabled int
+	if err := db.db.Unscoped().Table(table).Count(&total); err != nil {
+		active = db.ProjectCount()
+	} else {
+		logger.Log.Error("failed to retrieve from DB statistics (total) for table ", table)
+	}
+	if err := db.db.Table(table).Where("disabled = true").Count(&disabled); err == nil {
+		logger.Log.Error("failed to retrieve from DB statistics (disabled) for table ", table)
+	}
+	return EntityOverview{Name: strings.Title(table), Total: total, Active: active, Disabled: disabled, Deleted: total - active}
+}
+
 // ProjectSeed - will load data from data file
 func (db *ProjectManager) ProjectSeed(file string) int {
 
@@ -73,7 +103,7 @@ func (db *ProjectManager) ProjectSeed(file string) int {
 		logger.Log.Error(err)
 	}
 	for _, p := range projectsCSV {
-		newP := Project{CreatedAt: p.CreatedAt.Time, Name: p.Name, Rate: p.Rate}
+		newP := Project{CreatedAt: p.CreatedAt.Time, Name: p.Name, Rate: p.Rate, Disabled: p.Disabled}
 		db.db.Create(&newP)
 	}
 
@@ -104,7 +134,7 @@ func (db *ProjectManager) ProjectBackup(filePath string) (int, error) {
 	projectCSV := []*ProjectCSV{}
 	for _, r := range projects {
 		createdAt := DateTime{r.CreatedAt}
-		item := ProjectCSV{CreatedAt: createdAt, Name: r.Name, Rate: r.Rate}
+		item := ProjectCSV{CreatedAt: createdAt, Name: r.Name, Rate: r.Rate, Disabled: r.Disabled}
 		projectCSV = append(projectCSV, &item)
 	}
 

@@ -35,6 +35,15 @@ type Date struct {
 	time.Time
 }
 
+// EntityOverview -
+type EntityOverview struct {
+	Name    string  `json:"name"`
+	Total   int  `json:"total"`
+	Active  int `json:"active"`
+	Disabled  int `json:"disabled"`
+	Deleted int  `json:"deleted"`
+}
+
 // MarshalCSV Convert the internal date as CSV string
 func (date *DateTime) MarshalCSV() (string, error) {
 	return date.Time.Format("2006-01-02 15:04:05"), nil

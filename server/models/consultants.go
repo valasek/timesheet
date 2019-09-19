@@ -3,6 +3,8 @@
 package models
 
 import (
+	"strings"
+
 	"github.com/valasek/timesheet/server/logger"
 
 	"os"
@@ -21,6 +23,7 @@ type Consultant struct {
 	DeletedAt  *time.Time `json:"-"`
 	Name       string     `gorm:"not null;unique" json:"name"`
 	Allocation float64    `gorm:"not null" json:"allocation"`
+	Disabled   bool       `gorm:"not null" json:"disabled"`
 }
 
 // ConsultantCSV csv struct
@@ -28,6 +31,7 @@ type ConsultantCSV struct {
 	CreatedAt  DateTime `csv:"created_at"`
 	Name       string   `csv:"name"`
 	Allocation float64  `csv:"allocation"`
+	Disabled   bool     `csv:"disabled"`
 }
 
 // ConsultantManager struct
@@ -57,6 +61,33 @@ func (db *ConsultantManager) ConsultantList() []Consultant {
 	return nil
 }
 
+// ConsultantsGetStatistics - returns table statistics
+func (db *ConsultantManager) ConsultantsGetStatistics() EntityOverview {
+	table := "consultants"
+	var total, active, disabled int
+	if err := db.db.Unscoped().Table(table).Count(&total); err != nil {
+		active = db.ConsultantCount()
+	} else {
+		logger.Log.Error("failed to retrieve from DB statistics for table ", table)
+	}
+	if err := db.db.Table(table).Where("disabled = true").Count(&disabled); err == nil {
+		logger.Log.Error("failed to retrieve from DB statistics (disabled) for table ", table)
+	}
+	return EntityOverview{Name: strings.Title(table), Total: total, Active: active, Disabled: disabled, Deleted: total - active}
+}
+
+// ConsultantToggle - return all records of Rates
+func (db *ConsultantManager) ConsultantToggle(id uint64) Consultant {
+	consultant := Consultant{}
+	if err := db.db.First(&consultant, id); err != nil {
+		consultant.Disabled = !consultant.Disabled
+		db.db.Save(&consultant)
+		return consultant
+	}
+	logger.Log.Error("unable to toggle consultant id", id)
+	return consultant
+}
+
 // ConsultantSeed - will load data from data file
 func (db *ConsultantManager) ConsultantSeed(file string) int {
 
@@ -71,7 +102,7 @@ func (db *ConsultantManager) ConsultantSeed(file string) int {
 		logger.Log.Error(err)
 	}
 	for _, c := range consultantsCSV {
-		newC := Consultant{CreatedAt: c.CreatedAt.Time, Name: c.Name, Allocation: c.Allocation}
+		newC := Consultant{CreatedAt: c.CreatedAt.Time, Name: c.Name, Allocation: c.Allocation, Disabled: c.Disabled}
 		db.db.Create(&newC)
 	}
 
@@ -102,7 +133,7 @@ func (db *ConsultantManager) ConsultantBackup(filePath string) (int, error) {
 	projectCSV := []*ConsultantCSV{}
 	for _, r := range consultants {
 		createdAt := DateTime{r.CreatedAt}
-		item := ConsultantCSV{CreatedAt: createdAt, Name: r.Name, Allocation: r.Allocation}
+		item := ConsultantCSV{CreatedAt: createdAt, Name: r.Name, Allocation: r.Allocation, Disabled: r.Disabled}
 		projectCSV = append(projectCSV, &item)
 	}
 

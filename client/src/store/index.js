@@ -18,7 +18,7 @@ Vue.use(Vuex)
  * directly export the Store instantiation
  */
 
-const debug = process.env.NODE_ENV !== 'production'
+const debug = !process.env.NODE_ENV.startsWith('production')
 
 export default function (/* { ssrContext } */) {
   const Store = new Vuex.Store({

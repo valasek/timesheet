@@ -44,6 +44,15 @@ type AppSettings struct {
 	IsNonWorking         string  `json:"isNonWorking"`
 }
 
+// EntityOverview -
+type EntityOverview struct {
+	Name    string  `json:"name"`
+	Total   int  `json:"total"`
+	Active  int `json:"active"`
+	Disabled  int `json:"disabled"`
+	Deleted int  `json:"deleted"`
+}
+
 // AppSettings returns list of all appliocation and user settings for configuration file
 func (api *API) AppSettings(c *gin.Context) {
 	settings := AppSettings{
@@ -61,6 +70,15 @@ func (api *API) AppSettings(c *gin.Context) {
 		IsNonWorking:         viper.GetString("isNonWorking"),
 	}
 	c.JSON(http.StatusOK, settings)
+}
+
+func (api *API) TableStatistics(c *gin.Context) {
+	entityOverview := []EntityOverview{}
+	entityOverview = append(entityOverview, EntityOverview(api.projects.ProjectsGetStatistics()))
+	entityOverview = append(entityOverview, EntityOverview(api.reportedRecords.ReportedRecordsGetStatistics()))
+	entityOverview = append(entityOverview, EntityOverview(api.rates.RatesGetStatistics()))
+	entityOverview = append(entityOverview, EntityOverview(api.consultants.ConsultantsGetStatistics()))
+	c.JSON(http.StatusOK, entityOverview)
 }
 
 // Download -

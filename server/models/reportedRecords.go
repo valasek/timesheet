@@ -3,6 +3,8 @@
 package models
 
 import (
+	"strings"
+
 	"github.com/valasek/timesheet/server/logger"
 
 	"fmt"
@@ -77,6 +79,19 @@ func (db *ReportedRecordManager) ReportedRecordsGetAll() []ReportedRecord {
 	}
 	logger.Log.Error("unable to retieve all reported records")
 	return nil
+}
+
+// ReportedRecordsGetStatistics - returns table statistics
+func (db *ReportedRecordManager) ReportedRecordsGetStatistics() EntityOverview {
+	table := "reported_records"
+	var total, active int
+	if err := db.db.Unscoped().Table(table).Count(&total); err != nil {
+		active = db.ReportedRecordCount()
+	} else {
+		logger.Log.Error("failed to retrieve from DB statistics for table ", table)
+	}
+	table = strings.Replace(table, "_", " ", -1)
+	return EntityOverview{ Name: strings.Title(table), Total: total, Active: active, Disabled: 0, Deleted: total - active, }
 }
 
 // ReportedRecordsInMonth - return records per month

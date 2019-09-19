@@ -8,11 +8,6 @@
 
 export default {
 
-  // components: {
-  //   /* webpackChunkName: "core" */
-  //   Report: () => import('./pages/Report.vue')
-  // },
-
   name: 'App',
 
   data () {

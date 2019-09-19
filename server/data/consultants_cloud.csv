@@ -1,5 +1,7 @@
-created_at,name,allocation
-"2019-01-14 00:00:00","Stanislav Valasek","1"
-"2019-01-14 00:00:00","Evan You","1"
-"2019-01-14 00:00:00","John Leider","1"
-"2019-01-14 00:00:00","Russ Cox","0.5"
+created_at,name,allocation,disabled
+"2019-01-14 00:00:00","Stanislav Valasek","1",false
+"2019-01-14 00:00:00","Evan You","1",false
+"2019-01-14 00:00:00","Razvan Stoenescu","1",false
+"2019-01-14 00:00:00","Russ Cox","0.5",false
+"2019-01-14 00:00:00","David Heinemeier Hansson","1",false
+"2019-01-14 00:00:00","Guido van Rossum","1",false

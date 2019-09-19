@@ -20,14 +20,15 @@ const state = {
   isNonWorking: 'not-work', // all rates are categorized ising one of this two rates used on Overview page
   selectedMonth: new Date(),
   dateFrom: startOfWeek(new Date(), { weekStartsOn: 1 }),
-  dateTo: endOfWeek(new Date(), { weekStartsOn: 1 })
+  dateTo: endOfWeek(new Date(), { weekStartsOn: 1 }),
+  entityOverview: [] // table name, total, active, disabled, soft-deleted
 }
 
 const getters = {}
 
 const actions = {
 
-  getSettings ({ commit, dispatch, state }) {
+  getSettings ({ commit }) {
     api.apiClient.get(`/api/settings`, { port: 3000, crossDomain: true })
       .then(response => {
         commit('SET_SETTINGS', response.data)
@@ -39,6 +40,21 @@ const actions = {
       .catch(e => {
         Notify.create({
           message: 'Couldn\'t read application settings from server. \n' + e.toString(),
+          color: 'negative',
+          icon: 'report_problem'
+        })
+        console.log(e) /* eslint-disable-line no-console */
+      })
+  },
+
+  getEntityOverview ({ commit }) {
+    api.apiClient.get(`/api/download/data/statistics`, { port: 3000, crossDomain: true })
+      .then(response => {
+        commit('SET_ENTITY_OVERVIEW', response.data)
+      })
+      .catch(e => {
+        Notify.create({
+          message: 'Couldn\'t read table statistics from server. \n' + e.toString(),
           color: 'negative',
           icon: 'report_problem'
         })
@@ -105,6 +121,9 @@ const mutations = {
     state.vacationSick = payload.vacationSick
     state.isWorking = payload.isWorking
     state.isNonWorking = payload.isNonWorking
+  },
+  SET_ENTITY_OVERVIEW (state, entityOverview) {
+    state.entityOverview = entityOverview
   },
   SET_HOURS (state, hours) {
     switch (hours.hourType) {
