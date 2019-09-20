@@ -5,8 +5,8 @@
     <q-toolbar class="q-pa-md bg-primary">
       <change-week />
       <div class="q-gutter-x-md">
-        <select-consultant class="q-gutter-x-md"/>
-        </div>
+        <select-consultant class="q-gutter-x-md" />
+      </div>
     </q-toolbar>
     <div class="row items-baseline">
       <div class="column q-pa-md ">
@@ -14,33 +14,37 @@
           <q-toolbar-title>Week - {{ thisWeek }} </q-toolbar-title>
         </q-toolbar>
         <div class="row">
-        <q-card flat>
-          <q-card-section>
-            <div class="text-subtitle1">Reported Time</div>
-            <q-table :columns="headersNumbers" :data="weeklyWorkingTimeOverview" :pagination.sync="myPagination"
-              hide-bottom
-            >
-              <template slot="items" slot-scope="props">
-                <td v-if="props.item.value !== ''" class="text-xs-left">
-                  {{ props.item.text }}
-                </td>
-                <td v-if="props.item.value !== ''" class="text-xs-left">
-                  {{ props.item.value }}
-                </td>
-                <td v-if="props.item.value !== ''" class="text-xs-left">
-                  {{ props.item.value }}
-                </td>
-              </template>
-            </q-table>
-          </q-card-section>
-        </q-card>
+          <q-card flat>
+            <q-card-section>
+              <div class="text-subtitle1">
+                Reported Time
+              </div>
+              <q-table :columns="headersNumbers" :data="weeklyWorkingTimeOverview" :pagination.sync="myPagination"
+                       hide-bottom
+              >
+                <template slot="items" slot-scope="props">
+                  <td v-if="props.item.value !== ''" class="text-xs-left">
+                    {{ props.item.text }}
+                  </td>
+                  <td v-if="props.item.value !== ''" class="text-xs-left">
+                    {{ props.item.value }}
+                  </td>
+                  <td v-if="props.item.value !== ''" class="text-xs-left">
+                    {{ props.item.value }}
+                  </td>
+                </template>
+              </q-table>
+            </q-card-section>
+          </q-card>
         </div>
         <div class="row">
           <q-card flat>
             <q-card-section>
-              <div class="text-subtitle1">Reported Projects</div>
+              <div class="text-subtitle1">
+                Reported Projects
+              </div>
               <q-table :columns="headersProjects" :data="weeklyProjectsOverview" :pagination.sync="myPagination"
-                hide-bottom
+                       hide-bottom
               >
                 <template slot="items" slot-scope="props">
                   <td v-if="props.item.value !== ''" class="text-xs-left">
@@ -65,9 +69,11 @@
         <div class="row">
           <q-card flat>
             <q-card-section>
-              <div class="text-subtitle1">Reported Time</div>
+              <div class="text-subtitle1">
+                Reported Time
+              </div>
               <q-table :columns="headersNumbers" :data="monthlyWorkingTimeOverview" :pagination.sync="myPagination"
-                hide-bottom
+                       hide-bottom
               >
                 <template slot="items" slot-scope="props">
                   <td v-if="props.item.value !== ''" class="text-xs-left">
@@ -87,9 +93,11 @@
         <div class="row">
           <q-card flat>
             <q-card-section>
-              <div class="text-subtitle1">Reported Projects</div>
+              <div class="text-subtitle1">
+                Reported Projects
+              </div>
               <q-table :columns="headersProjects" :data="monthlyProjectsOverview" :pagination.sync="myPagination"
-                hide-bottom
+                       hide-bottom
               >
                 <template slot="items" slot-scope="props">
                   <td v-if="props.item.value !== ''" class="text-xs-left">
@@ -114,14 +122,16 @@
           <q-toolbar-title>Year - {{ thisYear }}</q-toolbar-title>
         </q-toolbar>
         <q-card-section>
-          <div class="text-subtitle1">Vacations</div>
+          <div class="text-subtitle1">
+            Vacations
+          </div>
           <q-table :columns="headersV" :data="vacations" hide-bottom>
             <template slot="items" slot-scope="props">
               <td class="text-xs-left">
                 {{ props.item.text }}
               </td>
               <td class="text-xs-left">
-                {{ props.item.value  }}
+                {{ props.item.value }}
               </td>
               <td class="text-xs-left">
                 {{ props.item.value }}
@@ -130,7 +140,9 @@
           </q-table>
         </q-card-section>
         <q-card-section>
-          <div class="text-subtitle1">Personal Days</div>
+          <div class="text-subtitle1">
+            Personal Days
+          </div>
           <q-table :columns="headersP" :data="personalDays" hide-bottom>
             <template slot="items" slot-scope="props">
               <td class="text-xs-left">
@@ -146,7 +158,9 @@
           </q-table>
         </q-card-section>
         <q-card-section>
-          <div class="text-subtitle1">Sick Days</div>
+          <div class="text-subtitle1">
+            Sick Days
+          </div>
           <q-table :columns="headersS" :data="sickDays" hide-bottom>
             <template slot="items" slot-scope="props">
               <td class="text-xs-left">

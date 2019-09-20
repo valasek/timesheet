@@ -1,11 +1,12 @@
 <!-- Copyright © 2018-2019 Stanislav Valasek <valasek@gmail.com> -->
 
 <template>
-<!-- <q-select v-model="selectedConsultant" :options="consultants.all" option-name="id" option-label="name"
+  <!-- <q-select v-model="selectedConsultant" :options="consultants.all" option-name="id" option-label="name"
     @filter="filterFn" dense options-dense > -->
   <q-select v-model="selectedConsultant" :options="filteredConsultants" option-name="id" option-label="name" option-disable="disabled"
-    @filter="filterFn" dense options-dense use-input hide-selected fill-input input-debounce="0"
-    color="secondary"
+            dense options-dense use-input hide-selected fill-input input-debounce="0"
+            color="secondary"
+            @filter="filterFn"
   >
     <template v-slot:prepend>
       <q-icon name="person_outline" />

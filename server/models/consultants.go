@@ -61,6 +61,25 @@ func (db *ConsultantManager) ConsultantList() []Consultant {
 	return nil
 }
 
+// ConsultantDelete - deletes the consultant and all associated records
+func (db *ConsultantManager) ConsultantDelete(id uint64) int64 {
+
+	consultant := Consultant{}
+	if err := db.db.First(&consultant, id); err != nil {
+		name := consultant.Name
+		if err := db.db.Delete(&consultant); err != nil {
+			var reportedRecordCount int64
+			if err := db.db.Model(ReportedRecord{}).Where("consultant like ?", name).Count(&reportedRecordCount); err != nil {
+				if err := db.db.Where("consultant like ?", name).Delete(&ReportedRecord{}); err != nil {
+					return reportedRecordCount
+				}
+			}
+		}
+	}
+	logger.Log.Error("unable to delete consultant id", id)
+	return 0
+}
+
 // ConsultantsGetStatistics - returns table statistics
 func (db *ConsultantManager) ConsultantsGetStatistics() EntityOverview {
 	table := "consultants"

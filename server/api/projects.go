@@ -16,6 +16,19 @@ func (api *API) ProjectsGetAll(c *gin.Context) {
 	c.JSON(http.StatusOK, projects)
 }
 
+// ProjectDelete deletes the project and all associated records
+func (api *API) ProjectDelete(c *gin.Context) {
+	ID := c.Param("id")
+	IDn, err := strconv.ParseUint(ID, 10, 32)
+	if err != nil {
+		logger.Log.Error("ProjectDelete, param 'id' is missing:", err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	reportedRecords := api.projects.ProjectDelete(IDn)
+	c.JSON(http.StatusOK, reportedRecords)
+}
+
 // ProjectToggle switch projects visibility
 func (api *API) ProjectToggle(c *gin.Context) {
 	ID := c.Param("id")

@@ -17,21 +17,21 @@ import (
 
 // Project struct
 type Project struct {
-	ID         uint64     `gorm:"primary_key" json:"id"`
-	CreatedAt  time.Time  `json:"-"`
-	UpdatedAt  time.Time  `json:"-"`
-	DeletedAt  *time.Time `json:"-"`
-	Name       string     `gorm:"not null" json:"name"`
-	Rate       string     `gorm:"not null" json:"rate"`
-	Disabled bool       `gorm:"not null" json:"disabled"`
+	ID        uint64     `gorm:"primary_key" json:"id"`
+	CreatedAt time.Time  `json:"-"`
+	UpdatedAt time.Time  `json:"-"`
+	DeletedAt *time.Time `json:"-"`
+	Name      string     `gorm:"not null" json:"name"`
+	Rate      string     `gorm:"not null" json:"rate"`
+	Disabled  bool       `gorm:"not null" json:"disabled"`
 }
 
 // ProjectCSV csv struct
 type ProjectCSV struct {
-	CreatedAt  DateTime `csv:"created_at"`
-	Name       string   `csv:"name"`
-	Rate       string   `csv:"rate"`
-	Disabled bool     `csv:"disabled"`
+	CreatedAt DateTime `csv:"created_at"`
+	Name      string   `csv:"name"`
+	Rate      string   `csv:"rate"`
+	Disabled  bool     `csv:"disabled"`
 }
 
 // ProjectManager struct
@@ -72,6 +72,25 @@ func (db *ProjectManager) ProjectToggle(id uint64) Project {
 	}
 	logger.Log.Error("unable to toggle project id", id)
 	return project
+}
+
+// ProjectDelete - deletes the project and all associated records
+func (db *ProjectManager) ProjectDelete(id uint64) int64 {
+
+	project := Project{}
+	if err := db.db.First(&project, id); err != nil {
+		name := project.Name
+		if err := db.db.Delete(&project); err != nil {
+			var reportedRecordCount int64
+			if err := db.db.Model(ReportedRecord{}).Where("project like ?", name).Count(&reportedRecordCount); err != nil {
+				if err := db.db.Where("project like ?", name).Delete(&ReportedRecord{}); err != nil {
+					return reportedRecordCount
+				}
+			}
+		}
+	}
+	logger.Log.Error("unable to delete project id", id)
+	return 0
 }
 
 // ProjectsGetStatistics - returns table statistics

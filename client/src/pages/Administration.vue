@@ -7,21 +7,27 @@
     </q-toolbar>
     <q-expansion-item
       expand-separator
-      label="Manage Consultants & Projects">
+      label="Manage Consultants & Projects"
+    >
       <q-card>
         <q-card-section>
           <div class="row justify-around">
             <div class="column">
               <div class="column q-gutter-md">
                 <div class="row q-gutter-x-md">
-                  <q-input v-model="newConsultant" label="Consultant name" dense class="body-1" style="width: 15em"/>
-                  <q-btn color="primary" @click="createConsultant">Add Consultant</q-btn>
+                  <q-input v-model="newConsultant" label="Consultant name" dense class="body-1" style="width: 15em" />
+                  <q-btn color="primary" :disable="newConsultant.length === 0" @click="createConsultant">
+                    Add Consultant
+                  </q-btn>
                 </div>
-                <p align="center">{{defaultAllocationLabel}}</p>
+                <p align="center">
+                  {{ defaultAllocationLabel }}
+                </p>
                 <div class="row q-gutter-x-md">
                   <q-table :columns="columnsConsultants" row-key="name" :data="consultants"
-                    no-data-label="No consultants" :pagination.sync="consultantsPagination" :rows-per-page-options="[30,50,0]"
-                    binary-state-sort bordered>
+                           no-data-label="No consultants" :pagination.sync="consultantsPagination" :rows-per-page-options="[30,50,0]"
+                           binary-state-sort bordered
+                  >
                     <template v-slot:body="props">
                       <q-tr :props="props">
                         <q-td key="name" :props="props">
@@ -47,35 +53,40 @@
             <div class="column">
               <div class="column q-gutter-md">
                 <div class="row q-gutter-x-md">
-                  <q-input v-model="newProject" label="Project name" dense class="body-1" style="width: 15em"/>
-                  <q-btn color="primary" @click="createProject">Add Project</q-btn>
+                  <q-input v-model="newProject" label="Project name" dense class="body-1" style="width: 15em" />
+                  <q-btn color="primary" :disable="newProject.length === 0" @click="createProject">
+                    Add Project
+                  </q-btn>
                 </div>
-                <p align="center">{{defaultRateLabel}}</p>
+                <p align="center">
+                  {{ defaultRateLabel }}
+                </p>
               </div>
               <div class="row q-gutter-x-md">
                 <q-table :columns="columnsProjects" row-key="name" :data="projects"
-                    no-data-label="No projects" :pagination.sync="projectsPagination" :rows-per-page-options="[30,50,0]"
-                    binary-state-sort bordered>
-                    <template v-slot:body="props">
-                      <q-tr :props="props">
-                        <q-td key="name" :props="props">
-                          {{ props.row.name }}
-                        </q-td>
-                        <q-td key="rate" :props="props">
-                          {{ props.row.rate }}
-                        </q-td>
-                        <q-td key="actions" :props="props" class="q-gutter-x-sm">
-                          <q-icon name="remove_red_eye" small :color="setColor(props.row.disabled)" size="1.5em" @click="toggleProject(props.row)">
-                            <q-tooltip>Hide / Unhide the project</q-tooltip>
-                          </q-icon>
-                          <!-- {{ props.row }} -->
-                          <q-icon name="delete" small color="red" size="1.5em" @click="deleteProject(props.row)">
-                            <q-tooltip>Permanently delete the project and all associated reported records</q-tooltip>
-                          </q-icon>
-                        </q-td>
-                      </q-tr>
-                    </template>
-                    </q-table>
+                         no-data-label="No projects" :pagination.sync="projectsPagination" :rows-per-page-options="[30,50,0]"
+                         binary-state-sort bordered
+                >
+                  <template v-slot:body="props">
+                    <q-tr :props="props">
+                      <q-td key="name" :props="props">
+                        {{ props.row.name }}
+                      </q-td>
+                      <q-td key="rate" :props="props">
+                        {{ props.row.rate }}
+                      </q-td>
+                      <q-td key="actions" :props="props" class="q-gutter-x-sm">
+                        <q-icon name="remove_red_eye" small :color="setColor(props.row.disabled)" size="1.5em" @click="toggleProject(props.row)">
+                          <q-tooltip>Hide / Unhide the project</q-tooltip>
+                        </q-icon>
+                        <!-- {{ props.row }} -->
+                        <q-icon name="delete" small color="red" size="1.5em" @click="deleteProject(props.row)">
+                          <q-tooltip>Permanently delete the project and all associated reported records</q-tooltip>
+                        </q-icon>
+                      </q-td>
+                    </q-tr>
+                  </template>
+                </q-table>
               </div>
             </div>
           </div>
@@ -85,13 +96,15 @@
     <q-separator />
     <q-expansion-item
       expand-separator
-      label="Managed Data Statistics">
+      label="Managed Data Statistics"
+    >
       <q-card>
         <q-card-section>
           <div class="row q-gutter-x-md">
             <q-table :columns="columnsEntityOverview" row-key="name" :data="entityOverview"
-              no-data-label="Table statistics are not available" hide-bottom bordered
-              :pagination.sync="entityOverviewPagination" />
+                     no-data-label="Table statistics are not available" hide-bottom bordered
+                     :pagination.sync="entityOverviewPagination"
+            />
           </div>
         </q-card-section>
         <q-card-section>
@@ -102,7 +115,8 @@
     <q-separator />
     <q-expansion-item
       expand-separator
-      label="Backup & Restore">
+      label="Backup & Restore"
+    >
       <q-card>
         <q-card-section>
           <div class="font-italic">
@@ -113,14 +127,14 @@
             <div class="row justify-left q-gutter-x-md">
               <div class="column">
                 <q-btn color="primary" @click="download">
-                  Download&nbsp;&nbsp;<q-icon name="cloud_download"></q-icon>
+                  Download&nbsp;&nbsp;<q-icon name="cloud_download" />
                 </q-btn>
               </div>
               <div class="column">
                 <q-uploader
                   label="Upload"
                   accept=".zip"
-                  :url=uploaderUrl
+                  :url="uploaderUrl"
                   auto-upload
                   style="max-width: 250px"
                 />
@@ -133,7 +147,8 @@
     <q-separator />
     <q-expansion-item
       expand-separator
-      label="Warning Limits">
+      label="Warning Limits"
+    >
       <q-card>
         <q-card-section>
           <div class="font-italic">
@@ -142,14 +157,14 @@
           <div class="row justify-around">
             <div class="column">
               <q-input :value="dailyWorkingHoursMin" label="Minimum working hours" :rules="hoursRules"
-                            type="number" min="0" max="24" step="0.5" maxlength="2"
-                            class="body-1" style="width: 15em" @input="onUpdateHours({hourType: 'dailyWorkingHoursMin', hourValue: $event})"
+                       type="number" min="0" max="24" step="0.5" maxlength="2"
+                       class="body-1" style="width: 15em" @input="onUpdateHours({hourType: 'dailyWorkingHoursMin', hourValue: $event})"
               />
             </div>
             <div class="column">
               <q-input :value="dailyWorkingHoursMax" label="Maximum working hours" :rules="hoursRules"
-                            type="number" min="0" max="24" step="0.5" maxlength="2"
-                            class="body-1" style="width: 15em" @input="onUpdateHours({hourType: 'dailyWorkingHoursMax', hourValue: $event})"
+                       type="number" min="0" max="24" step="0.5" maxlength="2"
+                       class="body-1" style="width: 15em" @input="onUpdateHours({hourType: 'dailyWorkingHoursMax', hourValue: $event})"
               />
             </div>
           </div>
@@ -159,7 +174,8 @@
     <q-separator />
     <q-expansion-item
       expand-separator
-      label="Vacation Settings">
+      label="Vacation Settings"
+    >
       <q-card>
         <q-card-section>
           <div class="font-italic">
@@ -169,7 +185,7 @@
         <q-card-section>
           <div class="row justify-around">
             <div class="column">
-                Vacations
+              Vacations
             </div>
             <div class="column">
               Personal Days
@@ -181,40 +197,40 @@
           <div class="row justify-around">
             <div class="column">
               <q-input :value="yearlyVacationDays" label="Vacation days per year" :rules="daysRules"
-                            type="number" min="0" max="40" step="1" maxlength="2"
-                            class="body-1" style="width: 15em" @input="onUpdateDays({dayType: 'yearlyVacationDays', dayValue: $event})"
+                       type="number" min="0" max="40" step="1" maxlength="2"
+                       class="body-1" style="width: 15em" @input="onUpdateDays({dayType: 'yearlyVacationDays', dayValue: $event})"
               />
             </div>
             <div class="column">
               <q-input :value="yearlyPersonalDays" label="Additional vacation days per year" :rules="daysRules"
-                            type="number" min="0" max="40" step="1" maxlength="2"
-                            class="body-1" style="width: 15em" @input="onUpdateDays({dayType: 'yearlyPersonalDays', dayValue: $event})"
+                       type="number" min="0" max="40" step="1" maxlength="2"
+                       class="body-1" style="width: 15em" @input="onUpdateDays({dayType: 'yearlyPersonalDays', dayValue: $event})"
               />
             </div>
             <div class="column">
               <q-input :value="yearlySickDays" label="Additional vacation days per year" :rules="daysRules"
-                            type="number" min="0" max="40" step="1" maxlength="2"
-                            class="body-1" style="width: 15em" @input="onUpdateDays({dayType: 'yearlySickDays', dayValue: $event})"
+                       type="number" min="0" max="40" step="1" maxlength="2"
+                       class="body-1" style="width: 15em" @input="onUpdateDays({dayType: 'yearlySickDays', dayValue: $event})"
               />
             </div>
           </div>
           <div class="row justify-around">
             <div class="column">
               <q-select :value="vacation" option-value="name" option-label="name" style="width: 15em"
-                              :options="rates" dense options-dense :hide-selected="false"
-                              @input="onUpdateRate({rateType: 'vacation', rateValue: $event})"
+                        :options="rates" dense options-dense :hide-selected="false"
+                        @input="onUpdateRate({rateType: 'vacation', rateValue: $event})"
               />
             </div>
             <div class="column">
               <q-select :value="vacationPersonal" option-value="name" option-label="name" style="width: 15em"
-                              :options="rates" dense options-dense :hide-selected="false"
-                              @input="onUpdateRate({rateType: 'vacationPersonal', rateValue: $event})"
+                        :options="rates" dense options-dense :hide-selected="false"
+                        @input="onUpdateRate({rateType: 'vacationPersonal', rateValue: $event})"
               />
             </div>
             <div class="column">
               <q-select :value="vacationSick" option-value="name" option-label="name" style="width: 15em"
-                              :options="rates" dense options-dense :hide-selected="false"
-                              @input="onUpdateRate({rateType: 'vacationSick', rateValue: $event})"
+                        :options="rates" dense options-dense :hide-selected="false"
+                        @input="onUpdateRate({rateType: 'vacationSick', rateValue: $event})"
               />
             </div>
           </div>
@@ -224,15 +240,16 @@
     <q-separator />
     <q-expansion-item
       expand-separator
-      label="Application Settings">
+      label="Application Settings"
+    >
       <q-card>
         <q-card-section>
           <p class="font-italic">
             Used for weekly and monthly expected working hours
           </p>
           <q-input :value="dailyWorkingHours" label="Daily working hours" :rules="hoursRules"
-                        type="number" min="0" max="24" step="0.5" maxlength="2"
-                        class="body-1" style="width: 10em" @input="onUpdateHours({hourType: 'dailyWorkingHours', hourValue: $event})"
+                   type="number" min="0" max="24" step="0.5" maxlength="2"
+                   class="body-1" style="width: 10em" @input="onUpdateHours({hourType: 'dailyWorkingHours', hourValue: $event})"
           />
           <p class="font-italic">
             Used on Reported Overview page to show working and non-working time
@@ -240,29 +257,30 @@
           <div class="row justify-start q-col-gutter-x-md">
             <div class="column">
               <q-select :value="isWorking" style="width: 15em" label="Working rate type"
-                              :options="types" dense :hide-selected="false"
-                              @input="onUpdateRateType({rateTypeType: 'isWorking', rateTypeValue: $event})"
+                        :options="types" dense :hide-selected="false"
+                        @input="onUpdateRateType({rateTypeType: 'isWorking', rateTypeValue: $event})"
               />
-              </div>
-              <div class="column">
-                <q-select :value="isNonWorking" style="width: 15em" label="Non-working rate type"
-                                :options="types" dense :hide-selected="false"
-                                @input="onUpdateRateType({rateTypeType: 'isNonWorking', rateTypeValue: $event})"
-                />
-              </div>
             </div>
+            <div class="column">
+              <q-select :value="isNonWorking" style="width: 15em" label="Non-working rate type"
+                        :options="types" dense :hide-selected="false"
+                        @input="onUpdateRateType({rateTypeType: 'isNonWorking', rateTypeValue: $event})"
+              />
+            </div>
+          </div>
         </q-card-section>
       </q-card>
     </q-expansion-item>
     <q-separator />
     <q-expansion-item
       expand-separator
-      label="View Application Logs">
+      label="View Application Logs"
+    >
       <q-card>
         <q-card-section>
           <q-select :value="logLevelSelection" :options="logLevels" option-value="id" option-label="level" emit-value
-            dense options-dense label="Select log level" style="width: 15em" class="body-1"
-            @input="getLogFile"
+                    dense options-dense label="Select log level" style="width: 15em" class="body-1"
+                    @input="getLogFile"
           />
         </q-card-section>
         <q-card-section>
@@ -367,9 +385,11 @@ export default {
       isWorking: state => state.settings.isWorking,
       isNonWorking: state => state.settings.isNonWorking,
       entityOverview: state => state.settings.entityOverview,
+      reportedHours: state => state.reportedHours.consultantMonthly,
       rates: state => state.rates.all,
       types: state => state.rates.types,
       consultants: state => state.consultants.all,
+      selectedConsultant: state => state.consultants.selected,
       projects: state => state.projects.all,
       selectedMonth: state => state.settings.selectedMonth
     })
@@ -456,32 +476,39 @@ export default {
         return 'green'
       }
     },
-    createProject (projectName) {
-      this.$store.dispatch('projects/createProject', projectName)
+    createProject (name) {
+      this.$store.dispatch('projects/createProject', { name: name, rate: this.defaultRate })
     },
     toggleProject (project) {
       this.$store.dispatch('projects/toggleProject', parseInt(project.id, 10))
     },
-    async deleteProject () {
-      if (await this.$refs.confirm.open('Wait a sec, this cannot be undone!', 'Are you sure you want to delete the project <b>' + this.newProject + '</b><br/>and all relevant reported records?', 'cancel', { color: 'bg-negative' })) {
-        this.$store.dispatch('projects/removeProject', this.projectName)
-        this.$q.notify({
-          message: 'Project' + this.newProject + ' deleted',
-          color: 'teal'
-        })
-        // REFRESH projects and reported records
+    async deleteProject (project) {
+      if (await this.$refs.confirm.open('Wait a sec, this cannot be undone!', 'Are you sure you want to delete the project <b>' + project.name + '</b><br/>and all relevant reported records?', 'cancel', { color: 'bg-negative' })) {
+        this.$store.dispatch('projects/removeProject', project.id)
+        this.$store.dispatch('projects/getProjects')
+        if (this.reportedHours.length === 0 && this.selectedConsultant !== '') {
+          this.$store.dispatch('reportedHours/getMonthlyData', { date: this.selectedMonth, consultant: this.selectedConsultant })
+        }
       } else {
-        console.log('canceled project delete')
+        // console.log('canceled project delete')
       }
     },
-    createConsultant () {
-      console.log('Consultant created', this.newConsultant)
+    createConsultant (name) {
+      this.$store.dispatch('consultants/createConsultant', { name: name, allocation: this.defaultAllocation })
     },
     toggleConsultant (consultant) {
       this.$store.dispatch('consultants/toggleConsultant', parseInt(consultant.id, 10))
     },
-    deleteConsultant () {
-      console.log('Consultant deleted')
+    async deleteConsultant (consultant) {
+      if (await this.$refs.confirm.open('Wait a sec, this cannot be undone!', 'Are you sure you want to delete the consultant <b>' + consultant.name + '</b><br/>and all relevant reported records?', 'cancel', { color: 'bg-negative' })) {
+        this.$store.dispatch('consultants/removeConsultant', consultant.id)
+        this.$store.dispatch('consultants/getConsultants')
+        if (this.reportedHours.length === 0 && this.selectedConsultant !== '') {
+          this.$store.dispatch('reportedHours/getMonthlyData', { date: this.selectedMonth, consultant: this.selectedConsultant })
+        }
+      } else {
+        // console.log('canceled consultant delete')
+      }
     },
     onUpdateHours (newValue) {
       if (!isNaN(parseFloat(newValue.hourValue)) && newValue.hourValue >= 0 && newValue.hourValue <= 24) {

@@ -60,6 +60,7 @@ module.exports = function (ctx) {
         'QList',
         'QPage',
         'QPageContainer',
+        'QPageSticky',
         'QPopupProxy',
         'QScrollArea',
         'QSelect',

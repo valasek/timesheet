@@ -15,7 +15,7 @@ const getters = {}
 
 const actions = {
   // get monthly data
-  getMonthlyData ({ commit, dispatch }, payload) {
+  getMonthlyData ({ commit }, payload) {
     commit('SET_LOADING', true)
     api.apiClient.get('/api/reported/year/' + getYear(payload.date) + '/month/' + format(payload.date, 'MM') + '/consultant/' + payload.consultant)
       .then(response => {
@@ -31,7 +31,7 @@ const actions = {
       })
   },
   // get yearly summary
-  getYearlySummary ({ commit, dispatch }, date) {
+  getYearlySummary ({ commit }, date) {
     api.apiClient.get('/api/reported/summary/' + getYear(date))
       .then(response => {
         commit('SET_REPORTED_HOURS_SUMMARY', response.data)
@@ -45,10 +45,10 @@ const actions = {
         console.log(e) /* eslint-disable-line no-console */
       })
   },
-  removeRecord ({ commit, dispatch }, id) {
+  removeRecord ({ commit }, id) {
     const index = state.consultantMonthly.findIndex(records => records.id === id)
     api.apiClient.delete('/api/reported/' + id)
-      .then(response => {
+      .then(function () {
         commit('REMOVE_RECORD', index)
       })
       .catch(e => {
@@ -60,7 +60,7 @@ const actions = {
         console.log(e) /* eslint-disable-line no-console */
       })
   },
-  addRecord ({ commit, dispatch }, payload) {
+  addRecord ({ commit }, payload) {
     api.apiClient.post('/api/reported', payload)
       .then(response => {
         // format date for Vuetify which works with ISO format
@@ -78,14 +78,14 @@ const actions = {
         console.log(e) /* eslint-disable-line no-console */
       })
   },
-  updateAttributeValue ({ commit, dispatch }, payload) {
+  updateAttributeValue ({ commit }, payload) {
     let payloadDB = {
       id: payload.id,
       type: payload.type,
       value: String(payload.value)
     }
     api.apiClient.put('/api/reported/' + payload.id, payloadDB)
-      .then(response => {
+      .then(function () {
         commit('UPDATE_ATTRIBUTE_VALUE', payload)
       })
       .catch(e => {

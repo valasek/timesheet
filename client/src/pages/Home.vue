@@ -5,14 +5,19 @@
     <div class="q-pa-md row items-start q-gutter-md">
       <q-card
         class="text-white"
-        :style="cardStyle">
+        :style="cardStyle"
+      >
         <q-card-section>
-          <div class="text-h6">Timesheet</div>
-          <div class="text-subtitle2">Self-hosted web application for weekly reporting</div>
+          <div class="text-h6">
+            Timesheet
+          </div>
+          <div class="text-subtitle2">
+            Self-hosted web application for weekly reporting
+          </div>
         </q-card-section>
         <q-card-section>
-          Report your consulting hours on projects with further segmentation via rates.<br/>
-          You can download all data in csv format, modify as required and import modified data.<br/>
+          Report your consulting hours on projects with further segmentation via rates.<br>
+          You can download all data in csv format, modify as required and import modified data.<br>
           Timesheet provides API to automate data exports.
         </q-card-section>
       </q-card>
@@ -24,11 +29,11 @@
     </div>
     <div class="row items-top">
       <div class="col-6">
-        <project-chart :chartData="projectChart" :options="projectChartOptions"></project-chart>
+        <project-chart :chart-data="projectChart" :options="projectChartOptions" />
       </div>
       <q-card flat>
         <q-card-section>
-          <q-table :columns="columns" :data="topProjects" :pagination="myPagination" hide-bottom dense flat/>
+          <q-table :columns="columns" :data="topProjects" :pagination="myPagination" hide-bottom dense flat />
         </q-card-section>
       </q-card>
     </div>
@@ -36,15 +41,17 @@
       <div class="col-4">
         <q-card flat>
           <q-card-section>
-            <div class="text-h6">Managed data</div>
+            <div class="text-h6">
+              Managed data
+            </div>
           </q-card-section>
           <q-card-section>
-            <project-chart :chartData="dataChart" :options="projectChartOptions"></project-chart>
+            <project-chart :chart-data="dataChart" :options="projectChartOptions" />
           </q-card-section>
         </q-card>
       </div>
     </div>
-    <my-footer/>
+    <my-footer />
   </q-page>
 </template>
 

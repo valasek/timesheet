@@ -46,10 +46,10 @@
       and next business day we will let you know when the fix will be available.
     </p>
     <q-img
-      src='statics/settings-image.jpg'
+      src="statics/settings-image.jpg"
       class="image"
     />
-    <my-footer/>
+    <my-footer />
   </q-page>
 </template>
 

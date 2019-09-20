@@ -5,20 +5,20 @@
     <q-toolbar class="q-pa-md bg-primary">
       <change-week />
       <div class="q-gutter-x-md">
-        <select-consultant class="q-gutter-x-md"/>
+        <select-consultant class="q-gutter-x-md" />
       </div>
       <q-toolbar-title>
         <q-input v-model="filter" dense label="Search" single-line
-          @keyup.esc="filter = ''"
-          color="secondary"
-          >
+                 color="secondary"
+                 @keyup.esc="filter = ''"
+        >
           <template v-slot:append>
-            <q-icon v-if="filter !== ''" name="close" @click="filter = ''" class="cursor-pointer" />
+            <q-icon v-if="filter !== ''" name="close" class="cursor-pointer" @click="filter = ''" />
             <q-icon class="text-secondary" name="search" />
           </template>
         </q-input>
       </q-toolbar-title>
-      <q-checkbox color="secondary" v-model="weekUnlocked" :disable="isCurrentWeek===true">
+      <q-checkbox v-model="weekUnlocked" color="secondary" :disable="isCurrentWeek===true">
         <q-tooltip>
           Edit this week
         </q-tooltip>
@@ -62,12 +62,13 @@
       </span>
     </q-toolbar>
     <q-table :columns="headers" row-key="name" :data="selectedReportedHours" :filter="filter" :loading="loading"
-      no-data-label="No hours reported this week" :pagination.sync="myPagination" :rows-per-page-options="[30,50,0]"
-      binary-state-sort :dense="weekUnlocked" bordered>
+             no-data-label="No hours reported this week" :pagination.sync="myPagination" :rows-per-page-options="[30,50,0]"
+             binary-state-sort :dense="weekUnlocked" bordered
+    >
       <template v-slot:body="props">
         <q-tr :props="props" :class="{'new-row': weekUnlocked && isActive(props.row.id)}">
           <q-td key="date" :props="props">
-            <span  v-if="!weekUnlocked">
+            <span v-if="!weekUnlocked">
               {{ props.row.date | formatDate }}
             </span>
             <span v-else>
@@ -75,10 +76,10 @@
                 <template v-slot:append>
                   <q-icon name="event" class="cursor-pointer">
                     <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale"
-                      fit anchor="bottom left" self="top left"
+                                   fit anchor="bottom left" self="top left"
                     >
-                    <q-date :value="props.row.date" @input="(val) => onUpdateDate({id: props.row.id, date: val})"
-                        mask="YYYY-MM-DD" :rules="['date']" first-day-of-week="1"
+                      <q-date :value="props.row.date" mask="YYYY-MM-DD"
+                              :rules="['date']" first-day-of-week="1" @input="(val) => onUpdateDate({id: props.row.id, date: val})"
                       />
                     </q-popup-proxy>
                   </q-icon>
@@ -87,23 +88,24 @@
             </span>
           </q-td>
           <q-td key="hours" :props="props">
-            <span  v-if="!weekUnlocked">
-              {{props.row.hours}}
+            <span v-if="!weekUnlocked">
+              {{ props.row.hours }}
             </span>
             <span v-else>
               <q-input :value="props.row.hours" type="number" step="0.5" dense
-                @change="val => onUpdateHours({id: props.row.id, hours: val.target.value})"
+                       @change="val => onUpdateHours({id: props.row.id, hours: val.target.value})"
               />
             </span>
           </q-td>
           <q-td key="project" :props="props">
-            <span  v-if="!weekUnlocked">
+            <span v-if="!weekUnlocked">
               {{ props.row.project }}
             </span>
             <span v-else>
               <q-select :value="props.row.project" :options="filteredProjects" option-name="name" option-label="name" option-disable="disabled"
-                @filter="filterProject" dense options-dense use-input hide-selected fill-input input-debounce="0"
-                @input="val => onUpdateProject({id: props.row.id, project: val.name})"
+                        dense options-dense use-input hide-selected fill-input input-debounce="0"
+                        @filter="filterProject"
+                        @input="val => onUpdateProject({id: props.row.id, project: val.name})"
               >
                 <template v-slot:no-option>
                   <q-item>
@@ -116,29 +118,28 @@
             </span>
           </q-td>
           <q-td key="description" :props="props">
-            <span  v-if="!weekUnlocked">
+            <span v-if="!weekUnlocked">
               {{ props.row.description }}
             </span>
             <span v-else>
               <q-input :value="props.row.description" dense
-                @change="val => onUpdateDescription({id: props.row.id, description: val.target.value})"
-                />
+                       @change="val => onUpdateDescription({id: props.row.id, description: val.target.value})"
+              />
             </span>
           </q-td>
           <q-td key="rate" :props="props">
-            <span  v-if="!weekUnlocked">
+            <span v-if="!weekUnlocked">
               {{ props.row.rate }}
             </span>
             <span v-else>
               <q-select :value="props.row.rate" :options="rates" option-label="name" option-name="id"
-                dense options-dense
-                @input="val => onUpdateRate({id: props.row.id, rate: val.name})"
+                        dense options-dense
+                        @input="val => onUpdateRate({id: props.row.id, rate: val.name})"
               />
             </span>
           </q-td>
           <q-td key="actions" :props="props">
-            <span  v-if="!weekUnlocked">
-            </span>
+            <span v-if="!weekUnlocked" />
             <span v-else>
               <q-icon name="insert_drive_file" small color="light-blue-4" size="1.5em" @click="duplicateItem(props.row, 'same')">
                 <q-tooltip>Duplicate on the same day</q-tooltip>

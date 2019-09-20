@@ -47,12 +47,11 @@ const actions = {
       })
   },
 
-  deleteProject ({ commit }, payload) {
+  removeProject ({ commit }, payload) {
     api.apiClient.delete(`/api/projects/` + payload, { crossDomain: true })
       .then(response => {
-        commit('DELETE_PROJECT', response.data)
         Notify.create({
-          message: 'Deleted project ' + payload + ' and corresponding reported records.',
+          message: 'Project and ' + response.data + ' corresponding reported records were deleted',
           color: 'positive',
           icon: 'report_problem'
         })

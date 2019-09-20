@@ -27,7 +27,6 @@
             </td>
           </div>
         </template>
-
       </q-table>
     </q-layout>
   </q-page>

@@ -14,7 +14,7 @@ const getters = {}
 
 const actions = {
 
-  getRates ({ commit, dispatch }) {
+  getRates ({ commit }) {
     api.apiClient.get(`/api/rates`, { crossDomain: true })
       .then(response => {
         commit('SET_RATES', response.data)

@@ -42,7 +42,6 @@
     "eslint": "^6.4.0",
     "eslint-loader": "^3.0.0",
     "eslint-plugin-vue": "^5.2.3",
-    "quasar-app-extension-qautomate": "^1.0.0-alpha.5",
     "strip-ansi": "^5.2.0",
     "webpack-bundle-analyzer": "^3.5.0"
   },

@@ -1,24 +1,25 @@
 <!-- Copyright © 2018-2019 Stanislav Valasek <valasek@gmail.com> -->
 
 <template>
-  <q-dialog v-model="dialog" :max-width="options.width" :style="{ zIndex: options.zIndex }" @keydown.esc="cancel" @keydown.enter="agree">
+  <q-dialog
+    v-model="dialog"
+    :style="{ zIndex: options.zIndex }"
+    :max-width="options.width"
+    @keydown.esc="cancel"
+    @keydown.enter="agree"
+  >
     <q-card>
       <q-toolbar dark :class="options.color" dense flat>
-        <q-toolbar-title>
-          {{ title }}
-        </q-toolbar-title>
+        <q-toolbar-title>{{ title }}</q-toolbar-title>
       </q-toolbar>
       <q-card-section v-show="!!message">
-        <span v-html="message"></span>
+        <!-- eslint-disable-next-line vue/no-v-html -->
+        <span v-html="message" />
       </q-card-section>
       <q-card-actions class="pt-0">
         <q-space />
-        <q-btn :color="colorAgree" flat="flat" @click.native="agree">
-          Yes
-        </q-btn>
-        <q-btn :color="colorCancel" flat="flat" @click.native="cancel">
-          Cancel
-        </q-btn>
+        <q-btn :color="colorAgree" flat="flat" @click.native="agree">Yes</q-btn>
+        <q-btn :color="colorCancel" flat="flat" @click.native="cancel">Cancel</q-btn>
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -70,12 +71,8 @@ export default {
       })
     },
     agree () {
-      if (this.defaultAction === 'cancel') {
-        this.cancel()
-      } else {
-        this.resolve(true)
-        this.dialog = false
-      }
+      this.resolve(true)
+      this.dialog = false
     },
     cancel () {
       this.resolve(false)

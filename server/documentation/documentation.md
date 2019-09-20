@@ -4,11 +4,11 @@ Timesheet can be installed using pre-build docker images or as a binary.
 
 ## Requirements
 
-Application can run in [Docker containers](https://hub.docker.com/search/?type=edition&offering=community). Server image size 31 MB, DB image size 320 MB.
+Application can run in [Docker containers](https://www.docker.com/resources/what-container). Server image size 31 MB, DB image size 320 MB.
 
 If you are hosting it, supported platforms are:
 - Linux, MS Windows, macOS, Raspberry Pi
-- PostgreSQL DB or MySQL
+- PostgreSQL DB
 
 # Quick start
 
@@ -176,9 +176,9 @@ When editing CSV files, save the file using UTF-8 encoding. Compress all into on
 
 Contains all consultants which can report hours.
 ```
-created_at,name
-"YYYY-MM-DD HH:MM:SS","consultant name"
-"2019-01-01 00:00:00","Evan You"
+created_at,name,allocation,disabled
+"YYYY-MM-DD HH:MM:SS","consultant name","allocation between 0 - 1",true/false
+"2019-01-14 00:00:00","Evan You","1",false
 ```
 
 ### holidays.csv
@@ -205,9 +205,9 @@ created_at,name,type
 
 Contains projects on which consultants can report the work and default project rate.
 ```
-created_at,name,rate
-"YYYY-MM-DD HH:MM:SS","project name","rate name"
-"2019-01-14 00:00:00","Vue","Standard"
+created_at,name,rate,disabled
+"YYYY-MM-DD HH:MM:SS","project name","rate name",true/false
+"2019-01-14 00:00:00","Vue","Standard",false
 ```
 
 ### reported_records.csv

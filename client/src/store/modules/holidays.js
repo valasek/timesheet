@@ -12,7 +12,7 @@ const getters = {}
 
 const actions = {
 
-  getHolidays ({ commit, dispatch }) {
+  getHolidays ({ commit }) {
     api.apiClient.get(`/api/holidays`, { crossDomain: true })
       .then(response => {
         commit('SET_HOLIDAYS', response.data)

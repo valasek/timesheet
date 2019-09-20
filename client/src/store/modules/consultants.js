@@ -14,7 +14,7 @@ const getters = {}
 
 const actions = {
 
-  getConsultants ({ commit, dispatch }) {
+  getConsultants ({ commit }) {
     api.apiClient.get('/api/consultants', { crossDomain: true })
       .then(response => {
         commit('SET_CONSULTANTS', response.data)
@@ -22,6 +22,25 @@ const actions = {
       .catch(e => {
         Notify.create({
           message: 'Couldn\'t read consultants from server. \n' + e.toString(),
+          color: 'negative',
+          icon: 'report_problem'
+        })
+        console.log(e) /* eslint-disable-line no-console */
+      })
+  },
+
+  removeConsultant ({ commit }, payload) {
+    api.apiClient.delete(`/api/consultants/` + payload, { crossDomain: true })
+      .then(response => {
+        Notify.create({
+          message: 'Consultant and ' + response.data + ' corresponding reported records were deleted',
+          color: 'positive',
+          icon: 'report_problem'
+        })
+      })
+      .catch(e => {
+        Notify.create({
+          message: 'Couldn\'t delete consultant on server. \n' + e.toString(),
           color: 'negative',
           icon: 'report_problem'
         })
