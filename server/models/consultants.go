@@ -61,6 +61,15 @@ func (db *ConsultantManager) ConsultantList() []Consultant {
 	return nil
 }
 
+// ConsultantAdd -
+func (db *ConsultantManager) ConsultantAdd(newRecord Consultant) Consultant {
+	if err := db.db.Create(&newRecord); err != nil {
+		return newRecord
+	}
+	logger.Log.Error("unable to add new consultant", newRecord)
+	return Consultant{}
+}
+
 // ConsultantDelete - deletes the consultant and all associated records
 func (db *ConsultantManager) ConsultantDelete(id uint64) int64 {
 

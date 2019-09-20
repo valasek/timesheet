@@ -72,6 +72,7 @@ func (api *API) AppSettings(c *gin.Context) {
 	c.JSON(http.StatusOK, settings)
 }
 
+// TableStatistics -
 func (api *API) TableStatistics(c *gin.Context) {
 	entityOverview := []EntityOverview{}
 	entityOverview = append(entityOverview, EntityOverview(api.projects.ProjectsGetStatistics()))

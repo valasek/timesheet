@@ -29,6 +29,26 @@ const actions = {
       })
   },
 
+  createConsultant ({ commit }, payload) {
+    api.apiClient.post(`/api/consultants`, payload, { crossDomain: true })
+      .then(response => {
+        commit('CREATE_CONSULTANT', response.data)
+        Notify.create({
+          message: 'Consultant ' + payload.name + ' created with ' + payload.allocation * 100 + '% allocation',
+          color: 'teal',
+          icon: 'report_problem'
+        })
+      })
+      .catch(e => {
+        Notify.create({
+          message: 'Couldn\'t create consultant on server. ' + e.toString(),
+          color: 'negative',
+          icon: 'report_problem'
+        })
+        console.log(e) /* eslint-disable-line no-console */
+      })
+  },
+
   removeConsultant ({ commit }, payload) {
     api.apiClient.delete(`/api/consultants/` + payload, { crossDomain: true })
       .then(response => {
@@ -96,6 +116,10 @@ const mutations = {
       state.selected = consultants[0].name
       state.selectedAllocation = consultants[0].allocation
     }
+  },
+
+  CREATE_CONSULTANT (state, payload) {
+    state.all.push(payload)
   },
 
   TOGGLE_CONSULTANT (state, id) {

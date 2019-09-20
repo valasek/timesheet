@@ -8,12 +8,25 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/valasek/timesheet/server/logger"
+	"github.com/valasek/timesheet/server/models"
 )
 
 // ProjectsGetAll returns list of all projects
 func (api *API) ProjectsGetAll(c *gin.Context) {
 	projects := api.projects.ProjectsGetAll()
 	c.JSON(http.StatusOK, projects)
+}
+
+// ProjectAdd add new record
+func (api *API) ProjectAdd(c *gin.Context) {
+	var project models.Project
+	if err := c.ShouldBindJSON(&project); err != nil {
+		logger.Log.Error("unable to decode project record, error: ", err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	addedProject := api.projects.ProjectAdd(project)
+	c.JSON(http.StatusOK, addedProject)
 }
 
 // ProjectDelete deletes the project and all associated records

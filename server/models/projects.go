@@ -74,6 +74,15 @@ func (db *ProjectManager) ProjectToggle(id uint64) Project {
 	return project
 }
 
+// ProjectAdd -
+func (db *ProjectManager) ProjectAdd(newRecord Project) Project {
+	if err := db.db.Create(&newRecord); err != nil {
+		return newRecord
+	}
+	logger.Log.Error("unable to add new project", newRecord)
+	return Project{}
+}
+
 // ProjectDelete - deletes the project and all associated records
 func (db *ProjectManager) ProjectDelete(id uint64) int64 {
 

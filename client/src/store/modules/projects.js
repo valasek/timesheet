@@ -28,12 +28,12 @@ const actions = {
   },
 
   createProject ({ commit }, payload) {
-    api.apiClient.post(`/api/projects/` + payload, { crossDomain: true })
+    api.apiClient.post(`/api/projects`, payload, { crossDomain: true })
       .then(response => {
         commit('CREATE_PROJECT', response.data)
         Notify.create({
-          message: 'Project ' + payload + ' created. Set the default rate.',
-          color: 'warning',
+          message: 'Project ' + payload.name + ' created and a default rate set to ' + payload.rate,
+          color: 'teal',
           icon: 'report_problem'
         })
       })
@@ -102,6 +102,10 @@ const mutations = {
       }
       return 0
     })
+  },
+
+  CREATE_PROJECT (state, payload) {
+    state.all.push(payload)
   },
 
   TOGGLE_PROJECT (state, id) {

@@ -61,32 +61,32 @@
                 <p align="center">
                   {{ defaultRateLabel }}
                 </p>
-              </div>
-              <div class="row q-gutter-x-md">
-                <q-table :columns="columnsProjects" row-key="name" :data="projects"
-                         no-data-label="No projects" :pagination.sync="projectsPagination" :rows-per-page-options="[30,50,0]"
-                         binary-state-sort bordered
-                >
-                  <template v-slot:body="props">
-                    <q-tr :props="props">
-                      <q-td key="name" :props="props">
-                        {{ props.row.name }}
-                      </q-td>
-                      <q-td key="rate" :props="props">
-                        {{ props.row.rate }}
-                      </q-td>
-                      <q-td key="actions" :props="props" class="q-gutter-x-sm">
-                        <q-icon name="remove_red_eye" small :color="setColor(props.row.disabled)" size="1.5em" @click="toggleProject(props.row)">
-                          <q-tooltip>Hide / Unhide the project</q-tooltip>
-                        </q-icon>
-                        <!-- {{ props.row }} -->
-                        <q-icon name="delete" small color="red" size="1.5em" @click="deleteProject(props.row)">
-                          <q-tooltip>Permanently delete the project and all associated reported records</q-tooltip>
-                        </q-icon>
-                      </q-td>
-                    </q-tr>
-                  </template>
-                </q-table>
+                <div class="row q-gutter-x-md">
+                  <q-table :columns="columnsProjects" row-key="name" :data="projects"
+                          no-data-label="No projects" :pagination.sync="projectsPagination" :rows-per-page-options="[30,50,0]"
+                          binary-state-sort bordered
+                  >
+                    <template v-slot:body="props">
+                      <q-tr :props="props">
+                        <q-td key="name" :props="props">
+                          {{ props.row.name }}
+                        </q-td>
+                        <q-td key="rate" :props="props">
+                          {{ props.row.rate }}
+                        </q-td>
+                        <q-td key="actions" :props="props" class="q-gutter-x-sm">
+                          <q-icon name="remove_red_eye" small :color="setColor(props.row.disabled)" size="1.5em" @click="toggleProject(props.row)">
+                            <q-tooltip>Hide / Unhide the project</q-tooltip>
+                          </q-icon>
+                          <!-- {{ props.row }} -->
+                          <q-icon name="delete" small color="red" size="1.5em" @click="deleteProject(props.row)">
+                            <q-tooltip>Permanently delete the project and all associated reported records</q-tooltip>
+                          </q-icon>
+                        </q-td>
+                      </q-tr>
+                    </template>
+                  </q-table>
+                </div>
               </div>
             </div>
           </div>
@@ -476,8 +476,8 @@ export default {
         return 'green'
       }
     },
-    createProject (name) {
-      this.$store.dispatch('projects/createProject', { name: name, rate: this.defaultRate })
+    createProject () {
+      this.$store.dispatch('projects/createProject', { id: null, name: this.newProject, rate: this.defaultRate, disabled: false })
     },
     toggleProject (project) {
       this.$store.dispatch('projects/toggleProject', parseInt(project.id, 10))
@@ -493,8 +493,14 @@ export default {
         // console.log('canceled project delete')
       }
     },
-    createConsultant (name) {
-      this.$store.dispatch('consultants/createConsultant', { name: name, allocation: this.defaultAllocation })
+    createConsultant () {
+      const newConsultant = {
+        id: null,
+        name: this.newConsultant,
+        allocation: this.defaultAllocation,
+        disabled: false
+      }
+      this.$store.dispatch('consultants/createConsultant', newConsultant)
     },
     toggleConsultant (consultant) {
       this.$store.dispatch('consultants/toggleConsultant', parseInt(consultant.id, 10))
