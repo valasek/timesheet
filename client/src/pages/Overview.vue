@@ -407,7 +407,7 @@ export default {
           summary = this.getProjectTotalsInMonth(this.reportedHoursSummary)
           break
         default:
-          console.log('workingTimeOverview unknown period:', period) /* eslint-disable-line no-console */
+          // console.log('workingTimeOverview unknown period:', period) /* eslint-disable-line no-console */
       }
       return summary
     },
@@ -430,7 +430,7 @@ export default {
           summary = this.getTotalInMonth(this.reportedHoursSummary)
           break
         default:
-          console.log('workingTimeOverview unknown period:', period) /* eslint-disable-line no-console */
+          // console.log('workingTimeOverview unknown period:', period) /* eslint-disable-line no-console */
       }
       data.push(
         {
@@ -448,7 +448,6 @@ export default {
       )
       switch (period) {
         case 'week':
-          console.log('this.workingDaysInPeriod(this.dateFrom, this.dateTo) * this.dailyWorkingHours - summary.working + summary.nonWorking', this.workingDaysInPeriod(this.dateFrom, this.dateTo), '*', this.dailyWorkingHours, '-', summary.working, '+', summary.nonWorking)
           data.push({
             text: 'Remaining total',
             value: this.workingDaysInPeriod(this.dateFrom, this.dateTo) * this.dailyWorkingHours - (summary.working + summary.nonWorking)
@@ -461,7 +460,7 @@ export default {
           })
           break
         default:
-          console.log('workingTimeOverview unknown period:', period) /* eslint-disable-line no-console */
+          // console.log('workingTimeOverview unknown period:', period) /* eslint-disable-line no-console */
       }
       return data
     },

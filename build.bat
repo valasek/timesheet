@@ -36,9 +36,9 @@ ECHO ======================
 ECHO Compiling frontend ...
 cd .\client
 if "%1" == "cloud" (
-    call npm run build-cloud
+    call yarn run build-cloud
 ) else (
-    call npm run build-da
+    call yarn run build-da
 )
 xcopy .\dist\spa .\..\build\client\dist\ /s /e
 cd ..

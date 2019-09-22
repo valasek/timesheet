@@ -38,18 +38,16 @@
       </q-card>
     </div>
     <div class="row items-center">
-      <div class="col-4">
-        <q-card flat>
-          <q-card-section>
-            <div class="text-h6">
-              Managed data
-            </div>
-          </q-card-section>
-          <q-card-section>
-            <project-chart :chart-data="dataChart" :options="projectChartOptions" />
-          </q-card-section>
-        </q-card>
-      </div>
+      <q-card flat>
+        <q-card-section>
+          <div class="text-h6">
+            Managed data
+          </div>
+        </q-card-section>
+        <q-card-section>
+          <managed-data />
+        </q-card-section>
+      </q-card>
     </div>
     <my-footer />
   </q-page>
@@ -65,7 +63,8 @@ export default {
   components: {
     /* webpackChunkName: "core" */
     'my-footer': () => import('components/MyFooter'),
-    'project-chart': () => import('components/ProjectChart')
+    'project-chart': () => import('components/ProjectChart'),
+    'managed-data': () => import('components/ManagedData')
   },
 
   data () {

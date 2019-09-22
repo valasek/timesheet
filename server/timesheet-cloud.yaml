@@ -20,19 +20,19 @@ vacationSick: "Sick Day"
 yearlySickDays: 2 # Used to calculate weekly and monthly expected working hours, can be changed in UI
 
 # Categorize all rates into one of these types used on Reported Overview page
-isWorking: "work"         # when consultant works, can be changed in UI
-isNonWorking: "not-work"  # when consultant dows not work, examples: vacation, sick, personal day, public holiday, vacation, unpaid leave, ..., can be changed in UI
+isWorking: "work" # when consultant works, can be changed in UI
+isNonWorking: "not-work" # when consultant dows not work, examples: vacation, sick, personal day, public holiday, vacation, unpaid leave, ..., can be changed in UI
 
 ########################
 # Application settings #
-SSL: false                     # true/false, if server has SSL certificate set to true to use HTTPS, false = HTTP
-GIN_MODE: "release"           # "debug" or "release" - switch server app mode
+SSL: false # true/false, if server has SSL certificate set to true to use HTTPS, false = HTTP
+GIN_MODE: "release" # "debug" or "release" - switch server app mode
 url: "timesheet.simplesw.net" # URL on which application is running
 # PORT: "443"                   # port on which application is running
-PORT: "8080"                   # port on which application is running
+PORT: "8080" # port on which application is running
 
 # DB type
-dbType: "postgresql"  # allowed types postgresql or mysql
+dbType: "postgresql" # allowed types postgresql or mysql
 
 # Production URL - will be read from production environment config variable
 # If set, Database settings section variables will be ignored
@@ -62,13 +62,13 @@ export:
 # DB backup settings - backup data can be imported directly by a command "timesheet db --load all"
 backup:
   location: "data/backups" # select an empty and an existing folder relative to timesheet/data folder
-  rotation: 14             # how many backups back will be kept
-  interval: "daily"        # daily or weekly - how often the DB backup should be done
+  rotation: 14 # how many backups back will be kept
+  interval: "daily" # daily or weekly - how often the DB backup should be done
 
 # DB credentials
 # used for development and testing. Ignored if DATABASE_URL is set
 postgresql:
-# host: "db" #
+  # host: "db" #
   host: "127.0.0.1" #
   port: "5432"
   name: "timesheet"

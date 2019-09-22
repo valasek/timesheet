@@ -3,7 +3,7 @@
 <template>
   <q-footer elevated class="bg-primary text-secondary">
     <q-toolbar>
-      2018 - {{ (new Date()).getFullYear() }} &copy;&nbsp;Stanislav Valasek <q-space />Version: {{ version === "" ? "dev" : version }} | Server: {{ domain }}:{{ port }}
+      2018 - {{ (new Date()).getFullYear() }} &copy;&nbsp;Stanislav Valasek<q-space />{{ type }}<q-space />Version: {{ version === "" ? "dev" : version }} | Server: {{ domain }}:{{ port }}
     </q-toolbar>
   </q-footer>
 </template>
@@ -16,7 +16,8 @@ export default {
   data () {
     return {
       domain: '',
-      port: ''
+      port: '',
+      type: ''
     }
   },
 
@@ -29,6 +30,7 @@ export default {
   created () {
     this.domain = process.env.APP_DOMAIN
     this.port = process.env.APP_PORT
+    this.type = process.env.APP_TYPE
   }
 
 }

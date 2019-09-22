@@ -101,10 +101,7 @@
       <q-card>
         <q-card-section>
           <div class="row q-gutter-x-md">
-            <q-table :columns="columnsEntityOverview" row-key="name" :data="entityOverview"
-                     no-data-label="Table statistics are not available" hide-bottom bordered
-                     :pagination.sync="entityOverviewPagination"
-            />
+            <managed-data />
           </div>
         </q-card-section>
         <q-card-section>
@@ -306,7 +303,8 @@ export default {
 
   components: {
     /* webpackChunkName: "core" */
-    'confirm': () => import('components/Confirm')
+    'confirm': () => import('components/Confirm'),
+    'managed-data': () => import('components/ManagedData')
   },
 
   data () {
@@ -329,14 +327,6 @@ export default {
         { name: 'actions', label: 'Action', align: 'left', field: 'action', style: 'width: 5%' }
       ],
       projectsPagination: { 'rowsPerPage': 10, 'sortBy': 'name', 'descending': false },
-      columnsEntityOverview: [
-        { name: 'name', label: 'Table', align: 'left', sortable: true, field: 'name', style: 'width: 20%' },
-        { name: 'total', label: '# of total records', align: 'left', sortable: true, field: 'total', style: 'width: 5%' },
-        { name: 'active', label: '# of active records', align: 'left', field: 'active', style: 'width: 5%' },
-        { name: 'disabled', label: '# of disabled out of active records', align: 'left', field: 'disabled', style: 'width: 5%' },
-        { name: 'deleted', label: '# of soft-deleted records', align: 'left', field: 'deleted', style: 'width: 5%' }
-      ],
-      entityOverviewPagination: { 'rowsPerPage': 0, 'sortBy': 'total', 'descending': true },
       hoursRules: [
         (v) => !isNaN(parseFloat(v)) || 'Enter hours between 0 and 24',
         (v) => (parseFloat(v) <= 24) || 'Enter number between 0 and 24',
@@ -384,7 +374,6 @@ export default {
       vacationSick: state => state.settings.vacationSick,
       isWorking: state => state.settings.isWorking,
       isNonWorking: state => state.settings.isNonWorking,
-      entityOverview: state => state.settings.entityOverview,
       reportedHours: state => state.reportedHours.consultantMonthly,
       rates: state => state.rates.all,
       types: state => state.rates.types,
@@ -398,7 +387,6 @@ export default {
   created () {
     this.$store.commit('context/SET_PAGE', 'Administration')
     this.$store.commit('context/SET_PAGE_ICON', 'settings')
-    this.$store.dispatch('settings/getEntityOverview')
     this.$store.dispatch('projects/getProjects')
   },
 
