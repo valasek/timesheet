@@ -50,17 +50,18 @@ const actions = {
   },
 
   removeConsultant ({ commit }, payload) {
-    api.apiClient.delete(`/api/consultants/` + payload, { crossDomain: true })
+    api.apiClient.delete(`/api/consultants/` + payload.id, { crossDomain: true })
       .then(response => {
+        commit('REMOVE_CONSULTANT', payload.id)
         Notify.create({
-          message: 'Consultant and ' + response.data + ' corresponding reported records were deleted',
-          color: 'positive',
+          message: 'Consultant ' + payload.name + ' and ' + response.data + ' corresponding reported records were deleted',
+          color: 'teal',
           icon: 'report_problem'
         })
       })
       .catch(e => {
         Notify.create({
-          message: 'Couldn\'t delete consultant on server. \n' + e.toString(),
+          message: 'Couldn\'t delete consultant ' + payload.name + ' on server. \n' + e.toString(),
           color: 'negative',
           icon: 'report_problem'
         })
@@ -120,6 +121,15 @@ const mutations = {
 
   CREATE_CONSULTANT (state, payload) {
     state.all.push(payload)
+  },
+
+  REMOVE_CONSULTANT (state, id) {
+    for (let i = 0; i < state.all.length; ++i) {
+      if (state.all[i].id === id) {
+        state.all.splice(i, 1)
+        break
+      }
+    }
   },
 
   TOGGLE_CONSULTANT (state, id) {

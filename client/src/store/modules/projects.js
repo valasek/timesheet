@@ -48,17 +48,18 @@ const actions = {
   },
 
   removeProject ({ commit }, payload) {
-    api.apiClient.delete(`/api/projects/` + payload, { crossDomain: true })
+    api.apiClient.delete(`/api/projects/` + payload.id, { crossDomain: true })
       .then(response => {
+        commit('REMOVE_PROJECT', payload.id)
         Notify.create({
-          message: 'Project and ' + response.data + ' corresponding reported records were deleted',
-          color: 'positive',
+          message: 'Project ' + payload.name + ' and ' + response.data + ' corresponding reported records were deleted',
+          color: 'teal',
           icon: 'report_problem'
         })
       })
       .catch(e => {
         Notify.create({
-          message: 'Couldn\'t delete project on server. \n' + e.toString(),
+          message: 'Couldn\'t delete project ' + payload.name + ' on server. \n' + e.toString(),
           color: 'negative',
           icon: 'report_problem'
         })
@@ -106,6 +107,15 @@ const mutations = {
 
   CREATE_PROJECT (state, payload) {
     state.all.push(payload)
+  },
+
+  REMOVE_PROJECT (state, id) {
+    for (let i = 0; i < state.all.length; ++i) {
+      if (state.all[i].id === id) {
+        state.all.splice(i, 1)
+        break
+      }
+    }
   },
 
   TOGGLE_PROJECT (state, id) {

@@ -484,8 +484,7 @@ export default {
     },
     async deleteProject (project) {
       if (await this.$refs.confirm.open('Wait a sec, this cannot be undone!', 'Are you sure you want to delete the project <b>' + project.name + '</b><br/>and all relevant reported records?', 'cancel', { color: 'bg-negative' })) {
-        this.$store.dispatch('projects/removeProject', project.id)
-        this.$store.dispatch('projects/getProjects')
+        this.$store.dispatch('projects/removeProject', { id: project.id, name: project.name })
         if (this.reportedHours.length === 0 && this.selectedConsultant !== '') {
           this.$store.dispatch('reportedHours/getMonthlyData', { date: this.selectedMonth, consultant: this.selectedConsultant })
         }
@@ -507,8 +506,7 @@ export default {
     },
     async deleteConsultant (consultant) {
       if (await this.$refs.confirm.open('Wait a sec, this cannot be undone!', 'Are you sure you want to delete the consultant <b>' + consultant.name + '</b><br/>and all relevant reported records?', 'cancel', { color: 'bg-negative' })) {
-        this.$store.dispatch('consultants/removeConsultant', consultant.id)
-        this.$store.dispatch('consultants/getConsultants')
+        this.$store.dispatch('consultants/removeConsultant', { id: consultant.id, name: consultant.name })
         if (this.reportedHours.length === 0 && this.selectedConsultant !== '') {
           this.$store.dispatch('reportedHours/getMonthlyData', { date: this.selectedMonth, consultant: this.selectedConsultant })
         }
