@@ -61,7 +61,6 @@ func (api *API) ReportedRecordsInPeriod(c *gin.Context) {
 	c.JSON(http.StatusOK, reportedRecords)
 }
 
-
 // ReportedRecordsSummary returns list of all
 func (api *API) ReportedRecordsSummary(c *gin.Context) {
 	year := c.Param("year")

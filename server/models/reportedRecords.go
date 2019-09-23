@@ -8,6 +8,7 @@ import (
 	"github.com/valasek/timesheet/server/logger"
 
 	"fmt"
+	"math/rand"
 	"os"
 	"strconv"
 	"time"
@@ -91,7 +92,7 @@ func (db *ReportedRecordManager) ReportedRecordsGetStatistics() EntityOverview {
 		logger.Log.Error("failed to retrieve from DB statistics for table ", table)
 	}
 	table = strings.Replace(table, "_", " ", -1)
-	return EntityOverview{ Name: strings.Title(table), Total: total, Active: active, Disabled: 0, Deleted: total - active, }
+	return EntityOverview{Name: strings.Title(table), Total: total, Active: active, Disabled: 0, Deleted: total - active}
 }
 
 // ReportedRecordsInMonth - return records per month
@@ -282,17 +283,72 @@ func (db *ReportedRecordManager) ReportedRecordBackup(filePath string) (int, err
 
 	reportedRecords := []*ReportedRecord{}
 	db.db.Find(&reportedRecords).Where("DeletedAt = ?", nil)
-	projectCSV := []*ReportedRecordCSV{}
+	reportedRecordsCSV := []*ReportedRecordCSV{}
 	for _, r := range reportedRecords {
 		createdAt := DateTime{r.CreatedAt}
 		date := Date{r.Date}
 		item := ReportedRecordCSV{CreatedAt: createdAt, Consultant: r.Consultant, Date: date, Project: r.Project, Hours: r.Hours, Description: r.Description, Rate: r.Rate}
-		projectCSV = append(projectCSV, &item)
+		reportedRecordsCSV = append(reportedRecordsCSV, &item)
 	}
 
-	err = gocsv.MarshalFile(&projectCSV, reportedRecordsFile)
+	err = gocsv.MarshalFile(&reportedRecordsCSV, reportedRecordsFile)
 	if err != nil {
 		return 0, err
 	}
 	return len(reportedRecords), nil
+}
+
+// ReportedRecordsGenerate generates test data
+func (db *ReportedRecordManager) ReportedRecordGenerate(filePath string) (int, error) {
+	reportedRecordsFile, err := os.OpenFile(filePath, os.O_RDWR|os.O_CREATE|os.O_TRUNC, os.ModePerm)
+	if err != nil {
+		return 0, err
+	}
+	defer reportedRecordsFile.Close()
+
+	var reportedRecordsCSV []ReportedRecordCSV
+
+	type r struct {
+		Hours       float64
+		Project     string
+		Description string
+		Rate        string
+	}
+
+	rr := []r{
+		{Hours: 5, Project: "Vue", Description: "Updates of all Vue.js documentation examples using typescript", Rate: "Standard"},
+		{Hours: 6, Project: "Quasar", Description: "Performance refactoring and new typescript types", Rate: "Standard"},
+		{Hours: 4, Project: "Google", Description: "Merge of community packages into Go standard library", Rate: "Standard"},
+		{Hours: 5, Project: "Ruby on Rails", Description: "Porting RoR into Golang", Rate: "Standard"},
+		{Hours: 6, Project: "React", Description: "Merge of React codebase into Vue.js", Rate: "Standard"},
+		{Hours: 4, Project: "Python", Description: "Work on PEP1024 - Mandatory types", Rate: "Standard"},
+		{Hours: 5, Project: "_Training", Description: "Core concepts", Rate: "Standard"},
+		{Hours: 6, Project: "_Sales", Description: "Demo materials for Toronto conference", Rate: "Standard"},
+		{Hours: 4, Project: "_Travel Time", Description: "Commute to Toronto", Rate: "Standard"},
+		{Hours: 6, Project: "Spotify", Description: "Identify and document team delivery best practicies", Rate: "Standard"},
+		{Hours: 4, Project: "_Sick", Description: "", Rate: "Sick"},
+		{Hours: 4, Project: "_Vacation", Description: "", Rate: "Vacation"},
+		{Hours: 4, Project: "_Sick Day", Description: "", Rate: "Sick Day"},
+		{Hours: 4, Project: "_Personal Day", Description: "", Rate: "Personal Day"},
+		{Hours: 4, Project: "_Unpaid Leave", Description: "", Rate: "Unpaid Leave"},
+	}
+
+	created := DateTime{time.Now()}
+	today := time.Now()
+	s1 := rand.NewSource(time.Now().UnixNano())
+	r1 := rand.New(s1)
+	for _, c := range consultantDemoData {
+		for date := today; date.Year() <= today.Year()+1; date = date.AddDate(0, 0, 1) {
+			index := r1.Intn(len(rr))
+			reportedRecordsCSV = append(reportedRecordsCSV, ReportedRecordCSV{CreatedAt: created, Consultant: c.Name, Date: Date{date}, Project: rr[index].Project, Hours: rr[index].Hours, Description: rr[index].Description, Rate: rr[index].Rate})
+			index = r1.Intn(len(rr))
+			reportedRecordsCSV = append(reportedRecordsCSV, ReportedRecordCSV{CreatedAt: created, Consultant: c.Name, Date: Date{date}, Project: rr[index].Project, Hours: rr[index].Hours, Description: rr[index].Description, Rate: rr[index].Rate})
+		}
+	}
+
+	err = gocsv.MarshalFile(&reportedRecordsCSV, reportedRecordsFile)
+	if err != nil {
+		return 0, err
+	}
+	return len(reportedRecordsCSV), nil
 }

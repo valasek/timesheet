@@ -115,3 +115,43 @@ func (db *HolidayManager) HolidayBackup(filePath string) (int, error) {
 	}
 	return len(holidays), nil
 }
+
+// HolidayGenerate generates test data
+func (db *HolidayManager) HolidayGenerate(filePath string) (int, error) {
+	holidaysFile, err := os.OpenFile(filePath, os.O_RDWR|os.O_CREATE|os.O_TRUNC, os.ModePerm)
+	if err != nil {
+		return 0, err
+	}
+	defer holidaysFile.Close()
+	type h struct {
+		Date        string
+		Description string
+	}
+	hh := []h{
+		{Date: "2019-01-01", Description: "New Year’s Day"},
+		{Date: "2019-01-21", Description: "Birthday of Martin Luther King, Jr."},
+		{Date: "2019-02-18", Description: "Washington’s Birthday"},
+		{Date: "2019-05-27", Description: "Memorial Day"},
+		{Date: "2019-07-04", Description: "Independence Day"},
+		{Date: "2019-09-02", Description: "Labor Day"},
+		{Date: "2019-10-14", Description: "Columbus Day"},
+		{Date: "2019-11-11", Description: "Veterans Day"},
+		{Date: "2019-11-28", Description: "Thanksgiving Day"},
+		{Date: "2019-12-25", Description: "Christmas Day"},
+	}
+	var holidaysCSV []HolidayCSV
+	d := DateTime{time.Now()}
+	for _, v := range hh {
+		dd, err := time.Parse("2006-01-02", v.Date)
+		if err != nil {
+			return 0, err
+		}
+		holidaysCSV = append(holidaysCSV, HolidayCSV{CreatedAt: d, Date: Date{dd}, Description: v.Description})
+	}
+
+	err = gocsv.MarshalFile(&holidaysCSV, holidaysFile)
+	if err != nil {
+		return 0, err
+	}
+	return len(holidaysCSV), nil
+}

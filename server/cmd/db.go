@@ -10,32 +10,37 @@ import (
 )
 
 var (
-	load   string
-	clean  bool
-	backup bool
+	load     string
+	generate bool
+	clean    bool
+	backup   bool
 )
 
 // dbCmd represents the db command
 var dbCmd = &cobra.Command{
 	Use:   "db",
-	Short: "Initiate, load or backup DB. See timesheet help db",
-	Long: `Initiate, load, or backup DB.
-	
-Command first tests connection to DB. If succeeds it will initiate, load or backup db and exit.`,
+	Short: "Initiate, load. backup DB og generate demo data. See timesheet help db",
+	Long: `Initiate, load, backup DB or generate demo data.
+
+Command first tests connection to DB. If succeeds it will initiate, load, backup db or generate demo data and exit.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		db := api.ConnectDB()
 		defer db.Close()
 		if clean {
 			api.ResetAPI(db)
 		} else {
-			if len(load) > 1 {
-				// ignore the error, is already logged
-				api.SeedAPI(db, load, api.FileList())
+			if generate {
+				api.GenerateAPI(viper.GetString("export.location"), db)
 			} else {
-				if backup {
-					api.BackupAPI(viper.GetInt("backup.rotation"), viper.GetString("backup.location"), db)
+				if len(load) > 2 {
+					// ignore the error, is already logged
+					api.SeedAPI(db, load, api.FileList())
 				} else {
-					cmd.Help()
+					if backup {
+						api.BackupAPI(viper.GetInt("backup.rotation"), viper.GetString("backup.location"), db)
+					} else {
+						cmd.Help()
+					}
 				}
 			}
 		}
@@ -45,6 +50,7 @@ Command first tests connection to DB. If succeeds it will initiate, load or back
 func init() {
 	rootCmd.AddCommand(dbCmd)
 
+	dbCmd.PersistentFlags().BoolVarP(&generate, "generate", "g", false, `Generate demo data and save them into ./data folder`)
 	dbCmd.PersistentFlags().StringVarP(&load, "load", "l", "", `Truncate DB table/tables and load initial data from files in folder ./data. Options:
 all - load all tables
 rates | consultants | projects | holidays | reported_records - load selected table`)

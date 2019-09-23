@@ -37,11 +37,11 @@ type Date struct {
 
 // EntityOverview -
 type EntityOverview struct {
-	Name    string  `json:"name"`
-	Total   int  `json:"total"`
-	Active  int `json:"active"`
-	Disabled  int `json:"disabled"`
-	Deleted int  `json:"deleted"`
+	Name     string `json:"name"`
+	Total    int    `json:"total"`
+	Active   int    `json:"active"`
+	Disabled int    `json:"disabled"`
+	Deleted  int    `json:"deleted"`
 }
 
 // MarshalCSV Convert the internal date as CSV string

@@ -46,11 +46,11 @@ type AppSettings struct {
 
 // EntityOverview -
 type EntityOverview struct {
-	Name    string  `json:"name"`
-	Total   int  `json:"total"`
-	Active  int `json:"active"`
-	Disabled  int `json:"disabled"`
-	Deleted int  `json:"deleted"`
+	Name     string `json:"name"`
+	Total    int    `json:"total"`
+	Active   int    `json:"active"`
+	Disabled int    `json:"disabled"`
+	Deleted  int    `json:"deleted"`
 }
 
 // AppSettings returns list of all appliocation and user settings for configuration file
@@ -337,6 +337,39 @@ func ResetAPI(db *models.DB) {
 		logger.Log.Error("recreated tables:", err)
 	}
 	logger.Log.Info("- holidays")
+}
+
+// GenerateAPI - generates demo initial data and saves them into ./data folder
+func GenerateAPI(folder string, db *models.DB) {
+
+	api := NewAPI(db)
+	var err error
+
+	logger.Log.Infof("generated files (%s):", folder)
+	tableNames := []string{"rates", "projects", "reported_records", "consultants", "holidays"}
+	for _, baseFileName := range tableNames {
+
+		fileName := baseFileName + ".csv"
+		filePath := filepath.Join(folder, fileName)
+		n := 0
+		switch baseFileName {
+		case "projects":
+			n, err = api.projects.ProjectGenerate(filePath)
+		case "rates":
+			n, err = api.rates.RateGenerate(filePath)
+		case "consultants":
+			n, err = api.consultants.ConsultantGenerate(filePath)
+		case "holidays":
+			n, err = api.holidays.HolidayGenerate(filePath)
+		case "reported_records":
+			n, err = api.reportedRecords.ReportedRecordGenerate(filePath)
+		}
+		if err != nil {
+			logger.Log.Error(fmt.Sprintf("generated tables: error during %s generate: %s", baseFileName, err))
+		} else {
+			logger.Log.Info(fmt.Sprintf("- %s.csv, %d records", baseFileName, n))
+		}
+	}
 }
 
 // SeedAPI - loads initial data into DB

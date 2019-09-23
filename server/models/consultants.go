@@ -39,6 +39,16 @@ type ConsultantManager struct {
 	db *DB
 }
 
+var consultantDemoData = []ConsultantCSV{
+	{CreatedAt: DateTime{time.Now()}, Name: "Stanislav Valasek", Allocation: 1, Disabled: false},
+	{CreatedAt: DateTime{time.Now()}, Name: "Evan You", Allocation: 1, Disabled: false},
+	{CreatedAt: DateTime{time.Now()}, Name: "Razvan Stoenescu", Allocation: 1, Disabled: false},
+	{CreatedAt: DateTime{time.Now()}, Name: "Russ Cox", Allocation: 1, Disabled: false},
+	{CreatedAt: DateTime{time.Now()}, Name: "David Heinemeier Hansson", Allocation: 1, Disabled: false},
+	{CreatedAt: DateTime{time.Now()}, Name: "Guido van Rossum", Allocation: 1, Disabled: false},
+	{CreatedAt: DateTime{time.Now()}, Name: "Dan Abramov", Allocation: 1, Disabled: false},
+}
+
 // NewConsultantManager - Create a consultant manager that can be used for retrieving consultants
 func NewConsultantManager(db *DB) (*ConsultantManager, error) {
 
@@ -158,16 +168,31 @@ func (db *ConsultantManager) ConsultantBackup(filePath string) (int, error) {
 
 	consultants := []*Consultant{}
 	db.db.Find(&consultants).Where("DeletedAt = ?", nil)
-	projectCSV := []*ConsultantCSV{}
+	consultantCSV := []*ConsultantCSV{}
 	for _, r := range consultants {
 		createdAt := DateTime{r.CreatedAt}
 		item := ConsultantCSV{CreatedAt: createdAt, Name: r.Name, Allocation: r.Allocation, Disabled: r.Disabled}
-		projectCSV = append(projectCSV, &item)
+		consultantCSV = append(consultantCSV, &item)
 	}
 
-	err = gocsv.MarshalFile(&projectCSV, consultantsFile)
+	err = gocsv.MarshalFile(&consultantCSV, consultantsFile)
 	if err != nil {
 		return 0, err
 	}
-	return len(consultants), nil
+	return len(consultantCSV), nil
+}
+
+// ConsultantGenerate generates test data
+func (db *ConsultantManager) ConsultantGenerate(filePath string) (int, error) {
+	consultantsFile, err := os.OpenFile(filePath, os.O_RDWR|os.O_CREATE|os.O_TRUNC, os.ModePerm)
+	if err != nil {
+		return 0, err
+	}
+	defer consultantsFile.Close()
+
+	err = gocsv.MarshalFile(&consultantDemoData, consultantsFile)
+	if err != nil {
+		return 0, err
+	}
+	return len(consultantDemoData), nil
 }

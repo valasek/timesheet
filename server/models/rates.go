@@ -128,3 +128,31 @@ func (db *RateManager) RateBackup(filePath string) (int, error) {
 	}
 	return len(rates), nil
 }
+
+// RateGenerate generates test data
+func (db *RateManager) RateGenerate(filePath string) (int, error) {
+	ratesFile, err := os.OpenFile(filePath, os.O_RDWR|os.O_CREATE|os.O_TRUNC, os.ModePerm)
+	if err != nil {
+		return 0, err
+	}
+	defer ratesFile.Close()
+
+	d := DateTime{time.Now()}
+	ratesCSV := []RateCSV{
+		{CreatedAt: d, Name: "On-site", Type: "work"},
+		{CreatedAt: d, Name: "Standard", Type: "work"},
+		{CreatedAt: d, Name: "Standard Weekend", Type: "work"},
+		{CreatedAt: d, Name: "Standard Holiday", Type: "work"},
+		{CreatedAt: d, Name: "Vacation", Type: "not-work"},
+		{CreatedAt: d, Name: "Sick Day", Type: "not-work"},
+		{CreatedAt: d, Name: "Personal Day", Type: "not-work"},
+		{CreatedAt: d, Name: "Unpaid Leave", Type: "not-work"},
+		{CreatedAt: d, Name: "Sick", Type: "not-work"},
+	}
+
+	err = gocsv.MarshalFile(&ratesCSV, ratesFile)
+	if err != nil {
+		return 0, err
+	}
+	return len(ratesCSV), nil
+}

@@ -172,3 +172,39 @@ func (db *ProjectManager) ProjectBackup(filePath string) (int, error) {
 	}
 	return len(projects), nil
 }
+
+// ProjectGenerate generates test data
+func (db *ProjectManager) ProjectGenerate(filePath string) (int, error) {
+	projectsFile, err := os.OpenFile(filePath, os.O_RDWR|os.O_CREATE|os.O_TRUNC, os.ModePerm)
+	if err != nil {
+		return 0, err
+	}
+	defer projectsFile.Close()
+
+	d := DateTime{time.Now()}
+	projectsCSV := []ProjectCSV{
+		{CreatedAt: d, Name: "Vue", Rate: "Standard", Disabled: false},
+		{CreatedAt: d, Name: "Google", Rate: "Standard", Disabled: false},
+		{CreatedAt: d, Name: "Spotify", Rate: "Standard", Disabled: false},
+		{CreatedAt: d, Name: "Quasar", Rate: "Standard", Disabled: false},
+		{CreatedAt: d, Name: "Python", Rate: "Standard", Disabled: false},
+		{CreatedAt: d, Name: "Ruby on Rails", Rate: "Standard", Disabled: false},
+		{CreatedAt: d, Name: "React", Rate: "Standard", Disabled: false},
+		{CreatedAt: d, Name: "_Training", Rate: "Standard", Disabled: false},
+		{CreatedAt: d, Name: "_Sales", Rate: "Standard", Disabled: false},
+		{CreatedAt: d, Name: "_People mgmt", Rate: "Standard", Disabled: false},
+		{CreatedAt: d, Name: "_Travel Time", Rate: "Standard", Disabled: false},
+		{CreatedAt: d, Name: "_Vacation", Rate: "Vacation", Disabled: false},
+		{CreatedAt: d, Name: "_Sick", Rate: "Sick", Disabled: false},
+		{CreatedAt: d, Name: "_Unpaid Leave", Rate: "Unpaid Leave", Disabled: false},
+		{CreatedAt: d, Name: "_Project management", Rate: "Standard", Disabled: false},
+		{CreatedAt: d, Name: "_Sick Day", Rate: "Sick Day", Disabled: false},
+		{CreatedAt: d, Name: "_Personal Day", Rate: "Personal Day", Disabled: false},
+	}
+
+	err = gocsv.MarshalFile(&projectsCSV, projectsFile)
+	if err != nil {
+		return 0, err
+	}
+	return len(projectsCSV), nil
+}

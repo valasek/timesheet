@@ -28,6 +28,9 @@ Below is default and commented `timesheet.yaml` configuration file shipped with 
 ```
 ### Default configuration file
 
+######################
+# Reporting settings #
+
 dailyWorkingHours: 8 # Used to calculate weekly and monthly expected working hours, can be changed in UI
 dailyWorkingHoursMin: 8 # Used to highlight if reported less, can be changed in UI
 dailyWorkingHoursMax: 12 # Used to highlight if reported more, can be changed in UI
@@ -46,14 +49,15 @@ yearlySickDays: 2 # Used to calculate weekly and monthly expected working hours,
 
 # Categorize all rates into one of these types used on Reported Overview page
 isWorking: "work" # when consultant works, can be changed in UI
-isNonWorking: "not-work" # when consultant does not work, examples: vacation, sick, personal day, public holiday, vacation, unpaid leave, ..., can be changed in UI
+isNonWorking: "not-work" # when consultant dows not work, examples: vacation, sick, personal day, public holiday, vacation, unpaid leave, ..., can be changed in UI
 
 ########################
 # Application settings #
-SSL: false          # true/false, if server has SSL certificate set to true to use HTTPS, false = HTTP
+SSL: false # true/false, if server has SSL certificate set to true to use HTTPS, false = HTTP
 GIN_MODE: "release" # "debug" or "release" - switch server app mode
-url: ""             # URL on which application is running
-PORT: "3000"        # port on which application is running
+url: "timesheet.simplesw.net" # URL on which application is running
+# PORT: "443"                   # port on which application is running
+PORT: "8080" # port on which application is running
 
 # DB type
 dbType: "postgresql" # allowed types postgresql or mysql
@@ -71,11 +75,11 @@ uploadFolderTemp: "data/uploaded/temp"
 
 # csv data files which are loaded via command "timesheet db --load all"
 data:
-  consultants: "consultants_prod.csv"
-  rates: "rates_prod.csv"
-  projects: "projects_prod.csv"
-  reportedRecords: "reported_records_prod.csv"
-  holidays: "holidays_cz_2019.csv"
+  consultants: "consultants_cloud.csv"
+  rates: "rates_cloud.csv"
+  projects: "projects_cloud.csv"
+  reportedRecords: "reported_records_cloud.csv"
+  holidays: "holidays_us_2019.csv"
 
 export:
   location: "data/exported" # select an empty and an existing folder
@@ -86,13 +90,14 @@ export:
 # DB backup settings - backup data can be imported directly by a command "timesheet db --load all"
 backup:
   location: "data/backups" # select an empty and an existing folder relative to timesheet/data folder
-  rotation: 14             # how many backups back will be kept
-  interval: "daily"        # daily or weekly - how often the DB backup should be done
+  rotation: 14 # how many backups back will be kept
+  interval: "daily" # daily or weekly - how often the DB backup should be done
 
 # DB credentials
 # used for development and testing. Ignored if DATABASE_URL is set
 postgresql:
-  host: "127.0.0.1"
+  # host: "db" #
+  host: "127.0.0.1" #
   port: "5432"
   name: "timesheet"
   user: "timesheet"
@@ -110,14 +115,14 @@ mysql:
 `.\timesheet.exe` or `./timesheet.bin` or `./timesheet.app`
 ```
 Web based timesheet application with DB persistence.
-
-Application reads DB and server configuration from timesheet.toml, loads default data if DB is empty and launch web GUI.
+        
+Application reads DB and server configuration from timesheet.toml, loads default data if DB is empty and launch web GUI.      
 
 Usage:
   timesheet [command]
 
 Available Commands:
-  db          Initiate, load or backup DB. See timesheet help db
+  db          Initiate, load. backup DB og generate demo data. See timesheet help db
   help        Help about any command
   routes      Prints the list of all available routes
   server      Starts the server on URL and port defined in config.yaml
@@ -132,9 +137,9 @@ Use "timesheet [command] --help" for more information about a command.
 
 `.\timesheet.exe help db` or `./timesheet.bin  help db` or `./timesheet.app  help db`
 ```
-Initiate, load, or backup DB.
+Initiate, load, backup DB or generate demo data.
 
-Command first tests connection to DB. If succeeds it will initiate, load or backup db and exit.
+Command first tests connection to DB. If succeeds it will initiate, load, backup db or generate demo data and exit.
 
 Usage:
   timesheet db [flags]
@@ -142,6 +147,7 @@ Usage:
 Flags:
   -b, --backup        Backup all DB tables in the format used by db --load command
   -c, --clean         Drop and create all required DB tables
+  -g, --generate      Generate demo data and save them into ./data folder
   -h, --help          help for db
   -l, --load string   Truncate DB table/tables and load initial data from files in folder ./data. Options:
                       all - load all tables
@@ -243,6 +249,17 @@ Currently I am working on a Pro Version of Timesheet for enterprise. Along with 
 If you or your organization would like to help beta test a Pro version of Timesheet, please get in touch with us via email: [timesheet.simplesw@gmail.com](mailto:timesheet.simplesw@gmail.com)
 
 # Release Notes
+
+## Version 1.4.4
+Released on September 24, 2019
+
+### New Features
+* Administration - ability to manage consultants and projects from UI
+* Show managed data statistics on Administration and home page
+* Server can generate demo data via command line
+
+### Technical
+* Use Go 1.13 and Quasar 1.1
 
 ## Version 1.4.3
 Released on July 23, 2019
