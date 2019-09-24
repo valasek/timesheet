@@ -34,7 +34,10 @@
                           {{ props.row.name }}
                         </q-td>
                         <q-td key="allocation" :props="props">
-                          {{ props.row.allocation }}
+                          <q-input :value="props.row.allocation" :rules="allocationRules"
+                            type="number" min="0" max="100" step="10" maxlength="3"
+                            class="body-1" style="width: 15em" @input="onUpdateAllocation(hourValue: $event)"
+                          />
                         </q-td>
                         <q-td key="actions" :props="props" class="q-gutter-x-sm">
                           <q-icon name="remove_red_eye" small :color="setColor(props.row.disabled)" size="1.5em" @click="toggleConsultant(props.row)">
@@ -72,13 +75,15 @@
                           {{ props.row.name }}
                         </q-td>
                         <q-td key="rate" :props="props">
-                          {{ props.row.rate }}
+                          <q-select :value="props.row.rate" option-value="name" option-label="name" style="width: 15em"
+                            :options="rates" dense options-dense :hide-selected="false"
+                            @input="onUpdateProjectRate($event)"
+                          />
                         </q-td>
                         <q-td key="actions" :props="props" class="q-gutter-x-sm">
                           <q-icon name="remove_red_eye" small :color="setColor(props.row.disabled)" size="1.5em" @click="toggleProject(props.row)">
                             <q-tooltip>Hide / Unhide the project</q-tooltip>
                           </q-icon>
-                          <!-- {{ props.row }} -->
                           <q-icon name="delete" small color="red" size="1.5em" @click="deleteProject(props.row)">
                             <q-tooltip>Permanently delete the project and all associated reported records</q-tooltip>
                           </q-icon>
@@ -327,6 +332,11 @@ export default {
         { name: 'actions', label: 'Action', align: 'left', field: 'action', style: 'width: 5%' }
       ],
       projectsPagination: { 'rowsPerPage': 10, 'sortBy': 'name', 'descending': false },
+      allocationRules: [
+        (v) => !isNaN(parseFloat(v)) || 'Enter allocation between 0 and 100',
+        (v) => (parseFloat(v) <= 100) || 'Enter number between 0 and 100',
+        (v) => (parseFloat(v) >= 0) || 'Enter number between 0 and 100'
+      ],
       hoursRules: [
         (v) => !isNaN(parseFloat(v)) || 'Enter hours between 0 and 24',
         (v) => (parseFloat(v) <= 24) || 'Enter number between 0 and 24',
@@ -500,6 +510,22 @@ export default {
         }
       } else {
         // console.log('canceled consultant delete')
+      }
+    },
+    onUpdateAllocation (newValue) {
+      console.log(newValue)
+      const newConsultant = {
+        id: newValue.id,
+        name: newValue.Name,
+        allocation: newValue.Allocation,
+        disabled: nil // keep the value
+      }
+      if (!isNaN(parseFloat(newValue.hourValue)) && newValue.hourValue >= 0 && newValue.hourValue <= 24) {
+        const value = {
+          hourType: newValue.hourType,
+          hourValue: parseFloat(newValue.hourValue)
+        }
+        this.$store.dispatch('consultants/updateConsultant', newConsultant)
       }
     },
     onUpdateHours (newValue) {

@@ -258,6 +258,9 @@ Released on September 24, 2019
 * Show managed data statistics on Administration and home page
 * Server can generate demo data via command line
 
+### Usability
+* Table of Contents in the documentation
+
 ### Technical
 * Use Go 1.13 and Quasar 1.1
 

@@ -9,7 +9,7 @@
           icon="menu"
           @click="drawer = !drawer"
         />
-        <img src="statics/logo-custom.png">
+        <img src="statics/logo-dataarch.png">
         <q-toolbar-title />
         <q-breadcrumbs class="q-pa-sm text-secondary absolute-center" active-color="white" style="font-size: 16px">
           <template v-slot:separator>
