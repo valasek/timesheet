@@ -35,7 +35,7 @@ RUN chmod -R ug+rw /documentation
 ADD ./server/logs/ /logs
 RUN chmod -R ug+rwx /logs
 COPY ./docker-entrypoint.sh /docker-entrypoint.sh
-COPY ./server/timesheet-dataarch.yaml /timesheet.yaml
+COPY ./server/timesheet-cloud.yaml /timesheet.yaml
 RUN chmod +x /docker-entrypoint.sh
 
 # Import the code from the context.
@@ -64,15 +64,15 @@ COPY ./client/package*.json ./
 COPY ./client/ ./
 
 # install project dependencies
-RUN npm install
-RUN npm install -g @quasar/cli
+RUN yarn install
+RUN yarn global add @quasar/cli
 RUN quasar upgrade -i
 
 # copy project files and folders to the current working directory (i.e. 'app' folder)
 COPY ./client ./
 
 # build app for production with minification
-RUN npm run build-da
+RUN yarn run build-cloud
 # RUN ls -la ./
 # RUN ls -la ./dist
 # RUN chmod -R ug+rw ./dist
