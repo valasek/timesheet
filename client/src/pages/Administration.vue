@@ -14,8 +14,8 @@
           <div class="row justify-around">
             <div class="column">
               <div class="column q-gutter-md">
-                <div class="row q-gutter-x-md">
-                  <q-input v-model="newConsultant" label="Consultant name" dense class="body-1" style="width: 15em" />
+                <div class="row q-gutter-x-md justify-around">
+                  <q-input v-model="newConsultant" label="Consultant name" dense style="width: 15em" />
                   <q-btn color="primary" :disable="newConsultant.length === 0" @click="createConsultant">
                     Add Consultant
                   </q-btn>
@@ -34,9 +34,9 @@
                           {{ props.row.name }}
                         </q-td>
                         <q-td key="allocation" :props="props">
-                          <q-input :value="props.row.allocation" :rules="allocationRules"
-                            type="number" min="0" max="100" step="10" maxlength="3"
-                            class="body-1" style="width: 15em" @input="onUpdateAllocation(hourValue: $event)"
+                          <q-input :value="format_allocation(props.row.allocation)" dense
+                            type="text" min="0" max="100" step="10" maxlength="3"
+                            class="body-1" style="width: 5em" @input="onUpdateAllocation(props.row)"
                           />
                         </q-td>
                         <q-td key="actions" :props="props" class="q-gutter-x-sm">
@@ -55,15 +55,23 @@
             </div>
             <div class="column">
               <div class="column q-gutter-md">
-                <div class="row q-gutter-x-md">
-                  <q-input v-model="newProject" label="Project name" dense class="body-1" style="width: 15em" />
+                <div class="row q-gutter-x-md justify-around">
+                  <q-input v-model="newProject" label="Project name" dense style="width: 15em" />
                   <q-btn color="primary" :disable="newProject.length === 0" @click="createProject">
                     Add Project
                   </q-btn>
                 </div>
-                <p align="center">
-                  {{ defaultRateLabel }}
-                </p>
+                <div class="row justify-center">
+                  <div class="col self-center">
+                    {{ defaultRateLabel }}
+                  </div>
+                  <div class="col self-center">
+                    <q-select :value="defaultRate" option-value="name" option-label="name" style="width: 10em"
+                              :options="rates" dense options-dense :hide-selected="false"
+                              @input="onUpdateProjectRate($event)"
+                            />
+                  </div>
+                </div>
                 <div class="row q-gutter-x-md">
                   <q-table :columns="columnsProjects" row-key="name" :data="projects"
                           no-data-label="No projects" :pagination.sync="projectsPagination" :rows-per-page-options="[30,50,0]"
@@ -332,11 +340,6 @@ export default {
         { name: 'actions', label: 'Action', align: 'left', field: 'action', style: 'width: 5%' }
       ],
       projectsPagination: { 'rowsPerPage': 10, 'sortBy': 'name', 'descending': false },
-      allocationRules: [
-        (v) => !isNaN(parseFloat(v)) || 'Enter allocation between 0 and 100',
-        (v) => (parseFloat(v) <= 100) || 'Enter number between 0 and 100',
-        (v) => (parseFloat(v) >= 0) || 'Enter number between 0 and 100'
-      ],
       hoursRules: [
         (v) => !isNaN(parseFloat(v)) || 'Enter hours between 0 and 24',
         (v) => (parseFloat(v) <= 24) || 'Enter number between 0 and 24',
@@ -370,7 +373,7 @@ export default {
       return 'Default allocation for new consultant will be ' + this.defaultAllocation * 100 + '%'
     },
     defaultRateLabel () {
-      return 'Default rate for new project will be ' + this.defaultRate
+      return 'Default rate for new project will be '
     },
     ...mapState({
       dailyWorkingHours: state => state.settings.dailyWorkingHours,
@@ -401,6 +404,9 @@ export default {
   },
 
   methods: {
+    format_allocation (value) {
+      return value * 100 + ' %'
+    },
     upload (file) {
       const fr = new FileReader()
       fr.readAsDataURL(file)
@@ -513,20 +519,20 @@ export default {
       }
     },
     onUpdateAllocation (newValue) {
-      console.log(newValue)
+      console.log(newValue) /* eslint-disable-line no-console */
       const newConsultant = {
         id: newValue.id,
         name: newValue.Name,
         allocation: newValue.Allocation,
-        disabled: nil // keep the value
+        disabled: null // keep the value
       }
-      if (!isNaN(parseFloat(newValue.hourValue)) && newValue.hourValue >= 0 && newValue.hourValue <= 24) {
-        const value = {
-          hourType: newValue.hourType,
-          hourValue: parseFloat(newValue.hourValue)
-        }
-        this.$store.dispatch('consultants/updateConsultant', newConsultant)
-      }
+      // if (!isNaN(parseFloat(newValue.hourValue)) && newValue.hourValue >= 0 && newValue.hourValue <= 24) {
+      //   const value = {
+      //     hourType: newValue.hourType,
+      //     hourValue: parseFloat(newValue.hourValue)
+      //   }
+      this.$store.dispatch('consultants/updateConsultant', newConsultant)
+      // }
     },
     onUpdateHours (newValue) {
       if (!isNaN(parseFloat(newValue.hourValue)) && newValue.hourValue >= 0 && newValue.hourValue <= 24) {

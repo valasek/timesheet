@@ -19,7 +19,7 @@ var (
 // dbCmd represents the db command
 var dbCmd = &cobra.Command{
 	Use:   "db",
-	Short: "Initiate, load. backup DB og generate demo data. See timesheet help db",
+	Short: "Initiate, load. backup DB or generate demo data. See timesheet help db",
 	Long: `Initiate, load, backup DB or generate demo data.
 
 Command first tests connection to DB. If succeeds it will initiate, load, backup db or generate demo data and exit.`,

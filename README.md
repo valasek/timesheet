@@ -37,11 +37,13 @@ Reporting and billing process includes three separated steps with well-defined d
 
 I would love your help! Before submitting a PR, please read over the [Contributing](CONTRIBUTING.md) guide.
 
-Here's a couple of areas that could use some love:
+To help you to get started you can read how to [run the Tinmesheet from the source](https://github.com/valasek/timesheet/wiki/Run-the-Timesheet-from-the-source).
+
+
+Here's a couple of areas that need some love:
 
 * **Import/Export plugins** - do you like functionality but want to integrate with your company billing SW? Create an issue and if you can submit PR.
-* **Javascripts** - I'm no JS wizz, I'm sure the Javascript code in ui/src could be improved/simplified/tested.  
-* **Documentation** - Typo? Does something not make sense? Could it be worded better? Please help!
+* **Javascripts** - I'm no JS wizz, I'm sure the Javascript code in ui/src could be improved/simplified/tested. * **Documentation** - Typo? Does something not make sense? Could it be worded better? Please help!
 * **Test Coverage** - Would love to get coverage over 80%, fontend and backend.
 
 # Standing on the shoulders of giants

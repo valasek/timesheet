@@ -9,7 +9,7 @@
           icon="menu"
           @click="drawer = !drawer"
         />
-        <img src="statics/logo-dataarch.png">
+        <img :src="logo">
         <q-toolbar-title />
         <q-breadcrumbs class="q-pa-sm text-secondary absolute-center" active-color="white" style="font-size: 16px">
           <template v-slot:separator>
@@ -63,7 +63,8 @@ export default {
         { title: 'Administration', icon: 'settings', route: 'administration' },
         { title: 'Documentation', icon: 'help_outline', route: 'documentation' }
       ],
-      right: null
+      right: null,
+      logo: ''
     }
   },
 
@@ -84,6 +85,7 @@ export default {
     this.$store.dispatch('rates/getRates')
     this.$store.dispatch('holidays/getHolidays')
     this.$store.dispatch('settings/getSettings')
+    this.logo = 'statics/' + process.env.APP_LOGO
   },
   methods: {
   }
