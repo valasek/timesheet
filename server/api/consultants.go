@@ -29,6 +29,18 @@ func (api *API) ConsultantAdd(c *gin.Context) {
 	c.JSON(http.StatusOK, addedConsultant)
 }
 
+// ConsultantUpdate add new record
+func (api *API) ConsultantUpdate(c *gin.Context) {
+	var consultant models.Consultant
+	if err := c.ShouldBindJSON(&consultant); err != nil {
+		logger.Log.Error("unable to decode consultant record, error: ", err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	updatedConsultant := api.consultants.ConsultantUpdate(consultant)
+	c.JSON(http.StatusOK, updatedConsultant)
+}
+
 // ConsultantDelete deletes the consultant and all associated records
 func (api *API) ConsultantDelete(c *gin.Context) {
 	ID := c.Param("id")

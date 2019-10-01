@@ -37,7 +37,7 @@ Reporting and billing process includes three separated steps with well-defined d
 
 I would love your help! Before submitting a PR, please read over the [Contributing](CONTRIBUTING.md) guide.
 
-To help you to get started you can read how to [run the Tinmesheet from the source](https://github.com/valasek/timesheet/wiki/Run-the-Timesheet-from-the-source).
+To help you to get started you can read how to [run the Timesheet from the source](https://github.com/valasek/timesheet/wiki/Run-the-Timesheet-from-the-source).
 
 
 Here's a couple of areas that need some love:

@@ -35,8 +35,10 @@
                         </q-td>
                         <q-td key="allocation" :props="props">
                           <q-input :value="format_allocation(props.row.allocation)" dense
-                            type="text" min="0" max="100" step="10" maxlength="3"
-                            class="body-1" style="width: 5em" @input="onUpdateAllocation(props.row)"
+                            type="string" class="body-1" style="width: 5em"
+                            debounce="500"
+                            @input="onUpdateAllocation({row: props.row, newValue: $event})"
+                            @focus="$event.target.select()"
                           />
                         </q-td>
                         <q-td key="actions" :props="props" class="q-gutter-x-sm">
@@ -85,7 +87,7 @@
                         <q-td key="rate" :props="props">
                           <q-select :value="props.row.rate" option-value="name" option-label="name" style="width: 15em"
                             :options="rates" dense options-dense :hide-selected="false"
-                            @input="onUpdateProjectRate($event)"
+                            @input="onUpdateProject({row: props.row, newValue: $event})"
                           />
                         </q-td>
                         <q-td key="actions" :props="props" class="q-gutter-x-sm">
@@ -514,25 +516,27 @@ export default {
         if (this.reportedHours.length === 0 && this.selectedConsultant !== '') {
           this.$store.dispatch('reportedHours/getMonthlyData', { date: this.selectedMonth, consultant: this.selectedConsultant })
         }
-      } else {
-        // console.log('canceled consultant delete')
       }
     },
-    onUpdateAllocation (newValue) {
-      console.log(newValue) /* eslint-disable-line no-console */
-      const newConsultant = {
-        id: newValue.id,
-        name: newValue.Name,
-        allocation: newValue.Allocation,
-        disabled: null // keep the value
+    onUpdateAllocation (payload) {
+      if (payload.newValue && parseInt(payload.newValue) > 0 && parseInt(payload.newValue) <= 100) {
+        const newConsultant = {
+          id: parseInt(payload.row.id),
+          name: payload.row.name,
+          allocation: parseInt(payload.newValue) / 100,
+          disabled: payload.row.disabled
+        }
+        this.$store.dispatch('consultants/updateConsultant', newConsultant)
       }
-      // if (!isNaN(parseFloat(newValue.hourValue)) && newValue.hourValue >= 0 && newValue.hourValue <= 24) {
-      //   const value = {
-      //     hourType: newValue.hourType,
-      //     hourValue: parseFloat(newValue.hourValue)
-      //   }
-      this.$store.dispatch('consultants/updateConsultant', newConsultant)
-      // }
+    },
+    onUpdateProject (payload) {
+      const newProject = {
+        id: parseInt(payload.row.id),
+        name: payload.row.name,
+        rate: payload.newValue.name,
+        disabled: payload.row.disabled
+      }
+      this.$store.dispatch('projects/updateProject', newProject)
     },
     onUpdateHours (newValue) {
       if (!isNaN(parseFloat(newValue.hourValue)) && newValue.hourValue >= 0 && newValue.hourValue <= 24) {

@@ -34,14 +34,34 @@ const actions = {
       .then(response => {
         commit('CREATE_CONSULTANT', response.data)
         Notify.create({
-          message: 'Consultant ' + payload.name + ' created with ' + payload.allocation * 100 + '% allocation',
+          message: payload.name + ' was created with ' + payload.allocation * 100 + '% allocation',
           color: 'teal',
           icon: 'report_problem'
         })
       })
       .catch(e => {
         Notify.create({
-          message: 'Couldn\'t create consultant on server. ' + e.toString(),
+          message: 'Couldn\'t create ' + payload.name + ' on server. ' + e.toString(),
+          color: 'negative',
+          icon: 'report_problem'
+        })
+        console.log(e) /* eslint-disable-line no-console */
+      })
+  },
+
+  updateConsultant ({ dispatch }, payload) {
+    api.apiClient.put(`/api/consultants`, payload, { crossDomain: true })
+      .then(response => {
+        dispatch('getConsultants', { root: true })
+        Notify.create({
+          message: payload.name + ' allocation was updated to ' + payload.allocation * 100 + '%',
+          color: 'teal',
+          icon: ''
+        })
+      })
+      .catch(e => {
+        Notify.create({
+          message: 'Couldn\'t update allocation of ' + payload.name + ' on the server. ' + e.toString(),
           color: 'negative',
           icon: 'report_problem'
         })
@@ -54,14 +74,14 @@ const actions = {
       .then(response => {
         commit('REMOVE_CONSULTANT', payload.id)
         Notify.create({
-          message: 'Consultant ' + payload.name + ' and ' + response.data + ' corresponding reported records were deleted',
+          message: payload.name + ' and ' + response.data + ' linked reported records were deleted',
           color: 'teal',
           icon: 'report_problem'
         })
       })
       .catch(e => {
         Notify.create({
-          message: 'Couldn\'t delete consultant ' + payload.name + ' on server. \n' + e.toString(),
+          message: 'Couldn\'t delete ' + payload.name + ' on the server. \n' + e.toString(),
           color: 'negative',
           icon: 'report_problem'
         })

@@ -63,9 +63,9 @@ build/documentation/statics/*.*
 build/logs/*.*
 
 # backup and log files
-server/data/backups/*
-server/data/exported/*
-server/data/uploaded/*
+server/data/backups/*.csv
+server/data/exported/*.csv
+server/data/uploaded/*.csv
 timesheet-backup.zip
 logs/*
 

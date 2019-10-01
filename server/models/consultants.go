@@ -80,6 +80,20 @@ func (db *ConsultantManager) ConsultantAdd(newRecord Consultant) Consultant {
 	return Consultant{}
 }
 
+// ConsultantUpdate -
+func (db *ConsultantManager) ConsultantUpdate(updatedRecord Consultant) Consultant {
+	var originalRecord Consultant
+	if err := db.db.First(&originalRecord, updatedRecord.ID); err != nil {
+		originalRecord.Name = updatedRecord.Name
+		originalRecord.Allocation = updatedRecord.Allocation
+		originalRecord.Disabled = updatedRecord.Disabled
+		db.db.Save(&originalRecord)
+		return originalRecord
+	}
+	logger.Log.Error("unable to update new consultant", updatedRecord)
+	return Consultant{}
+}
+
 // ConsultantDelete - deletes the consultant and all associated records
 func (db *ConsultantManager) ConsultantDelete(id uint64) int64 {
 

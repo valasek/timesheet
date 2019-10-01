@@ -29,6 +29,18 @@ func (api *API) ProjectAdd(c *gin.Context) {
 	c.JSON(http.StatusOK, addedProject)
 }
 
+// ProjectUpdate add new record
+func (api *API) ProjectUpdate(c *gin.Context) {
+	var project models.Project
+	if err := c.ShouldBindJSON(&project); err != nil {
+		logger.Log.Error("unable to decode project record, error: ", err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	updatedProject := api.projects.ProjectUpdate(project)
+	c.JSON(http.StatusOK, updatedProject)
+}
+
 // ProjectDelete deletes the project and all associated records
 func (api *API) ProjectDelete(c *gin.Context) {
 	ID := c.Param("id")

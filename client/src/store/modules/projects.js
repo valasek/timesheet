@@ -32,14 +32,34 @@ const actions = {
       .then(response => {
         commit('CREATE_PROJECT', response.data)
         Notify.create({
-          message: 'Project ' + payload.name + ' created and a default rate set to ' + payload.rate,
+          message: payload.name + ' created and the default rate set to ' + payload.rate,
           color: 'teal',
           icon: 'report_problem'
         })
       })
       .catch(e => {
         Notify.create({
-          message: 'Couldn\'t create project on server. ' + e.toString(),
+          message: 'Couldn\'t create ' + payload.name + ' on the server. ' + e.toString(),
+          color: 'negative',
+          icon: 'report_problem'
+        })
+        console.log(e) /* eslint-disable-line no-console */
+      })
+  },
+
+  updateProject ({ dispatch }, payload) {
+    api.apiClient.put(`/api/projects`, payload, { crossDomain: true })
+      .then(response => {
+        dispatch('getProjects', { root: true })
+        Notify.create({
+          message: payload.name + ' project rate was updated to ' + payload.rate,
+          color: 'teal',
+          icon: ''
+        })
+      })
+      .catch(e => {
+        Notify.create({
+          message: 'Couldn\'t update rate of the ' + payload.name + ' on the server. ' + e.toString(),
           color: 'negative',
           icon: 'report_problem'
         })
@@ -52,7 +72,7 @@ const actions = {
       .then(response => {
         commit('REMOVE_PROJECT', payload.id)
         Notify.create({
-          message: 'Project ' + payload.name + ' and ' + response.data + ' corresponding reported records were deleted',
+          message: 'Project ' + payload.name + ' and ' + response.data + ' linked reported records were deleted',
           color: 'teal',
           icon: 'report_problem'
         })

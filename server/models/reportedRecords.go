@@ -298,7 +298,7 @@ func (db *ReportedRecordManager) ReportedRecordBackup(filePath string) (int, err
 	return len(reportedRecords), nil
 }
 
-// ReportedRecordsGenerate generates test data
+// ReportedRecordGenerate generates test data
 func (db *ReportedRecordManager) ReportedRecordGenerate(filePath string) (int, error) {
 	reportedRecordsFile, err := os.OpenFile(filePath, os.O_RDWR|os.O_CREATE|os.O_TRUNC, os.ModePerm)
 	if err != nil {

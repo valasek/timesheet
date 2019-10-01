@@ -102,10 +102,11 @@
               {{ props.row.project }}
             </span>
             <span v-else>
-              <q-select :value="props.row.project" :options="filteredProjects" option-name="name" option-label="name" option-disable="disabled"
+              <q-select :value="props.row.project" :options="filteredProjects" option-name="name" option-label="name"
                         dense options-dense use-input hide-selected fill-input input-debounce="0"
                         @filter="filterProject"
                         @input="val => onUpdateProject({id: props.row.id, project: val.name})"
+                        @focus="$event.target.select()"
               >
                 <template v-slot:no-option>
                   <q-item>
@@ -232,6 +233,9 @@ export default {
       }
       return rep
     },
+    assignedProjects () {
+      return this.projects.filter(v => v.disabled === false)
+    },
     ...mapState({
       loading: state => state.reportedHours.loading,
       isCurrentWeek: state => state.context.isCurrentWeek,
@@ -239,7 +243,7 @@ export default {
       dateTo: state => state.settings.dateTo,
       selectedMonth: state => state.settings.selectedMonth,
       reportedHours: state => state.reportedHours.consultantMonthly,
-      assignedProjects: state => state.projects.all,
+      projects: state => state.projects.all,
       rates: state => state.rates.all,
       selectedConsultant: state => state.consultants.selected,
       selectedAllocation: state => state.consultants.selectedAllocation,

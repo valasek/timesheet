@@ -83,6 +83,20 @@ func (db *ProjectManager) ProjectAdd(newRecord Project) Project {
 	return Project{}
 }
 
+// ProjectUpdate -
+func (db *ProjectManager) ProjectUpdate(updatedRecord Project) Project {
+	var originalRecord Project
+	if err := db.db.First(&originalRecord, updatedRecord.ID); err != nil {
+		originalRecord.Name = updatedRecord.Name
+		originalRecord.Rate = updatedRecord.Rate
+		originalRecord.Disabled = updatedRecord.Disabled
+		db.db.Save(&originalRecord)
+		return originalRecord
+	}
+	logger.Log.Error("unable to update new project", updatedRecord)
+	return Project{}
+}
+
 // ProjectDelete - deletes the project and all associated records
 func (db *ProjectManager) ProjectDelete(id uint64) int64 {
 

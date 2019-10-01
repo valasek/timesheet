@@ -104,12 +104,14 @@ func SetupRouter(api *api.API) *gin.Engine {
 		a.GET("/consultants", api.ConsultantList)
 		a.POST("/consultants/toggle/:id", api.ConsultantToggle)
 		a.POST("/consultants", api.ConsultantAdd)
+		a.PUT("/consultants", api.ConsultantUpdate)
 		a.DELETE("/consultants/:id", api.ConsultantDelete)
 
 		// projects
 		a.GET("/projects", api.ProjectsGetAll)
 		a.POST("/projects/toggle/:id", api.ProjectToggle)
 		a.POST("/projects", api.ProjectAdd)
+		a.PUT("/projects", api.ProjectUpdate)
 		a.DELETE("/projects/:id", api.ProjectDelete)
 
 		// rates

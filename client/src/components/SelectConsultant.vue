@@ -3,10 +3,11 @@
 <template>
   <!-- <q-select v-model="selectedConsultant" :options="consultants.all" option-name="id" option-label="name"
     @filter="filterFn" dense options-dense > -->
-  <q-select v-model="selectedConsultant" :options="filteredConsultants" option-name="id" option-label="name" option-disable="disabled"
+  <q-select v-model="selectedConsultant" :options="activeFilteredConsultants" option-name="id" option-label="name"
             dense options-dense use-input hide-selected fill-input input-debounce="0"
             color="secondary"
             @filter="filterFn"
+            @focus="$event.target.select()"
   >
     <template v-slot:prepend>
       <q-icon name="person_outline" />
@@ -37,6 +38,9 @@ export default {
       consultants: state => state.consultants,
       selectedMonth: state => state.settings.selectedMonth
     }),
+    activeFilteredConsultants () {
+      return this.filteredConsultants
+    },
     selectedConsultant: {
       set (newValue) {
         this.$store.dispatch('consultants/setSelected', newValue.name)
@@ -51,7 +55,7 @@ export default {
     filterFn (val, update, abort) {
       update(() => {
         const needle = val.toLowerCase()
-        this.filteredConsultants = this.consultants.all.filter(v => v.name.toLowerCase().indexOf(needle) > -1)
+        this.filteredConsultants = this.consultants.all.filter(v => (v.name.toLowerCase().indexOf(needle) > -1) && (v.disabled === false))
       })
     }
   }
