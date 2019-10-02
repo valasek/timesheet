@@ -32,7 +32,7 @@ const actions = {
       .then(response => {
         commit('CREATE_PROJECT', response.data)
         Notify.create({
-          message: payload.name + ' created and the default rate set to ' + payload.rate,
+          message: payload.name + ' created and the rate was set to ' + payload.rate,
           color: 'teal',
           icon: 'report_problem'
         })

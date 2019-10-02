@@ -17,11 +17,13 @@ If you are hosting it, supported platforms are:
 
 Enjoy. You are good to go ...
 
-# Configuration
+# Administration
 
 Is accessible on Administration page:
 
 ![Administration](./statics/administration.png?raw=true "Administration")
+
+# Configuration
 
 Below is default and commented `timesheet.yaml` configuration file shipped with a product. 
 
@@ -251,18 +253,18 @@ If you or your organization would like to help beta test a Pro version of Timesh
 # Release Notes
 
 ## Version 1.4.4
-Released on September 24, 2019
+Released on October 02, 2019
 
 ### New Features
-* Administration - ability to manage consultants and projects from UI
+* Administration - ability to add, hide/show and delete consultants and projects from UI
 * Show managed data statistics on Administration and home page
-* Server can generate demo data via command line
+* Server can generate demo data via the command line
 
 ### Usability
 * Table of Contents in the documentation
 
 ### Technical
-* Use Go 1.13 and Quasar 1.1
+* Use Go 1.13.1 and Quasar 1.1
 
 ## Version 1.4.3
 Released on July 23, 2019

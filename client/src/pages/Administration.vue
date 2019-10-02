@@ -20,9 +20,11 @@
                     Add Consultant
                   </q-btn>
                 </div>
-                <p align="center">
-                  {{ defaultAllocationLabel }}
-                </p>
+                <div class="row" align="center">
+                  <div class="col q-pt-sm q-pb-sm self-center">
+                    {{ defaultAllocationLabel }}
+                  </div>
+                </div>
                 <div class="row q-gutter-x-md">
                   <q-table :columns="columnsConsultants" row-key="name" :data="consultants"
                            no-data-label="No consultants" :pagination.sync="consultantsPagination" :rows-per-page-options="[30,50,0]"
@@ -63,15 +65,15 @@
                     Add Project
                   </q-btn>
                 </div>
-                <div class="row justify-center">
+                <div class="row" align="center">
                   <div class="col self-center">
                     {{ defaultRateLabel }}
                   </div>
                   <div class="col self-center">
                     <q-select :value="defaultRate" option-value="name" option-label="name" style="width: 10em"
                               :options="rates" dense options-dense :hide-selected="false"
-                              @input="onUpdateProjectRate($event)"
-                            />
+                              @input="onUpdateDefaultRate"
+                    />
                   </div>
                 </div>
                 <div class="row q-gutter-x-md">
@@ -483,7 +485,14 @@ export default {
       }
     },
     createProject () {
-      this.$store.dispatch('projects/createProject', { id: null, name: this.newProject, rate: this.defaultRate, disabled: false })
+      const newProject = {
+        id: null,
+        name: this.newProject,
+        rate: this.defaultRate,
+        disabled: false
+      }
+      this.$store.dispatch('projects/createProject', newProject)
+      this.newProject = ''
     },
     toggleProject (project) {
       this.$store.dispatch('projects/toggleProject', parseInt(project.id, 10))
@@ -506,6 +515,7 @@ export default {
         disabled: false
       }
       this.$store.dispatch('consultants/createConsultant', newConsultant)
+      this.newConsultant = ''
     },
     toggleConsultant (consultant) {
       this.$store.dispatch('consultants/toggleConsultant', parseInt(consultant.id, 10))
@@ -561,6 +571,9 @@ export default {
     },
     onUpdateRateType (newValue) {
       this.$store.dispatch('settings/setRateType', newValue)
+    },
+    onUpdateDefaultRate (newvalue) {
+      this.defaultRate = newvalue.name
     }
   }
 }
