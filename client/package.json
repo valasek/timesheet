@@ -27,11 +27,11 @@
     "chartjs-plugin-datalabels": "^0.7.0",
     "date-fns": "^2.2.1",
     "date-fns-tz": "^1.0.7",
-    "quasar": "^1.1.6",
+    "quasar": "^1.1.7",
     "vue-chartjs": "^3.4.2"
   },
   "devDependencies": {
-    "@quasar/app": "^1.1.2",
+    "@quasar/app": "^1.1.4",
     "@quasar/quasar-app-extension-icon-genie": "^1.0.2",
     "@quasar/quasar-app-extension-qenv": "^1.0.0-beta.2",
     "@quasar/quasar-app-extension-qmarkdown": "^1.0.0-beta.21",

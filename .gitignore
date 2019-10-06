@@ -46,32 +46,34 @@ go.mod
 go.sum
 
 # temporary build artifacts
-build/*.*
-build/client/*.*
-build/client/dist/*.*
-build/client/dist/js/*.*
-build/client/dist/css/*.*
-build/client/dist/fonts/*.*
-build/client/dist/statics/*.*
-build/client/dist/statics/icons/*.*
-build/data/*.*
-build/data/exported/*.*
-build/data/backups/*.*
-build/data/uploaded/*.*
-build/documentation/*.*
-build/documentation/statics/*.*
-build/logs/*.*
+build/timesheet.yaml
+build/client/dist/index.html
+build/client/dist/js/*.js
+build/client/dist/js/*.LICENSE
+build/client/dist/css/*.css
+build/client/dist/fonts/*.woff
+build/client/dist/fonts/*.woff2
+build/client/dist/statics/*.png
+build/client/dist/statics/*.jpg
+build/client/dist/statics/icons/*.png
+build/client/dist/statics/icons/*.svg
+build/client/dist/statics/icons/favicon.ico
+build/data/*.csv
+build/data/exported/.*
+build/data/backups/.*
+build/data/uploaded/.*
+build/documentation/*.md
+build/documentation/statics/*.png
+build/logs/.*
 
 # backup and log files
 server/data/backups/*.csv
 server/data/exported/*.csv
 server/data/uploaded/*.csv
 timesheet-backup.zip
-logs/*
+logs/*.log
 
 # private seed data
-timesheet-data.xlsx
-~$timesheet-data.xlsx
 *_dataarch.csv
 *-dataarch.yaml
 timesheet-prod.yaml
