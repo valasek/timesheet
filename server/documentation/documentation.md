@@ -262,6 +262,7 @@ Released on October 10, 2019
 
 ### Usability
 * Table of Contents in the documentation
+* Clean up and initialize DB when deployed
 
 ### Technical
 * Use Go 1.13.1 and Quasar 1.1
