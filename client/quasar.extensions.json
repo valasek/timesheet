@@ -7,7 +7,7 @@
   },
   "@quasar/qenv": {
     "common_root_object": "none",
-    "add_qenv_to_gitignore": true
+    "add_qenv_to_gitignore": false
   },
   "@quasar/icon-genie": {
     "minify_dev": "pngquant",

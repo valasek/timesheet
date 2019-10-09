@@ -35,7 +35,9 @@ RUN chmod -R ug+rw /documentation
 ADD ./server/logs/ /logs
 RUN chmod -R ug+rwx /logs
 COPY ./docker-entrypoint.sh /docker-entrypoint.sh
-COPY ./server/timesheet-cloud.yaml /timesheet.yaml
+# COPY ./server/timesheet-dev.yaml /timesheet.yaml
+COPY ./server/timesheet-dataarch.yaml /timesheet.yaml
+# COPY ./server/timesheet-cloud.yaml /timesheet.yaml
 RUN chmod +x /docker-entrypoint.sh
 
 # Import the code from the context.
@@ -71,8 +73,10 @@ RUN quasar upgrade -i
 # copy project files and folders to the current working directory (i.e. 'app' folder)
 COPY ./client ./
 
-# build app for production with minification
-RUN yarn run build-cloud
+# build app for production with minification use build-cloud or build-da
+# RUN yarn run build-dev
+RUN yarn run build-da
+# RUN yarn run build-cloud
 # RUN ls -la ./
 # RUN ls -la ./dist
 # RUN chmod -R ug+rw ./dist

@@ -81,7 +81,7 @@ func restoreDB(f *os.File) error {
 	if err != nil {
 		return err
 	}
-	err = os.Mkdir(viper.GetString("uploadFolderTemp"), os.ModeDir)
+	err = os.Mkdir(viper.GetString("uploadFolderTemp"), os.ModePerm)
 	if err != nil {
 		return err
 	}

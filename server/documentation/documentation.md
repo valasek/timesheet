@@ -253,7 +253,7 @@ If you or your organization would like to help beta test a Pro version of Timesh
 # Release Notes
 
 ## Version 1.4.4
-Released on October 02, 2019
+Released on October 10, 2019
 
 ### New Features
 * Administration - ability to add, hide/show and delete consultants and projects from UI
@@ -265,6 +265,7 @@ Released on October 02, 2019
 
 ### Technical
 * Use Go 1.13.1 and Quasar 1.1
+* Docker compose, dockerfiles and configuration for dev and production versions
 
 ## Version 1.4.3
 Released on July 23, 2019

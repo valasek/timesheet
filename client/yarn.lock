@@ -1189,10 +1189,10 @@
   resolved "https://registry.yarnpkg.com/@quasar/fastclick/-/fastclick-1.1.4.tgz#21ed3e9a4387dcb43022a08af4ef08a5f1abf159"
   integrity sha512-i9wbyV4iT+v4KhtHJynUFhH5LiEPvAEgSnwMqPN4hf/8uRe82nDl5qP5agrp2el1h0HzyBpbvHaW7NB0BPrtvA==
 
-"@quasar/quasar-app-extension-icon-genie@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@quasar/quasar-app-extension-icon-genie/-/quasar-app-extension-icon-genie-1.0.2.tgz#0dc6c2543d5236829176a7c5fba2c911a415250b"
-  integrity sha512-hx+/0gJZxgniLzs0P4v4DC1g+hCJQxbH6/Tc9uWbSUtwwOJy6b56N6fVacIQgqp7x2ThaTzCH2ylRzqXS+epSw==
+"@quasar/quasar-app-extension-icon-genie@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@quasar/quasar-app-extension-icon-genie/-/quasar-app-extension-icon-genie-1.1.0.tgz#0260687c3e9ae694f774a17b47bc9234eb13c3ab"
+  integrity sha512-hGZp1TiaafMEzQgq+dRNuNJXTn2qkqHeK7B4/U4GqALEsSCi+3SAy6sMUKjiV1vS0twEfTROuGqoyNqhpmXt2w==
   dependencies:
     elementtree "^0.1.7"
     execa "^2.0.4"

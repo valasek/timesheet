@@ -1,0 +1,24 @@
+  # Copyright © 2018-2019 Stanislav Valasek <valasek@gmail.com>
+  version: "3.3"
+  
+  services:
+    server:
+      build:
+        context: .
+        dockerfile: ./dockerfiles/cloud/Dockerfile
+      sysctls:
+            - net.ipv6.conf.all.disable_ipv6=1
+      ports:
+      - "3000:3000"
+      depends_on:
+      - "db"
+    db:
+      image: postgres
+      restart: always
+      environment:
+        POSTGRES_PASSWORD: timesheet
+        POSTGRES_USER: timesheet
+        POSTGRES_DB: timesheet
+      ports:
+        - "5432:5432"
+        # sudo docker run --name pg-docker -e POSTGRES_USER=timesheet -e POSTGRES_PASSWORD=timesheet -e POSTGRES_DB=timesheet -d -p 5432:5432 postgres

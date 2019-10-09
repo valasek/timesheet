@@ -72,9 +72,3 @@ server/data/exported/*.csv
 server/data/uploaded/*.csv
 timesheet-backup.zip
 logs/*.log
-
-# private seed data
-*_dataarch.csv
-*-dataarch.yaml
-timesheet-prod.yaml
-timesheet-prod.dataarch.yaml

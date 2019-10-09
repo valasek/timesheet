@@ -440,32 +440,33 @@ func SeedTable(api *API, table, file string) (count int) {
 // CheckAndInitAPI - loads initial data into DB
 func CheckAndInitAPI(db *models.DB) (api *API) {
 	logger.Log.Info("checking DB ...")
-	files := FileList()
-	emptyTable := false
+	// files := FileList()
+	// emptyTable := false
 	api = NewAPI(db)
-	if api.rates.RateCount() == 0 {
-		SeedTable(api, "rates", files["rates"])
-		emptyTable = true
-	}
-	if api.consultants.ConsultantCount() == 0 {
-		SeedTable(api, "consultants", files["consultants"])
-		emptyTable = true
-	}
-	if api.projects.ProjectCount() == 0 {
-		SeedTable(api, "projects", files["projects"])
-		emptyTable = true
-	}
-	if api.reportedRecords.ReportedRecordCount() == 0 {
-		SeedTable(api, "reported_records", files["reported_records"])
-		emptyTable = true
-	}
-	if api.holidays.HolidayCount() == 0 {
-		SeedTable(api, "holidays", files["holidays"])
-		emptyTable = true
-	}
-	if emptyTable {
-		logger.Log.Info("loaded missing required data (see tables above)")
-	}
+	// skip loading data into empty tables
+	// if api.rates.RateCount() == 0 {
+	// 	SeedTable(api, "rates", files["rates"])
+	// 	emptyTable = true
+	// }
+	// if api.consultants.ConsultantCount() == 0 {
+	// 	SeedTable(api, "consultants", files["consultants"])
+	// 	emptyTable = true
+	// }
+	// if api.projects.ProjectCount() == 0 {
+	// 	SeedTable(api, "projects", files["projects"])
+	// 	emptyTable = true
+	// }
+	// if api.reportedRecords.ReportedRecordCount() == 0 {
+	// 	SeedTable(api, "reported_records", files["reported_records"])
+	// 	emptyTable = true
+	// }
+	// if api.holidays.HolidayCount() == 0 {
+	// 	SeedTable(api, "holidays", files["holidays"])
+	// 	emptyTable = true
+	// }
+	// if emptyTable {
+	// 	logger.Log.Info("loaded missing required data (see tables above)")
+	// }
 	return api
 }
 

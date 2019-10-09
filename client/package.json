@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "cross-env QENV=development quasar dev",
     "build-da": "cross-env QENV=production-dataarch quasar build",
+    "build-dev": "cross-env QENV=production-dev quasar build",
     "build-cloud": "cross-env QENV=production-cloud quasar build",
     "build": "cross-env QENV=production quasar build",
     "lint": "eslint --ext .js,.vue src",
@@ -32,7 +33,7 @@
   },
   "devDependencies": {
     "@quasar/app": "^1.1.4",
-    "@quasar/quasar-app-extension-icon-genie": "^1.0.2",
+    "@quasar/quasar-app-extension-icon-genie": "^1.1.0",
     "@quasar/quasar-app-extension-qenv": "^1.0.0-beta.2",
     "@quasar/quasar-app-extension-qmarkdown": "^1.0.0-beta.21",
     "@quasar/quasar-app-extension-testing-quality": "^1.0.0-beta.8",
