@@ -23,7 +23,7 @@
           Edit this week
         </q-tooltip>
       </q-checkbox>
-      <q-btn class="bg-secondary text-primary" :disabled="!weekUnlocked" rounded label="new" icon="add" @click="addItem" />
+      <q-btn class="bg-secondary text-primary" :disabled="!weekUnlocked" rounded label="new" icon="add" @click="addItem" data-cy="new"/>
     </q-toolbar>
     <q-toolbar class="q-pa-md bg-grey-2">
       <span class="text-subtitle1 ">

@@ -15,8 +15,9 @@
             <div class="column">
               <div class="column q-gutter-md">
                 <div class="row q-gutter-x-md justify-around">
-                  <q-input v-model="newConsultant" label="Consultant name" dense style="width: 15em" />
-                  <q-btn color="primary" :disable="newConsultant.length === 0" @click="createConsultant">
+                  <q-input v-model="newConsultant" label="Consultant name" dense style="width: 15em" data-cy="consultant_name" />
+                  <q-btn color="primary" :disable="newConsultant.length === 0" @click="createConsultant"
+                    data-cy="consultant_create" >
                     Add Consultant
                   </q-btn>
                 </div>
