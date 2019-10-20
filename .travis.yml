@@ -113,6 +113,8 @@ cache:
   directories:
     # we also need to cache folder with Cypress binary
     - ~/.cache
+before_install:
+    - cd client
 install:
   - npm ci
 script:
