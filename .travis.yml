@@ -116,9 +116,9 @@ cache:
 before_install:
     - cd client
 install:
-  - npm ci
+  - yarn install
 script:
-  - $(npm bin)/cypress run --record
+  - $(yarn bin)/cypress run --record
 
 # deploy:
 #   provider: heroku
