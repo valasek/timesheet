@@ -5,7 +5,7 @@ import { Notify } from 'quasar'
 
 // initial state
 const state = {
-  all: [ '' ] // date, description
+  all: [ { date: '', day: '', description: '' } ] // date, day, description
 }
 
 const getters = {}
