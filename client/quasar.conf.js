@@ -1,29 +1,50 @@
 // Configuration for your app
+// https://quasar.dev/quasar-cli/quasar-conf-js
 
 module.exports = function (ctx) {
   return {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
+    // https://quasar.dev/quasar-cli/cli-documentation/boot-files
     boot: [
+      // 'i18n',
       'axios'
     ],
 
+    // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
     css: [
-      'app.styl'
+      'app.sass'
     ],
 
+    // https://github.com/quasarframework/quasar/tree/dev/extras
     extras: [
-      'roboto-font',
-      'material-icons' // optional, you are not bound to it
       // 'ionicons-v4',
-      // 'mdi-v3',
+      // 'mdi-v4',
       // 'fontawesome-v5',
-      // 'eva-icons'
+      // 'eva-icons',
+      // 'themify',
+      // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
+
+      'roboto-font', // optional, you are not bound to it
+      'material-icons' // optional, you are not bound to it
     ],
 
+    // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework
     framework: {
-      // all: true, // --- includes everything; for dev only!
+      // iconSet: 'ionicons-v4', // Quasar icon set
+      // lang: 'de', // Quasar language pack
+
+      // Possible values for "all":
+      // * 'auto' - Auto-import needed Quasar components & directives
+      //            (slightly higher compile time; next to minimum bundle size; most convenient)
+      // * false  - Manually specify what to import
+      //            (fastest compile time; minimum bundle size; most tedious)
+      // * true   - Import everything from Quasar
+      //            (not treeshaking Quasar; biggest bundle size; convenient)
+      all: 'auto',
+
       config: {
+        dark: 'auto', // or Boolean true/false
         brand: {
           primary: '#5fc3ad',
           secondary: '#2d3092',
@@ -35,81 +56,41 @@ module.exports = function (ctx) {
         }
       },
 
-      components: [
-        'QAvatar',
-        'QBreadcrumbs',
-        'QBreadcrumbsEl',
-        'QBtn',
-        'QCard',
-        'QCardActions',
-        'QCardSection',
-        'QCheckbox',
-        'QDate',
-        'QDialog',
-        'QDrawer',
-        'QExpansionItem',
-        'QFooter',
-        'QHeader',
-        'QIcon',
-        'QImg',
-        'QInput',
-        'QItem',
-        'QItemLabel',
-        'QItemSection',
-        'QLayout',
-        'QList',
-        'QPage',
-        'QPageContainer',
-        'QPageSticky',
-        'QPopupProxy',
-        'QScrollArea',
-        'QSelect',
-        'QSeparator',
-        'QSpace',
-        'QTable',
-        'QTd',
-        'QToolbar',
-        'QToolbarTitle',
-        'QTooltip',
-        'QTr',
-        'QUploader'
-      ],
-
-      directives: [
-        'ClosePopup',
-        'Ripple'
-      ],
+      components: [],
+      directives: [],
 
       // Quasar plugins
-      plugins: [
-        'Dialog',
-        'Loading',
-        'Notify'
-      ]
-
-      // iconSet: 'ionicons-v4'
-      // lang: 'de' // Quasar language
+      plugins: []
     },
 
+    // https://quasar.dev/quasar-cli/cli-documentation/supporting-ie
     supportIE: false,
 
+    // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
       scopeHoisting: true,
-      vueRouterMode: 'history',
-      // vueCompiler: true,
+      // vueRouterMode: 'history',
+      // showProgress: false,
       // gzip: true,
       // analyze: true,
+      // preloadChunks: false,
       // extractCSS: false,
+
+      // https://quasar.dev/quasar-cli/cli-documentation/handling-webpack
       extendWebpack (cfg) {
         cfg.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
           loader: 'eslint-loader',
-          exclude: /node_modules/
+          exclude: /node_modules/,
+          options: {
+            formatter: require('eslint').CLIEngine.getFormatter('stylish')
+          }
         })
       }
     },
 
+    // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
     devServer: {
       // https: true,
       // port: 8080,
@@ -117,12 +98,15 @@ module.exports = function (ctx) {
     },
 
     // animations: 'all', // --- includes all animations
+    // https://quasar.dev/options/animations
     animations: [],
 
+    // https://quasar.dev/quasar-cli/developing-ssr/configuring-ssr
     ssr: {
       pwa: false
     },
 
+    // https://quasar.dev/quasar-cli/developing-pwa/configuring-pwa
     pwa: {
       // workboxPluginMode: 'InjectManifest',
       // workboxOptions: {}, // only for NON InjectManifest
@@ -164,11 +148,13 @@ module.exports = function (ctx) {
       }
     },
 
+    // https://quasar.dev/quasar-cli/developing-cordova-apps/configuring-cordova
     cordova: {
       // id: 'org.cordova.quasar.app'
       // noIosLegacyBuildFlag: true // uncomment only if you know what you are doing
     },
 
+    // https://quasar.dev/quasar-cli/developing-electron-apps/configuring-electron
     electron: {
       // bundler: 'builder', // or 'packager'
 
@@ -186,7 +172,7 @@ module.exports = function (ctx) {
         // osxSign: '',
         // protocol: 'myapp://path',
 
-        // Window only
+        // Windows only
         // win32metadata: { ... }
       },
 

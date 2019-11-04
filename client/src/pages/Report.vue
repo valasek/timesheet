@@ -25,7 +25,7 @@
       </q-checkbox>
       <q-btn class="bg-secondary text-primary" :disabled="!weekUnlocked" rounded label="new" icon="add" @click="addItem" />
     </q-toolbar>
-    <q-toolbar class="q-pa-md bg-grey-2">
+    <q-toolbar class="q-pa-md bg-primary">
       <span class="text-subtitle1 ">
         Weekly: <span :class="textColorWeek(reportedThisWeek)">
           {{ reportedThisWeek }} hrs

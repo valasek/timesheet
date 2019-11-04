@@ -23,6 +23,7 @@
           <q-breadcrumbs-el label="Timesheet" icon="home" to="/" class="text-secondary" />
           <q-breadcrumbs-el v-show="subPage" :label="page" :icon="pageIcon" :to="page" />
         </q-breadcrumbs>
+        <q-checkbox left-label label="dark mode" v-model="dark" />
         <q-btn flat to="/help">
           Help
         </q-btn>
@@ -76,7 +77,15 @@ export default {
       selectedMonth: state => state.settings.selectedMonth,
       page: state => state.context.page,
       pageIcon: state => state.context.pageIcon
-    })
+    }),
+    dark: {
+      get () {
+        return this.$q.dark.isActive
+      },
+      set (val) {
+        this.$q.dark.set(val)
+      }
+    }
   },
 
   created () {

@@ -31,23 +31,19 @@
       <div class="col-6">
         <project-chart :chart-data="projectChart" :options="projectChartOptions" />
       </div>
-      <q-card flat>
-        <q-card-section>
-          <q-table :columns="columns" :data="topProjects" :pagination="myPagination" hide-bottom dense flat />
-        </q-card-section>
-      </q-card>
+      <q-card-section>
+        <q-table :columns="columns" :data="topProjects" :pagination="myPagination" hide-bottom dense />
+      </q-card-section>
     </div>
     <div class="row items-center">
-      <q-card flat>
-        <q-card-section>
-          <div class="text-h6">
-            Managed data
-          </div>
-        </q-card-section>
-        <q-card-section>
-          <managed-data />
-        </q-card-section>
-      </q-card>
+      <div class="col-6">
+        <div class="text-h6">
+          Managed data
+        </div>
+      </div>
+      <q-card-section>
+        <managed-data />
+      </q-card-section>
     </div>
     <my-footer />
   </q-page>
