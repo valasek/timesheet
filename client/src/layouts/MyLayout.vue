@@ -23,7 +23,12 @@
           <q-breadcrumbs-el label="Timesheet" icon="home" to="/" class="text-secondary" />
           <q-breadcrumbs-el v-show="subPage" :label="page" :icon="pageIcon" :to="page" />
         </q-breadcrumbs>
-        <q-checkbox left-label label="dark mode" v-model="dark" />
+        <q-icon :name="darkIcon" size="sm" @click="dark = !dark">
+          <q-tooltip>
+            Toggle dark / light mode
+          </q-tooltip>
+        </q-icon>
+
         <q-btn flat to="/help">
           Help
         </q-btn>
@@ -83,7 +88,15 @@ export default {
         return this.$q.dark.isActive
       },
       set (val) {
+        this.darkIcon = 'brightness_high'
         this.$q.dark.set(val)
+      }
+    },
+    darkIcon () {
+      if (this.dark === true) {
+        return 'brightness_high'
+      } else {
+        return 'brightness_low'
       }
     }
   },
@@ -96,6 +109,7 @@ export default {
     this.$store.dispatch('settings/getSettings')
     this.logo = 'statics/' + process.env.APP_LOGO
   },
+
   methods: {
   }
 }
