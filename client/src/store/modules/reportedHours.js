@@ -1,4 +1,4 @@
-// Copyright © 2018-2019 Stanislav Valasek <valasek@gmail.com>
+// Copyright © 2018-2020 Stanislav Valasek <valasek@gmail.com>
 
 import api from '../../api/axiosSettings'
 import { format, getYear, parseISO } from 'date-fns'

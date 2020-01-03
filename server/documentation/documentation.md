@@ -165,7 +165,7 @@ To retrieve reported records per selected period use HTTP GET request on ```<dom
 * \<domain\> - is your domain name
 * \<from\>, \<to\> - dates in format YYYY-MM-DD
 
-Example: ```http://localhost:3000/api/reported/from/2019-04-13/to/2019-04-30```
+Example: ```http://localhost:3000/api/reported/from/2020-04-13/to/2020-04-30```
 
 # Backup & Restore
 
@@ -251,6 +251,16 @@ Currently I am working on a Pro Version of Timesheet for enterprise. Along with 
 If you or your organization would like to help beta test a Pro version of Timesheet, please get in touch with us via email: [timesheet.simplesw@gmail.com](mailto:timesheet.simplesw@gmail.com)
 
 # Release Notes
+
+## Version 1.4.5
+Released on January 03, 2020
+
+### Usability
+* Dark mode
+
+### Technical
+* Use Go 1.13.5 and Quasar 1.5.11
+* Update config for cloud version
 
 ## Version 1.4.4
 Released on October 10, 2019

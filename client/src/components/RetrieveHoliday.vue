@@ -1,4 +1,4 @@
-<!-- Copyright © 2018-2019 Stanislav Valasek <valasek@gmail.com> -->
+<!-- Copyright © 2018-2020 Stanislav Valasek <valasek@gmail.com> -->
 
 <template>
   <span>
@@ -37,7 +37,7 @@ export default {
         // ID Indonesia
         // US United States
       ],
-      year: '2019'
+      year: '2020'
     }
   },
 
@@ -51,7 +51,7 @@ export default {
     retrieveHolidays () {
       const url = 'https://holidayapi.pl/v1/holidays'
       const querystring = '?country=' + this.country + '&year=' + this.year
-      // curl https://holidayapi.pl/v1/holidays -XGET -d"country=CZ&year=2019"
+      // curl https://holidayapi.pl/v1/holidays -XGET -d"country=CZ&year=2020"
       api.apiClient.get(url + querystring)
         .then(response => {
         })

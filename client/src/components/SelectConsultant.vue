@@ -1,4 +1,4 @@
-<!-- Copyright © 2018-2019 Stanislav Valasek <valasek@gmail.com> -->
+<!-- Copyright © 2018-2020 Stanislav Valasek <valasek@gmail.com> -->
 
 <template>
   <!-- <q-select v-model="selectedConsultant" :options="consultants.all" option-name="id" option-label="name"
