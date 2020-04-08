@@ -44,7 +44,7 @@ module.exports = function (ctx) {
       all: 'auto',
 
       config: {
-        dark: 'auto', // or Boolean true/false
+        dark: 'false', // or Boolean true/false
         brand: {
           primary: '#5fc3ad',
           secondary: '#2d3092',

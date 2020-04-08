@@ -1,7 +1,7 @@
 #!/bin/bash
 # Copyright © 2018-2020 Stanislav Valasek <valasek@gmail.com>
 
-version="1.4.5"
+version="1.4.6"
 # rem git describe --tags
 
 if [ "$1" == "cloud" ]; then

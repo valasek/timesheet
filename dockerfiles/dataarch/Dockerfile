@@ -1,8 +1,8 @@
 # Copyright © 2018-2020 Stanislav Valasek <valasek@gmail.com>
 
 # Accept the Go version for the image to be set as a build argument.
-# Default to Go 1.13
-ARG GO_VERSION=1.13
+# Default to Go 1.14
+ARG GO_VERSION=1.14
 
 ###########################################
 # First stage: build the backend executable.
@@ -48,7 +48,7 @@ COPY ./server/ ./
 #     -installsuffix 'static' \
 #     -o /app .
 RUN GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build \
--ldflags "-X github.com/valasek/timesheet/server/version.Version=1.4.4" \
+-ldflags "-X github.com/valasek/timesheet/server/version.Version=1.4.6" \
 -installsuffix 'static' -o /timesheet.bin .
 # RUN ls -la .
 

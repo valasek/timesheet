@@ -16,7 +16,7 @@ import (
 	"github.com/valasek/timesheet/server/routes"
 
 	"github.com/gin-gonic/autotls"
-	"github.com/robfig/cron"
+	"github.com/robfig/cron/v3"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )

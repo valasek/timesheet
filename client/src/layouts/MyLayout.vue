@@ -88,7 +88,6 @@ export default {
         return this.$q.dark.isActive
       },
       set (val) {
-        this.darkIcon = 'brightness_high'
         this.$q.dark.set(val)
       }
     },

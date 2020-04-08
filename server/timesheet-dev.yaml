@@ -27,9 +27,9 @@ isNonWorking: "not-work" # when consultant dows not work, examples: vacation, si
 # Application settings #
 SSL: false # true/false, if server has SSL certificate set to true to use HTTPS, false = HTTP
 GIN_MODE: "debug" # "debug" or "release" - switch server app mode
-url: "localhost" # URL on which application is running
+url: "" # URL on which application is running
 # PORT: "443"                   # port on which application is running
-PORT: "8080" # port on which application is running
+PORT: "3000" # port on which application is running
 
 # DB type
 dbType: "postgresql" # allowed types postgresql or mysql
@@ -59,7 +59,7 @@ export:
 #####################
 # Database settings #
 
-# DB backup settings - backuped data can be imported directly by a command "timesheet db --load all"
+# DB backup settings - backup data can be imported directly by a command "timesheet db --load all"
 backup:
   location: "data/backups" # select an empty and an existing folder relative to timesheet/data folder
   rotation: 14 # how many backups back will be kept

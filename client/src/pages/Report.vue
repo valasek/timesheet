@@ -370,10 +370,7 @@ export default {
       }
       this.$store.dispatch('reportedHours/updateAttributeValue', payloadRate)
     },
-    confirmDiffrentWeek (d) {
-      return Promise.new(this.$refs.confirm.open('Please confirm', 'You selected ' + format(parseISO(d), 'iiii, MMM do', Intl.DateTimeFormat().resolvedOptions().timeZone) + '. The record will be moved to another week. Continue?', 'agree', { color: 'bg-warning' }))
-    },
-    onUpdateDate (newValue) {
+    async onUpdateDate (newValue) {
       this.$nextTick(function () {
         this.$refs.qDateProxy.hide()
       })
@@ -385,7 +382,7 @@ export default {
       if (isWithinInterval(parseISO(newValue.date), { start: this.dateFrom, end: this.dateTo })) {
         this.$store.dispatch('reportedHours/updateAttributeValue', payload)
       } else {
-        if (this.confirmDiffrentWeek(newValue.date)) {
+        if (await this.$refs.confirm.open('Please confirm', 'You selected ' + format(parseISO(newValue.date), 'iiii, MMM do', Intl.DateTimeFormat().resolvedOptions().timeZone) + '. The record will be moved to another week. Continue?', 'agree', { color: 'bg-warning' })) {
           this.$store.dispatch('reportedHours/updateAttributeValue', payload)
           this.$store.dispatch('settings/jumpToWeek', parseISO(newValue.date))
         }

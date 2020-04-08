@@ -252,6 +252,17 @@ If you or your organization would like to help beta test a Pro version of Timesh
 
 # Release Notes
 
+## Version 1.4.6
+Released on April 07, 2020
+
+### Bug fixes
+* Fixed date update when record is moved to another week
+* Fixed dark/light theme switching and make light theme default
+
+### Technical
+* Use Go 1.14.1 and Quasar 1.9.13 with all dependencies updated
+* Local DA config files updated - DB port
+
 ## Version 1.4.5
 Released on January 03, 2020
 

@@ -56,7 +56,7 @@ Here's a couple of areas that need some love:
 - [Gorm](https://github.com/jinzhu/gorm) (with [PostgreSQL](https://www.postgresql.org/) or [MySQL](https://www.mysql.com/) persistence)
 - [Logrus](https://github.com/sirupsen/logrus), [Cobra](https://github.com/spf13/cobra), [Viper](https://github.com/spf13/viper), [Now](https://github.com/jinzhu/now), [lumberjackrus](https://github.com/orandin/lumberjackrus), [Cron](https://github.com/robfig/cron)
 
-## JS Frontend
+## JavaScript Frontend
 
 - [Vue.js](https://vuejs.org/) spa client with webpack
 - [Quasar](https://quasar.dev/)
