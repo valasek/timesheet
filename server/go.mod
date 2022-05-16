@@ -7,7 +7,7 @@ require (
 	github.com/gin-contrib/cors v1.3.1
 	github.com/gin-contrib/static v0.0.0-20190913125243-df30d4057ba1
 	github.com/gin-gonic/autotls v0.0.0-20190904071645-689297a2fe35
-	github.com/gin-gonic/gin v1.6.2
+	github.com/gin-gonic/gin v1.7.0
 	github.com/gocarina/gocsv v0.0.0-20190821091544-020a928c6f4e
 	github.com/jinzhu/gorm v1.9.12
 	github.com/jinzhu/now v1.1.1
