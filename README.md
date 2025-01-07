@@ -6,6 +6,8 @@
 
 # Simple Timesheet
 
+NOTE: At the moment project is not actively maintained - which might change if there will be a need for it.
+
 User-friendly, fast, and reliable web application for weekly / monthly reporting. Report consulting hours on selected projects with further segmentation via rates.
 
 ![Screencast](screenshots/screencast.gif?raw=true "Screencast")
