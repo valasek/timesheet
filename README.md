@@ -12,12 +12,16 @@ User-friendly, fast, and reliable web application for weekly / monthly reporting
 
 ![Screencast](screenshots/screencast.gif?raw=true "Screencast")
 
-# Supporting Simple Timesheet
+## License
 
-Simple Timesheet is project with its ongoing development made possible entirely by the support of these awesome backers. If you'd like to join them, please consider:
+All source code in this repository is released under the **[CC BY‑NC 4.0](https://creativecommons.org/licenses/by‑nc/4.0/)** license.
 
-- [Become a backer or sponsor on Patreon](https://www.patreon.com/valasek)
-- [One-time donation via PayPal](https://paypal.me/StanislavValasek)
+- ❌ **Commercial use is not permitted**
+- 🔒 No patent rights are granted
+- 📝 Attribution and copyright notice must be included
+- ⚠️ No liability and no warranty
+
+If you'd like to use this software commercially, please [contact me](https://www.stanislavvalasek.com/en/contact/) to discuss a commercial license.
 
 # Documentation
 
